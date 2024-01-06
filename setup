@@ -1,0 +1,42 @@
+#!/bin/bash
+set -e
+
+# Dot Progress Indicator
+progress() {
+    local pid=$2 # PID of the process we're waiting for
+    local text=$1
+    local delay=2 # 2-second delay between dots
+    local dot="."
+
+    printf "%s:" "$text"
+    while [ "$(ps a | awk '{print $1}' | grep -w $pid)" ]; do
+        printf "%s" "$dot"
+        sleep $delay
+    done
+    printf " Done!\n"
+}
+
+progress "Updating package list" $(sudo apt-get update > /dev/null 2>&1 & echo $!)
+
+progress "Installing Useful Packages" $(sudo apt-get install -y curl > /dev/null 2>&1 & echo $!)
+
+progress "Fetching Docker Install Script" $(curl -fsSL https://get.docker.com -o install-docker.sh > /dev/null 2>&1 & echo $!)
+
+progress "Installing Docker" $(sudo sh install-docker.sh > /dev/null 2>&1 & echo $!)
+
+progress "Adding the current user to the Docker group" $(sudo usermod -aG docker $USER > /dev/null 2>&1 & echo $!)
+
+progress "Linking the run script to /usr/local/bin/runit" $(sudo ln -sf "$ENV_DIR/runit" /usr/local/bin/runit > /dev/null 2>&1 & echo $!)
+
+progress "Fetching the script to download gnome extensions" $(wget -N -q "https://raw.githubusercontent.com/ToasterUwU/install-gnome-extensions/master/install-gnome-extensions.sh" -O ./install-gnome-extensions.sh > /dev/null 2>&1 & echo $!)
+
+chmod +x install-gnome-extensions.sh
+
+progress "Installing extensions" $(./install-gnome-extensions.sh --enable 723 3222 545 1732 > /dev/null 2>&1 & echo $!)
+
+progress "Cleaning" $(rm -f ./install-gnome-extensions.sh ./install-docker.sh > /dev/null 2>&1 & echo $!)
+
+# Build process
+cd $ENV_DIR/base-image && ./build
+
+echo "Setup complete!"
