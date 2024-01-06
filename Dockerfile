@@ -110,7 +110,7 @@ RUN vim +PlugInstall +qall
 # Install COC plugins
 RUN mkdir -p /root/.config/coc/extensions && \
     echo '{"dependencies":{}}' > /root/.config/coc/extensions/package.json && \
-    grep 'let g:coc_global_extensions' /root/.vim/vimrc | \
+    grep 'let g:coc_global_extensions' /root/.vim/config/coc.vim | \
     sed "s/.*\[//; s/\].*//; s/'//g; s/, /\n/g" | \
     while read -r extension; do \
         echo "Installing coc extension: $extension" && \
