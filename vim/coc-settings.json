@@ -1,0 +1,11 @@
+{
+  "coc.preferences.jumpCommand": "vsp",
+  "python.linting.enabled": false,
+  "python.formatting.provider": "black",
+  "coc.preferences.formatOnSave": true,
+  "coc.preferences.useQuickfixForLocations": true,
+  "coc.preferences.snippets.enable": true,
+  "coc.preferences.extensionUpdateCheck": "never",
+  "suggest.disableMenu": true,
+  "suggest.snippetIndicator": ""
+}

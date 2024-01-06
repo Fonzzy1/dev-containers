@@ -1,0 +1,3 @@
+docker build  . --target=setter_upper -t fonzzy1/setter_upper
+docker build  . --target=vim -t fonzzy1/vim
+
