@@ -21,7 +21,6 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | d
 && apt install gh -y
 
 # git
-#RUN gh auth setup-git
 run git config --global user.name "Fonzzy1"
 run git config --global user.email "alfiechadwick@hotmail.com"
 
