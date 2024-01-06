@@ -26,17 +26,6 @@ progress "Installing Docker" $(sudo sh install-docker.sh > /dev/null 2>&1 & echo
 
 progress "Adding the current user to the Docker group" $(sudo usermod -aG docker $USER > /dev/null 2>&1 & echo $!)
 
-progress "Linking the run script to /usr/local/bin/runit" $(sudo ln -sf "$ENV_DIR/runit" /usr/local/bin/runit > /dev/null 2>&1 & echo $!)
-
-progress "Fetching the script to download gnome extensions" $(wget -N -q "https://raw.githubusercontent.com/ToasterUwU/install-gnome-extensions/master/install-gnome-extensions.sh" -O ./install-gnome-extensions.sh > /dev/null 2>&1 & echo $!)
-
-chmod +x install-gnome-extensions.sh
-
-progress "Installing extensions" $(./install-gnome-extensions.sh --enable 723 3222 545 1732 > /dev/null 2>&1 & echo $!)
-
-progress "Cleaning" $(rm -f ./install-gnome-extensions.sh ./install-docker.sh > /dev/null 2>&1 & echo $!)
-
-# Build process
-cd $ENV_DIR/base-image && ./build
+progress "Pulling Image" docker pull fonzzy1/vim
 
 echo "Setup complete!"
