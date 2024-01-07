@@ -33,6 +33,15 @@ endfunction
 function! LeftBarToQF()
   call LeftBarToggle()
   copen
+  " Hide unneeded data
+  setlocal conceallevel=2
+  syntax match qfConcealedText /^[^|]*|[^|]*| / transparent conceal
+  " Define a syntax group for non-concealed text as follows:
+  syntax match qfNonConcealedText /./ containedin=qfConcealedText contains=NONE
+  " Define the highlight group to be bold
+  exec 'highlight qfNonConcealedText gui=bold cterm=bold'
+  " Link the new syntax to the highlight
+  hi def link qfNonConcealedTextBold qfNonConcealedText
 endfunction
 
 function! FindStringAndAddToQFList(string)
@@ -54,37 +63,3 @@ endfunction
 
 command! -nargs=1 Find call FindStringAndAddToQFList(<f-args>)
 
-
-function! s:ToggleLocation()
-    if ! v:count && &l:conceallevel != 0
-        setlocal conceallevel=0
-        silent! syntax clear qfLocation
-    else
-        setlocal concealcursor=nc
-        silent! syntax clear qfLocation
-        if v:count == 1
-            " Hide file paths only.
-            setlocal conceallevel=1
-            " XXX: Couldn't find a way to integrate the concealment with the
-            " existing "qfFileName" definition, and had to replace it. This will
-            " persist when toggling off; only a new :setf qf will fix that.
-            syntax match qfLocation /^\%([^/\\|]*[/\\]\)\+/ transparent conceal cchar=‥ nextgroup=qfFileName
-            syntax clear qfFileName
-            syntax match qfFileName /[^|]\+/ contained
-        elseif v:count == 2
-            " Hide entire filespec.
-            setlocal conceallevel=2
-            syntax match qfLocation /^[^|]*/ transparent conceal
-        else
-            " Hide filespec and location.
-            setlocal conceallevel=2
-            syntax match qfLocation /^[^|]*|[^|]*| / transparent conceal
-        endif
-    endif
-endfunction
-"[N]<LocalLeader>tf Toggle filespec and location to allow focusing on the
-"           error text.
-"           [N] = 1: Hide file paths only.
-"           [N] = 2: Hide entire filespec.
-"           [N] = 3: Hide filespec and location.
-nnoremap <buffer> <silent> <LocalLeader>tf :<C-u>call <SID>ToggleLocation()<CR>
