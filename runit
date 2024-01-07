@@ -2,6 +2,7 @@
 import subprocess
 import argparse
 import time
+import os
 
 
 def run_local(args):
@@ -23,7 +24,7 @@ def run_local(args):
             "run",
             "-it",
             "--env-file",
-            "~/.env",
+            os.path.expanduser("~/.env"),
             "--net=host",
             "--rm",
             "-v",
@@ -69,7 +70,7 @@ def run_gh(args):
             "run",
             "-it",
             "--env-file",
-            "~/.env",
+            os.path.expanduser("~/.env"),
             "--name",
             name,
             "--net=host",

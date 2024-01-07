@@ -34,3 +34,23 @@ function! LeftBarToQF()
   call LeftBarToggle()
   copen
 endfunction
+
+function! FindStringAndAddToQFList(string)
+  " Save the current qf list
+  let l:old_qflist = getqflist()
+
+  " Grep for the string in the current directory files
+  execute 'vimgrep /' . a:string . '/ **/*'
+
+  " Get the results of vimgrep
+  let l:new_qflist = getqflist()
+
+  " Restore the old qf list
+  call setqflist(l:old_qflist)
+
+  " Append the new results to the qf list
+  call setqflist(l:new_qflist, 'a')
+endfunction
+
+command! -nargs=1 Find call FindStringAndAddToQFList(<f-args>)
+
