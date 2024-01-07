@@ -1,3 +1,22 @@
-docker build  . --target=setter_upper -t fonzzy1/setter_upper
-docker build  . --target=vim -t fonzzy1/vim
+username="fonzzy1"
+
+# Prompt for Docker password
+echo "Enter Docker password for user $username:"
+read -s DOCKER_PASSWORD
+
+# Build Docker Images
+docker build . --target=setter_upper -t "${username}/$setter_upper"
+docker build . --target=vim -t "${username}/$vim"
+
+# Login to Docker Hub
+echo "$DOCKER_PASSWORD" | docker login -u "$username" --password-stdin
+
+# Make sure the login was successful before pushing images
+if [ $? -eq 0 ]; then
+    # Push Docker Images to Docker Hub
+    docker push "${username}/vim"
+else
+    echo "Docker login failed. Cannot push images."
+    exit 1
+fi
 
