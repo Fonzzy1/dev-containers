@@ -56,22 +56,3 @@ function! GitCommitMessageFn()
   call vim_ai#AIRun(l:range, l:config, l:prompt)
 endfunction
 
-
-function! QuitWithGitCheck()
-    exe 'G'
-    " Check for uncommitted changes (staged or unstaged)
-    if search('Untracked', 'W')
-        echo "You have untracked changes!"
-    elseif search('Unstaged', 'W')
-        echo "You have unstaged changes!"
-    elseif search('Staged', 'W')
-        echo "You have staged changes!"
-    elseif search('Pushed', 'W')
-        echo "You have un-pushed changes!"
-    else
-        echo "No changes."
-    endif
-endfunction
-
-" Command that binds the function to your preferred key combination
-command! QuitCheck call QuitWithGitCheck()

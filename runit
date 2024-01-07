@@ -51,17 +51,30 @@ def run_gh(args):
         None
     """
     name = args.repo.replace("/", "-")
-    repo = name = args.repo.split("/")[-1] if "/" in args.repo else args.repo
+    repo = args.repo.split("/")[-1] if "/" in args.repo else args.repo
+    command = f"gh auth setup-git; gh repo clone {args.repo} /{repo}; "
 
+    # Additional git command based on input parameters
     if args.branch:
-        command = f"gh auth setup-git; gh auth setup-gith repo clone {args.repo} /{repo}; git switch {args.branch}; git submodule update --init;vim"
+        command += f"git switch {args.branch}; "
     elif args.pullrequest:
-        command = f"gh auth setup-git; gh repo clone {args.repo} /{repo}; gh pr checkout {args.pullrequest}; git submodule update --init; vim"
+        command += f"gh pr checkout {args.pullrequest}; "
     elif args.checkout:
-        command = f"gh auth setup-git; gh repo clone {args.repo} /{repo}; git checkout -b {args.checkout}; git push --set-upstream origin {args.checkout}; git submodule update --init; vim"
+        command += f"git checkout -b {args.checkout}; git push --set-upstream origin {args.checkout}; "
 
-    else:
-        command = f"gh auth setup-git; gh repo clone {args.repo} /{repo}; git submodule update --init; vim"
+    # Update submodules if any
+    command += "git submodule update --init; vim; "
+
+    # Check for unpushed or uncommitted changes before exiting Vim
+    check_changes_command = ' \
+        CHANGES=$(git status --porcelain); \
+        UPSTREAM_CHANGES=$(git cherry -v); \
+        if [ -n "$CHANGES" ] || [ -n "$UPSTREAM_CHANGES" ]; then \
+            vim -c \':G | only\'; \
+        fi'
+
+    # Final combined command
+    final_command = command + check_changes_command
 
     subprocess.run(
         [
@@ -81,7 +94,7 @@ def run_gh(args):
             "fonzzy1/vim",
             "/bin/bash",
             "-c",
-            command,
+            final_command,
         ]
     )
 
