@@ -14,7 +14,7 @@ if v:shell_error == 0
 	      \ 'component_function': {
 	      \   'gitbranch': 'FugitiveHead',
           \   'gitstatus': 'GitStatus',
-            \   'cocstatus': 'coc#status'
+            \   'cocstatus': 'coc#status',
 	      \ },
 	      \ }
 
@@ -31,7 +31,7 @@ else
 	      \             ['readonly', 'filename', 'modified' ] ]
 	      \ },
           \ 'component_function': {
-          \   'cocstatus': 'coc#status'
+          \   'cocstatus': 'coc#status',
           \ },
 	      \ }
 
