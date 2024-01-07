@@ -36,12 +36,6 @@ function! LeftBarToQF()
   " Hide unneeded data
   setlocal conceallevel=2
   syntax match qfConcealedText /^[^|]*|[^|]*| / transparent conceal
-  " Define a syntax group for non-concealed text as follows:
-  syntax match qfNonConcealedText /./ containedin=qfConcealedText contains=NONE
-  " Define the highlight group to be bold
-  exec 'highlight qfNonConcealedText gui=bold cterm=bold'
-  " Link the new syntax to the highlight
-  hi def link qfNonConcealedTextBold qfNonConcealedText
 endfunction
 
 function! FindStringAndAddToQFList(string)
