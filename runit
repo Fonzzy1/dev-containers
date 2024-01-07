@@ -36,7 +36,7 @@ def run_local(args):
             "fonzzy1/vim",
             "/bin/bash",
             "-c",
-            f"git config --global --add safe.directory /{dir_name}; vim",
+            f"gh auth setup-git; git config --global --add safe.directory /{dir_name}; vim",
         ]
     )
 
@@ -54,15 +54,17 @@ def run_gh(args):
     name = args.repo.replace("/", "-")
     repo = name = args.repo.split("/")[-1] if "/" in args.repo else args.repo
 
+    pre_command = ""
+
     if args.branch:
-        command = f"gh repo clone {args.repo} /{repo}; git switch {args.branch}; git submodule update --init;vim"
+        command = f"gh auth setup-git; gh auth setup-gith repo clone {args.repo} /{repo}; git switch {args.branch}; git submodule update --init;vim"
     elif args.pullrequest:
-        command = f"gh repo clone {args.repo} /{repo}; gh pr checkout {args.pullrequest}; git submodule update --init; vim"
+        command = f"gh auth setup-git; gh repo clone {args.repo} /{repo}; gh pr checkout {args.pullrequest}; git submodule update --init; vim"
     elif args.checkout:
-        command = f"gh repo clone {args.repo} /{repo}; git checkout -b {args.checkout}; git push --set-upstream origin {args.checkout}; git submodule update --init; vim"
+        command = f"gh auth setup-git; gh repo clone {args.repo} /{repo}; git checkout -b {args.checkout}; git push --set-upstream origin {args.checkout}; git submodule update --init; vim"
 
     else:
-        command = f"gh repo clone {args.repo} /{repo}; git submodule update --init; vim"
+        command = f"gh auth setup-git; gh repo clone {args.repo} /{repo}; git submodule update --init; vim"
 
     subprocess.run(
         [
