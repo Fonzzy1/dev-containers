@@ -1,7 +1,6 @@
 #!/bin/python3
 import subprocess
 import argparse
-import time
 import os
 
 
@@ -53,8 +52,6 @@ def run_gh(args):
     """
     name = args.repo.replace("/", "-")
     repo = name = args.repo.split("/")[-1] if "/" in args.repo else args.repo
-
-    pre_command = ""
 
     if args.branch:
         command = f"gh auth setup-git; gh auth setup-gith repo clone {args.repo} /{repo}; git switch {args.branch}; git submodule update --init;vim"
