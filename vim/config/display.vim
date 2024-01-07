@@ -13,7 +13,7 @@ if v:shell_error == 0
 	      \ },
 	      \ 'component_function': {
 	      \   'gitbranch': 'FugitiveHead',
-          \   'gitstatus': 'GitStatus'
+          \   'gitstatus': 'GitStatus',
             \   'cocstatus': 'coc#status'
 	      \ },
 	      \ }
@@ -71,5 +71,4 @@ augroup CursorLine
     au WinEnter * setlocal cursorline
     au BufWinEnter * setlocal cursorline
     au WinLeave * setlocal nocursorline
-    set concealcursor = ""
 augroup END
