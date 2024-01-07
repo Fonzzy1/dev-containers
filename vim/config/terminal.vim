@@ -24,4 +24,5 @@ function! OpenTerm()
 endfunction
 
 nnoremap t :call OpenTerm()<CR>
+nnoremap bt :vert term ++close /usr/bin/bash
 tnoremap <Esc><Esc> <C-w>N
