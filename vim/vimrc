@@ -5,6 +5,7 @@ source  ~/.vim/config/git.vim
 source  ~/.vim/config/markdown.vim
 source  ~/.vim/config/nerdtree.vim
 source  ~/.vim/config/plugins.vim
+source  ~/.vim/config/R.vim
 source  ~/.vim/config/quickfix.vim
 source  ~/.vim/config/tags.vim
 source  ~/.vim/config/terminal.vim
