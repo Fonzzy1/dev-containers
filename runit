@@ -4,6 +4,46 @@ import argparse
 import os
 
 
+def run_gist(args):
+    command = f"""
+        gist_id=$(gh gist list | grep "{args.gist}" | awk '{{print $1}}')
+        if [ -z "$gist_id" ]; then
+            gist_id=$(echo "{args.gist}" | gh gist create -f {args.gist} | awk '{{print $NF}}');
+        fi;
+        gh gist clone "$gist_id" /gist && vim -O /gist/*
+    """
+    print(command)
+    check_changes_command = ' \
+        CHANGES=$(git status --porcelain); \
+        UPSTREAM_CHANGES=$(git cherry -v); \
+        if [ -n "$CHANGES" ] || [ -n "$UPSTREAM_CHANGES" ]; then \
+            vim -c \':G | only\'; \
+        fi'
+
+    # Final combined command
+    final_command = command + check_changes_command
+
+    subprocess.run(
+        [
+            "docker",
+            "run",
+            "-it",
+            "--env-file",
+            os.path.expanduser("~/.env"),
+            "--net=host",
+            "--rm",
+            "-w",
+            "/gist",
+            "-v",
+            "/var/run/docker.sock:/var/run/docker.sock",
+            "fonzzy1/vim",
+            "/bin/bash",
+            "-c",
+            final_command,
+        ]
+    )
+
+
 def run_local(args):
     """
     Runs a command in a Docker container with the current directory mounted.
@@ -107,6 +147,12 @@ if __name__ == "__main__":
         "local", help="Run command for a container with local directory"
     )
     local_parser.set_defaults(func=run_local)
+
+    gh_parser = subparsers.add_parser(
+        "gist", help="Run command for cloning or creating a gist"
+    )
+    gh_parser.add_argument("gist", help="Specify the gist name")
+    gh_parser.set_defaults(func=run_gist)
 
     gh_parser = subparsers.add_parser("gh", help="Run command for cloning a repo")
     gh_parser.add_argument("repo", help="Specify the repository for cloning")
