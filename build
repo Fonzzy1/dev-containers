@@ -5,8 +5,7 @@ echo "Enter Docker password for user $username:"
 read -s DOCKER_PASSWORD
 
 # Build Docker Images
-docker build . --target=setter_upper -t "${username}/$setter_upper"
-docker build . --target=vim -t "${username}/$vim"
+docker build .  -t "${username}/vim"
 
 # Login to Docker Hub
 echo "$DOCKER_PASSWORD" | docker login -u "$username" --password-stdin

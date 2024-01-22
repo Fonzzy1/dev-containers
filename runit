@@ -11,8 +11,8 @@ def run_gist(args):
             gist_id=$(echo "{args.gist}" | gh gist create -f {args.gist} | awk '{{print $NF}}');
         fi;
         gh gist clone "$gist_id" /gist && vim -O /gist/*
+        echo $gist_id
     """
-    print(command)
     check_changes_command = ' \
         CHANGES=$(git status --porcelain); \
         UPSTREAM_CHANGES=$(git cherry -v); \
