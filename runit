@@ -10,7 +10,10 @@ def run_gist(args):
         if [ -z "$gist_id" ]; then
             gist_id=$(echo "{args.gist}" | gh gist create -f {args.gist} | awk '{{print $NF}}');
         fi;
-        gh gist clone "$gist_id" /gist && vim -O /gist/*
+        gh gist clone "$gist_id" /gist;
+        cd /gist
+        ln -s /root/.env .env"
+        vim -O /gist/*
         echo $gist_id
     """
     check_changes_command = ' \
@@ -36,6 +39,8 @@ def run_gist(args):
             "/gist",
             "-v",
             "/var/run/docker.sock:/var/run/docker.sock",
+            "-v",
+            f'{ os.path.expanduser("~/.env")}:/root/.env',
             "fonzzy1/vim",
             "/bin/bash",
             "-c",
@@ -103,7 +108,7 @@ def run_gh(args):
         command += f"git checkout -b {args.checkout}; git push --set-upstream origin {args.checkout}; "
 
     # Update submodules if any
-    command += "git submodule update --init; vim; "
+    command += "git submodule update --init; ln -s /root/.env .env;vim;"
 
     # Check for unpushed or uncommitted changes before exiting Vim
     check_changes_command = ' \
@@ -131,6 +136,8 @@ def run_gh(args):
             f"/{repo}",
             "-v",
             "/var/run/docker.sock:/var/run/docker.sock",
+            "-v",
+            f'{ os.path.expanduser("~/.env")}:/root/.env',
             "fonzzy1/vim",
             "/bin/bash",
             "-c",
