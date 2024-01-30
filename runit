@@ -2,6 +2,11 @@
 import subprocess
 import argparse
 import os
+import pathlib
+
+
+script_location = os.path.dirname(os.path.realpath(__file__))
+env_location = os.path.dirname(script_location) + "/env"
 
 
 def run_gist(args):
@@ -32,7 +37,7 @@ def run_gist(args):
             "run",
             "-it",
             "--env-file",
-            os.path.expanduser("~/.env"),
+            env_location,
             "--net=host",
             "--rm",
             "-w",
@@ -40,7 +45,7 @@ def run_gist(args):
             "-v",
             "/var/run/docker.sock:/var/run/docker.sock",
             "-v",
-            f'{ os.path.expanduser("~/.env")}:/root/.env',
+            f"{ env_location}:/root/.env",
             "fonzzy1/vim",
             "/bin/bash",
             "-c",
@@ -68,7 +73,7 @@ def run_local(args):
             "run",
             "-it",
             "--env-file",
-            os.path.expanduser("~/.env"),
+            env_location,
             "--net=host",
             "--rm",
             "-v",
@@ -127,7 +132,7 @@ def run_gh(args):
             "run",
             "-it",
             "--env-file",
-            os.path.expanduser("~/.env"),
+            env_location,
             "--name",
             name,
             "--net=host",
@@ -137,7 +142,7 @@ def run_gh(args):
             "-v",
             "/var/run/docker.sock:/var/run/docker.sock",
             "-v",
-            f'{ os.path.expanduser("~/.env")}:/root/.env',
+            f"{env_location}:/root/.env",
             "fonzzy1/vim",
             "/bin/bash",
             "-c",
