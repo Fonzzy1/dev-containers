@@ -22,13 +22,14 @@ command! Gth : bot call  term_start('gh run view ') | set nornu | set nu!  | win
 command! Gtw call VieworWatchLatest()
 
 function! RunGhAct(...)
+  let github_token = $GH_TOKEN
+  let cmd = 'gh act -s GITHUB_TOKEN=' . github_token
   if a:0 > 0 " Check if there is an argument
-    let cmd = 'gh act -j '.a:1
-  else
-    let cmd = 'gh act'
+    let cmd .= ' -j ' . a:1
   endif
+  echo(cmd)
   " Start a new terminal session with the command
-  call term_start(split(cmd))
+  call term_start(cmd)
   " Set 'nonumber', toggle 'number'
   set nonu
   set nu!
