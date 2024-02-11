@@ -1,6 +1,20 @@
 #!/bin/bash
 set -e
 
+
+
+if [ "$1" = "--init" ]; then
+  sudo apt-get -y update
+  sudo apt-get -y upgrade
+  sudo apt-get -y install jq
+
+  wget -N -q "https://raw.githubusercontent.com/ToasterUwU/install-gnome-extensions/master/install-gnome-extensions.sh" -O ./install-gnome-extensions.sh
+  chmod +x install-gnome-extensions.sh
+  ./install-gnome-extensions.sh --enable 723 3222 545 1732
+  gsettings set org.gnome.Terminal.Legacy.Settings headerbar false
+  rm install-gnome-extensions.sh
+fi
+
 if ! command -v docker &> /dev/null
 then
     echo "Docker is not installed. Proceeding with installation."
@@ -29,6 +43,7 @@ docker pull fonzzy1/vim
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
+mkdir -p ~/.local/bin
 ln -sf $SCRIPT_DIR/runit ~/.local/bin/runit
 
 echo "Setup complete!"
