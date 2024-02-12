@@ -17,7 +17,8 @@ def run_gist(args):
         fi;
         gh gist clone "$gist_id" /gist;
         cd /gist
-        ln -s /root/.env .env"
+        ln -s /root/.env .env
+        gh auth setup-git
         vim -O /gist/*
         echo $gist_id
     """
