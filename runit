@@ -3,14 +3,24 @@ import subprocess
 import argparse
 import os
 import pathlib
+import shutil
 
-
+# Location for mounts
 script_location = os.path.dirname(os.path.realpath(__file__))
 env_location = os.path.dirname(script_location) + "/env"
+valut_location = os.path.dirname(script_location) + "/vault"
+# Current Location
+current_location = os.getcwd()
+# Code location
+temp_dir = "/tmp/code_mount"
+if not os.path.exists(temp_dir):
+    os.makedirs(temp_dir)
 
 
 def run_gist(args):
+    os.chdir(temp_dir)
     command = f"""
+        rm -rf /gist/*; rm -rf /gist/.*
         gist_id=$(gh gist list | grep "{args.gist}" | awk '{{print $1}}')
         if [ -z "$gist_id" ]; then
             gist_id=$(echo "{args.gist}" | gh gist create -f {args.gist} | awk '{{print $NF}}');
@@ -46,13 +56,18 @@ def run_gist(args):
             "-v",
             "/var/run/docker.sock:/var/run/docker.sock",
             "-v",
+            f"{ temp_dir}:/gist",
+            "-v",
             f"{ env_location}:/root/.env",
+            "-v",
+            f"{ valut_location}:/vault",
             "fonzzy1/vim",
             "/bin/bash",
             "-c",
             final_command,
         ]
     )
+    os.chdir(current_location)
 
 
 def run_local(args):
@@ -83,6 +98,8 @@ def run_local(args):
             f"/{dir_name}",  # Set the working directory
             "-v",
             "/var/run/docker.sock:/var/run/docker.sock",
+            "-v",
+            f"{ valut_location}:/vault",
             "fonzzy1/vim",
             "/bin/bash",
             "-c",
@@ -101,9 +118,11 @@ def run_gh(args):
     Returns:
         None
     """
+    os.chdir(temp_dir)
+
     name = args.repo.replace("/", "-")
     repo = args.repo.split("/")[-1] if "/" in args.repo else args.repo
-    command = f"gh auth setup-git; gh repo clone {args.repo} /{repo}; "
+    command = f"rm -rf /{repo}/*; rm -rf /{repo}/.* ; gh auth setup-git; gh repo clone {args.repo} /{repo}; git config --global --add safe.directory /{repo}; "
 
     # Additional git command based on input parameters
     if args.branch:
@@ -144,12 +163,17 @@ def run_gh(args):
             "/var/run/docker.sock:/var/run/docker.sock",
             "-v",
             f"{env_location}:/root/.env",
+            "-v",
+            f"{ valut_location}:/vault",
+            "-v",
+            f"{ temp_dir}:/{repo}",
             "fonzzy1/vim",
             "/bin/bash",
             "-c",
             final_command,
         ]
     )
+    os.chdir(current_location)
 
 
 if __name__ == "__main__":
