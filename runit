@@ -20,7 +20,9 @@ if not os.path.exists(temp_dir):
 def run_gist(args):
     os.chdir(temp_dir)
     command = f"""
-        rm -rf /gist/*; rm -rf /gist/.*
+        find /gist -mindepth 1 -delete
+        # Copy over the vault
+        cp -r /tmp/vault /vault &&  chmod -R 600 /vault
         gist_id=$(gh gist list | grep "{args.gist}" | awk '{{print $1}}')
         if [ -z "$gist_id" ]; then
             gist_id=$(echo "{args.gist}" | gh gist create -f {args.gist} | awk '{{print $NF}}');
@@ -60,7 +62,7 @@ def run_gist(args):
             "-v",
             f"{ env_location}:/root/.env",
             "-v",
-            f"{ valut_location}:/vault",
+            f"{ valut_location}:/tmp/vault",
             "fonzzy1/vim",
             "/bin/bash",
             "-c",
@@ -99,11 +101,15 @@ def run_local(args):
             "-v",
             "/var/run/docker.sock:/var/run/docker.sock",
             "-v",
-            f"{ valut_location}:/vault",
+            f"{ valut_location}:/tmp/vault",
             "fonzzy1/vim",
             "/bin/bash",
             "-c",
-            f"gh auth setup-git; git config --global --add safe.directory /{dir_name}; vim",
+            f"""
+            cp -r  /tmp/vault /vault &&  chmod -R 600 /vault;
+            gh auth setup-git;
+            git config --global --add safe.directory /{dir_name};
+            vim""",
         ]
     )
 
@@ -122,7 +128,15 @@ def run_gh(args):
 
     name = args.repo.replace("/", "-")
     repo = args.repo.split("/")[-1] if "/" in args.repo else args.repo
-    command = f"rm -rf /{repo}/*; rm -rf /{repo}/.* ; gh auth setup-git; gh repo clone {args.repo} /{repo}; git config --global --add safe.directory /{repo}; "
+    command = f"""\
+    # Clean the repo
+    find /{repo} -mindepth 1 -delete
+    # Copy over the vault
+    cp -r  /tmp/vault /vault &&  chmod -R 600 /vault
+    gh auth setup-git 
+    gh repo clone {args.repo} /{repo} 
+    git config --global --add safe.directory /{repo}
+    """
 
     # Additional git command based on input parameters
     if args.branch:
@@ -164,7 +178,7 @@ def run_gh(args):
             "-v",
             f"{env_location}:/root/.env",
             "-v",
-            f"{ valut_location}:/vault",
+            f"{ valut_location}:/tmp/vault",
             "-v",
             f"{ temp_dir}:/{repo}",
             "fonzzy1/vim",

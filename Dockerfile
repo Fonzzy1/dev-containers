@@ -6,7 +6,7 @@ ENV TZ=Australia/Melbourne
 RUN apt-get update && apt-get install -y \
    curl git python3 python3-pip apt-transport-https \
    ca-certificates software-properties-common  libpq-dev \
-   build-essential autoconf automake libtool 
+   build-essential autoconf automake libtool jq
 
 #Install Docker 
 RUN curl -fsSL https://get.docker.com -o install-docker.sh 

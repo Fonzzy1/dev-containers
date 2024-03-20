@@ -23,6 +23,11 @@ function! OpenTerm()
     let b:slime_config = {"bufnr": l:term_buf_no}
 endfunction
 
+function! VertTerm()
+    vert term ++close /usr/bin/bash
+    wincmd L
+endfunction
+
 nnoremap t :call OpenTerm()<CR>
-nnoremap bt :vert term ++close /usr/bin/bash<CR>
+nnoremap bt :call VertTerm()<CR>
 tnoremap <Esc><Esc> <C-w>N
