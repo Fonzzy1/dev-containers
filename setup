@@ -8,8 +8,6 @@ if [ "$1" = "--init" ]; then
   sudo apt-get -y upgrade
   sudo apt-get -y install jq
 
-  pip install InquirerPy  sentence_transformers 
-
   wget -N -q "https://raw.githubusercontent.com/ToasterUwU/install-gnome-extensions/master/install-gnome-extensions.sh" -O ./install-gnome-extensions.sh
   chmod +x install-gnome-extensions.sh
   ./install-gnome-extensions.sh --enable 723 3222 545 1732
@@ -40,6 +38,11 @@ then
 else
     echo "Docker is already installed."
 fi
+
+# Delete and make the pipe
+rm -rf ~/pipe
+mkfifo ~/pipe 
+while true; do eval "$(cat ~/pipe)"; done &
 
 docker pull fonzzy1/vim 
 

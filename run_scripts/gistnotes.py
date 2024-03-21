@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from sentence_transformers import SentenceTransformer
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
@@ -105,15 +106,17 @@ def run_gist_notes(username):
                 key = get_key_from_description(data, result)
 
                 if key:
-                    os.system(
+                    _ = os.system(
                         f"""
-                    gh gist clone {key} /gist; vim -O /gist/*;
-                    git add .;
-                    git commit -m "update";
-                    git push;
-                    find /gist -mindepth 1 -delete;
-                    """
+                        gh gist clone {key} /gist > /dev/null 2>&1; 
+                        vim ;
+                        git add . > /dev/null 2>&1;
+                        git commit -m "update" > /dev/null 2>&1;
+                        git push > /dev/null 2>&1;
+                        find /gist -mindepth 1 -delete > /dev/null 2>&1;
+                        """
                     )
+                    _ = print(f"https://gist.github.com/{key}")
     except KeyboardInterrupt:
         exit(1)
 

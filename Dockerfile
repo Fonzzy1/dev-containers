@@ -1,4 +1,4 @@
-FROM ubuntu as setter_upper
+FROM ubuntu as vim
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Australia/Melbourne
@@ -30,8 +30,6 @@ WORKDIR /src
 # Set the mount point as the safe dir
 RUN git config --global --add safe.directory /src
 
-# Vim Setup
-FROM setter_upper as vim
 
 # Enviroment Installs 
 RUN apt-get update && apt-get install -y software-properties-common
@@ -120,7 +118,10 @@ COPY dotfiles /root
 #Copy in the scripts
 COPY run_scripts /scripts
 
+# Overwrite defaule xsg-open call
+COPY run_scripts/open.py /usr/bin/xdg-open   
+
 # Download LM 
-RUN python3 /scripts/download_model.py
+RUN  /scripts/download_model.py
 
 CMD vim

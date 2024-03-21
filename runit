@@ -60,6 +60,8 @@ def run_vim(
             env_location,
             "-e",
             f"SYS_DIR={mount_dir}",
+            "-e",
+            f"CONT_DIR=/{mount_dir_name}",
             "--net=host",
             "--rm",
             "-w",
@@ -111,7 +113,7 @@ def run_gist_notes(args):
         vault_location,
         mount_dir=temp_dir,
         mount_dir_name="gist",
-        command="python3 /scripts/gistnotes.py",
+        command="/scripts/gistnotes.py",
         check_changes=False,
         clean_mount_dir=True,
     )
