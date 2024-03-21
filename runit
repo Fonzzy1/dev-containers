@@ -4,9 +4,7 @@ import argparse
 import os
 import pathlib
 import shutil
-
-from torch import func
-from run_scripts.docker import run_vim
+import uuid
 
 # Location for mounts
 script_location = os.path.dirname(os.path.realpath(__file__))
@@ -15,27 +13,82 @@ vault_location = os.path.dirname(script_location) + "/vault"
 # Current Location
 current_location = os.getcwd()
 # Code location
-temp_dir = "/tmp/code_mount"
-if not os.path.exists(temp_dir):
-    os.makedirs(temp_dir)
+temp_dir = f"/tmp/code_mount/{str(uuid.uuid4())}"
+os.makedirs(temp_dir)
 
 
-def run_gist(args, gist_id=None):
-    command = """
+def run_vim(
+    env_location,
+    valut_location,
+    mount_dir,
+    mount_dir_name=None,
+    command="vim",
+    check_changes=True,
+    clean_mount_dir=False,
+):
+    current_dir = subprocess.run(["pwd"], capture_output=True, text=True).stdout.strip()
+    os.chdir(mount_dir)
+
+    if mount_dir_name == None:
+        mount_dir_name = mount_dir.split("/")[-1]
+
+    pre_command = f"""
+            cp -r  /tmp/vault /vault &&  chmod -R 600 /vault;
+            gh auth setup-git;
+            git config --global --add safe.directory /{mount_dir_name};
+            """
+
+    command = pre_command + command
+
+    if clean_mount_dir:
+        command = f"find /{mount_dir_name} -mindepth 1 -delete;" + command
+
+    if check_changes:
+        command += ' \
+            CHANGES=$(git status --porcelain); \
+            UPSTREAM_CHANGES=$(git cherry -v); \
+            if [ -n "$CHANGES" ] || [ -n "$UPSTREAM_CHANGES" ]; then \
+                vim -c \':G | only\'; \
+            fi'
+
+    subprocess.run(
+        [
+            "docker",
+            "run",
+            "-it",
+            "--env-file",
+            env_location,
+            "--net=host",
+            "--rm",
+            "-w",
+            f"/{mount_dir_name}",
+            "-v",
+            "/var/run/docker.sock:/var/run/docker.sock",
+            "-v",
+            f"{mount_dir}:/{mount_dir_name}",
+            "-v",
+            f"{ env_location}:/root/.env",
+            "-v",
+            f"{ valut_location}:/tmp/vault",
+            "fonzzy1/vim",
+            "/bin/bash",
+            "-c",
+            command,
+        ]
+    )
+    os.chdir(current_dir)
+
+
+def run_gist(args):
+    gist_name = " ".join(args.gist)
+    command = f"""
+        gist_id=$(echo "{gist_name}" | gh gist create -f "notes.md" -d "{gist_name}" | awk '{{print $NF}}')
         gh gist clone "$gist_id" /gist;
         vim -O /gist/*;
         git add .;
         git commit -m "update"
         git push
         """
-    if args:
-        gist_name = " ".join(args.gist)
-        command = (
-            f"""gist_id=$(echo "{gist_name}" | gh gist create -f "notes.md" -d "{gist_name}" | awk '{{print $NF}}');"""
-            + command
-        )
-    else:
-        command = f"""gist_id={gist_id}""" + command
 
     run_vim(
         env_location,
@@ -43,6 +96,18 @@ def run_gist(args, gist_id=None):
         mount_dir=temp_dir,
         mount_dir_name="gist",
         command=command,
+        check_changes=False,
+        clean_mount_dir=True,
+    )
+
+
+def run_gist_notes(args):
+    run_vim(
+        env_location,
+        vault_location,
+        mount_dir=temp_dir,
+        mount_dir_name="gist",
+        command="python3 /scripts/gistnotes.py",
         check_changes=False,
         clean_mount_dir=True,
     )
@@ -137,7 +202,7 @@ if __name__ == "__main__":
     gistnote_parser = subparsers.add_parser(
         "gistnotes", help="Open GistNotes Browsing Tool"
     )
-    gistnote_parser.set_defaults()
+    gistnote_parser.set_defaults(func=run_gist_notes)
 
     args = parser.parse_args()
     args.func(args)

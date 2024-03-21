@@ -7,11 +7,12 @@ import requests
 
 
 def list_all_gists(username):
-    token = os.environ["GH_TOKEN"]  # Getting the token from Environment variable
+    token = os.environ["GH_TOKEN"]
     url = f"https://api.github.com/users/{username}/gists"
     headers = {"Authorization": "Token " + token}
     response = requests.get(url, headers=headers)
     gists = response.json()
+    print(gists)
 
     ret_dict = {gist["id"]: {} for gist in gists}
     for gist in gists:
@@ -29,10 +30,6 @@ def list_all_gists(username):
         )
 
     return ret_dict
-
-
-# Use it like this:
-data = list_all_gists("fonzzy1")
 
 
 class EmbeddingFinder:
@@ -69,10 +66,6 @@ class EmbeddingFinder:
         return [list(self.data.keys())[i] for i in top_similar_indices]
 
 
-finder = EmbeddingFinder(data)
-finder.prepare_data()
-
-
 def get_key_from_description(data, target_description):
     for key, value in data.items():
         if "description" in value and value["description"] == target_description:
@@ -80,31 +73,49 @@ def get_key_from_description(data, target_description):
     return None
 
 
-try:
-    while True:
-        # use InquirerPy
-        result = inquirer.text(
-            message="What are you looking for?",
-        ).execute()
+def run_gist_notes(username):
 
-        keys = finder.find(result)
+    data = list_all_gists(username)
+    finder = EmbeddingFinder(data)
+    finder.prepare_data()
 
-        choices = [data[x]["description"] for x in keys]
-
+    try:
         while True:
-            question = inquirer.fuzzy(
-                message="Select a gist:",
-                choices=choices + ["? (Return to search)"],
-            )
+            # use InquirerPy
+            result = inquirer.text(
+                message="What are you looking for?",
+            ).execute()
 
-            result = question.execute()
+            keys = finder.find(result)
 
-            if result == "? (Return to search)" or result is None:
-                break
+            choices = [data[x]["description"] for x in keys]
 
-            key = get_key_from_description(data, result)
+            while True:
+                question = inquirer.fuzzy(
+                    message="Select a gist:",
+                    choices=choices + ["? (Return to search)"],
+                )
 
-            if key:
-                os.system(f"gh gist edit {key}")
-except KeyboardInterrupt:
-    exit(1)
+                result = question.execute()
+
+                if result == "? (Return to search)" or result is None:
+                    break
+
+                key = get_key_from_description(data, result)
+
+                if key:
+                    os.system(
+                        f"""
+                    gh gist clone {key} /gist; vim -O /gist/*;
+                    git add .;
+                    git commit -m "update";
+                    git push;
+                    find /gist -mindepth 1 -delete;
+                    """
+                    )
+    except KeyboardInterrupt:
+        exit(1)
+
+
+if __name__ == "__main__":
+    run_gist_notes("fonzzy1")

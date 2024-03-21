@@ -72,7 +72,8 @@ RUN apt-get update && apt-get install nodejs -y;
 
 
 # Install the python packages
-RUN pip install black pipreqs pgcli awscli socli
+RUN pip3 install torch  --index-url https://download.pytorch.org/whl/cpu
+RUN pip install black pipreqs pgcli awscli socli sentence_transformers InquirerPy
 
 # Install npm packages
 RUN npm install --save-dev --global prettier
@@ -89,23 +90,11 @@ RUN chmod +x /root/.local/share/gh/extensions/gh-act/gh-act
 
 
 # Install R packages, tidyvverse is installed with apt
-RUN R -e  "install.packages('rmarkdown',  Ncpus = 6)"
-RUN R -e  "install.packages('reticulate',  Ncpus = 6)"
-RUN R -e  "install.packages('blogdown',  Ncpus = 6)"
-RUN R -e  "blogdown::install_hugo()"
-RUN R -e  "install.packages('readxl',  Ncpus = 6)"
-RUN R -e  "install.packages('knitr',  Ncpus = 6)"
-RUN R -e  "install.packages('tinytex',  Ncpus = 6)"
-RUN R -e  "install.packages('languageserver',  Ncpus = 6)"
+#RUN R -e "update.packages(ask = FALSE, Ncpus = 6);" \
+#        "install.packages(c('rmarkdown', 'reticulate', 'blogdown', 'readxl', 'knitr', 'tinytex', 'languageserver'),  Ncpus = 6); blogdown::install_hugo()"
 
 # Bring in the vim config
 COPY vim /root/.vim
-#Copy in the dotfiles
-COPY dotfiles /root
-
-# Install Vim Plugins
-RUN vim +PlugInstall +qall 
-
 # Install COC plugins
 RUN mkdir -p /root/.config/coc/extensions && \
     echo '{"dependencies":{}}' > /root/.config/coc/extensions/package.json && \
@@ -116,5 +105,16 @@ RUN mkdir -p /root/.config/coc/extensions && \
         cd /root/.config/coc/extensions && \
         npm install "$extension" --install-strategy=shallow --save; \
     done
+
+
+#Copy in the dotfiles
+COPY dotfiles /root
+
+#Copy in the scripts
+COPY run_scripts /scripts
+
+# Download LM 
+RUN python3 /scripts/download_model.py
+
 
 CMD vim
