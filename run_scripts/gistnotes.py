@@ -4,6 +4,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from InquirerPy import inquirer
 import os
 import requests
+import tqdm
 
 
 def list_all_gists(username):
@@ -12,10 +13,10 @@ def list_all_gists(username):
     headers = {"Authorization": "Token " + token}
     response = requests.get(url, headers=headers)
     gists = response.json()
-    print(gists)
 
     ret_dict = {gist["id"]: {} for gist in gists}
-    for gist in gists:
+    print("Fetching Gists...")
+    for gist in tqdm.tqdm(gists, total=len(gists)):
         ret_dict[gist["id"]]["description"] = (
             gist["description"]
             if gist["description"] != ""

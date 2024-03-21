@@ -90,11 +90,18 @@ RUN chmod +x /root/.local/share/gh/extensions/gh-act/gh-act
 
 
 # Install R packages, tidyvverse is installed with apt
-#RUN R -e "update.packages(ask = FALSE, Ncpus = 6);" \
-#        "install.packages(c('rmarkdown', 'reticulate', 'blogdown', 'readxl', 'knitr', 'tinytex', 'languageserver'),  Ncpus = 6); blogdown::install_hugo()"
+RUN R -e  "install.packages('rmarkdown',  Ncpus = 6)"
+RUN R -e  "install.packages('reticulate',  Ncpus = 6)"
+RUN R -e  "install.packages('blogdown',  Ncpus = 6)"
+RUN R -e  "blogdown::install_hugo()"
+RUN R -e  "install.packages('readxl',  Ncpus = 6)"
+RUN R -e  "install.packages('knitr',  Ncpus = 6)"
+RUN R -e  "install.packages('tinytex',  Ncpus = 6)"
+RUN R -e  "install.packages('languageserver',  Ncpus = 6)"
 
 # Bring in the vim config
 COPY vim /root/.vim
+RUN vim +PlugInstall +qall
 # Install COC plugins
 RUN mkdir -p /root/.config/coc/extensions && \
     echo '{"dependencies":{}}' > /root/.config/coc/extensions/package.json && \
@@ -115,6 +122,5 @@ COPY run_scripts /scripts
 
 # Download LM 
 RUN python3 /scripts/download_model.py
-
 
 CMD vim
