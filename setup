@@ -2,15 +2,63 @@
 set -e
 
 if [ "$1" = "--init" ]; then
+
+  ## Add in the spotify repository
+  curl -sS https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
+  echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+
+  ## Load in the apps that I use for viewing media
   sudo apt-get -y update
   sudo apt-get -y upgrade
-  sudo apt-get -y install jq
+  sudo apt-get -y install jq zathura feh vlc ranger spotify-client gnome-tweaks vlc
 
+
+  # Install the gnome extentions
   wget -N -q "https://raw.githubusercontent.com/ToasterUwU/install-gnome-extensions/master/install-gnome-extensions.sh" -O ./install-gnome-extensions.sh
   chmod +x install-gnome-extensions.sh
-  ./install-gnome-extensions.sh --enable 723 3222 545 1732
+  ./install-gnome-extensions.sh --enable 545
   gsettings set org.gnome.Terminal.Legacy.Settings headerbar false
   rm install-gnome-extensions.sh
+
+  # Load in catcuppin gnome theme
+  mkdir -p ~/.themes
+  wget https://github.com/catppuccin/gtk/releases/download/v0.7.1/Catppuccin-Macchiato-Standard-Lavender-Dark.zip
+  unzip Catppuccin-Macchiato-Standard-Lavender-Dark.zip
+  mv Catppuccin-Macchiato-Standard-Lavender-Dark* ~/.themes/
+
+  gsettings set org.gnome.desktop.interface gtk-theme "Catppuccin-Macchiato-Standard-Lavender-Dark"
+
+  # Set the gnome Terminal theme
+  curl -L https://raw.githubusercontent.com/catppuccin/gnome-terminal/v0.2.0/install.py | python3 -
+  gsettings set org.gnome.Terminal.ProfilesList default 5083e06b-024e-46be-9cd2-892b814f1fc8
+
+  # Turn off stacking and set color
+  dconf write /org/gnome/shell/extensions/pop-shell/stacking-with-mouse false
+  dconf write /org/gnome/shell/extensions/pop-shell/hint-color-rgba 'rgb(138, 173, 244)'
+
+  # Zathura Theme
+  wget -P $HOME/.config/zathura/ https://raw.githubusercontent.com/catppuccin/zathura/main/src/catppuccin-macchiato
+  echo '
+    include catppuccin-macchiato
+    set recolor                     "true"
+    set recolor-reverse-video       "true"
+    set recolor-keephue             "true"
+  ' > $HOME/.config/zathura/zathurarc
+  # Make zathura default for all pdf in xmim
+  xdg-mime default zathura.desktop application/pdf
+  xdg-mime default zathura.desktop application/x-pdf
+  
+  # Feh Theme
+  wget -O $HOME/.config/feh/keys https://gist.githubusercontent.com/yudi-matsuzake/688a6273339cbb2d7a97a53d0d8ab6c7/raw/74193d26f849353eb578d9da30106170cf9927c9/keys
+  xdg-mime default feh.desktop image/jpeg
+  xdg-mime default feh.desktop image/png
+  xdg-mime default feh.desktop image/gif
+  xdg-mime default feh.desktop image/bmp
+
+  # Ranger
+  xdg-mime default ranger.desktop inode
+
+
 fi
 
 if ! command -v docker &> /dev/null
@@ -40,10 +88,9 @@ fi
 # Delete and make the pipe
 rm -rf ~/pipe
 mkfifo ~/pipe 
-while true
-do 
+nohup bash -c 'while true; do 
     eval "$(cat ~/pipe)" &> ~/.pipe_logs.txt
-done &
+done' &
 
 docker pull fonzzy1/vim 
 
