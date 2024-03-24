@@ -16,8 +16,7 @@ if [ "$1" = "--init" ]; then
   # Install the gnome extentions
   wget -N -q "https://raw.githubusercontent.com/ToasterUwU/install-gnome-extensions/master/install-gnome-extensions.sh" -O ~/install-gnome-extensions.sh
   chmod +x ~/install-gnome-extensions.sh
-  ~/install-gnome-extensions.sh --enable 545
-  gsettings set org.gnome.Terminal.Legacy.Settings headerbar false
+  ~/install-gnome-extensions.sh --enable 545 19
   rm ~/install-gnome-extensions.sh
 
   # Load in catcuppin gnome theme
@@ -27,6 +26,7 @@ if [ "$1" = "--init" ]; then
   rm ~/Catppuccin-Macchiato-Standard-Lavender-Dark.zip
 
   gsettings set org.gnome.desktop.interface gtk-theme "Catppuccin-Macchiato-Standard-Lavender-Dark"
+  gsettings set org.gnome.shell.extensions.user-theme name  "Catppuccin-Macchiato-Standard-Lavender-Dark"
 
   # Set the gnome Terminal theme
   curl -L https://raw.githubusercontent.com/catppuccin/gnome-terminal/v0.2.0/install.py | python3 -
@@ -34,6 +34,8 @@ if [ "$1" = "--init" ]; then
 
   # Turn off stacking and set color
   dconf write /org/gnome/shell/extensions/pop-shell/stacking-with-mouse false
+  gsettings set org.gnome.Terminal.Legacy.Settings headerbar false
+  gsettings set org.gnome.desktop.interface enable-animations false
 
   # Zathura Theme
   mkdir -p $HOME/.config/zathura
@@ -57,13 +59,18 @@ if [ "$1" = "--init" ]; then
   xdg-mime default feh.desktop image/bmp
 
   # Ranger
-  xdg-mime default ranger.desktop inode
+  xdg-mime default ranger.desktop inode/directory
   mkdir -p ~/.config/ranger
   echo '# rifle.conf
 # By default, use Vim for most files
 mime ^text,  label editor = vim -- "$@"
 has xdg-open, flag f = xdg-open "$1"' > $HOME/.config/ranger/rifle.conf
 
+# Wallpaper
+# Fetch the image from the url using wget and save it into the specific directory
+wget -O ~/.wallpaper http://web.archive.org/web/20230326122534if_/https://raw.githubusercontent.com/catppuccin/wallpapers/main/misc/spooky_spill.jpg
+# Set it as your wallpaper
+gsettings set org.gnome.desktop.background picture-uri file:///home/$USER/.wallpaper
 fi
 
 if ! command -v docker &> /dev/null
