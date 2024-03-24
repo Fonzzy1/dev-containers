@@ -14,17 +14,17 @@ if [ "$1" = "--init" ]; then
 
 
   # Install the gnome extentions
-  wget -N -q "https://raw.githubusercontent.com/ToasterUwU/install-gnome-extensions/master/install-gnome-extensions.sh" -O ./install-gnome-extensions.sh
-  chmod +x install-gnome-extensions.sh
-  ./install-gnome-extensions.sh --enable 545
+  wget -N -q "https://raw.githubusercontent.com/ToasterUwU/install-gnome-extensions/master/install-gnome-extensions.sh" -O ~/install-gnome-extensions.sh
+  chmod +x ~/install-gnome-extensions.sh
+  ~/install-gnome-extensions.sh --enable 545
   gsettings set org.gnome.Terminal.Legacy.Settings headerbar false
-  rm install-gnome-extensions.sh
+  rm ~/install-gnome-extensions.sh
 
   # Load in catcuppin gnome theme
   mkdir -p ~/.themes
-  wget https://github.com/catppuccin/gtk/releases/download/v0.7.1/Catppuccin-Macchiato-Standard-Lavender-Dark.zip
-  unzip Catppuccin-Macchiato-Standard-Lavender-Dark.zip
-  mv Catppuccin-Macchiato-Standard-Lavender-Dark* ~/.themes/
+  wget https://github.com/catppuccin/gtk/releases/download/v0.7.1/Catppuccin-Macchiato-Standard-Lavender-Dark.zip -P ~
+  unzip ~/Catppuccin-Macchiato-Standard-Lavender-Dark.zip -d ~/.themes 
+  rm ~/Catppuccin-Macchiato-Standard-Lavender-Dark.zip
 
   gsettings set org.gnome.desktop.interface gtk-theme "Catppuccin-Macchiato-Standard-Lavender-Dark"
 
@@ -34,10 +34,10 @@ if [ "$1" = "--init" ]; then
 
   # Turn off stacking and set color
   dconf write /org/gnome/shell/extensions/pop-shell/stacking-with-mouse false
-  dconf write /org/gnome/shell/extensions/pop-shell/hint-color-rgba 'rgb(138, 173, 244)'
 
   # Zathura Theme
-  wget -P $HOME/.config/zathura/ https://raw.githubusercontent.com/catppuccin/zathura/main/src/catppuccin-macchiato
+  mkdir -p $HOME/.config/zathura
+  wget -O $HOME/.config/zathura/catppuccin-macchiato https://raw.githubusercontent.com/catppuccin/zathura/main/src/catppuccin-macchiato
   echo '
     include catppuccin-macchiato
     set recolor                     "true"
@@ -45,10 +45,11 @@ if [ "$1" = "--init" ]; then
     set recolor-keephue             "true"
   ' > $HOME/.config/zathura/zathurarc
   # Make zathura default for all pdf in xmim
-  xdg-mime default zathura.desktop application/pdf
-  xdg-mime default zathura.desktop application/x-pdf
+  xdg-mime default org.pwmt.zathura-pdf-poppler.desktop application/pdf
+  xdg-mime default org.pwmt.zathura-pdf-poppler.desktop application/x-pdf
   
   # Feh Theme
+  mkdir -p $HOME/.config/feh
   wget -O $HOME/.config/feh/keys https://gist.githubusercontent.com/yudi-matsuzake/688a6273339cbb2d7a97a53d0d8ab6c7/raw/74193d26f849353eb578d9da30106170cf9927c9/keys
   xdg-mime default feh.desktop image/jpeg
   xdg-mime default feh.desktop image/png
@@ -57,7 +58,11 @@ if [ "$1" = "--init" ]; then
 
   # Ranger
   xdg-mime default ranger.desktop inode
-
+  mkdir -p ~/.config/ranger
+  echo '# rifle.conf
+# By default, use Vim for most files
+mime ^text,  label editor = vim -- "$@"
+has xdg-open, flag f = xdg-open "$1"' > $HOME/.config/ranger/rifle.conf
 
 fi
 
