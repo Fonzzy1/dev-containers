@@ -1,8 +1,6 @@
 #!/bin/bash
 set -e
 
-
-
 if [ "$1" = "--init" ]; then
   sudo apt-get -y update
   sudo apt-get -y upgrade
@@ -42,7 +40,10 @@ fi
 # Delete and make the pipe
 rm -rf ~/pipe
 mkfifo ~/pipe 
-while true; do eval "$(cat ~/pipe)"; done &
+while true
+do 
+    eval "$(cat ~/pipe)" &> ~/.pipe_logs.txt
+done &
 
 docker pull fonzzy1/vim 
 
