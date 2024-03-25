@@ -7,31 +7,45 @@ import os
 import requests
 import tqdm
 
+token = os.environ["GH_TOKEN"]
+headers = {"Authorization": "Token " + token}
+
 
 def list_all_gists(username):
-    token = os.environ["GH_TOKEN"]
     url = f"https://api.github.com/users/{username}/gists"
-    headers = {"Authorization": "Token " + token}
     response = requests.get(url, headers=headers)
     gists = response.json()
 
     ret_dict = {gist["id"]: {} for gist in gists}
     print("Fetching Gists...")
     for gist in tqdm.tqdm(gists, total=len(gists)):
-        ret_dict[gist["id"]]["description"] = (
-            gist["description"]
-            if gist["description"] != ""
-            else list(gist["files"].keys())[0]
-        )
-        ret_dict[gist["id"]]["text"] = "\n".join(
-            [
-                f'{requests.get(fileinfo["raw_url"], headers=headers).text}'
-                for filename, fileinfo in gist["files"].items()
-                if fileinfo["type"] == "text/plain"
-            ]
-        )
-
+        ret_dict[gist["id"]] = process_gist(gist)
     return ret_dict
+
+
+def process_gist(gist):
+    ret_dict = {}
+    ret_dict["description"] = (
+        gist["description"]
+        if gist["description"] != ""
+        else list(gist["files"].keys())[0]
+    )
+    ret_dict["text"] = "\n".join(
+        [
+            f'{requests.get(fileinfo["raw_url"], headers=headers).text}'
+            for filename, fileinfo in gist["files"].items()
+            if fileinfo["type"].split("/")[0] == "text"
+        ]
+    )
+    return ret_dict
+
+
+def get_single_gist(gist_id):
+    url = f"https://api.github.com/gists/{gist_id}"
+    response = requests.get(url, headers=headers)
+    gist = response.json()
+
+    return process_gist(gist)
 
 
 class EmbeddingFinder:
@@ -67,6 +81,14 @@ class EmbeddingFinder:
 
         return [list(self.data.keys())[i] for i in top_similar_indices]
 
+    def update_embedding_for_key(self, key):
+        if key in self.data:
+            text = self.data[key]["text"]
+            embedding = (
+                self.model.encode([text], convert_to_tensor=True)[0].detach().numpy()
+            )
+            self.data[key]["embedding"] = embedding
+
 
 def get_key_from_description(data, target_description):
     for key, value in data.items():
@@ -84,41 +106,62 @@ def run_gist_notes(username):
     try:
         while True:
             # use InquirerPy
-            result = inquirer.text(
+            query = inquirer.text(
                 message="What are you looking for?",
             ).execute()
 
-            keys = finder.find(result)
-
-            choices = [data[x]["description"] for x in keys]
-
             while True:
-                question = inquirer.fuzzy(
-                    message="Select a gist:",
-                    choices=choices + ["? (Return to search)"],
-                )
+
+                keys = finder.find(query)
+
+                choices = [finder.data[x]["description"] for x in keys] + [
+                    "? (Return to search)",
+                    "+ (Make New Gist)",
+                ]
+
+                question = inquirer.fuzzy(message="Select a gist:", choices=choices)
 
                 result = question.execute()
 
                 if result == "? (Return to search)" or result is None:
                     break
+                if result == "+ (Make New Gist)":
 
-                key = get_key_from_description(data, result)
+                    gist = requests.post(
+                        "https://api.github.com/gists",
+                        json={
+                            "description": query,
+                            "public": False,
+                            "files": {"notes.md": {"content": f"#{query}"}},
+                        },
+                        headers=headers,
+                    ).json()
+                    run_vim(gist["id"])
+                    finder.data[gist["id"]] = process_gist(gist)
+                    finder.update_embedding_for_key(gist["id"])
+
+                key = get_key_from_description(finder.data, result)
 
                 if key:
-                    _ = os.system(
-                        f"""
-                        gh gist clone {key} /gist > /dev/null 2>&1; 
-                        vim ;
-                        git add . > /dev/null 2>&1;
-                        git commit -m "update" > /dev/null 2>&1;
-                        git push > /dev/null 2>&1;
-                        find /gist -mindepth 1 -delete > /dev/null 2>&1;
-                        """
-                    )
-                    _ = print(f"https://gist.github.com/{key}")
+                    run_vim(key)
+                    finder.data[key] = get_single_gist(key)
+                    finder.update_embedding_for_key(key)
     except KeyboardInterrupt:
         exit(1)
+
+
+def run_vim(gist_id):
+    _ = os.system(
+        f"""
+        gh gist clone {gist_id} /gist > /dev/null 2>&1; 
+        vim -c NERDTree;
+        git add . > /dev/null 2>&1;
+        git commit -m "update" > /dev/null 2>&1;
+        git push > /dev/null 2>&1;
+        find /gist -mindepth 1 -delete > /dev/null 2>&1;
+        """
+    )
+    _ = print(f"https://gist.github.com/{gist_id}")
 
 
 if __name__ == "__main__":

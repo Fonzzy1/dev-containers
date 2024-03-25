@@ -85,28 +85,6 @@ def run_vim(
     os.chdir(current_dir)
 
 
-def run_gist(args):
-    gist_name = " ".join(args.gist)
-    command = f"""
-        gist_id=$(echo "{gist_name}" | gh gist create -f "notes.md" -d "{gist_name}" | awk '{{print $NF}}')
-        gh gist clone "$gist_id" /gist;
-        vim -O /gist/*;
-        git add .;
-        git commit -m "update"
-        git push
-        """
-
-    run_vim(
-        env_location,
-        vault_location,
-        mount_dir=temp_dir,
-        mount_dir_name="gist",
-        command=command,
-        check_changes=False,
-        clean_mount_dir=True,
-    )
-
-
 def run_gist_notes(args):
     run_vim(
         env_location,
@@ -192,10 +170,6 @@ if __name__ == "__main__":
     )
     local_parser.set_defaults(func=run_local)
 
-    gist_parser = subparsers.add_parser("gist", help="Create a gist")
-    gist_parser.add_argument("gist", help="Specify the gist Description", nargs="+")
-    gist_parser.set_defaults(func=run_gist)
-
     gh_parser = subparsers.add_parser("gh", help="Run command for cloning a repo")
     gh_parser.add_argument("repo", help="Specify the repository for cloning")
     gh_parser.set_defaults(func=run_gh)
@@ -206,7 +180,7 @@ if __name__ == "__main__":
     gh_parser.add_argument("-c", "--checkout", help="Checkout a new branch from main")
 
     gistnote_parser = subparsers.add_parser(
-        "gistnotes", help="Open GistNotes Browsing Tool"
+        "notes", help="Open GistNotes Browsing Tool"
     )
     gistnote_parser.set_defaults(func=run_gist_notes)
 
