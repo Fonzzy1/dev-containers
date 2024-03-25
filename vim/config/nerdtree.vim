@@ -43,3 +43,5 @@ function! LeftBarToNerdFind()
     call Set_nerdtree_open_args()
     NERDTreeFind
 endfunction
+
+

@@ -39,20 +39,14 @@ command!-nargs=1 Gs :G switch -c <args>
 function! GitCommitMessageFn()
   let l:diff = system('git --no-pager diff --staged')
   let l:prompt = "generate a short commit message from the diff below with a single short (less than 50 character) line summarizing the change, followed by a blank line and then a more thorough description where each sentence is on a new line and it less than 72 characters long, do not use ``` at all in the commit message:\n" . l:diff
-  let l:range = 0
   let l:config = {
-    \ "engine": "chat",
-    \ "options": {
-      \ "model": g:model,
-      \ "endpoint_url": "https://api.openai.com/v1/chat/completions",
-\    "max_tokens": 0,
-      \ "temperature": 1,
-      \ "request_timeout": 20,
-      \ "enable_auth": 1,
-      \ "selection_boundary": "",
-      \ "initial_prompt": ">>> system \n You are a general assistant. ,If you attach a code block add syntax type after ``` to enable syntax highlighting. "
-    \ },
-  \ }
-  call vim_ai#AIRun(l:range, l:config, l:prompt)
+  \  "engine": "chat",
+  \  "options": {
+  \    "model": g:model,
+  \    "initial_prompt": ">>> system\nyou are a code assistant",
+  \    "temperature": 1,
+  \  },
+  \}
+  call vim_ai#AIRun( l:config, l:prompt)
 endfunction
 

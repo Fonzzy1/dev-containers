@@ -50,6 +50,8 @@ if ! shopt -oq posix; then
   fi
 fi
 
+export EDITOR=vim;
+export VISUAL=vim;
 # Function to render R Markdown file
 function knit() {
     R -e "rmarkdown::render('$1')"

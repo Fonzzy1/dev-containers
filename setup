@@ -1,18 +1,79 @@
 #!/bin/bash
 set -e
 
-
-
 if [ "$1" = "--init" ]; then
+
+  ## Add in the spotify repository
+  curl -sS https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
+  echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+
+  ## Load in the apps that I use for viewing media
   sudo apt-get -y update
   sudo apt-get -y upgrade
-  sudo apt-get -y install jq
+  sudo apt-get -y install jq zathura feh vlc ranger spotify-client gnome-tweaks vlc
 
-  wget -N -q "https://raw.githubusercontent.com/ToasterUwU/install-gnome-extensions/master/install-gnome-extensions.sh" -O ./install-gnome-extensions.sh
-  chmod +x install-gnome-extensions.sh
-  ./install-gnome-extensions.sh --enable 723 3222 545 1732
+
+  # Install the gnome extentions
+  wget -N -q "https://raw.githubusercontent.com/ToasterUwU/install-gnome-extensions/master/install-gnome-extensions.sh" -O ~/install-gnome-extensions.sh
+  chmod +x ~/install-gnome-extensions.sh
+  ~/install-gnome-extensions.sh --enable 545
+  ~/install-gnome-extensions.sh --enable 19
+  ~/install-gnome-extensions.sh --enable 1732
+  rm ~/install-gnome-extensions.sh
+
+  # Load in catcuppin gnome theme
+  mkdir -p ~/.themes
+  wget https://github.com/catppuccin/gtk/releases/download/v0.7.1/Catppuccin-Macchiato-Standard-Lavender-Dark.zip -P ~
+  unzip ~/Catppuccin-Macchiato-Standard-Lavender-Dark.zip -d ~/.themes 
+  rm ~/Catppuccin-Macchiato-Standard-Lavender-Dark.zip
+
+  gsettings set org.gnome.desktop.interface gtk-theme "Catppuccin-Macchiato-Standard-Lavender-Dark"
+  gsettings set org.gnome.shell.extensions.user-theme name  "Catppuccin-Macchiato-Standard-Lavender-Dark" || true
+
+  # Set the gnome Terminal theme
+  curl -L https://raw.githubusercontent.com/catppuccin/gnome-terminal/v0.2.0/install.py | python3 -
+  gsettings set org.gnome.Terminal.ProfilesList default 5083e06b-024e-46be-9cd2-892b814f1fc8
+
+  # Turn off stacking and set color
+  dconf write /org/gnome/shell/extensions/pop-shell/stacking-with-mouse false
   gsettings set org.gnome.Terminal.Legacy.Settings headerbar false
-  rm install-gnome-extensions.sh
+  gsettings set org.gnome.desktop.interface enable-animations false
+
+  # Zathura Theme
+  mkdir -p $HOME/.config/zathura
+  wget -O $HOME/.config/zathura/catppuccin-macchiato https://raw.githubusercontent.com/catppuccin/zathura/main/src/catppuccin-macchiato
+  echo '
+    include catppuccin-macchiato
+    set recolor                     "true"
+    set recolor-reverse-video       "true"
+    set recolor-keephue             "true"
+  ' > $HOME/.config/zathura/zathurarc
+  # Make zathura default for all pdf in xmim
+  xdg-mime default org.pwmt.zathura-pdf-poppler.desktop application/pdf
+  xdg-mime default org.pwmt.zathura-pdf-poppler.desktop application/x-pdf
+  
+  # Feh Theme
+  mkdir -p $HOME/.config/feh
+  wget -O $HOME/.config/feh/keys https://gist.githubusercontent.com/yudi-matsuzake/688a6273339cbb2d7a97a53d0d8ab6c7/raw/74193d26f849353eb578d9da30106170cf9927c9/keys
+  xdg-mime default feh.desktop image/jpeg
+  xdg-mime default feh.desktop image/png
+  xdg-mime default feh.desktop image/gif
+  xdg-mime default feh.desktop image/bmp
+  xdg-mime default feh.desktop image/svg
+
+  # Ranger
+  xdg-mime default ranger.desktop inode/directory
+  mkdir -p ~/.config/ranger
+  echo '# rifle.conf
+# By default, use Vim for most files
+mime ^text,  label editor = vim -- "$@"
+has xdg-open, flag f = xdg-open "$1"' > $HOME/.config/ranger/rifle.conf
+
+# Wallpaper
+# Fetch the image from the url using wget and save it into the specific directory
+wget -O ~/.wallpaper http://web.archive.org/web/20230326122534if_/https://raw.githubusercontent.com/catppuccin/wallpapers/main/misc/spooky_spill.jpg
+# Set it as your wallpaper
+gsettings set org.gnome.desktop.background picture-uri file:///home/$USER/.wallpaper
 fi
 
 if ! command -v docker &> /dev/null
@@ -38,6 +99,13 @@ then
 else
     echo "Docker is already installed."
 fi
+
+# Delete and make the pipe
+rm -rf ~/pipe
+mkfifo ~/pipe 
+nohup bash -c 'while true; do 
+    eval "$(cat ~/pipe)" &> ~/.pipe_logs.txt
+done' &
 
 docker pull fonzzy1/vim 
 

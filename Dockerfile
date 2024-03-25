@@ -1,4 +1,4 @@
-FROM ubuntu as setter_upper
+FROM ubuntu as vim
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Australia/Melbourne
@@ -30,8 +30,6 @@ WORKDIR /src
 # Set the mount point as the safe dir
 RUN git config --global --add safe.directory /src
 
-# Vim Setup
-FROM setter_upper as vim
 
 # Enviroment Installs 
 RUN apt-get update && apt-get install -y software-properties-common
@@ -72,7 +70,8 @@ RUN apt-get update && apt-get install nodejs -y;
 
 
 # Install the python packages
-RUN pip install black pipreqs pgcli awscli socli
+RUN pip3 install torch  --index-url https://download.pytorch.org/whl/cpu
+RUN pip install black pipreqs pgcli awscli socli sentence_transformers InquirerPy
 
 # Install npm packages
 RUN npm install --save-dev --global prettier
@@ -100,12 +99,7 @@ RUN R -e  "install.packages('languageserver',  Ncpus = 6)"
 
 # Bring in the vim config
 COPY vim /root/.vim
-#Copy in the dotfiles
-COPY dotfiles /root
-
-# Install Vim Plugins
-RUN vim +PlugInstall +qall 
-
+RUN vim +PlugInstall +qall
 # Install COC plugins
 RUN mkdir -p /root/.config/coc/extensions && \
     echo '{"dependencies":{}}' > /root/.config/coc/extensions/package.json && \
@@ -116,5 +110,18 @@ RUN mkdir -p /root/.config/coc/extensions && \
         cd /root/.config/coc/extensions && \
         npm install "$extension" --install-strategy=shallow --save; \
     done
+
+
+#Copy in the dotfiles
+COPY dotfiles /root
+
+#Copy in the scripts
+COPY run_scripts /scripts
+
+# Overwrite defaule xsg-open call
+COPY run_scripts/open.py /usr/bin/xdg-open   
+
+# Download LM 
+RUN  /scripts/download_model.py
 
 CMD vim

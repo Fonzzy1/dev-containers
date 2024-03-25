@@ -71,19 +71,13 @@ function! GitPrRequestGeneration()
   let l:diff = system('git diff $(git branch -l main master)..$(git rev-parse --abbrev-ref HEAD)')
   let l:branch_name = system('git rev-parse --abbrev-ref HEAD')
   let l:prompt = "Generate a message for a pull request in the form of a rmarkdown file  with a descriptive title, an in depth description of what the pull request will acheive, and a summary of changes made, including a list of modified files given the following branch name: \n" . l:branch_name . "git log: \n" . l:log . " and the following git diff \n" . l:diff . "Mimic the following format: \n #(a descritive title) \n\n ##Description \n\n ##Summary of changes \n ### Changed Files. Do not use ``` to encase the overall text"
-  let l:range = 0
   let l:config = {
-    \ "engine": "chat",
-    \ "options": {
-      \ "model": g:model,
-      \ "endpoint_url": "https://api.openai.com/v1/chat/completions",
-      \ "max_tokens": 4000,
-      \ "temperature": 1,
-      \ "request_timeout": 20,
-      \ "enable_auth": 1,
-      \ "selection_boundary": "",
-      \ "initial_prompt": ">>> system \n You are a general assistant. ,If you attach a code block add syntax type after ``` to enable syntax highlighting. "
-    \ },
-  \ }
-  call vim_ai#AIRun(l:range, l:config, l:prompt)
+  \  "engine": "chat",
+  \  "options": {
+  \    "model": g:model,
+  \    "initial_prompt": ">>> system\nyou are a code assistant",
+  \    "temperature": 1,
+  \  },
+  \}
+  call vim_ai#AIRun( l:config, l:prompt)
 endfunction
