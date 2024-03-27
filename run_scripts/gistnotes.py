@@ -151,10 +151,26 @@ def run_gist_notes(username):
 
 
 def run_vim(gist_id):
+
+    comments = get_comments(gist_id)
+    os.system(f" gh gist clone {gist_id} /gist > /dev/null 2>&1;")
+    with open("/gist/comments.md", "w") as f:
+        f.write(comments)
+
+    os.system(f"vim")
+
+    new_comments_content = (
+        open("/gist/comments.md", "r")
+        .read()
+        .split("---------------------------------------------")[-1]
+        .lstrip()
+    )
+    if new_comments_content != "":
+        make_new_comment(gist_id, new_comments_content)
+
+    os.remove("/gist/comments.md")
     _ = os.system(
         f"""
-        gh gist clone {gist_id} /gist > /dev/null 2>&1; 
-        vim -c NERDTree;
         git add . > /dev/null 2>&1;
         git commit -m "update" > /dev/null 2>&1;
         git push > /dev/null 2>&1;
@@ -162,6 +178,36 @@ def run_vim(gist_id):
         """
     )
     _ = print(f"https://gist.github.com/{gist_id}")
+
+
+def make_new_comment(gist_id, new_comments_content):
+    requests.post(
+        f"https://api.github.com/gists/{gist_id}/comments",
+        json={"body": new_comments_content},
+        headers=headers,
+    )
+    print("Comment Saved")
+
+
+def get_comments(gist_id):
+    raw_comments = requests.get(
+        f"https://api.github.com/gists/{gist_id}/comments", headers=headers
+    ).json()
+    comments = [
+        {
+            "user": x["user"]["login"],
+            "comment": x["body"],
+            "created": x["created_at"],
+        }
+        for x in raw_comments
+    ]
+    out_string = ""
+    for comment in comments:
+        comment_string = f""" **>> {comment['user']} @ {comment['created']}**\n ---------------------------------------------\n{comment['comment']}\n"""
+        out_string += comment_string
+
+    out_string += "\n ---------------------------------------------\n"
+    return out_string
 
 
 if __name__ == "__main__":
