@@ -45,7 +45,8 @@ RUN apt-get install -y \
     r-base \
     pandoc \
     texlive-latex-extra \
-    libcurl4-openssl-dev \
+    pandoc-citeproc \
+    #libcurl4-openssl-dev \
     libssl-dev \
     libxml2-dev \
     libfontconfig1-dev \
