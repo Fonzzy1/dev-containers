@@ -30,13 +30,7 @@ def process_gist(gist):
         if gist["description"] != ""
         else list(gist["files"].keys())[0]
     )
-    ret_dict["text"] = "\n".join(
-        [
-            f'{requests.get(fileinfo["raw_url"], headers=headers).text}'
-            for filename, fileinfo in gist["files"].items()
-            if fileinfo["type"].split("/")[0] == "text"
-        ]
-    )
+    ret_dict["files"] = list(gist["files"].keys())
     return ret_dict
 
 
@@ -57,7 +51,7 @@ class EmbeddingFinder:
         )  # Use a light model for quick embedding
 
     def prepare_data(self):
-        texts = list([x["text"] for x in self.data.values()])
+        texts = [x["description"] for x in self.data.values()]
         print("Preparing data...")
         raw_embeddings = self.model.encode(
             texts, convert_to_tensor=True, show_progress_bar=True
@@ -83,7 +77,7 @@ class EmbeddingFinder:
 
     def update_embedding_for_key(self, key):
         if key in self.data:
-            text = self.data[key]["text"]
+            text = self.data[key]["description"]
             embedding = (
                 self.model.encode([text], convert_to_tensor=True)[0].detach().numpy()
             )
@@ -136,31 +130,33 @@ def run_gist_notes(username):
                         },
                         headers=headers,
                     ).json()
-                    run_vim(gist["id"])
+                    run_vim(gist["id"], gist["description"])
                     finder.data[gist["id"]] = process_gist(gist)
                     finder.update_embedding_for_key(gist["id"])
 
                 key = get_key_from_description(finder.data, result)
 
                 if key:
-                    run_vim(key)
+                    run_vim(key, finder.data[key]["description"])
                     finder.data[key] = get_single_gist(key)
                     finder.update_embedding_for_key(key)
     except KeyboardInterrupt:
         exit(1)
 
 
-def run_vim(gist_id):
+def run_vim(gist_id, description):
 
     comments = get_comments(gist_id)
     os.system(f" gh gist clone {gist_id} /gist > /dev/null 2>&1;")
-    with open("/gist/comments.md", "w") as f:
+    with open("/gist/.comments.md", "w") as f:
         f.write(comments)
+    with open("/gist/.description.txt", "w") as f:
+        f.write(description)
 
     os.system(f"vim")
 
     new_comments_content = (
-        open("/gist/comments.md", "r")
+        open("/gist/.comments.md", "r")
         .read()
         .split("---------------------------------------------")[-1]
         .lstrip()
@@ -168,7 +164,12 @@ def run_vim(gist_id):
     if new_comments_content != "":
         make_new_comment(gist_id, new_comments_content)
 
-    os.remove("/gist/comments.md")
+    new_description = open("/gist/.description.txt", "r").read().rstrip().lstrip()
+    if new_description != description:
+        update_gist_desc(gist_id, new_description)
+
+    os.remove("/gist/.comments.md")
+    os.remove("/gist/.description.txt")
     _ = os.system(
         f"""
         git add . > /dev/null 2>&1;
@@ -187,6 +188,15 @@ def make_new_comment(gist_id, new_comments_content):
         headers=headers,
     )
     print("Comment Saved")
+
+
+def update_gist_desc(gist_id, new_description):
+    r = requests.patch(
+        f"https://api.github.com/gists/{gist_id}",
+        json={"description": new_description},
+        headers=headers,
+    )
+    print("Description Updated")
 
 
 def get_comments(gist_id):
