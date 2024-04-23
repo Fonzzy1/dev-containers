@@ -9,7 +9,7 @@ import uuid
 # Location for mounts
 script_location = os.path.dirname(os.path.realpath(__file__))
 env_location = os.path.dirname(script_location) + "/env"
-vault_location = os.path.dirname(script_location) + "/vault"
+mount_files_location = os.path.dirname(script_location) + "/mount_files"
 # Current Location
 current_location = os.getcwd()
 # Code location
@@ -33,7 +33,7 @@ def run_vim(
         mount_dir_name = mount_dir.split("/")[-1]
 
     pre_command = f"""
-            cp -r  /tmp/vault /vault &&  chmod -R 600 /vault;
+            cp -r  /tmp/mount /mount &&  chmod -R 600 /mount;
             gh auth setup-git;
             git config --global --add safe.directory /{mount_dir_name};
             """
@@ -75,7 +75,7 @@ def run_vim(
             "-v",
             f"{ env_location}:/root/.env",
             "-v",
-            f"{ valut_location}:/tmp/vault",
+            f"{ valut_location}:/tmp/mount",
             "fonzzy1/vim",
             "/bin/bash",
             "-c",
@@ -88,7 +88,7 @@ def run_vim(
 def run_gist_notes(args):
     run_vim(
         env_location,
-        vault_location,
+        mount_files_location,
         mount_dir=temp_dir,
         mount_dir_name="gist",
         command="/scripts/gistnotes.py",
@@ -111,7 +111,7 @@ def run_local(args):
     dir_name = current_dir.split("/")[-1]  # Get the name of the current directory
     run_vim(
         env_location,
-        vault_location,
+        mount_files_location,
         mount_dir=current_dir,
         mount_dir_name=dir_name,
         command="vim",
@@ -152,12 +152,36 @@ def run_gh(args):
 
     run_vim(
         env_location,
-        vault_location,
+        mount_files_location,
         mount_dir=temp_dir,
         mount_dir_name=repo,
         command=command,
         check_changes=True,
         clean_mount_dir=True,
+    )
+
+
+def run_setup(args):
+    if args.init:
+        os.system(f"bash {script_location}/setup --init")
+    else:
+        os.system(f"bash {script_location}/setup")
+
+
+def run_build(args):
+    os.system(f"bash {script_location}/build")
+
+
+def run_config(args):
+    dir_name = script_location.split("/")[-1]  # Get the name of the current directory
+    run_vim(
+        env_location,
+        mount_files_location,
+        mount_dir=script_location,
+        mount_dir_name=dir_name,
+        command="vim",
+        check_changes=True,
+        clean_mount_dir=False,
     )
 
 
@@ -183,6 +207,20 @@ if __name__ == "__main__":
         "notes", help="Open GistNotes Browsing Tool"
     )
     gistnote_parser.set_defaults(func=run_gist_notes)
+
+    setup_parser = subparsers.add_parser(
+        "setup", help="Setup the mounting and filestructure"
+    )
+    setup_parser.add_argument("--init", help="Run the init flag", action="store_true")
+    setup_parser.set_defaults(func=run_setup)
+
+    build_parser = subparsers.add_parser(
+        "build", help="Build and push the vim container"
+    )
+    build_parser.set_defaults(func=run_build)
+
+    config_parser = subparsers.add_parser("config", help="Edit the runit files inplace")
+    config_parser.set_defaults(func=run_config)
 
     args = parser.parse_args()
     args.func(args)
