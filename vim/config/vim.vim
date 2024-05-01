@@ -1,4 +1,3 @@
-set nocompatible
 set ruler
 set visualbell
 set autoindent
@@ -19,4 +18,5 @@ highlight clear SignColumn
 set incsearch
 set nohidden
 set switchbuf=vsplit
-
+set backspace=indent,eol,start
+set clipboard=unnamedplus

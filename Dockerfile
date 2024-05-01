@@ -1,4 +1,4 @@
-FROM ubuntu as vim
+FROM ubuntu:22.04 as vim
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Australia/Melbourne
@@ -30,14 +30,10 @@ WORKDIR /src
 # Set the mount point as the safe dir
 RUN git config --global --add safe.directory /src
 
+RUN add-apt-repository ppa:jonathonf/vim-daily
 
 # Enviroment Installs 
-RUN apt-get update && apt-get install -y software-properties-common
-RUN add-apt-repository ppa:jonathonf/vim
-RUN apt-get update
-
-# Install the rest of the dependencies
-RUN apt-get install -y \
+RUN apt-get update && apt-get install -y software-properties-common \
     tig \
     fzf \
     pkg-config \
@@ -57,7 +53,8 @@ RUN apt-get install -y \
     libtiff5-dev \
     libjpeg-dev \
     r-cran-tidyverse \
-    vim-gtk3 
+    vim-gtk3 \
+    xclip
 
 #Install Ctags
 RUN curl -L https://github.com/thombashi/universal-ctags-installer/raw/master/universal_ctags_installer.sh | bash

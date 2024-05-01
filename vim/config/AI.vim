@@ -3,16 +3,17 @@ let g:instruct_model = 'gpt-3.5-turbo-0125'
 
 "config for chat
 let g:vim_ai_chat = {
-\  "ui": {
-\    "code_syntax_enabled": 1,
-\    "open_chat_command": "rightbelow vnew | set nonu | set nornu | call vim_ai#MakeScratchWindow()",
-\    "scratch_buffer_keep_open": 0,
-\    "paste_mode": 1, },
-\  "options": {
-\    "model": g:model,
-\    "max_tokens": 0,
-\     }
-\}
+            \  "ui": {
+            \    "code_syntax_enabled": 1,
+            \    "open_chat_command": "rightbelow vnew | set nonu | set nornu | call vim_ai#MakeScratchWindow()",
+            \    "scratch_buffer_keep_open": 0,
+            \    "paste_mode": 1
+            \  },
+            \  "options": {
+            \    "model": g:model,
+            \    "max_tokens": 0
+            \  }
+            \}
 " map  enter to :AIChat when filetype is aichat
 autocmd FileType aichat  inoremap <buffer> <C-M> <C-O>:AIChat<CR> | setlocal wrap
 
@@ -40,29 +41,27 @@ If you are returning code, do not place it in code blocks, instead just return t
 END
 
 let g:vim_ai_complete = {
-\  "engine": "chat",
-\  "options": {
-\    "model": g:instruct_model,
-\    "endpoint_url": "https://api.openai.com/v1/chat/completions",
-\    "max_tokens":0 ,
-\    "temperature": 0.2,
-\    "request_timeout": 20,
-\    "selection_boundary": "",
-\    "initial_prompt": complete_initial_prompt,
-\  },
-\}
-
+            \  "engine": "chat",
+            \  "options": {
+            \    "model": g:instruct_model,
+            \    "endpoint_url": "https://api.openai.com/v1/chat/completions",
+            \    "max_tokens": 0,
+            \    "temperature": 0.2,
+            \    "request_timeout": 20,
+            \    "selection_boundary": "",
+            \    "initial_prompt": complete_initial_prompt,
+            \  },
+            \}
 
 let g:vim_ai_edit = {
-\  "engine": "chat",
-\  "options": {
-\    "model": g:instruct_model,
-\    "endpoint_url": "https://api.openai.com/v1/chat/completions",
-\    "max_tokens":0 ,
-\    "temperature": 0.2,
-\    "request_timeout": 20,
-\    "selection_boundary": "",
-\    "initial_prompt": edit_initial_prompt,
-\  },
-\}
-
+            \  "engine": "chat",
+            \  "options": {
+            \    "model": g:instruct_model,
+            \    "endpoint_url": "https://api.openai.com/v1/chat/completions",
+            \    "max_tokens": 0,
+            \    "temperature": 0.2,
+            \    "request_timeout": 20,
+            \    "selection_boundary": "",
+            \    "initial_prompt": edit_initial_prompt,
+            \  },
+            \}

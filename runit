@@ -51,6 +51,8 @@ def run_vim(
                 vim -c \':G | only\'; \
             fi'
 
+    display = os.getenv("DISPLAY")
+
     subprocess.run(
         [
             "docker",
@@ -68,6 +70,12 @@ def run_vim(
             f"/{mount_dir_name}",
             "-v",
             "/var/run/docker.sock:/var/run/docker.sock",
+            "-v",
+            "/home/fonzzy/.Xauthority:/root/.Xauthority:rw",
+            "-v",
+            "/tmp/.X11-unix:/tmp/.X11-unix",
+            "--env",
+            f"DISPLAY={display}",
             "-v",
             "/home/fonzzy/pipe:/pipe",
             "-v",
@@ -169,7 +177,7 @@ def run_setup(args):
 
 
 def run_build(args):
-    os.system(f"bash {script_location}/build")
+    os.system(f"bash -c 'cd  {script_location}; bash build'")
 
 
 def run_config(args):
