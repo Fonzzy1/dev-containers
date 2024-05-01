@@ -13,18 +13,18 @@ token = os.environ["GH_TOKEN"]
 headers = {"Authorization": "Token " + token}
 
 
-class Vault():
+class Vault:
     def __init__(self):
         pass
 
 
-
-class Secret():
+class Secret:
     def __init__(self, description, files, path):
         self.description = description
         self.files = files
         self.path = path
         self.embedding = None
+
 
 class Github:
     def __init__(self, username):
@@ -49,6 +49,9 @@ class Gist:
         self.files = files
         self.embedding = None
 
+    def __repr__(self):
+        return self.description
+
     # Using a class method to create a new Gist instance from raw data
     @classmethod
     def from_raw(cls, raw_dict):
@@ -66,6 +69,19 @@ class Gist:
         url = f"https://api.github.com/gists/{id}"
         response = requests.get(url, headers=headers)
         raw_gist = response.json()
+        return cls.from_raw(raw_gist)
+
+    @classmethod
+    def create_from_description(cls, description):
+        raw_gist = requests.post(
+            "https://api.github.com/gists",
+            json={
+                "description": description,
+                "public": False,
+                "files": {"notes.md": {"content": f"#{description}"}},
+            },
+            headers=headers,
+        ).json()
         return cls.from_raw(raw_gist)
 
     def make_new_comment(self, new_comments_content):
@@ -121,11 +137,11 @@ class Gist:
             .lstrip()
         )
         if new_comments_content != "":
-            self.make_new_comment( new_comments_content)
+            self.make_new_comment(new_comments_content)
 
         new_description = open("/gist/.description.txt", "r").read().rstrip().lstrip()
         if new_description != self.description:
-            self.update_gist_desc( new_description)
+            self.update_gist_desc(new_description)
             self.description = new_description
 
         os.remove("/gist/.comments.md")
@@ -155,7 +171,7 @@ class EmbeddingFinder:
             texts, convert_to_tensor=True, show_progress_bar=True
         )
 
-        for i , _ in enumerate(self.data):
+        for i, _ in enumerate(self.data):
             self.data[i].embedding = raw_embeddings[i].detach().numpy()
 
     def find(self, query):
@@ -173,13 +189,15 @@ class EmbeddingFinder:
 
         return [self.data[i] for i in top_similar_indices]
 
-    def get_item_from_key(self, key):
-      for item in self.data:
-        if item.description == key:
-          return item
-      return None
+    def update_embedding_for_description(self, key):
+        for index, item in enumerate(self.data):
+            if item.description == key:
+                i, obj = index, item
+        raw_embeddings = self.model.encode(
+            [obj.description], convert_to_tensor=True, show_progress_bar=True
+        )
 
-
+        self.data[i].embedding = raw_embeddings[0].detach().numpy()
 
 
 def run_gist_notes(username):
@@ -199,7 +217,7 @@ def run_gist_notes(username):
 
                 items = finder.find(query)
 
-                choices = [x.description for x in items] + [
+                choices = [x for x in items] + [
                     "? (Return to search)",
                     "+ (Make New Gist)",
                 ]
@@ -210,33 +228,22 @@ def run_gist_notes(username):
 
                 if result == "? (Return to search)" or result is None:
                     break
-                if result == "+ (Make New Gist)":
+                elif result == "+ (Make New Gist)":
+                    new_gist = Gist.create_from_description(query)
+                    finder.data.append(new_gist)
 
-                    gist = requests.post(
-                        "https://api.github.com/gists",
-                        json={
-                            "description": query,
-                            "public": False,
-                            "files": {"notes.md": {"content": f"#{query}"}},
-                        },
-                        headers=headers,
-                    ).json()
-                    run_vim(gist["id"], gist["description"])
-                    finder.data[gist["id"]] = process_gist(gist)
-                    finder.update_embedding_for_key(gist["id"])
+                else:
+                    obj = result
 
-                key = get_key_from_description(finder.data, result)
+                ## Run vim
+                obj.open()
 
-                if key:
-                    run_vim(key, finder.data[key]["description"])
-                    finder.data[key] = get_single_gist(key)
-                    finder.update_embedding_for_key(key)
+                obj.prepare_data()
+
+                finder.update_embedding_for_description(obj.description)
+
     except KeyboardInterrupt:
         exit(1)
-
-
-def run_vim(gist_id, description):
-
 
 
 if __name__ == "__main__":
