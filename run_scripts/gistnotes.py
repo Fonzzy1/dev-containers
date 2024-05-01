@@ -238,8 +238,6 @@ def run_gist_notes(username):
                 ## Run vim
                 obj.open()
 
-                obj.prepare_data()
-
                 finder.update_embedding_for_description(obj.description)
 
     except KeyboardInterrupt:
