@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from numpy.matrixlib import defmatrix
+from scipy.stats import describe
 from sentence_transformers import SentenceTransformer
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
@@ -7,15 +8,23 @@ from InquirerPy import inquirer
 import os
 import requests
 import tqdm
-from uuid import uuid4
+import shutil
+
 
 token = os.environ["GH_TOKEN"]
 headers = {"Authorization": "Token " + token}
+model = SentenceTransformer("all-MiniLM-L6-v2")  # Use a light model for quick embedding
 
 
 class Vault:
     def __init__(self):
-        pass
+        self.location = os.environ["VAULT"]
+        self.secrets = []
+        self.get_all_secrets()
+
+    def get_all_secrets(self):
+        for path in os.listdir(self.location):
+            self.secrets.append(Secret.from_path(self.location + "/" + path))
 
 
 class Secret:
@@ -24,6 +33,40 @@ class Secret:
         self.files = files
         self.path = path
         self.embedding = None
+
+    def __repr__(self):
+        return self.description
+
+    @classmethod
+    def from_path(cls, path):
+        description = os.path.basename(path)
+        files = os.listdir(path)
+        path = path
+        return cls(description, files, path)
+
+    def edit(self):
+        with open(f"{self.path}/.description.txt", "w") as f:
+            f.write(self.description)
+
+        os.system(f"cd '{self.path}'; vim")
+
+        new_description = (
+            open(f"{self.path}/.description.txt", "r").read().rstrip().lstrip()
+        )
+        if new_description != self.description:
+            self.update_desc(new_description)
+            self.description = new_description
+
+    def update_desc(self, new_description):
+        new_path = os.environ["VAULT"] + "/" + new_description
+        shutil.move(self.path, new_path)
+        self.path = new_path
+
+    def update_embedding(self):
+        raw_embeddings = model.encode(
+            [self.description], convert_to_tensor=True, show_progress_bar=False
+        )
+        self.embedding = raw_embeddings[0].detach().numpy()
 
 
 class Github:
@@ -120,7 +163,7 @@ class Gist:
         out_string += "\n ---------------------------------------------\n"
         return out_string
 
-    def open(self):
+    def edit(self):
         comments = self.get_comments()
         os.system(f" gh gist clone {self.id} /gist > /dev/null 2>&1;")
         with open("/gist/.comments.md", "w") as f:
@@ -155,27 +198,20 @@ class Gist:
             """
         )
 
+    def update_embedding(self):
+        raw_embeddings = model.encode(
+            [self.description], convert_to_tensor=True, show_progress_bar=False
+        )
+        self.embedding = raw_embeddings[0].detach().numpy()
+
 
 class EmbeddingFinder:
     def __init__(self, data: list):
         self.data = data
         print("Loading Model...")
-        self.model = SentenceTransformer(
-            "all-MiniLM-L6-v2"
-        )  # Use a light model for quick embedding
-
-    def prepare_data(self):
-        texts = [x.description for x in self.data]
-        print("Preparing data...")
-        raw_embeddings = self.model.encode(
-            texts, convert_to_tensor=True, show_progress_bar=True
-        )
-
-        for i, _ in enumerate(self.data):
-            self.data[i].embedding = raw_embeddings[i].detach().numpy()
 
     def find(self, query):
-        query_embedding = self.model.encode([query], convert_to_tensor=True)
+        query_embedding = model.encode([query], convert_to_tensor=True)
 
         embeddings_numpy = np.array([x.embedding for x in self.data])
 
@@ -189,22 +225,21 @@ class EmbeddingFinder:
 
         return [self.data[i] for i in top_similar_indices]
 
-    def update_embedding_for_description(self, key):
-        for index, item in enumerate(self.data):
-            if item.description == key:
-                i, obj = index, item
-        raw_embeddings = self.model.encode(
-            [obj.description], convert_to_tensor=True, show_progress_bar=True
-        )
 
-        self.data[i].embedding = raw_embeddings[0].detach().numpy()
+def bulk_set_embedding(ls):
+    texts = [x.description for x in ls]
+    print("Preparing data...")
+    raw_embeddings = model.encode(texts, convert_to_tensor=True, show_progress_bar=True)
+    for i, _ in enumerate(ls):
+        ls[i].embedding = raw_embeddings[i].detach().numpy()
 
 
 def run_gist_notes(username):
 
     hub = Github(username)
-    finder = EmbeddingFinder(hub.gists)
-    finder.prepare_data()
+    safe = Vault()
+
+    bulk_set_embedding(hub.gists + safe.secrets)
 
     try:
         while True:
@@ -214,12 +249,14 @@ def run_gist_notes(username):
             ).execute()
 
             while True:
+                finder = EmbeddingFinder(hub.gists + safe.secrets)
 
                 items = finder.find(query)
 
                 choices = [x for x in items] + [
                     "? (Return to search)",
-                    "+ (Make New Gist)",
+                    "+G (Make New Gist)",
+                    "+S (Make New Secret)",
                 ]
 
                 question = inquirer.fuzzy(message="Select a gist:", choices=choices)
@@ -228,17 +265,42 @@ def run_gist_notes(username):
 
                 if result == "? (Return to search)" or result is None:
                     break
-                elif result == "+ (Make New Gist)":
-                    new_gist = Gist.create_from_description(query)
-                    finder.data.append(new_gist)
+                elif result == "+G (Make New Gist)":
+                    obj = Gist.create_from_description(query)
+                    hub.gists.append(obj)
 
                 else:
                     obj = result
 
-                ## Run vim
-                obj.open()
+                action_query = inquirer.fuzzy(
+                    message=f"What would you like to do with {obj}?",
+                    choices=[
+                        "Edit",
+                        "Open",
+                        "Delete",
+                        "Share",
+                        "Hide",
+                        "Copy Link",
+                        "Open Link",
+                    ],
+                )
+                action = action_query.execute()
 
-                finder.update_embedding_for_description(obj.description)
+                if action == "Edit":
+                    obj.edit()
+                    obj.update_embedding()
+                elif action == "Open":
+                    obj.open()
+                elif action == "Delete":
+                    obj.delete()
+                elif action == "Share":
+                    obj.share()
+                elif action == "Hide":
+                    obj.hide()
+                elif action == "Copy Link":
+                    obj.copy_link()
+                elif action == "Open Link":
+                    obj.open_link()
 
     except KeyboardInterrupt:
         exit(1)
