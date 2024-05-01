@@ -19,7 +19,7 @@ os.makedirs(temp_dir)
 
 def run_vim(
     env_location,
-    valut_location,
+    vault_location,
     mount_dir,
     mount_dir_name=None,
     command="vim",
@@ -33,7 +33,6 @@ def run_vim(
         mount_dir_name = mount_dir.split("/")[-1]
 
     pre_command = f"""
-            cp -r  /tmp/mount /mount &&  chmod -R 600 /mount;
             gh auth setup-git;
             git config --global --add safe.directory /{mount_dir_name};
             """
@@ -64,6 +63,10 @@ def run_vim(
             f"SYS_DIR={mount_dir}",
             "-e",
             f"CONT_DIR=/{mount_dir_name}",
+            "-e",
+            f"VAULT=/VAULT",
+            "-e",
+            f"SYS_VAULT={vault_location}",
             "--net=host",
             "--rm",
             "-w",
@@ -83,7 +86,7 @@ def run_vim(
             "-v",
             f"{ env_location}:/root/.env",
             "-v",
-            f"{ valut_location}:/tmp/mount",
+            f"{ vault_location}:/VAULT",
             "fonzzy1/vim",
             "/bin/bash",
             "-c",

@@ -35,7 +35,7 @@ class Secret:
         self.embedding = None
 
     def __repr__(self):
-        return self.description
+        return "🔒 " + self.description
 
     @classmethod
     def from_path(cls, path):
@@ -43,6 +43,12 @@ class Secret:
         files = os.listdir(path)
         path = path
         return cls(description, files, path)
+
+    @classmethod
+    def create_from_description(cls, description):
+        path = os.environ["VAULT"] + "/" + description
+        _ = os.mkdir(path)
+        return cls.from_path(path)
 
     def edit(self):
         with open(f"{self.path}/.description.txt", "w") as f:
@@ -67,6 +73,14 @@ class Secret:
             [self.description], convert_to_tensor=True, show_progress_bar=False
         )
         self.embedding = raw_embeddings[0].detach().numpy()
+
+    def open(self):
+        for file in os.listdir(self.path):
+            full_path = self.path + "/" + file
+            os.system(f'xdg-open  "{full_path}"')
+
+    def delete(self):
+        shutil.rmtree(self.path)
 
 
 class Github:
@@ -164,6 +178,7 @@ class Gist:
         return out_string
 
     def edit(self):
+        os.system(f""" find /gist -mindepth 1 -delete > /dev/null 2>&1; """)
         comments = self.get_comments()
         os.system(f" gh gist clone {self.id} /gist > /dev/null 2>&1;")
         with open("/gist/.comments.md", "w") as f:
@@ -194,15 +209,25 @@ class Gist:
             git add . > /dev/null 2>&1;
             git commit -m "update" > /dev/null 2>&1;
             git push > /dev/null 2>&1;
-            find /gist -mindepth 1 -delete > /dev/null 2>&1;
             """
         )
+
+    def open(self):
+        os.system(f""" find /gist -mindepth 1 -delete > /dev/null 2>&1; """)
+        os.system(f" gh gist clone {self.id} /gist > /dev/null 2>&1;")
+        for file in os.listdir("/gist"):
+            if not file.startswith("."):
+                full_path = "/gist/" + file
+                os.system(f'xdg-open  "{full_path}"')
 
     def update_embedding(self):
         raw_embeddings = model.encode(
             [self.description], convert_to_tensor=True, show_progress_bar=False
         )
         self.embedding = raw_embeddings[0].detach().numpy()
+
+    def delete(self):
+        requests.delete(f"https://api.github.com/gists/{self.id}", headers=headers)
 
 
 class EmbeddingFinder:
@@ -268,6 +293,9 @@ def run_gist_notes(username):
                 elif result == "+G (Make New Gist)":
                     obj = Gist.create_from_description(query)
                     hub.gists.append(obj)
+                elif result == "+S (Make New Secret)":
+                    obj = Secret.create_from_description(query)
+                    safe.secrets.append(obj)
 
                 else:
                     obj = result
@@ -278,8 +306,8 @@ def run_gist_notes(username):
                         "Edit",
                         "Open",
                         "Delete",
-                        "Share",
-                        "Hide",
+                        "Make Public",
+                        "Make Private",
                         "Copy Link",
                         "Open Link",
                     ],
@@ -292,11 +320,29 @@ def run_gist_notes(username):
                 elif action == "Open":
                     obj.open()
                 elif action == "Delete":
-                    obj.delete()
-                elif action == "Share":
-                    obj.share()
-                elif action == "Hide":
-                    obj.hide()
+                    check = input("Are Sure? [y]")
+                    if not check.lower() == "y":
+                        obj.delete()
+                        if obj in hub.gists:
+                            hub.gists.remove(obj)
+                        elif obj in safe.secrets:
+                            safe.secrets.remove(obj)
+                elif action == "Make Public":
+                    if type(obj) == Gist:
+                        print(f"{obj} is already Public")
+                    else:
+                        new_gist = Gist.from_secret(obj)
+                        hub.gists.append(new_gist)
+                        obj.delete()
+                        safe.secrets.remove(obj)
+                elif action == "Make Private":
+                    if type(obj) == Gist:
+                        print(f"{obj} is already Private")
+                    else:
+                        new_secret = Secret.from_gist(obj)
+                        safe.secrets.append(new_secret)
+                        obj.delete()
+                        hub.gists.remove(obj)
                 elif action == "Copy Link":
                     obj.copy_link()
                 elif action == "Open Link":

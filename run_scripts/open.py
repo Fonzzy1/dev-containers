@@ -20,18 +20,24 @@ def path_to_command(path):
     sys_dir = os.environ["SYS_DIR"]
     cont_dir = os.environ["CONT_DIR"]
 
+    sys_vault = os.environ["SYS_VAULT"]
+    cont_vault = os.environ["VAULT"]
+
     if path == None:
         return f'xdg-open "{sys_dir}"'
 
-    if not path.startswith(cont_dir):
-        os.system(
-            f"echo 'Path {path} is not within the container directory {cont_dir}. Skipping operation.' >> /root/.xgd_log.txt"
-        )  # Adds command to log.txt
-        return None
-    else:
-
+    elif path.startswith(cont_dir):
         path = path.replace(cont_dir, sys_dir)
         return f'xdg-open "{path}"'
+
+    elif path.startswith(cont_vault):
+        path = path.replace(cont_vault, sys_vault)
+        return f'xdg-open "{path}"'
+
+    else:
+        os.system(
+            f"echo 'Path {path} is not within the container directory {cont_dir} or vault dir {cont_vault}. Skipping operation.' >> /root/.xgd_log.txt"
+        )  # Adds command to log.txt
 
 
 if __name__ == "__main__":
