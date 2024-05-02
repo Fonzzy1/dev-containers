@@ -190,7 +190,7 @@ def run_config(args):
         mount_files_location,
         mount_dir=script_location,
         mount_dir_name=dir_name,
-        command="vim",
+        command="vim; ",
         check_changes=True,
         clean_mount_dir=False,
     )

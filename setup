@@ -107,6 +107,8 @@ nohup bash -c 'while true; do
     eval "$(cat ~/pipe)" &> ~/.pipe_logs.txt
 done' &
 
+xhost + local:root
+
 docker pull fonzzy1/vim 
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"

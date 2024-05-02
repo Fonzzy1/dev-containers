@@ -69,7 +69,7 @@ RUN apt-get update && apt-get install nodejs -y;
 
 # Install the python packages
 RUN pip3 install torch  --index-url https://download.pytorch.org/whl/cpu
-RUN pip install black pipreqs pgcli awscli socli sentence_transformers InquirerPy
+RUN pip install black pipreqs pgcli awscli socli sentence_transformers InquirerPy pyperclip
 
 # Install npm packages
 RUN npm install --save-dev --global prettier
