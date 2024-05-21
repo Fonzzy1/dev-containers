@@ -21,4 +21,5 @@ Plug 'junegunn/fzf.vim'
 Plug 'itchyny/vim-qfedit'
 Plug 'Yggdroot/indentLine'
 Plug 'vimwiki/vimwiki'
+Plug 'mattn/calendar-vim'
 call plug#end()

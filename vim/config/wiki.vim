@@ -31,3 +31,12 @@ let g:vimwiki_custom_wikilink_follow = 'MyCustomVimwikiLinkHandler'
 
 let g:vimwiki_link_mappings = 1
 nnoremap <buffer> <silent> <cr> :VimwikiSplitLink<cr>
+
+
+function LeftBarToCalendar()
+    call LeftBarToggle()
+    :Calendar
+endfunction
+
+let g:calendar_diary='/wiki/diary'
+nnoremap C :call LeftBarToCalendar()

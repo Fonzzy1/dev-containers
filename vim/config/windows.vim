@@ -43,7 +43,7 @@ nnoremap bh :new<CR>
 
 function! LeftBarToggle()
     wincmd t
-    if (&ft=='nerdtree') || (&ft=='tagbar') || (&ft=='qf')
+    if (&ft=='nerdtree') || (&ft=='tagbar') || (&ft=='qf') || (&ft='calendar')
         close
     endif
     wincmd p

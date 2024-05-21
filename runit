@@ -20,7 +20,7 @@ def run_vim(
     env_location,
     mount_dir,
     mount_dir_name=None,
-    command="vim",
+    command="vim;",
     check_changes=True,
     clean_mount_dir=False,
 ):
@@ -93,8 +93,8 @@ def run_gist_notes(args):
         env_location,
         mount_dir=temp_dir,
         mount_dir_name="wiki",
-        command="/scripts/gistnotes.py",
-        check_changes=False,
+        command="/scripts/gistnotes.py; vim;",
+        check_changes=True,
         clean_mount_dir=True,
     )
 
@@ -115,7 +115,7 @@ def run_local(args):
         env_location,
         mount_dir=current_dir,
         mount_dir_name=dir_name,
-        command="vim",
+        command="vim;",
         check_changes=False,
         clean_mount_dir=False,
     )

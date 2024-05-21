@@ -102,6 +102,7 @@ def bulk_set_embedding(ls):
 def run_gist_notes():
 
     wiki = Wiki()
+    return
     print(wiki.notes)
 
     bulk_set_embedding(wiki.notes)
