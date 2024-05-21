@@ -23,16 +23,10 @@ def path_to_command(path, reader_flag):
     sys_dir = os.environ["SYS_DIR"]
     cont_dir = os.environ["CONT_DIR"]
 
-    sys_vault = os.environ["SYS_VAULT"]
-    cont_vault = os.environ["VAULT"]
-
     if path is None:
         return f'xdg-open "{sys_dir}"'
     elif path.startswith(cont_dir):
         path = path.replace(cont_dir, sys_dir)
-        return f'xdg-open "{path}"'
-    elif path.startswith(cont_vault):
-        path = path.replace(cont_vault, sys_vault)
         return f'xdg-open "{path}"'
     else:
         os.system(

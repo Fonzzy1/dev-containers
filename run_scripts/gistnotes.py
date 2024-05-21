@@ -8,6 +8,8 @@ import requests
 import tqdm
 import shutil
 import pyperclip
+import yaml
+import re
 
 
 token = os.environ["GH_TOKEN"]
@@ -15,286 +17,62 @@ headers = {"Authorization": "Token " + token}
 model = SentenceTransformer("all-MiniLM-L6-v2")  # Use a light model for quick embedding
 
 
-class Vault:
+def get_description_from_md(filename):
+    with open(filename, "r") as f:
+        # Read file contents
+        content = f.read()
+
+    # Regular expression matching YAML frontmatter
+    match = re.search(r"^---\s*^(.*?)^---\s*(.*)$", content, re.DOTALL | re.MULTILINE)
+    if match:
+        frontmatter = match.group(1)
+
+        # Parse YAML
+        data = yaml.safe_load(frontmatter)
+
+        # Extract and return description
+        if "description" in data:
+            return data["description"]
+    return None
+
+
+class Wiki:
     def __init__(self):
-        self.location = os.environ["VAULT"]
-        self.secrets = []
-        self.get_all_secrets()
+        os.system("gh repo clone wiki /wiki")
+        self.notes = []
+        self.get_all_notes()
 
-    def get_all_secrets(self):
-        for path in os.listdir(self.location):
-            self.secrets.append(Secret.from_path(self.location + "/" + path))
+    def get_all_notes(self):
+        for path in os.listdir("/wiki"):
+            if not path.startswith("."):  # skip files that start with a '.'
+                self.notes.append(Note("/wiki/" + path))
 
 
-class Secret:
-    def __init__(self, description, files, path):
-        self.description = description
-        self.files = files
+class Note:
+    def __init__(self, path):
         self.path = path
+        self.name, self.extension = os.path.splitext(os.path.basename(path))
+        if self.extension in ("md", "rmd"):
+            self.description = get_description_from_md(path)
+        else:
+            self.description = None
+        self.embedable_string = f"{self.name}: {self.description}"
         self.embedding = None
 
     def __repr__(self):
-        return "🔒 " + self.description
-
-    @classmethod
-    def from_path(cls, path):
-        description = os.path.basename(path)
-        files = os.listdir(path)
-        path = path
-        return cls(description, files, path)
-
-    @classmethod
-    def from_gist(cls, gist):
-        path = os.environ["VAULT"] + "/" + gist.description
-        os.system(
-            f"""
-        mkdir "{path}"
-        gh gist clone {gist.id} "{path}"
-        rm -rf "{path}/.git"
-        """
-        )
-
-        return cls.from_path(path)
-
-    @classmethod
-    def create_from_description(cls, description):
-        path = os.environ["VAULT"] + "/" + description
-        _ = os.mkdir(path)
-        return cls.from_path(path)
-
-    def edit(self):
-        with open(f"{self.path}/.description.txt", "w") as f:
-            f.write(self.description)
-
-        os.system(f"cd '{self.path}'; vim")
-
-        new_description = (
-            open(f"{self.path}/.description.txt", "r").read().rstrip().lstrip()
-        )
-        if new_description != self.description:
-            self.update_desc(new_description)
-            self.description = new_description
-        os.remove(f"/{self.path}/.description.txt")
-
-    def update_desc(self, new_description):
-        new_path = os.environ["VAULT"] + "/" + new_description
-        shutil.move(self.path, new_path)
-        self.path = new_path
-
-    def update_embedding(self):
-        raw_embeddings = model.encode(
-            [self.description], convert_to_tensor=True, show_progress_bar=False
-        )
-        self.embedding = raw_embeddings[0].detach().numpy()
+        return self.name
 
     def open(self):
-        for file in os.listdir(self.path):
-            full_path = self.path + "/" + file
-            os.system(f'xdg-open  "{full_path}"')
+        os.system(f"vim {self.path}")
 
     def delete(self):
         shutil.rmtree(self.path)
-
-    def copy_link(self):
-        sys_vault = os.environ["SYS_VAULT"]
-        cont_vault = os.environ["VAULT"]
-        sys_path = self.path.replace(cont_vault, sys_vault)
-        pyperclip.copy(sys_path)
-
-    def open_link(self):
-        os.system(f'xdg-open  "{self.path}"')
-
-
-class Github:
-    def __init__(self, username):
-        self.user_name = username
-        self.gists = []
-        self.get_all_gists()
-
-    def get_all_gists(self):
-        url = f"https://api.github.com/users/{self.user_name}/gists"
-        response = requests.get(url, headers=headers)
-        raw_gists = response.json()
-
-        print("Fetching Gists...")
-        for raw_gist in tqdm.tqdm(raw_gists, total=len(raw_gists)):
-            self.gists.append(Gist.from_raw(raw_gist))
-
-
-class Gist:
-    def __init__(self, id, description, files):
-        self.id = id
-        self.description = description
-        self.files = files
-        self.embedding = None
-
-    def __repr__(self):
-        if self.description.startswith("@"):
-            return "📖" + self.description.split(";", 1)[-1]
-        else:
-            return self.description
-
-    # Using a class method to create a new Gist instance from raw data
-    @classmethod
-    def from_raw(cls, raw_dict):
-        description = (
-            raw_dict["description"]
-            if raw_dict["description"] != ""
-            else list(raw_dict["files"].keys())[0]
-        )
-        files = list(raw_dict["files"].keys())
-        id = raw_dict["id"]
-        return cls(id, description, files)
-
-    @classmethod
-    def from_id(cls, id):
-        url = f"https://api.github.com/gists/{id}"
-        response = requests.get(url, headers=headers)
-        raw_gist = response.json()
-        return cls.from_raw(raw_gist)
-
-    @classmethod
-    def from_secret(cls, secret: Secret):
-        url = f"https://api.github.com/gists"
-
-        body = {
-            "description": secret.description,
-            "public": False,
-            "files": {"placeholder": {"content": "placeholder"}},
-        }
-        response = requests.post(url, headers=headers, json=body)
-        raw_gist = response.json()
-        git_url = raw_gist["git_push_url"]
-
-        os.system(
-            f"""
-        cd "{secret.path}"
-        git init -b main
-        git remote add origin {git_url}
-        git add .
-        git commit -m "initial commit"
-        git push -u origin main --force
-        """
-        )
-
-        return cls.from_id(raw_gist["id"])
-
-    @classmethod
-    def create_from_description(cls, description):
-        raw_gist = requests.post(
-            "https://api.github.com/gists",
-            json={
-                "description": description,
-                "public": False,
-                "files": {"notes.md": {"content": f"#{description}"}},
-            },
-            headers=headers,
-        ).json()
-        return cls.from_raw(raw_gist)
-
-    def make_new_comment(self, new_comments_content):
-        requests.post(
-            f"https://api.github.com/gists/{self.id}/comments",
-            json={"body": new_comments_content},
-            headers=headers,
-        )
-        print("Comment Saved")
-
-    def update_gist_desc(self, new_description):
-        r = requests.patch(
-            f"https://api.github.com/gists/{self.id}",
-            json={"description": new_description},
-            headers=headers,
-        )
-        print("Description Updated")
-
-    def get_comments(self):
-        raw_comments = requests.get(
-            f"https://api.github.com/gists/{self.id}/comments", headers=headers
-        ).json()
-        comments = [
-            {
-                "user": x["user"]["login"],
-                "comment": x["body"],
-                "created": x["created_at"],
-            }
-            for x in raw_comments
-        ]
-        out_string = ""
-        for comment in comments:
-            comment_string = f""" **>> {comment['user']} @ {comment['created']}**\n ---------------------------------------------\n{comment['comment']}\n"""
-            out_string += comment_string
-
-        out_string += "\n ---------------------------------------------\n"
-        return out_string
-
-    def edit(self):
-        os.system(f""" find /gist -mindepth 1 -delete > /dev/null 2>&1; """)
-        comments = self.get_comments()
-        os.system(f" gh gist clone {self.id} /gist > /dev/null 2>&1;")
-        with open("/gist/.comments.md", "w") as f:
-            f.write(comments)
-        with open("/gist/.description.txt", "w") as f:
-            f.write(self.description)
-
-        os.system(f"vim")
-
-        new_comments_content = (
-            open("/gist/.comments.md", "r")
-            .read()
-            .split("---------------------------------------------")[-1]
-            .lstrip()
-        )
-        if new_comments_content != "":
-            self.make_new_comment(new_comments_content)
-
-        new_description = open("/gist/.description.txt", "r").read().rstrip().lstrip()
-        if new_description != self.description:
-            self.update_gist_desc(new_description)
-            self.description = new_description
-
-        os.remove("/gist/.comments.md")
-        os.remove("/gist/.description.txt")
-        _ = os.system(
-            f"""
-            git add . > /dev/null 2>&1;
-            git commit -m "update" > /dev/null 2>&1;
-            git push > /dev/null 2>&1;
-            """
-        )
-
-    def open(self):
-        os.system(f""" find /gist -mindepth 1 -delete > /dev/null 2>&1; """)
-        os.system(f" gh gist clone {self.id} /gist > /dev/null 2>&1;")
-        for file in os.listdir("/gist"):
-            if not file.startswith("."):
-                full_path = "/gist/" + file
-                os.system(f'xdg-open  "{full_path}"')
-
-    def update_embedding(self):
-        raw_embeddings = model.encode(
-            [self.description], convert_to_tensor=True, show_progress_bar=False
-        )
-        self.embedding = raw_embeddings[0].detach().numpy()
-
-    def delete(self):
-        requests.delete(f"https://api.github.com/gists/{self.id}", headers=headers)
-
-    def copy_link(self):
-        if self.description.startswith("@"):
-            key = self.description.split(";", 1)[0]
-            pyperclip.copy(key)
-        else:
-            path = f"https://gist.github.com/Fonzzy1/{self.id}"
-            pyperclip.copy(path)
-
-    def open_link(self):
-        os.system(f'xdg-open  "https://gist.github.com/Fonzzy1/{self.id}"')
 
 
 class EmbeddingFinder:
     def __init__(self, data: list):
         self.data = data
+        print(data)
         print("Loading Model...")
 
     def find(self, query):
@@ -314,19 +92,19 @@ class EmbeddingFinder:
 
 
 def bulk_set_embedding(ls):
-    texts = [x.description for x in ls]
+    texts = [x.embedable_string for x in ls]
     print("Preparing data...")
     raw_embeddings = model.encode(texts, convert_to_tensor=True, show_progress_bar=True)
     for i, _ in enumerate(ls):
         ls[i].embedding = raw_embeddings[i].detach().numpy()
 
 
-def run_gist_notes(username):
+def run_gist_notes():
 
-    hub = Github(username)
-    safe = Vault()
+    wiki = Wiki()
+    print(wiki.notes)
 
-    bulk_set_embedding(hub.gists + safe.secrets)
+    bulk_set_embedding(wiki.notes)
 
     try:
         while True:
@@ -336,14 +114,13 @@ def run_gist_notes(username):
             ).execute()
 
             while True:
-                finder = EmbeddingFinder(hub.gists + safe.secrets)
+                finder = EmbeddingFinder(wiki.notes)
 
                 items = finder.find(query)
 
                 choices = [x for x in items] + [
                     "? (Return to search)",
-                    "+G (Make New Gist)",
-                    "+S (Make New Secret)",
+                    "+ (New)",
                 ]
 
                 question = inquirer.fuzzy(message="Select a gist:", choices=choices)
@@ -352,12 +129,9 @@ def run_gist_notes(username):
 
                 if result == "? (Return to search)" or result is None:
                     break
-                elif result == "+G (Make New Gist)":
-                    obj = Gist.create_from_description(query)
-                    hub.gists.append(obj)
-                elif result == "+S (Make New Secret)":
-                    obj = Secret.create_from_description(query)
-                    safe.secrets.append(obj)
+                elif result == "+ (New)":
+                    obj = Note.create_from_name(query)
+                    wiki.notes.append(obj)
 
                 else:
                     obj = result
@@ -365,13 +139,11 @@ def run_gist_notes(username):
                 action_query = inquirer.fuzzy(
                     message=f"What would you like to do with {obj}?",
                     choices=[
-                        "Edit",
                         "Open",
                         "Delete",
-                        "Make Public",
-                        "Make Private",
-                        "Copy Link",
-                        "Open Link",
+                        "Knit to Clipboard",
+                        "Knit to Open",
+                        "Knit to Gist",
                     ],
                 )
                 action = action_query.execute()
@@ -417,4 +189,4 @@ def run_gist_notes(username):
 
 
 if __name__ == "__main__":
-    run_gist_notes("fonzzy1")
+    run_gist_notes()
