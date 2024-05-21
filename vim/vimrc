@@ -13,3 +13,4 @@ source  ~/.vim/config/terminal.vim
 source  ~/.vim/config/vim.vim
 source  ~/.vim/config/windows.vim
 source  ~/.vim/config/display.vim
+source ~/.vim/config/wiki.vim
