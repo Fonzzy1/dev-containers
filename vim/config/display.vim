@@ -54,6 +54,7 @@ augroup END
 " Color stuff
 let g:indentLine_setColors = 1
 let g:indentLine_char = '▏'
+let g:indentLine_setConceal = 0
 set t_Co=256
 set termguicolors
 silent! colorscheme catppuccin_macchiato
