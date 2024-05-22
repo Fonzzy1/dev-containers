@@ -2,20 +2,16 @@ let wiki_1 = {}
 let wiki_1.path = '/wiki/'
 let wiki_1.syntax = 'markdown'
 let wiki_1.ext = '.rmd'
+let wiki_1.diary_rel_path = ''
 
 let g:vimwiki_list = [wiki_1]
-let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown', '.rmd':'markdown'}
+let g:vimwiki_ext2syntax = {'md':'markdown','rmd':'markdown'}
 
 
-au BufNewFile /wiki/*.md :silent 0r !/scripts/note_default.py '%'
-au FileType vimwiki setlocal syntax=rmarkdown
+au BufNewFile /wiki/*.rmd :silent 0r !/scripts/note_default.py '%'
+au FileType vimwiki :set syntax=rmarkdown | call RmdLinkSyntax()
 
-function! MyRmdHighlight()
-    syntax region myRegion matchgroup=myDelimiter start="\[\[" end="\]\]" concealends
-    highlight myRegion guifg=LightMagenta
-endfunction
-
-autocmd FileType vimwiki call MyRmdHighlight()
+let g:vimwiki_global_ext = 0
 
 function! MyCustomVimwikiLinkHandler(link) 
   if a:link =~ '^file:'
@@ -36,6 +32,9 @@ function LeftBarToCalendar()
     :Calendar
 endfunction
 
-let g:calendar_diary='/wiki/diary'
+let g:calendar_diary='/wiki'
 nnoremap c :call LeftBarToCalendar() <CR>
 nnoremap F :call LeftBarToNerdFind() <CR>
+
+
+
