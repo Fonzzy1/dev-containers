@@ -74,7 +74,7 @@ date = datetime.date.today().strftime("%d %B, %Y")
 print(template.format(name=name, date=date))
 
 
-if re.match(r"\d{4}-\d{2}-\d{2}.rmd", args.file):
+if re.match(r"\/wiki\/\d{4}-\d{2}-\d{2}.rmd", args.file):
     file_date = datetime.datetime.strptime(name, "%Y-%m-%d") + datetime.timedelta(
         days=-1
     )
