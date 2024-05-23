@@ -16,39 +16,21 @@ au FileType rmarkdown :call RmdLinkSyntax()
 
 
 function! Knit()
-  let current_file = expand('%:p')
-
-  " Prepare the R command to knit the file
-  let r_cmd = "'require(rmarkdown); rmarkdown::render(\"' . current_file . '\")'"
-
-  " Run the R command
-  execute '!R -e ' . r_cmd
+  silent !/scripts/knit.R --args '%' | redraw! | echo
 endfunction
 
 
 function KnitToClip()
-
-
+    call Knit()
+    let knit_path = expand("%:p:h") . "/knits/" . expand("%:t:r") . ".pdf"
+    execute "silent !xclip -sel clip -t application/pdf -i " . knit_path
 endfunction
 
 
 function KnitToOpen()
     call Knit()
-
-
-
+    let knit_path = expand("%:p:h") . "/knits/" . expand("%:t:r") . ".pdf"
+    execute "silent !xdg-open " . knit_path
 endfunction
-
-
-function KnitToGist()
-
-
-
-
-endfunction
-
-
-
-
 
 

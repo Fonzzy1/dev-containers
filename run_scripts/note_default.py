@@ -58,8 +58,6 @@ template = """---
 title: {name}
 author: Alfie Chadwick
 date: "Created: {date} | Knit: `r format(Sys.time(), '%d %B, %Y')`"
-output: pdf_document
-description:
 ---
 
 """

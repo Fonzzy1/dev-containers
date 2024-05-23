@@ -54,7 +54,7 @@ export EDITOR=vim;
 export VISUAL=vim;
 # Function to render R Markdown file
 function knit() {
-    R -e "rmarkdown::render('$1')"
+    R -e "rmarkdown::render('$1', output_dir = 'knits')"
 }
 
 export -f knit

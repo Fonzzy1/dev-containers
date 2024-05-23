@@ -113,6 +113,10 @@ RUN mkdir -p /root/.config/coc/extensions && \
 #Copy in the dotfiles
 COPY dotfiles /root
 
+#Copy in the dotfiles
+COPY dotfiles/.bashrc /root/.bash_profile
+
+
 #Copy in the scripts
 COPY run_scripts /scripts
 
