@@ -34,8 +34,6 @@ function! LeftBarToQF()
   call LeftBarToggle()
   copen
   " Hide unneeded data
-  setlocal conceallevel=2
-  syntax match qfConcealedText /^[^|]*|[^|]*| / transparent conceal
 endfunction
 
 function! FindStringAndAddToQFList(string)

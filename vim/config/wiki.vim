@@ -8,7 +8,12 @@ let g:vimwiki_list = [wiki_1]
 let g:vimwiki_ext2syntax = {'md':'markdown','rmd':'markdown'}
 
 
-au BufNewFile /wiki/*.rmd :silent 0r !/scripts/note_default.py '%'
+function! NoteDefault()
+    :silent 0r !/scripts/note_default.py '%'
+    normal! gg
+endfunction
+
+autocmd BufNewFile /wiki/*.rmd :call NoteDefault()
 au FileType vimwiki :set syntax=rmarkdown | call RmdLinkSyntax()
 
 let g:vimwiki_global_ext = 0
