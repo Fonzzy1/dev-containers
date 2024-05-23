@@ -14,32 +14,35 @@ class FileParser:
 
     def parse(self):
         # Matches ## Today, ## This Week, ## This Month, ## Unplanned groups and # Upcoming Events
-        todo_pattern = "[ \t]*- \[\.\s?o?O?\s?\] .+"
+        todo_pattern = "[ \t]*- \[\s*\.?\s*(o?O?)\s*\] .+"
         # Finding all matches
-        self.todos = re.findall(todo_pattern, self.content, re.MULTILINE)
+        self.todos = [x for x in self.content.split("\n") if re.match(todo_pattern, x)]
 
-        event_pattern = "\S+@\S+"
-        self.events = re.findall(event_pattern, self.content, re.MULTILINE)
+        event_pattern = "(.*)( @ )(\d{4}-\d{2}-\d{2})(.*)"
+        self.events = [
+            x for x in self.content.split("\n") if re.match(event_pattern, x)
+        ]
 
     def print(self):
         print(
             """
 
-| Time | AM                 | PM                |                                                                       
-|------|--------------------|-------------------|                                                                       
-| 1    | Sleep              | Lunch             |                                                                       
-| 2    | Sleep              |                   |                          
-| 3    | Sleep              |                   |                          
-| 4    | Sleep              |                   |                          
-| 5    | Sleep              |                   |                          
-| 6    | Sleep              |                   |                                                                               
+| Time | AM                 | PM                |
+|------|--------------------|-------------------|
+| 1    | Sleep              | Lunch             |
+| 2    | Sleep              |                   |
+| 3    | Sleep              |                   |
+| 4    | Sleep              |                   |
+| 5    | Sleep              |                   |
+| 6    | Sleep              |                   |
 | 7    | Wakeup + Breakfast |                   |
 | 8    |                    |                   |
 | 9    |                    |                   |
 | 10   |                    |                   |
 | 11   |                    |                   |
 | 12   |                    |                   |
-            """
+
+"""
         )
         print("# Upcoming Events\n")
         for event in self.events:
@@ -73,16 +76,15 @@ date = datetime.date.today().strftime("%d %B, %Y")
 
 print(template.format(name=name, date=date))
 
-print(args.file)
-
-
 if re.match(r"\/wiki\/\d{4}-\d{2}-\d{2}.rmd", args.file):
     file_date = datetime.datetime.strptime(name, "%Y-%m-%d") + datetime.timedelta(
         days=-1
     )
+    print(file_date)
 
     while True:
         running_name = f'/wiki/{file_date.strftime("%Y-%m-%d")}.rmd'
+        print(running_name)
         if os.path.isfile(running_name):
             break
         else:

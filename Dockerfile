@@ -119,7 +119,4 @@ COPY run_scripts /scripts
 # Overwrite defaule xsg-open call
 COPY run_scripts/open.py /usr/bin/xdg-open   
 
-# Download LM 
-RUN  /scripts/download_model.py
-
 CMD vim

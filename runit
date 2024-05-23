@@ -88,12 +88,12 @@ def run_vim(
     os.chdir(current_dir)
 
 
-def run_gist_notes(args):
+def run_notes(args):
     run_vim(
         env_location,
         mount_dir=temp_dir,
         mount_dir_name="wiki",
-        command="/scripts/gistnotes.py; vim;",
+        command="gh repo clone wiki /wiki; vim;",
         check_changes=True,
         clean_mount_dir=True,
     )
