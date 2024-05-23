@@ -47,11 +47,11 @@ class FileParser:
         print("# Upcoming Events\n")
         for event in self.events:
             print(event)
-            print("")
+        print("")
         print("# To Do\n")
         for todo in self.todos:
             print(todo)
-            print("")
+        print("")
 
 
 template = """---

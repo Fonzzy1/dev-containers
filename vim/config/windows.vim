@@ -35,7 +35,7 @@ function! MoveRight()
     execute " vertical wincmd = "
 endfunction
 
-autocmd BufRead,BufNewFile * call MoveRight()
+autocmd FileType * call MoveRight()
 
 " Easier Nav of buffers
 nnoremap bv :vnew<CR>:wincmd L<CR>
