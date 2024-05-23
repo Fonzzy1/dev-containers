@@ -205,7 +205,7 @@ if __name__ == "__main__":
     gistnote_parser = subparsers.add_parser(
         "notes", help="Open GistNotes Browsing Tool"
     )
-    gistnote_parser.set_defaults(func=run_gist_notes)
+    gistnote_parser.set_defaults(func=run_notes)
 
     setup_parser = subparsers.add_parser(
         "setup", help="Setup the mounting and filestructure"
