@@ -2,7 +2,7 @@ let wiki_1 = {}
 let wiki_1.path = '/wiki/'
 let wiki_1.syntax = 'markdown'
 let wiki_1.ext = '.rmd'
-let wiki_1.diary_rel_path = ''
+let wiki_1.diary_rel_path = '.'
 
 let g:vimwiki_list = [wiki_1]
 let g:vimwiki_ext2syntax = {'md':'markdown','rmd':'markdown'}
