@@ -36,3 +36,4 @@ let g:tagbar_type_rmarkdown = {
       \ 'ctagsbin': '/usr/local/bin/ctags'
       \ }
 
+let g:tagbar_type_vimwiki = g:tagbar_type_rmarkdown
