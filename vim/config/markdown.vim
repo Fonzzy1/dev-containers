@@ -14,23 +14,7 @@ endfunction
 
 au FileType rmarkdown :call RmdLinkSyntax()
 
-
-function! Knit()
-  silent !/scripts/knit.R --args '%' | redraw! | echo
-endfunction
-
-
-function KnitToClip()
-    call Knit()
-    let knit_path = expand("%:p:h") . "/knits/" . expand("%:t:r") . ".pdf"
-    execute "silent !xclip -sel clip -t application/pdf -i " . knit_path
-endfunction
-
-
-function KnitToOpen()
-    call Knit()
-    let knit_path = expand("%:p:h") . "/knits/" . expand("%:t:r") . ".pdf"
-    execute "silent !xdg-open " . knit_path
-endfunction
+let g:markdown_fenced_languages = ['bash=sh']
+let g:pandoc#syntax#codeblocks#embeds#langs = ["bash=sh"]
 
 
