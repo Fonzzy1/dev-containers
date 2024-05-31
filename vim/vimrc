@@ -1,11 +1,12 @@
 set nocompatible
+source  ~/.vim/config/plugins.vim
 source  ~/.vim/config/AI.vim
-source  ~/.vim/config/coc.vim
+source  ~/.vim/config/lsp.vim
+source  ~/.vim/config/autocomplete.vim
 source  ~/.vim/config/gh.vim
 source  ~/.vim/config/git.vim
 source  ~/.vim/config/markdown.vim
 source  ~/.vim/config/nerdtree.vim
-source  ~/.vim/config/plugins.vim
 source  ~/.vim/config/R.vim
 source  ~/.vim/config/quickfix.vim
 source  ~/.vim/config/tags.vim

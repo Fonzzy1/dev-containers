@@ -1,6 +1,7 @@
 " Make Vim open by default with NERDTree in full screen
-let g:NERDTreeGitStatusUseNerdFonts = 0 " you should install nerdfonts by yourself. default: 0
+let g:NERDTreeGitStatusUseNerdFonts = 1 " you should install nerdfonts by yourself. default: 0
 let g:NERDTreeGitStatusShowIgnored = 1 " a heavy feature may cost much more time. default: 0
+let g:NERDTreeGitStatusUseNerdFonts = 1
 
 function! Set_nerdtree_open_args()
   let empty_buffer =  line('$') == 1 && getline(1) == '' && !&modified

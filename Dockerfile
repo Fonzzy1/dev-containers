@@ -4,7 +4,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Australia/Melbourne
 # Enviroment Installs 
 RUN apt-get update && apt-get install -y \
-   curl git python3 python3-pip apt-transport-https \
+   curl git python3 python3-pip apt-transport-https python3.10-venv\
    ca-certificates software-properties-common  libpq-dev \
    build-essential autoconf automake libtool jq
 
@@ -21,8 +21,8 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | d
 && apt install gh -y
 
 # git
-run git config --global user.name "Fonzzy1"
-run git config --global user.email "alfiechadwick@hotmail.com"
+RUN git config --global user.name "Fonzzy1"
+RUN git config --global user.email "alfiechadwick@hotmail.com"
 
 # Set the base work dir
 WORKDIR /src
@@ -93,22 +93,10 @@ RUN R -e  "blogdown::install_hugo()"
 RUN R -e  "install.packages('readxl',  Ncpus = 6)"
 RUN R -e  "install.packages('knitr',  Ncpus = 6)"
 RUN R -e  "install.packages('tinytex',  Ncpus = 6)"
-RUN R -e  "install.packages('languageserver',  Ncpus = 6)"
 
 # Bring in the vim config
 COPY vim /root/.vim
 RUN vim +PlugInstall +qall
-# Install COC plugins
-RUN mkdir -p /root/.config/coc/extensions && \
-    echo '{"dependencies":{}}' > /root/.config/coc/extensions/package.json && \
-    grep 'let g:coc_global_extensions' /root/.vim/config/coc.vim | \
-    sed "s/.*\[//; s/\].*//; s/'//g; s/, /\n/g" | \
-    while read -r extension; do \
-        echo "Installing coc extension: $extension" && \
-        cd /root/.config/coc/extensions && \
-        npm install "$extension" --install-strategy=shallow --save; \
-    done
-
 
 #Copy in the dotfiles
 COPY dotfiles /root
