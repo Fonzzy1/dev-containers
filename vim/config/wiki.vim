@@ -15,7 +15,8 @@ endfunction
 
 autocmd BufNewFile /wiki/*.rmd :call NoteDefault()
 au FileType vimwiki :set syntax=rmarkdown | call RmdLinkSyntax() 
-au FileType vimwiki inoremap <Ctrl-t> <C-R>=printf('[%s](%s)', strftime('%Y-%m-%d'), strftime('%Y-%m-%d'))<CR>
+au FileType vimwiki inoremap <C-t> <C-R>=printf('[%s](%s)', strftime('%Y-%m-%d'), strftime('%Y-%m-%d'))<CR>
+
 
 let g:vimwiki_global_ext = 0
 
