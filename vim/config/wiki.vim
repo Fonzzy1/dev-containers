@@ -14,9 +14,8 @@ function! NoteDefault()
 endfunction
 
 autocmd BufNewFile /wiki/*.rmd :call NoteDefault()
-au FileType vimwiki :set syntax=rmarkdown | call RmdLinkSyntax() | setlocal foldexpr=MarkdownLevel() | setlocal foldmethod=expr
-
-
+au FileType vimwiki :set syntax=rmarkdown | call RmdLinkSyntax() 
+au FileType vimwiki inoremap <Ctrl-t> <C-R>=printf('[%s](%s)', strftime('%Y-%m-%d'), strftime('%Y-%m-%d'))<CR>
 
 let g:vimwiki_global_ext = 0
 
@@ -46,16 +45,6 @@ function LeftBarToCalendar()
 endfunction
 
 let g:calendar_diary='/wiki'
+
 nnoremap c :call LeftBarToCalendar() <CR>
-nnoremap F :call LeftBarToNerdFind() <CR>
-
-
-function MarkdownLevel()
-    let h = matchstr(getline(v:lnum), '^#\+')     
-    if empty(h)       
-        return "="     
-        else       
-            return ">" . len(h)     
-        endif
-endfunction
 
