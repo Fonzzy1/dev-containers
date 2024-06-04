@@ -8,6 +8,19 @@ let wiki_1.diary_rel_path = '.'
 let g:vimwiki_list = [wiki_1]
 let g:vimwiki_ext2syntax = {'md':'markdown','rmd':'markdown'}
 
+  let g:vimwiki_key_mappings =
+    \ {
+    \   'all_maps': 1,
+    \   'global': 1,
+    \   'headers': 0,
+    \   'text_objs': 1,
+    \   'table_format': 1,
+    \   'table_mappings': 0,
+    \   'lists': 1,
+    \   'links': 1,
+    \   'html': 1,
+    \   'mouse': 0,
+    \ }
 
 
 
@@ -17,7 +30,8 @@ function! NoteDefault()
 endfunction
 
 autocmd BufNewFile /wiki/*.rmd :call NoteDefault()
-au FileType vimwiki :set syntax=rmarkdown | call RmdLinkSyntax() 
+
+au FileType vimwiki :setlocal syntax=rmarkdown | call RmdLinkSyntax() 
 au FileType vimwiki inoremap <C-t> <C-R>=printf('[%s](%s)', strftime('%Y-%m-%d'), strftime('%Y-%m-%d'))<CR>
 
 
