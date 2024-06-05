@@ -1,23 +1,27 @@
 let g:lsp_diagnostics_virtual_text_enabled = 0
-let g:lsp_diagnostics_signs_enabled = 0
+let g:lsp_diagnostics_signs_enabled = 1
 let g:lsp_diagnostics_highlights_enabled = 1
 let g:lsp_preview_float = 1
 let g:lsp_completion_documentation_delay = 0
 let g:lsp_diagnostics_highlight_delay = 0
 let g:lsp_diagnostics_float_cursor = 1
 let g:lsp_hover_ui = 'float'
+let g:lsp_fold_enabled = 0
 
-function! Install_Lsp()
-    :set ft=python | execute "LspInstallServer!"
-    :set ft=r | execute "LspInstallServer!"
-    :set ft=json | execute "LspInstallServer!"
-    :set ft=docker | execute "LspInstallServer!"
-    :set ft=yaml | execute "LspInstallServer!"
-endfunction
+
+let g:lsp_diagnostics_signs_hint = {'text': '➤'}
+let g:lsp_diagnostics_signs_information = {'text': 'ℹ'}
+let g:lsp_diagnostics_signs_warning = {'text': '⚠'}
+let g:lsp_diagnostics_signs_error = {'text': '✗'}
+
 
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
-    setlocal signcolumn=yes
+
+    set foldmethod=expr
+      \ foldexpr=lsp#ui#vim#folding#foldexpr()
+      \ foldtext=lsp#ui#vim#folding#foldtext()
+
     if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
     nmap <buffer> gd <plug>(lsp-definition)
     nmap <buffer> gs <plug>(lsp-document-symbol-search)
@@ -32,6 +36,8 @@ function! s:on_lsp_buffer_enabled() abort
     nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
     nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
 
+    let g:lsp_format_sync_timeout = 1000
+    autocmd! BufWritePre * call execute('LspDocumentFormatSync') 
 
     hi clear LspErrorHighlight
     hi clear LspWarningHighlight

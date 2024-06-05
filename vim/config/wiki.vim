@@ -1,7 +1,7 @@
 let wiki_1 = {}
 let wiki_1.path = '/wiki/'
 let wiki_1.syntax = 'markdown'
-let wiki_1.auto_tags = 1
+let wiki_1.auto_tags = 0
 let wiki_1.ext = '.rmd'
 let wiki_1.diary_rel_path = '.'
 
@@ -53,7 +53,6 @@ endfunction
 
 let g:vimwiki_custom_wikilink_follow = 'MyCustomVimwikiLinkHandler'
 
-let g:vimwiki_link_mappings = 1
 
 function LeftBarToCalendar()
     call LeftBarToggle()

@@ -68,8 +68,7 @@ RUN apt-get update && apt-get install nodejs -y;
 
 
 # Install the python packages
-RUN pip3 install torch  --index-url https://download.pytorch.org/whl/cpu
-RUN pip install black pipreqs pgcli awscli socli sentence_transformers InquirerPy pyperclip
+RUN pip install pipreqs pgcli awscli
 
 # Install npm packages
 RUN npm install --save-dev --global prettier
@@ -94,6 +93,35 @@ RUN R -e  "install.packages('readxl',  Ncpus = 6)"
 RUN R -e  "install.packages('knitr',  Ncpus = 6)"
 RUN R -e  "install.packages('tinytex',  Ncpus = 6)"
 
+
+# Install all the Language Servers
+
+#Vimscript
+RUN npm install -g vim-language-server
+#Docker File
+RUN npm install -g dockerfile-language-server-nodejs
+# Json
+RUN npm install -g vscode-json-languageserver
+# Markdown
+RUN npm install -g markmark 
+RUN curl -L -o /bin/marksman "https://github.com/artempyanykh/marksman/releases/latest/download/marksman-linux-x64" && chmod +x /bin/marksman
+# Nginx
+RUN pip install -U nginx-language-server
+# Python
+RUN pip install pyright python-lsp-server "python-lsp-server[all]" jedi-language-server pylyzer
+# R
+RUN R -e  "install.packages('languageserver',  Ncpus = 6)"
+# SQL
+RUN npm install -g sql-language-server
+# Typescript
+RUN npm install -g typescript-language-server typescript
+# YAML
+RUN npm i -g yaml-language-server
+# JS 
+RUN npm i -g quick-lint-js
+
+
+
 # Bring in the vim config
 COPY vim /root/.vim
 RUN vim +PlugInstall +qall
@@ -103,7 +131,6 @@ COPY dotfiles /root
 
 #Copy in the dotfiles
 COPY dotfiles/.bashrc /root/.bash_profile
-
 
 #Copy in the scripts
 COPY run_scripts /scripts
