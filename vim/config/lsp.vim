@@ -9,6 +9,15 @@ let g:lsp_hover_ui = 'float'
 let g:lsp_fold_enabled = 0
 
 
+let g:lsp_log_verbose = 1
+let g:lsp_log_file = expand('~/vim-lsp.log')
+
+" for asyncomplete.vim log
+let g:asyncomplete_log_file = expand('~/asyncomplete.log')
+
+
+
+
 let g:lsp_diagnostics_signs_hint = {'text': '➤'}
 let g:lsp_diagnostics_signs_information = {'text': 'ℹ'}
 let g:lsp_diagnostics_signs_warning = {'text': '⚠'}
@@ -59,7 +68,28 @@ augroup END
 
 
 au User lsp_setup call lsp#register_server({
-\ 'name': 'r',
+\ 'name': 'r-languageserver',
 \ 'cmd': {server_info->['/scripts/r-languageserver']},
 \ 'allowlist': ['r']
 \ })
+
+au User lsp_setup call lsp#register_server({
+            \ 'name': 'Ltex-ls',
+            \ 'cmd': ['/usr/bin/ltex-ls/bin/ltex-ls', '--log-file=/root/ltex_log', '--endless'],
+            \ 'allowlist': ['rmarkdown','vimwiki','text'],
+            \ 'workspace_config': {
+                \ 'ltex': {
+                    \ 'completionEnabled' : v:true,
+                    \ 'disabledRules': {"en-AU": ["WHITESPACE_RULE"]},
+                    \ 'language': 'en-AU',
+                    \ "diagnosticSeverity":{
+                       \ "MORFOLOGIK_RULE_EN_AU" : 'error',
+                       \ "default": "hints"
+                       \ }
+                    \ }
+                \ }
+            \ })
+
+
+
+

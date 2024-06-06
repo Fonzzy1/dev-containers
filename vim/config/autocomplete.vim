@@ -3,7 +3,8 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 let g:asyncomplete_remove_duplicates = 1
 let g:asyncomplete_smart_completion = 1
-let g:asyncomplete_matchfuzzy    = 1
+let g:asyncomplete_matchfuzzy  = 1
+let g:asyncomplete_popup_delay = 500
 
 
 function! s:link_completor(opt, ctx) abort

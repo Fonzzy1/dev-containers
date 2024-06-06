@@ -4,9 +4,9 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Australia/Melbourne
 # Enviroment Installs 
 RUN apt-get update && apt-get install -y \
-   curl git python3 python3-pip apt-transport-https python3.10-venv\
-   ca-certificates software-properties-common  libpq-dev \
-   build-essential autoconf automake libtool jq
+    curl git python3 python3-pip apt-transport-https python3.10-venv\
+    ca-certificates software-properties-common  libpq-dev \
+    build-essential autoconf automake libtool jq
 
 #Install Docker 
 RUN curl -fsSL https://get.docker.com -o install-docker.sh 
@@ -15,10 +15,10 @@ RUN sh install-docker.sh
 
 # Install GH CLI
 RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
-&& chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
-&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
-&& apt update \
-&& apt install gh -y
+    && chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+    && apt update \
+    && apt install gh -y
 
 # git
 RUN git config --global user.name "Fonzzy1"
@@ -68,7 +68,7 @@ RUN apt-get update && apt-get install nodejs -y;
 
 
 # Install the python packages
-RUN pip install pipreqs pgcli awscli
+RUN pip install pipreqs pgcli awscli ipython ipykernel
 
 # Install npm packages
 RUN npm install --save-dev --global prettier
@@ -119,8 +119,14 @@ RUN npm install -g typescript-language-server typescript
 RUN npm i -g yaml-language-server
 # JS 
 RUN npm i -g quick-lint-js
+# English
+RUN curl -L https://github.com/valentjn/ltex-ls/releases/download/15.0.0/ltex-ls-15.0.0-linux-x64.tar.gz | tar xz --strip-components=1 
+RUN mv ltex-ls-15.0.0 /usr/bin/ltex-ls
 
-
+# Quarto
+RUN apt-get -y install gdebi-core
+RUN curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb
+RUN gdebi --non-interactive quarto-linux-amd64.deb
 
 # Bring in the vim config
 COPY vim /root/.vim
