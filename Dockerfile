@@ -2,6 +2,7 @@ FROM ubuntu:22.04 as vim
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Australia/Melbourne
+ENV TERM="tmux-256color"
 # Enviroment Installs 
 RUN apt-get update && apt-get install -y \
     curl git python3 python3-pip apt-transport-https python3.10-venv\
