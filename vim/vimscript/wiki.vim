@@ -29,7 +29,7 @@ function! NoteDefault()
     normal! gg
 endfunction
 
-autocmd BufNewFile /wiki/*.rmd :call NoteDefault()
+autocmd BufNewFile /wiki/*.qmd :call NoteDefault()
 
 au FileType vimwiki :setlocal syntax=quarto | call LinkSyntax() 
 au FileType vimwiki inoremap <C-t> <C-R>=printf('[%s](%s)', strftime('%Y-%m-%d'), strftime('%Y-%m-%d'))<CR>
