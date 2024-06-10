@@ -1,6 +1,5 @@
 let g:model = 'gpt-4-0613'
 let g:instruct_model = 'gpt-3.5-turbo-0125'
-
 "config for chat
 let g:vim_ai_chat = {
             \  "ui": {

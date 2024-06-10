@@ -6,7 +6,7 @@ if v:shell_error == 0
 
 
 	let g:lightline = {
-          \ 'colorscheme': 'catppuccin_macchiato',
+          \ 'colorscheme': 'catppuccin',
 	      \ 'active': {
 	      \   'left': [ [ 'mode', 'paste' ],
 	      \             [ 'gitbranch', 'gitstatus', 'readonly', 'filename', 'modified' ] ]
@@ -25,7 +25,7 @@ if v:shell_error == 0
 
 else
 	let g:lightline = {
-                \ 'colorscheme': 'catppuccin_macchiato',
+                \ 'colorscheme': 'catppuccin',
 	      \ 'active': {
 	      \   'left': [ [ 'mode', 'paste' ],
 	      \             ['readonly', 'filename', 'modified' ] ]
@@ -57,7 +57,7 @@ let g:indentLine_char = '▏'
 let g:indentLine_setConceal = 0
 set t_Co=256
 set termguicolors
-silent! colorscheme catppuccin_macchiato
+silent! colorscheme catppuccin-macchiato
 let g:rainbow_active = 1
 " Color for the terminal
 let g:terminal_ansi_colors = ["#45475A", "#F38BA8", "#A6E3A1", "#F9E2AF", "#89B4FA", "#F5C2E7", "#94E2D5", "#BAC2DE", "#585B70", "#F38BA8", "#A6E3A1", "#F9E2AF", "#89B4FA", "#F5C2E7", "#94E2D5", "#A6ADC8"]

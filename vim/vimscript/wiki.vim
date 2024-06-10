@@ -2,11 +2,11 @@ let wiki_1 = {}
 let wiki_1.path = '/wiki/'
 let wiki_1.syntax = 'markdown'
 let wiki_1.auto_tags = 0
-let wiki_1.ext = '.rmd'
+let wiki_1.ext = '.qmd'
 let wiki_1.diary_rel_path = '.'
 
 let g:vimwiki_list = [wiki_1]
-let g:vimwiki_ext2syntax = {'md':'markdown','rmd':'markdown'}
+let g:vimwiki_ext2syntax = {'md':'markdown','rmd':'markdown','qmd':'markdown'}
 
   let g:vimwiki_key_mappings =
     \ {
@@ -31,7 +31,7 @@ endfunction
 
 autocmd BufNewFile /wiki/*.rmd :call NoteDefault()
 
-au FileType vimwiki :setlocal syntax=rmarkdown | call RmdLinkSyntax() 
+au FileType vimwiki :setlocal syntax=quarto | call LinkSyntax() 
 au FileType vimwiki inoremap <C-t> <C-R>=printf('[%s](%s)', strftime('%Y-%m-%d'), strftime('%Y-%m-%d'))<CR>
 
 

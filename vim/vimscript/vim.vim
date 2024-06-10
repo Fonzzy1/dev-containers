@@ -21,3 +21,4 @@ set switchbuf=vsplit
 set backspace=indent,eol,start
 set clipboard=unnamedplus
 set encoding=utf-8
+let g:python3_host_prog = '/usr/bin/python3'

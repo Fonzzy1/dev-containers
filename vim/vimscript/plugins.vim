@@ -4,13 +4,12 @@ Plug 'jalvesaq/R-Vim-runtime'
 Plug 'madox2/vim-ai'
 Plug 'chrisbra/csv.vim' 
 Plug 'luochen1990/rainbow'
-Plug 'vim-pandoc/vim-rmarkdown'
+Plug 'quarto-dev/quarto-nvim'
 Plug 'vim-pandoc/vim-pandoc' 
 Plug 'vim-pandoc/vim-pandoc-syntax' 
 Plug 'jpalardy/vim-slime' 
-Plug 'catppuccin/vim', { 'as': 'catppuccin' }
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 Plug 'itchyny/lightline.vim' 
-Plug 'pantharshit00/vim-prisma'
 Plug 'preservim/nerdtree' 
 Plug 'tpope/vim-fugitive' 
 Plug 'airblade/vim-gitgutter' 
@@ -22,9 +21,9 @@ Plug 'Yggdroot/indentLine'
 Plug 'vimwiki/vimwiki'
 Plug 'ryanoasis/vim-nerdfont'
 Plug 'mattn/calendar-vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'prabirshrestha/async.vim'
+Plug 'jmbuhr/otter.nvim',
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/nvim-cmp',
+Plug 'neovim/nvim-lspconfig',
+Plug 'nvim-treesitter/nvim-treesitter'
 call plug#end()

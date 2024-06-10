@@ -103,7 +103,6 @@ RUN npm install -g dockerfile-language-server-nodejs
 # Json
 RUN npm install -g vscode-json-languageserver
 # Markdown
-RUN npm install -g markmark 
 RUN curl -L -o /bin/marksman "https://github.com/artempyanykh/marksman/releases/latest/download/marksman-linux-x64" && chmod +x /bin/marksman
 # Nginx
 RUN pip install -U nginx-language-server
@@ -120,17 +119,14 @@ RUN npm i -g yaml-language-server
 # JS 
 RUN npm i -g quick-lint-js
 # English
-RUN curl -L https://github.com/valentjn/ltex-ls/releases/download/15.0.0/ltex-ls-15.0.0-linux-x64.tar.gz | tar xz --strip-components=1 
-RUN mv ltex-ls-15.0.0 /usr/bin/ltex-ls
+RUN curl -L https://github.com/valentjn/ltex-ls/releases/download/16.0.0/ltex-ls-16.0.0-linux-x64.tar.gz | tar xz --strip-components=1 
+RUN mv ltex-ls-16.0.0 /usr/bin/ltex-ls
 
 # Quarto
 RUN apt-get -y install gdebi-core
 RUN curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb
 RUN gdebi --non-interactive quarto-linux-amd64.deb
 
-# Bring in the vim config
-COPY vim /root/.vim
-RUN vim +PlugInstall +qall
 
 #Copy in the dotfiles
 COPY dotfiles /root
@@ -144,4 +140,18 @@ COPY run_scripts /scripts
 # Overwrite defaule xsg-open call
 COPY run_scripts/open.py /usr/bin/xdg-open   
 
-CMD vim
+RUN pip3 install pynvim
+
+
+RUN add-apt-repository ppa:neovim-ppa/unstable && apt update && apt install -y neovim
+
+
+# Install Vimplug
+RUN sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+# Bring in the vim config
+COPY vim /root/.config/nvim/
+RUN nvim +PlugInstall +qall
+
+CMD nvim

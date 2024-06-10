@@ -20,11 +20,12 @@ def run_vim(
     env_location,
     mount_dir,
     mount_dir_name=None,
-    command="vim;",
+    command="nvim;",
     check_changes=True,
     clean_mount_dir=False,
 ):
-    current_dir = subprocess.run(["pwd"], capture_output=True, text=True).stdout.strip()
+    current_dir = subprocess.run(
+        ["pwd"], capture_output=True, text=True).stdout.strip()
     os.chdir(mount_dir)
 
     if mount_dir_name == None:
@@ -45,7 +46,7 @@ def run_vim(
             CHANGES=$(git status --porcelain); \
             UPSTREAM_CHANGES=$(git cherry -v); \
             if [ -n "$CHANGES" ] || [ -n "$UPSTREAM_CHANGES" ]; then \
-                vim -c \':G | only\'; \
+                nvim -c \':G | only\'; \
             fi'
 
     display = os.getenv("DISPLAY")
@@ -93,7 +94,7 @@ def run_notes(args):
         env_location,
         mount_dir=temp_dir,
         mount_dir_name="wiki",
-        command="gh repo clone wiki /wiki; vim;",
+        command="gh repo clone wiki /wiki; nvim;",
         check_changes=True,
         clean_mount_dir=True,
     )
@@ -109,13 +110,15 @@ def run_local(args):
     Returns:
         None
     """
-    current_dir = subprocess.run(["pwd"], capture_output=True, text=True).stdout.strip()
-    dir_name = current_dir.split("/")[-1]  # Get the name of the current directory
+    current_dir = subprocess.run(
+        ["pwd"], capture_output=True, text=True).stdout.strip()
+    # Get the name of the current directory
+    dir_name = current_dir.split("/")[-1]
     run_vim(
         env_location,
         mount_dir=current_dir,
         mount_dir_name=dir_name,
-        command="vim;",
+        command="nvim;",
         check_changes=False,
         clean_mount_dir=False,
     )
@@ -149,7 +152,7 @@ def run_gh(args):
         command += f"git checkout -b {args.checkout}; git push --set-upstream origin {args.checkout}; "
 
     # Update submodules if any
-    command += "git submodule update --init; ln -s /root/.env .env;vim;"
+    command += "git submodule update --init; ln -s /root/.env .env;nvim;"
 
     run_vim(
         env_location,
@@ -173,12 +176,13 @@ def run_build(args):
 
 
 def run_config(args):
-    dir_name = script_location.split("/")[-1]  # Get the name of the current directory
+    # Get the name of the current directory
+    dir_name = script_location.split("/")[-1]
     run_vim(
         env_location,
         mount_dir=script_location,
         mount_dir_name=dir_name,
-        command="vim; ",
+        command="nvim; ",
         check_changes=True,
         clean_mount_dir=False,
     )
@@ -193,14 +197,16 @@ if __name__ == "__main__":
     )
     local_parser.set_defaults(func=run_local)
 
-    gh_parser = subparsers.add_parser("gh", help="Run command for cloning a repo")
+    gh_parser = subparsers.add_parser(
+        "gh", help="Run command for cloning a repo")
     gh_parser.add_argument("repo", help="Specify the repository for cloning")
     gh_parser.set_defaults(func=run_gh)
     gh_parser.add_argument("-b", "--branch", help="The branch to checkout")
     gh_parser.add_argument(
         "-p", "--pullrequest", help="The pull request number to checkout"
     )
-    gh_parser.add_argument("-c", "--checkout", help="Checkout a new branch from main")
+    gh_parser.add_argument(
+        "-c", "--checkout", help="Checkout a new branch from main")
 
     gistnote_parser = subparsers.add_parser(
         "notes", help="Open GistNotes Browsing Tool"
@@ -210,7 +216,8 @@ if __name__ == "__main__":
     setup_parser = subparsers.add_parser(
         "setup", help="Setup the mounting and filestructure"
     )
-    setup_parser.add_argument("--init", help="Run the init flag", action="store_true")
+    setup_parser.add_argument(
+        "--init", help="Run the init flag", action="store_true")
     setup_parser.set_defaults(func=run_setup)
 
     build_parser = subparsers.add_parser(
@@ -218,7 +225,8 @@ if __name__ == "__main__":
     )
     build_parser.set_defaults(func=run_build)
 
-    config_parser = subparsers.add_parser("config", help="Edit the runit files inplace")
+    config_parser = subparsers.add_parser(
+        "config", help="Edit the runit files inplace")
     config_parser.set_defaults(func=run_config)
 
     args = parser.parse_args()
