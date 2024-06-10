@@ -1,33 +1,27 @@
 " Slime
-let g:slime_target = 'vimterminal'
+let g:slime_target = 'neovim'
+let g:slime_input_pid=1
+
+" Auto close the terminal
+autocmd TermClose * execute 'close!'
 " Shebang stuff
 autocmd VimEnter,BufEnter,FocusGained,WinEnter * let g:slime_vimterminal_cmd = getline(1) =~ '\v^#!\s*\zs.*' ? matchstr(getline(1), '\v^#!\s*\zs.*') : '/usr/bin/bash'
 
 " Terminal Things
 " function! for opening terminal
-function! OpenTerm()
-    "  Get command
-    let l:term_command = g:slime_vimterminal_cmd
-    
-    "Open Term in a new split 
-    call term_start(l:term_command,{'term_finish':'close', 'term_kill':'term'})
+fun! StartTerm()
+  execute 'terminal '. g:slime_vimterminal_cmd
+  setlocal nonumber
+  setlocal nornu
+  setlocal scl=no
+  let term_id = str2nr(b:terminal_job_id)
+  wincmd p
+  let b:slime_config = {"jobid": term_id }
+endfun
 
-    " Set the format
-    set ft=terminal
-    setlocal winfixheight
-    let l:term_buf_no = winbufnr(0)  
-    resize 24
+nnoremap t :split \| call StartTerm()<CR>
+nnoremap bt :vsplit \| call StartTerm()<CR>
+tnoremap <Esc><Esc> <C-\><C-n>
 
-    " Jump back to the og window
-    wincmd p
-    let b:slime_config = {"bufnr": l:term_buf_no}
-endfunction
 
-function! VertTerm()
-    vert term ++close /usr/bin/bash
-    wincmd L
-endfunction
 
-nnoremap t :call OpenTerm()<CR>
-nnoremap bt :call VertTerm()<CR>
-tnoremap <Esc><Esc> <C-w>N
