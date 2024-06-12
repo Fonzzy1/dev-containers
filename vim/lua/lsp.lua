@@ -1,12 +1,9 @@
 require'lspconfig'.vimls.setup{}
 require'lspconfig'.dockerls.setup{}
 require'lspconfig'.jsonls.setup{}
-require'lspconfig'.marksman.setup{}
+require'lspconfig'.marksman.setup{filetypes= {'vimwiki','quarto','rmarkdown','markdown'}}
 require'lspconfig'.nginx_language_server.setup{}
 require'lspconfig'.pyright.setup{}
-require'lspconfig'.pylsp.setup{}
-require'lspconfig'.jedi_language_server.setup{}
-require'lspconfig'.pylyzer.setup{}
 require'lspconfig'.r_language_server.setup{}
 require'lspconfig'.sqlls.setup{}
 require'lspconfig'.tsserver.setup{}
@@ -32,5 +29,4 @@ require'lspconfig'.ltex.setup{
     }
   } 
 }
-
 

@@ -13,8 +13,8 @@ nnoremap + :only<CR>
 
 
 function! MoveRight()
-    let l:exempt_ft = ['terminal','nerdtree','tagbar','fugitive','gitcommit','qf','calendar']
-    let l:left_bar_ft = ['nerdtree','tagbar','calendar']
+    let l:exempt_ft = ['terminal','nerdtree','tagbar','fugitive','gitcommit','qf','calendar','fzf']
+    let l:left_bar_ft = ['nerdtree','tagbar','calendar','fzf']
     if index(l:exempt_ft, &filetype) == -1
         execute " wincmd L"
         execute " vertical wincmd = "

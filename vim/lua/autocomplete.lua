@@ -28,8 +28,9 @@ cmp.setup{
     -- Your rest mappings...
   },
   sources = {
-    { name = 'nvim_lsp', keyword_length = 2 },
+    { name = 'nvim_lsp' },
     { name = 'otter'},
+    { name = 'path'},
     -- { name = 'buffer', keyword_length = 2 },
   },
   experimental = {

@@ -18,16 +18,10 @@ let NERDTreeMapQuit = 'Q'
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 " Special fuzzy find in nerdtree
-autocmd FileType nerdtree  noremap <buffer> / :call OpenFzf()<CR>
+autocmd FileType nerdtree  noremap <buffer> / :Files<cr>
 
-function! OpenFzf()
-    NERDTree
-    let job = term_start('/bin/sh -c "fzf"', {'curwin':1, 'out_io': 'file', 'out_name':'/tmp/fzf.file', 'close_cb':'SendFZFtoOpen', 'term_finish':'close'})
-endfunction
-function! SendFZFtoOpen(channel)
-    let l:file_name = readfile('/tmp/fzf.file')[0]    
-    execute 'vs ' . l:file_name
-endfunction
+let g:fzf_layout = { 'window': 'enew' }
+let g:fzf_vim = {'preview_window':[]}
 
 nnoremap F :call LeftBarToNerdFind() <CR>
 nnoremap f :call LeftBarToNerd()<CR>

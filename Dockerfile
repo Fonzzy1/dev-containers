@@ -108,7 +108,7 @@ RUN curl -L -o /bin/marksman "https://github.com/artempyanykh/marksman/releases/
 # Nginx
 RUN pip install -U nginx-language-server
 # Python
-RUN pip install pyright python-lsp-server "python-lsp-server[all]" jedi-language-server pylyzer
+RUN pip install pyright
 # R
 RUN R -e  "install.packages('languageserver',  Ncpus = 6)"
 # SQL
