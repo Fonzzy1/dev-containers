@@ -24,9 +24,15 @@ function! QuartoExtras()
     vnoremap <CR> :call CreateMdLink()<cr>
 
     "" Make a new file
-    nnoremap gf :let path=substitute(expand('<cfile>'), '%20', ' ', 'g')<cr>:execute 'edit '. path<cr><cr>
+    nnoremap gn :call CreateMdFile()<cr>
 
 
+endfunction
+
+function! CreateMdFile()
+    write
+    let path=substitute(expand('<cfile>'), '%20', ' ', 'g')
+    execute 'edit ' . substitute(path,'/','','')
 endfunction
 
 
@@ -59,13 +65,13 @@ let g:table_mode_syntax = 1
 function! QuartoPreview() 
     let l:current_file = expand('%:p')
     :split
-    call StartTerm('quarto preview '.l:current_file)
+    call StartTerm('quarto preview "'.l:current_file .'"')
 endfunction
 
 function! QuartoRender() 
     let l:current_file = expand('%:p')
     :split
-    call StartTerm('quarto render '.l:current_file)
+    call StartTerm('quarto render "'.l:current_file .'"')
 endfunction
 
 command! Preview :call QuartoPreview()
