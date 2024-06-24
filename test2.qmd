@@ -1,0 +1,81 @@
+## Upcoming Events
+
+Climate Genie Meeting @ 11:00-12:00
+2024-07-25 - registrations for 2XU Triathlon
+2024-07-22 @ 11:00 for 2.0 hours - registrations for 2XU Triathlon
+Every Monday @ 11:00 for 1.0 hour - Climate Genie Meeting
+
+## To Do
+
+- [ ] Personal
+    - [ ] Book in car for service
+    - [ ] Home Cleaning
+        - [ ] Cat Flea
+        - [ ] All my washing
+        - [ ] Ikea Shelf
+        - [ ] Skateboard Rack
+    - [ ] Music Stuff
+        - [ ] Fix Epiphone
+        - [ ] Music in room
+    - [ ] Writing
+        - [ ] Taylor Series
+            - [ ] Initial Value Problem
+            - [ ] Boundary Value Problem
+            - [ ] Multi Variable IVP
+        - [ ] Spotify Podcasts Playlist
+        - [ ] Free Throw Arc Analysis
+        - [ ] Selection Bias in Basketball
+        - [ ] Markets in Sport
+        - [ ] Supermarket Location
+        - [ ] Note Taker Write Up
+        - [ ] Dice
+        - [ ] 3-Team Perdition
+        - [ ] Friends Vs Guidance
+        - [ ] Series Page
+        - [ ] Scale Category Plot
+        - [ ] Strength Standards + Hybrid Standards
+    - [ ] Dev Containers
+        - [ ] Editor = News Split
+        - [ ] Auto Fold Quarto
+        - [ ] Go next and go previous diagnostic
+        - [ ] Fix pr generation with start term
+        - [ ] Generate BibTeX Citations from Rmd Links
+        - [ ] Recurring tasks and events
+        - [ ] Smarter printing of events
+        - [ ] Smarter printing of tasks
+        - [ ] Sports Schedule in Todays
+    - [ ] Training
+        - [ ] Put Bottle Holder on Bike
+        - [ ] Put Power Meter on Bike
+        - [ ] Sort out power meter return
+        - [ ] [Gym Periodization Plan](/Gym%20Periodization%20Plan.qmd)
+        - [ ] Buy Race Tickets
+            - [ ] 2XU Triathlon
+                - [ ] Elwood
+                - [ ] St Kilda
+            - [ ] Iron man
+
+
+- [ ] Hub
+    - [ ] Climate Genie
+        - [ ] Connect Accounts to New Email
+        - [ ] Fix the issues with Solutions
+        - [ ] Ethics Application
+        - [ ] Scraping From News.com
+        - [ ] Minimise Images
+        - [ ] Admin Dashboard
+        - [ ] Re-Up DB and Server
+        - [ ] Threshold Testing for Model
+        - [ ] Investigate Language Normalisation
+        - [ ] User in Status
+    - [ ] Monster OAT
+        - [ ] Dual Scatter Plot
+
+
+- [ ] ADM+S
+    - [ ] ABC News Values
+        - [ ] [1M Headlines Clustering](https://github.com/KalykeXIII/wiki)
+            - [ ] Noun Normalisation (Named Entity Recognition)
+            - [ ] LDA
+        - [ ] [Bert For Categories](/Bert%20For%20Categories.qmd)
+
