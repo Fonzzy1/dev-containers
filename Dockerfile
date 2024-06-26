@@ -135,12 +135,6 @@ COPY dotfiles /root
 #Copy in the dotfiles
 COPY dotfiles/.bashrc /root/.bash_profile
 
-#Copy in the scripts
-COPY run_scripts /scripts
-
-# Overwrite defaule xsg-open call
-COPY run_scripts/open.py /usr/bin/xdg-open   
-
 RUN pip3 install pynvim
 
 
@@ -155,4 +149,10 @@ RUN sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/p
 COPY vim /root/.config/nvim/
 RUN nvim +PlugInstall +qall
 
+
+#Copy in the scripts
+COPY run_scripts /scripts
+
+# Overwrite defaule xsg-open call
+COPY run_scripts/open.py /usr/bin/xdg-open   
 CMD nvim
