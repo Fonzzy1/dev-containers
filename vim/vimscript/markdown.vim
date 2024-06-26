@@ -71,7 +71,7 @@ endfunction
 function! QuartoRender() 
     let l:current_file = expand('%:p')
     :split
-    call StartTerm('quarto render "'.l:current_file .'"')
+    call StartTerm('quarto render "'.l:current_file .'" --to pdf')
 endfunction
 
 command! Preview :call QuartoPreview()

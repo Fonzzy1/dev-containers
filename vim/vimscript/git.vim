@@ -9,7 +9,8 @@ function! GhIssueCreateCLI()
     let l:title = system("head -n1 /tmp/ghissuecreate.md | sed 's/^#//' | xargs")
     let l:body = system("sed -e 1,2d /tmp/ghissuecreate.md")
     let l:command = "gh issue create --body \"" . l:body . "\" -t \" " . l:title . "\"" 
-    bot call  term_start(l:command,{'term_finish':'close'})
+    :vsplit
+    call StartTerm(l:command)
 endfunction
 
 function! GhPrCreate()
@@ -24,7 +25,8 @@ function! GhPrCreateCLI()
     let l:title = system("head -n1 /tmp/ghprcreate.md | sed 's/^#//' | xargs")
     let l:body = system("sed -e 1,2d /tmp/ghprcreate.md")
     let l:command = "gh pr create --body \"" . l:body . "\" -t \" " . l:title . "\"" 
-    bot call  term_start(l:command,{'term_finish':'close'})
+    :vsplit
+    call StartTerm(l:command)
     wincmd J
 endfunction
 

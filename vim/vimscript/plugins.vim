@@ -21,6 +21,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'ryanoasis/vim-nerdfont'
 
+
 " Markdown
 Plug 'quarto-dev/quarto-nvim'
 Plug 'vim-pandoc/vim-pandoc' 
@@ -29,6 +30,7 @@ Plug 'mattn/calendar-vim'
 Plug 'vitalk/vim-simple-todo'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'bullets-vim/bullets.vim'
+
 
 " LSP
 Plug 'jmbuhr/otter.nvim',

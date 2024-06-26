@@ -36,11 +36,9 @@ let g:tagbar_type_rmarkdown = {
       \ 'ctagsbin': '/usr/local/bin/ctags'
       \ }
 
-let g:tagbar_type_vimwiki = g:tagbar_type_rmarkdown
 let g:tagbar_type_quarto = g:tagbar_type_rmarkdown
 
 
-vnoremap <CR> :!python3 -c 'import sys; string=sys.stdin.read().strip(); replacement = string.replace(" ", "\%20"); print(f"[{string}](/{replacement}.qmd)")'<cr>
 
 
 

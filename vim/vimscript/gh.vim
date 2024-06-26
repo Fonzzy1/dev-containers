@@ -29,7 +29,8 @@ function! RunGhAct(...)
   endif
   echo(cmd)
   " Start a new terminal session with the command
-  call term_start(cmd)
+    :vsplit
+    call StartTerm(cmd)
   " Set 'nonumber', toggle 'number'
   set nonu
   set nu!
@@ -54,10 +55,14 @@ function! VieworWatchLatest()
     " Determine action based on run status
     if l:latest_run_status != "completed"
       " If in_progress, open a terminal on the right to watch the run
-      vert call term_start('gh run watch '. l:latest_run_databaseId)
+      let cmd = 'gh run watch '. l:latest_run_databaseId
+      :vsplit
+      call StartTerm(cmd)
     else
       " If not in_progress, open a terminal on the right to view the run details
-      vert call term_start('gh run view '. l:latest_run_databaseId) 
+      let cmd = 'gh run view '. l:latest_run_databaseId
+      :vsplit
+      call StartTerm(cmd)
     endif
     wincmd L
 
