@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import sys
-import calendar
 from datetime import datetime, timedelta, time, date
 import os
 import re
@@ -29,7 +28,7 @@ def text2task(indented_text: str):
     root = Task('- [ ] Root') 
 
     last_parent = {0: root} # last parents encountered by indent level
-    for line in indented_text.splitlines():
+    for line in lines:
         node = Task(line.lstrip(' '))
         indent_level = len(line) - len(node.string)
         last_parent[indent_level].children.append(node)
@@ -42,13 +41,13 @@ class Calendar():
         self.events = events
         self.recuring_events = reccuring
 
-    def todays_events(self):
+    def todays_events(self,date):
 
-        month_day = int(date.today().strftime('%d'))
-        day_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][date.today().weekday()]
+        month_day = int(date.strftime('%d'))
+        day_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][date.weekday()]
 
         reccuring_events = [ x for x in self.recuring_events if x.recur_on in [month_day, day_week]]
-        normal_events = [x for x in self.events if x.date == date.today() ]
+        normal_events = [x for x in self.events if x.date == date ]
 
         combined_events = normal_events + reccuring_events
 
@@ -88,7 +87,6 @@ class Event:
 
 
 
-
 class RecurringEvent:
     def __init__(self, name, recur_on, start_time=None, length=None):
         self.name = name
@@ -125,11 +123,11 @@ class FileParser:
         lines = self.content.splitlines()
         indices = [i for i, x in enumerate(lines) if x.startswith('##')]
 
-        events = [x for x in lines[indices[0]+1:indices[1]] if x != '']
-        to_do =  [ x for x in lines[indices[1]+1:] if x != '']
+        events = [x for x in lines[indices[1]+1:indices[2]] if x.strip() != '']
+        to_do =  [ x for x in lines[indices[2]+1:] if x != '']
 
         ## Parse the to_dos
-        to_do = [x for x in to_do if x != '']
+        to_do = [x for x in to_do if x != '' and '[X]' not in x]
         indices = [i for i, x in enumerate(to_do) if x.startswith('-')] + [len(to_do)]
         self.tasks = ['\n'.join(to_do[indices[i]:indices[i+1]]) for i in range(len(indices)-1)]
         self.tasks = [text2task(x) for x in self.tasks]
@@ -140,33 +138,38 @@ class FileParser:
         recurringevents = []
 
         for event in events:
+            matched = False
             regex = r"(\d+-\d+-\d+) @ (\d+:\d+) for ([0-9]*\.?[0-9]+) (hour|hours) - (.*)"
             match = re.match(regex, event)
             if match:
                 events_ls.append(Event(match.group(5), match.group(1), match.group(2),float(match.group(3))))
+                matched = True
             regex = r"(\d+-\d+-\d+) - (.*)"
             match = re.match(regex, event)
             if match:
                 events_ls.append(Event(match.group(2), match.group(1)))
+                matched = True
             regex = r"Every (.*) @ (\d+:\d+) for ([0-9]*\.?[0-9]+) (hour|hours) - (.*)"
             match = re.match(regex, event)
             if match:
                 recurringevents.append(RecurringEvent(match.group(5), match.group(1), match.group(2),float(match.group(3))))
+                matched = True
             regex = r"Every ((?!.*@.*).*) - (.*)"
             match = re.match(regex, event)
             if match:
                 recurringevents.append(RecurringEvent(match.group(2), match.group(1)))
+                matched = True
+            if not matched:
+                raise ValueError("Event not recognized: " + event)
 
         self.cal = Calendar(events_ls,recurringevents)
 
-    def print(self):
-        print("## Upcoming Events\n")
-        self.cal.todays_events()
-
+    def print(self, date):
+        print("## Today's Agenda\n")
+        self.cal.todays_events(date)
+        print("\n## Upcoming Events\n")
         print(' ')
-
         self.cal.upcoming_events()
-        
         print("")
         print("## To Do\n")
         for task in self.tasks:
@@ -177,13 +180,7 @@ class FileParser:
 
 
 def main():
-    template = """---
-    title: {name}
-    author: Alfie Chadwick
-    date: "Created: {date} | Knit: `r format(Sys.time(), '%d %B, %Y')`"
-    ---
-
-    """
+    template = """---\ntitle: {name}\nauthor: Alfie Chadwick\ndate: "Created: {date} | Knit: `r format(Sys.time(), '%d %B, %Y')`"\n---"""
 
     parser = argparse.ArgumentParser(description="Check if file exists.")
     parser.add_argument("file", metavar="F", type=str, help="file to check")
@@ -199,7 +196,7 @@ def main():
 
 
     if re.match(r"\d{4}-\d{2}-\d{2}.qmd", args.file):
-        file_date = datetime.strptime(name, "%Y-%m-%d") + datetime.timedelta(
+        file_date = datetime.strptime(name, "%Y-%m-%d") + timedelta(
             days=-1
         )
 
@@ -212,11 +209,7 @@ def main():
 
         parser = FileParser(running_name)
         parser.parse()
-        parser.print()
+        parser.print(datetime.strptime(name,'%Y-%m-%d'))
 
 if __name__ == '__main__':
-    self = FileParser('test2.qmd')
-    self.parse()
-    self.print()
-    input()
-    #main()
+    main()
