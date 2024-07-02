@@ -43,7 +43,7 @@ class Calendar():
 
     def todays_events(self,day):
 
-        if not isinstance(date,day):
+        if not isinstance(day,date):
             day = day.date()
 
         month_day = int(day.strftime('%d'))
