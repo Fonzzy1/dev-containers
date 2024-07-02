@@ -183,7 +183,7 @@ class FileParser:
 
 
 def main():
-    template = """---\ntitle: {name}\nauthor: Alfie Chadwick\ndate: "Created: {date} | Knit: `r format(Sys.time(), '%d %B, %Y')`"\n---"""
+    template = """---\ntitle: {name}\nauthor: Alfie Chadwick\ndate: "Created: {date} | Knit: `r format(Sys.time(), '%d %B, %Y')`"\n---\n"""
 
     parser = argparse.ArgumentParser(description="Check if file exists.")
     parser.add_argument("file", metavar="F", type=str, help="file to check")
@@ -212,7 +212,8 @@ def main():
 
         parser = FileParser(running_name)
         parser.parse()
-        parser.print(datetime.strptime(name,'%Y-%m-%d'))
+        parser.print(datetime.strptime(name,'%Y-%m-%d').date())
 
 if __name__ == '__main__':
     main()
+
