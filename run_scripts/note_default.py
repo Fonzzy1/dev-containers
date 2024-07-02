@@ -41,9 +41,12 @@ class Calendar():
         self.events = events
         self.recuring_events = reccuring
 
-    def todays_events(self,date):
+    def todays_events(self,day):
 
-        month_day = int(date.strftime('%d'))
+        if not isinstance(date,day):
+            day = day.date()
+
+        month_day = int(day.strftime('%d'))
         day_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][date.weekday()]
 
         reccuring_events = [ x for x in self.recuring_events if x.recur_on in [month_day, day_week]]
