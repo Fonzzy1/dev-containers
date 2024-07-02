@@ -47,10 +47,10 @@ class Calendar():
             day = day.date()
 
         month_day = int(day.strftime('%d'))
-        day_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][date.weekday()]
+        day_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][day.weekday()]
 
         reccuring_events = [ x for x in self.recuring_events if x.recur_on in [month_day, day_week]]
-        normal_events = [x for x in self.events if x.date == date ]
+        normal_events = [x for x in self.events if x.date == day ]
 
         combined_events = normal_events + reccuring_events
 
