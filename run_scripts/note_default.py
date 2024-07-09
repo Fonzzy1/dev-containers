@@ -10,22 +10,25 @@ class Task:
         self.string = string
         self.children = []
 
-        pattern = r'\s*- \[.*\]\s(.*)'
+        pattern = r'(\s*- \[.*\]|###)\s(.*)'
         result = re.search(pattern, string)
 
-        self.name = result.group(1).strip()
+        self.name = result.group(2).strip()
 
     def __str__(self):
         return self.name
 
     def print(self, indent=0):
-        print('    '* indent + f'- [ ] {self.name}')
+        if indent == 0:
+            print(f'### {self.name}\n')
+        else:
+            print('    '* indent + f'- [ ] {self.name}')
         for child in self.children:
             child.print(indent = indent + 1)
 
 def text2task(indented_text: str):
     lines = indented_text.splitlines()
-    root = Task('- [ ] Root') 
+    root = Task('### Root') 
 
     last_parent = {0: root} # last parents encountered by indent level
     for line in lines:
@@ -131,7 +134,7 @@ class FileParser:
 
         ## Parse the to_dos
         to_do = [x for x in to_do if x != '' and '[X]' not in x]
-        indices = [i for i, x in enumerate(to_do) if x.startswith('-')] + [len(to_do)]
+        indices = [i for i, x in enumerate(to_do) if x.startswith('-') or x.startswith('###')] + [len(to_do)]
         self.tasks = ['\n'.join(to_do[indices[i]:indices[i+1]]) for i in range(len(indices)-1)]
         self.tasks = [text2task(x) for x in self.tasks]
 
