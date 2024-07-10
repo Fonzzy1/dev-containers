@@ -23,8 +23,7 @@ function! QuartoExtras()
     vnoremap <CR> :call CreateMdLink()<cr>
 
     "" Make a new file
-    nnoremap gn :call CreateMdFile()<cr>
-
+    nnoremap gc :call CreateMdFile()<cr>
 
 endfunction
 

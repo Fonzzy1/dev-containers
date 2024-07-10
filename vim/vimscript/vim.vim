@@ -27,4 +27,3 @@ let g:python3_host_prog = '/usr/bin/python3'
 
 "" Quick nav maps
 nnoremap gb <c-o>
-nnoremap ga :lua vim.lsp.buf.code_action()<CR>

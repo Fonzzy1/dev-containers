@@ -1,5 +1,4 @@
 " GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
 nmap q :call LeftBarToQF()<cr>
 nmap Q :call AddCursorToQuickfix()<cr>
 
