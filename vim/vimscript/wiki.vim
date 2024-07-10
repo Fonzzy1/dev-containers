@@ -14,7 +14,7 @@ function LeftBarToCalendar()
 endfunction
 
 function! MyCalAction(day, month, year, week, dir)
-    let filename = printf("%04d-%02d-%02d.qmd", a:year, a:month, a:day)
+    let filename = printf("Diary/%04d-%02d-%02d.qmd", a:year, a:month, a:day)
     let filename = fnameescape(filename)
     execute 'edit ' . filename
     if !filereadable(filename)

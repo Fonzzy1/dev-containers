@@ -14,7 +14,7 @@ function! QuartoExtras()
     hi Foo cterm=underline gui=underline
 
     "" ctrl t gives you todays link
-    inoremap <C-t> <C-R>=printf('[%s](/%s.qmd)', strftime('%Y-%m-%d'), strftime('%Y-%m-%d'))<CR>
+    inoremap <C-t> <C-R>=printf('[%s](/Diary/%s.qmd)', strftime('%Y-%m-%d'), strftime('%Y-%m-%d'))<CR>
     "" todo stuff
     nnoremap gt :ToggleCheckbox<cr>
 

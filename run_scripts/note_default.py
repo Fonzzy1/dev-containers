@@ -201,13 +201,13 @@ def main():
     print(template.format(name=name, date=date.today().strftime("%d %B, %Y")))
 
 
-    if re.match(r"\d{4}-\d{2}-\d{2}.qmd", args.file):
+    if re.match(r"\d{4}-\d{2}-\d{2}.qmd", os.path.basename(args.file)):
         file_date = datetime.strptime(name, "%Y-%m-%d") + timedelta(
             days=-1
         )
 
         while True:
-            running_name = f'/wiki/{file_date.strftime("%Y-%m-%d")}.qmd'
+            running_name = f'/wiki/Diary/{file_date.strftime("%Y-%m-%d")}.qmd'
             if os.path.isfile(running_name):
                 break
             else:
