@@ -40,6 +40,6 @@ command!-nargs=1 Gs :G switch -c <args>
 
 function! GitCommitMessageFn()
   let l:diff = system('git --no-pager diff --staged')
-  let l:prompt = "generate a short commit message from the diff below:\n" . l:diff
+  let l:prompt = "generate a short commit message that describe the changes made using the diff below:\n" . l:diff
   call vim_ai#AIRun({}, l:prompt)
 endfunction
