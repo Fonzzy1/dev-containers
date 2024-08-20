@@ -81,7 +81,7 @@ function! GitPrRequestGeneration()
   \  "options": {
   \    "model": g:model,
   \    "initial_prompt": ">>> system\nyou are a code assistant",
-  \    "temperature": 1,
+  \    "temperature": 0.1,
   \  },
   \}
   call vim_ai#AIRun( l:config, l:prompt)

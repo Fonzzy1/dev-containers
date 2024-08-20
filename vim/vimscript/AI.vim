@@ -35,13 +35,6 @@ let g:vim_ai_complete = {
 \  },
 \}
 
-" :AIEdit
-" - engine: complete | chat - see how to configure chat engine in the section below
-" - options: openai config (see https://platform.openai.com/docs/api-reference/completions)
-" - options.request_timeout: request timeout in seconds
-" - options.enable_auth: enable authorization using openai key
-" - options.selection_boundary: seleciton prompt wrapper (eliminates empty responses, see #20)
-" - ui.paste_mode: use paste mode (see more info in the Notes below)
 let g:vim_ai_edit = {
 \  "engine": "complete",
 \  "options": {
