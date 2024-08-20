@@ -45,7 +45,7 @@ function! GitCommitMessageFn()
   \  "engine": "chat",
   \  "options": {
   \    "model": g:model,
-  \    "initial_prompt": ">>> system\nyou are a code assistant",
+  \    "initial_prompt": ">>> system\nyou are a git commit writer",
   \    "temperature": 1,
   \  },
   \}

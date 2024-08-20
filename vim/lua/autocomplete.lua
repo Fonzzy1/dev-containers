@@ -30,7 +30,7 @@ cmp.setup{
   sources = {
     { name = 'nvim_lsp' },
     { name = 'otter'},
-    { name = 'path'},
+    -- { name = 'path'},
     -- { name = 'buffer', keyword_length = 2 },
   },
   experimental = {

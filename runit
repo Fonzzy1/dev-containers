@@ -192,6 +192,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(title="commands", dest="command")
 
+    subparsers.default = 'local'
+
     local_parser = subparsers.add_parser(
         "local", help="Run command for a container with local directory"
     )
@@ -230,4 +232,7 @@ if __name__ == "__main__":
     config_parser.set_defaults(func=run_config)
 
     args = parser.parse_args()
-    args.func(args)
+    if 'func' in args:
+        args.func(args)
+    else:
+        run_local(args)   # default function to run 

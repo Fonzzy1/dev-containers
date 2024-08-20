@@ -8,4 +8,4 @@ toc.enable = true
 create_missing_file.enable = true
 
 [completion]
-wiki.style = "file-stem"
+wiki.style = "file-path-stem"
