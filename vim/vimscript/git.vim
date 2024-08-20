@@ -41,13 +41,5 @@ command!-nargs=1 Gs :G switch -c <args>
 function! GitCommitMessageFn()
   let l:diff = system('git --no-pager diff --staged')
   let l:prompt = "generate a short commit message from the diff below:\n" . l:diff
-  let l:config = {
-  \  "engine": "chat",
-  \  "options": {
-  \    "model": "gpt-4o",
-  \    "initial_prompt": ">>> system\nyou are a code assistant",
-  \    "temperature": 1,
-  \  },
-  \}
-  call vim_ai#AIRun(l:config, l:prompt)
+  call vim_ai#AIRun({}, l:prompt)
 endfunction
