@@ -4,7 +4,7 @@ let g:instruct_model = "gpt-3.5-turbo-instruct"
 let g:vim_ai_chat = {
             \  "ui": {
             \    "code_syntax_enabled": 1,
-            \    "open_chat_command": "rightbelow vnew | set nonu | set nornu | call vim_ai#MakeScratchWindow()",
+            \    "open_chat_command": "rightbelow vnew | set nonu | set nornu",
             \    "scratch_buffer_keep_open": 0,
             \    "paste_mode": 1
             \  },

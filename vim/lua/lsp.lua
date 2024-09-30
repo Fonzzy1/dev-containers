@@ -6,7 +6,7 @@ require'lspconfig'.nginx_language_server.setup{}
 require'lspconfig'.pyright.setup{}
 require'lspconfig'.r_language_server.setup{}
 require'lspconfig'.sqlls.setup{}
-require'lspconfig'.tsserver.setup{}
+require'lspconfig'.ts_ls.setup{}
 require'lspconfig'.yamlls.setup{}
 require'lspconfig'.quick_lint_js.setup{}
 require'lspconfig'.ltex.setup{
