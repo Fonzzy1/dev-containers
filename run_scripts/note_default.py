@@ -186,7 +186,7 @@ class FileParser:
 
 
 def main():
-    template = """---\ntitle: {name}\nauthor: Alfie Chadwick\ndate: "Created: {date} | Knit: `r format(Sys.time(), '%d %B, %Y')`"\n---\n"""
+    template = """---\ntitle: {name}\nauthor: Alfie Chadwick\ndate: "{date}"\n---\n"""
 
     parser = argparse.ArgumentParser(description="Check if file exists.")
     parser.add_argument("file", metavar="F", type=str, help="file to check")

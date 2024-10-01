@@ -4,6 +4,7 @@ function! NoteDefault()
     normal! gg
 endfunction
 autocmd BufNewFile *.qmd :call NoteDefault()
+autocmd BufRead *.qmd if getfsize(expand('%'))==0|call NoteDefault()|endif
 
 
 "" Calender

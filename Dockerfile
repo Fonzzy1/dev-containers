@@ -136,6 +136,7 @@ COPY dotfiles /root
 COPY dotfiles/.bashrc /root/.bash_profile
 
 RUN pip3 install pynvim
+RUN pip install --no-cache-dir --force-reinstall git+https://github.com/sciunto-org/python-bibtexparser@main
 
 
 RUN add-apt-repository ppa:neovim-ppa/unstable && apt update && apt install -y neovim
