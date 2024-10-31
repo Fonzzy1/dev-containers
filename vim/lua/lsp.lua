@@ -9,6 +9,7 @@ require'lspconfig'.sqlls.setup{}
 require'lspconfig'.ts_ls.setup{}
 require'lspconfig'.yamlls.setup{}
 require'lspconfig'.quick_lint_js.setup{}
+vim.treesitter.language.register("markdown", { "quarto", "rmd" })
 require'lspconfig'.ltex.setup{
   cmd = {"/usr/bin/ltex-ls/bin/ltex-ls", "--log-file=/root/ltex_log"},
   settings = {
