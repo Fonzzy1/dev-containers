@@ -5,44 +5,28 @@ au BufRead,BufNewFile *.qmd  set filetype=quarto
 filetype plugin on
 
 function! QuartoExtras()
-    "" Conceal For links
-    syntax match FooBar /\v\[[^]]+\]\([^\)]+\)/ containedin=ALL contains=Foo,Bar,ConcealBrackets
-    syntax match Foo /\v([^]]+)/ contained containedin=FooBar
-    syntax match Bar /\v\(([^()[\]]+)\)/ contained containedin=FooBar conceal
-    syntax match ConcealBrackets /[\[\]]/ contained containedin=FooBar conceal
-    set conceallevel=2
-    hi Foo cterm=underline gui=underline
+    lua require'otter'.activate()
+    lua require "nabla".enable_virt({autogen = true})
 
-    "" ctrl t gives you todays link
-    inoremap <C-t> <C-R>=printf('[%s](/Diary/%s.qmd)', strftime('%Y-%m-%d'), strftime('%Y-%m-%d'))<CR>
+    "" Conceal For links
+    set conceallevel=2
+    set wrap
+
+    nnoremap <buffer> j gj
+    nnoremap <buffer> k gk
     "" todo stuff
     nnoremap gt :ToggleCheckbox<cr>
 
     autocmd InsertLeave <buffer> TableModeRealign
     "" Make links
-    vnoremap <CR> :call CreateMdLink()<cr>
-
-    "" Make a new file
-    nnoremap gc :call CreateMdFile()<cr>
-
-endfunction
-
-function! CreateMdFile()
-    write
-    let path=substitute(expand('<cfile>'), '%20', ' ', 'g')
-    execute 'edit ' . substitute(path,'/','','')
 endfunction
 
 
-function! CreateMdLink() range
-    let text = getline("'<")[getpos("'<")[2]-1:getpos("'>")[2]]
-    let mdlink = '[' . text . '](\/' . substitute(text, ' ', '%20', 'g') . '.qmd)'
-    execute a:firstline . "," . a:lastline . "s/". text . "/" . mdlink . "/g"
-endfunction
+augroup QuartoExtrasGroup
+    autocmd!
+    autocmd FileType quarto call QuartoExtras()
+augroup END
 
-au FileType quarto :call QuartoExtras()
-
-"" Fenced Language
 
 "" Bullet Setup
 let g:bullets_enabled_file_types = [

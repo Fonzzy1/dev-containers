@@ -18,26 +18,23 @@ cmp.setup{
       end
     end, {'i', 's'}),
 
-    ['<CR>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.confirm({ select = true })
-      else
-        fallback()
-      end
-    end, {'i', 's'}),
-    -- Your rest mappings...
   },
   sources = {
     { name = 'nvim_lsp' },
     { name = 'otter'},
-    -- { name = 'path'},
-    -- { name = 'buffer', keyword_length = 2 },
+    {
+      name = "latex_symbols",
+      option = {
+        strategy = 2, -- mixed
+      },
+    },
+    { name = 'path'},
+    { name = 'buffer', keyword_length = 2 },
   },
   experimental = {
     ghost_text = true,
   },
 }
-
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
