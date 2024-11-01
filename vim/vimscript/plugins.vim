@@ -21,8 +21,8 @@ Plug 'itchyny/lightline.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'ryanoasis/vim-nerdfont'
 
-
 " Markdown
+
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
 Plug 'mattn/calendar-vim'
@@ -30,7 +30,6 @@ Plug 'vitalk/vim-simple-todo'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'jbyuki/nabla.nvim'
 Plug 'bullets-vim/bullets.vim'
-
 
 " LSP
 Plug 'jmbuhr/otter.nvim', { 'tag': 'v1.15.1' }

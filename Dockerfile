@@ -55,7 +55,8 @@ RUN apt-get update && apt-get install -y software-properties-common \
     libjpeg-dev \
     r-cran-tidyverse \
     vim-gtk3 \
-    xclip
+    xclip \
+    poppler-utils
 
 #Install Ctags
 RUN curl -L https://github.com/thombashi/universal-ctags-installer/raw/master/universal_ctags_installer.sh | bash

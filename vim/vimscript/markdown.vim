@@ -21,10 +21,12 @@ function! QuartoExtras()
     "" Make links
 endfunction
 
+
 augroup QuartoExtrasGroup
     autocmd!
     autocmd FileType quarto call QuartoExtras()
 augroup END
+
 
 "" Bullet Setup
 let g:bullets_enabled_file_types = [

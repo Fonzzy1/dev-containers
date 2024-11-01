@@ -9,6 +9,7 @@ require'lspconfig'.sqlls.setup{}
 require'lspconfig'.ts_ls.setup{}
 require'lspconfig'.yamlls.setup{}
 require'lspconfig'.quick_lint_js.setup{}
+vim.treesitter.language.register("markdown", { "quarto", "rmd" })
 require'lspconfig'.ltex.setup{
   cmd = {"/usr/bin/ltex-ls/bin/ltex-ls", "--log-file=/root/ltex_log"},
   settings = {
@@ -34,3 +35,4 @@ vim.api.nvim_set_keymap("n", "gd", "<cmd>lua require'otter'.ask_definition()<CR>
 vim.api.nvim_set_keymap("n", "gr", "<cmd>lua require'otter'.ask_references()<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "K", "<cmd>lua require'otter'.ask_hover()<CR>", {noremap = true, silent = true})
+
