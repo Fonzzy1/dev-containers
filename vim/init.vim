@@ -16,6 +16,7 @@ source  ~/.config/nvim/vimscript/terminal.vim
 source  ~/.config/nvim/vimscript/windows.vim
 source  ~/.config/nvim/vimscript/display.vim
 source  ~/.config/nvim/vimscript/wiki.vim
+source  ~/.config/nvim/vimscript/AI_shortcuts.vim
 
 
 " Lua
