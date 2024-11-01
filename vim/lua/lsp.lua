@@ -31,6 +31,13 @@ require'lspconfig'.ltex.setup{
   } 
 }
 
-vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", {noremap = true})
 vim.api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<CR>", {noremap = true, silent = true})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "quarto",
+  callback = function()
+    require("otter").activate()
+  end,
+})

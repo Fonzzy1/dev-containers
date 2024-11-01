@@ -21,19 +21,16 @@ Plug 'itchyny/lightline.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'ryanoasis/vim-nerdfont'
 
-
 " Markdown
-Plug 'quarto-dev/quarto-nvim'
-Plug 'vim-pandoc/vim-pandoc' 
+Plug 'quarto-dev/quarto-vim'
 Plug 'vim-pandoc/vim-pandoc-syntax' 
 Plug 'mattn/calendar-vim'
 Plug 'vitalk/vim-simple-todo'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'bullets-vim/bullets.vim'
 
-
 " LSP
-Plug 'jmbuhr/otter.nvim',
+Plug 'jmbuhr/otter.nvim', { 'tag': 'v1.15.1' }
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/nvim-cmp',
 Plug 'neovim/nvim-lspconfig',

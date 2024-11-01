@@ -43,8 +43,6 @@ endfunction
 au FileType quarto :call QuartoExtras()
 
 "" Fenced Language
-let g:markdown_fenced_languages = ['bash=sh']
-let g:pandoc#syntax#codeblocks#embeds#langs = ["bash=sh"]
 
 "" Bullet Setup
 let g:bullets_enabled_file_types = [

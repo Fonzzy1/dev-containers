@@ -15,7 +15,7 @@ function! Summarise(file)
   if filereadable(l:tempfile)
     " Read the file contents and put it at the cursor position
     let l:filetext = join(readfile(l:tempfile), "\n")
-    let l:prompt = "Please summarize the following journal article or academic piece, highlighting the main arguments, findings, and conclusions in a concise manner. Focus on clarity and brevity while retaining the essential information. Retain the structure of the origional peice, however don't using headings."
+    let l:prompt = "Please summarize the following journal article or academic piece. Focus on clarity and brevity while retaining the essential information. Retain the structure of the origional peice, and return it as a quarto document, including a yaml header and headers such as abstract, introduction, etc. ... ."
     call vim_ai#AIRun({"options":{"prompt":l:prompt}}, l:filetext)
     call delete(l:tempfile)
   else
