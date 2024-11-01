@@ -72,7 +72,7 @@ RUN apt-get update && apt-get install nodejs -y;
 RUN pip install pipreqs pgcli awscli ipython ipykernel
 
 # Install npm packages
-RUN npm install --save-dev --global prettier
+RUN npm install --save-dev --global prettier tree-sitter-cli
 
 # Download and Install Vim-Plug
 RUN curl -fLo /root/.vim/autoload/plug.vim --create-dirs \
@@ -150,6 +150,11 @@ RUN sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/p
 COPY vim /root/.config/nvim/
 RUN nvim +PlugInstall +qall
 
+ENV EXTENSION_WIKI_LINK=1
+ENV EXTENSION_TAGS=1
+ENV ALL_EXTENSIONS=1
+
+RUN nvim +TSUpdateSync +qa
 
 # Install quarto deps
 RUN quarto install tinytex

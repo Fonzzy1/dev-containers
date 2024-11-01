@@ -14,8 +14,8 @@ nnoremap + :only<CR>
 
 
 function! MoveRight()
-    let l:exempt_ft = ['terminal','nerdtree','tagbar','fugitive','gitcommit','qf','calendar','fzf']
-    let l:left_bar_ft = ['nerdtree','tagbar','calendar','fzf']
+    let l:exempt_ft = ['terminal','nerdtree','Outline','fugitive','gitcommit','qf','calendar','fzf']
+    let l:left_bar_ft = ['nerdtree','Outline','calendar','fzf']
     if index(l:exempt_ft, &filetype) == -1
         execute " wincmd L"
         execute " vertical wincmd = "
@@ -45,7 +45,7 @@ nnoremap bh :new<CR>
 
 function! LeftBarToggle()
     wincmd t
-    if ((&ft=='nerdtree') || (&ft=='tagbar') || (&ft=='qf') || (&ft=='calendar'))
+    if ((&ft=='nerdtree') || (&ft=='Outline') || (&ft=='qf') || (&ft=='calendar'))
         close
     endif
     wincmd p
