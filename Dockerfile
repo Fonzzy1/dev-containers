@@ -155,7 +155,7 @@ ENV EXTENSION_WIKI_LINK=1
 ENV EXTENSION_TAGS=1
 ENV ALL_EXTENSIONS=1
 
-RUN nvim +TSUpdateSync +qa
+RUN nvim --headless +TSUpdateSync +qall
 
 # Install quarto deps
 RUN quarto install tinytex

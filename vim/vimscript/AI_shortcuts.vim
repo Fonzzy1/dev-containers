@@ -1,27 +1,47 @@
 function! Summarise(file)
+  " Check if the input file is provided and not empty
   if empty(a:file)
-    echo "Error: Please provide a PDF file."
+    echoerr "Error: Please provide a PDF file."
     return
   endif
 
-  " Use pdftotext to convert PDF to text, storing it in a temporary file
+  " Check if pdftotext is available in the system
+  if executable('pdftotext') == 0
+    echoerr "Error: pdftotext is not installed. Please install it to use this function."
+    return
+  endif
+
+  " Prepare the command to convert PDF to text
   let l:tempfile = tempname() . '.txt'
   let l:command = 'pdftotext ' . shellescape(a:file) . ' ' . l:tempfile
 
   " Execute the system command
-  call system(l:command)
+  let l:result = system(l:command)
 
-  " Check if the temp file was successfully created
+  " Check for system command execution errors
+  if v:shell_error != 0
+    echoerr "Error: Failed to execute pdftotext command. Please check the file path and pdftotext installation."
+    return
+  endif
+
+  " Check if the tempfile was successfully created and is readable
   if filereadable(l:tempfile)
-    " Read the file contents and put it at the cursor position
     let l:filetext = join(readfile(l:tempfile), "\n")
-    let l:prompt = "Please summarize the following journal article or academic piece. Focus on clarity and brevity while retaining the essential information. Retain the structure of the origional peice, and return it as a quarto document, including a yaml header and headers such as abstract, introduction, etc. ... ."
-    call vim_ai#AIRun({"options":{"prompt":l:prompt}}, l:filetext)
+    let l:prompt = "Please summarize the following journal article or academic piece. Focus on clarity and brevity while retaining the essential information. Retain the structure of the original piece, and return it as a markdown document, including a yaml header and headers such as abstract, introduction, etc. Before this summary include a section called key take aways, that will have the key information that I should take away from the peice ."
+    
+    " Attempt to call AI service with appropriate error handling
+    try
+      call vim_ai#AIRun({"options": {"prompt": l:prompt}}, l:filetext)
+    catch
+      echoerr "Error: An issue occurred while trying to summarize the text with the AI service."
+    endtry
+    
     call delete(l:tempfile)
   else
-    echo "Error: Failed to convert PDF or read tempfile."
+    echoerr "Error: Failed to convert PDF or read tempfile."
   endif
 endfunction
+
 
 " Define the command to call the function
 command! -nargs=1 -complete=file Summarise call Summarise(<f-args>)
