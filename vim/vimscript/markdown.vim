@@ -10,7 +10,7 @@ function! QuartoExtras()
 
     "" Conceal For links
     set conceallevel=2
-    set wrap
+    setlocal wrap
 
     nnoremap <buffer> j gj
     nnoremap <buffer> k gk
