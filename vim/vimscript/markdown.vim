@@ -18,6 +18,7 @@ function! QuartoExtras()
     nnoremap gt :ToggleCheckbox<cr>
 
     autocmd InsertLeave <buffer> TableModeRealign
+    autocmd InsertLeave,TextChanged <buffer> setlocal wrap
     "" Make links
 endfunction
 

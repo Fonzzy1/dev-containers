@@ -58,9 +58,6 @@ RUN apt-get update && apt-get install -y software-properties-common \
     xclip \
     poppler-utils
 
-#Install Ctags
-RUN curl -L https://github.com/thombashi/universal-ctags-installer/raw/master/universal_ctags_installer.sh | bash
-
 # Install node
 RUN set -uex 
 RUN mkdir -p /etc/apt/keyrings 

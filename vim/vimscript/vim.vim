@@ -8,7 +8,6 @@ set shiftwidth=4
 set tabstop=4
 set linebreak
 set nospell
-set nowrap
 set belloff=all
 syntax on
 set background=dark

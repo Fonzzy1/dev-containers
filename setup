@@ -10,7 +10,7 @@ if [ "$1" = "--init" ]; then
   ## Load in the apps that I use for viewing media
   sudo apt-get -y update
   sudo apt-get -y upgrade
-  sudo apt-get -y install jq zathura feh vlc ranger spotify-client gnome-tweaks vlc
+  sudo apt-get -y install jq zathura feh vlc ranger spotify-client gnome-tweaks vlc xclip
 
 
   # Install the gnome extentions
@@ -47,6 +47,7 @@ if [ "$1" = "--init" ]; then
     set recolor                     "true"
     set recolor-reverse-video       "true"
     set recolor-keephue             "true"
+    set selection-clipboard clipboard
   ' > $HOME/.config/zathura/zathurarc
   # Make zathura default for all pdf in xmim
   xdg-mime default org.pwmt.zathura-pdf-poppler.desktop application/pdf
