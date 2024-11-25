@@ -1,34 +1,3 @@
-function! GhIssueCreate()
-    bot new /tmp/ghissuecreate.md
-    :1,$d 
-endfunction
-    
-autocmd BufWritePost /tmp/ghissuecreate.md :call GhIssueCreateCLI()
-
-function! GhIssueCreateCLI()
-    let l:title = system("head -n1 /tmp/ghissuecreate.md | sed 's/^#//' | xargs")
-    let l:body = system("sed -e 1,2d /tmp/ghissuecreate.md")
-    let l:command = "gh issue create --body \"" . l:body . "\" -t \" " . l:title . "\"" 
-    :vsplit
-    call StartTerm(l:command)
-endfunction
-
-function! GhPrCreate()
-    bot new /tmp/ghprcreate.md
-    :1,$d
-    :call GitPrRequestGeneration()
-endfunction
-
-autocmd BufWritePost /tmp/ghprcreate.md :call GhPrCreateCLI()
-
-function! GhPrCreateCLI()
-    let l:title = system("head -n1 /tmp/ghprcreate.md | sed 's/^#//' | xargs")
-    let l:body = system("sed -e 1,2d /tmp/ghprcreate.md")
-    let l:command = "gh pr create --body \"" . l:body . "\" -t \" " . l:title . "\"" 
-    :vsplit
-    call StartTerm(l:command)
-    wincmd J
-endfunction
 
 command! Gc :G commit | call GitCommitMessageFn()
 command! Ga :w |  G add % 
