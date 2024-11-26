@@ -50,7 +50,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export GH_EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
+export EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
 export GH_EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
 
 

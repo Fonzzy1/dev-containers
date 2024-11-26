@@ -163,6 +163,11 @@ COPY run_scripts /scripts
 # Overwrite defaule xsg-open call
 COPY run_scripts/open.py /usr/bin/xdg-open   
 
+# Set the editor
+ENV EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
+ENV VISUAL='nvr --remote-wait -cc split +"set bufhidden=delete"'
+ENV GH_EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
+
 CMD nvim --listen /tmp/nvimsocket
 
 
