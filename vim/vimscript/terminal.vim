@@ -23,7 +23,7 @@ endfunction
 
 function! RunTerm(cmd)
   " Escape the command for proper execution
-  execute 'terminal'. a:cmd . ' && tail -f /dev/null'
+  execute 'terminal '. a:cmd . ' && tail -f /dev/null'
   setlocal nonumber
   setlocal nornu
   setlocal scl=no
