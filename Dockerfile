@@ -24,6 +24,7 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | d
 # git
 RUN git config --global user.name "Fonzzy1"
 RUN git config --global user.email "alfiechadwick@hotmail.com"
+RUN  git config --global core.editor "nvr --remote-wait -cc split +\"set bufhidden=delete\""
 
 # Set the base work dir
 WORKDIR /src
