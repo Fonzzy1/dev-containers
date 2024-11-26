@@ -51,12 +51,8 @@ if ! shopt -oq posix; then
 fi
 
 export EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
+export VISUAL='nvr --remote-wait -cc split +"set bufhidden=delete"'
 export GH_EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
-
-
-
-
-
 
 
 # Function to render R Markdown file
