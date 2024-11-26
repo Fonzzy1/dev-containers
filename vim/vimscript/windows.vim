@@ -13,27 +13,20 @@ autocmd VimResized * wincmd =
 nnoremap + :only<CR>
 
 function! MoveRight()
-    let l:exempt_ft = ['terminal','nerdtree','Outline','gitcommit','qf','calendar','fzf']
     let l:left_bar_ft = ['nerdtree','Outline','calendar','fzf']
-    let l:current_buf_path = expand('%:p:h')
-    if index(l:exempt_ft, &filetype) == -1 || l:current_buf_path !~ '^/tmp/'
-        execute " wincmd L"
-        execute " vertical wincmd = "
-    endif
     " If it is a left bar element move the element to the left
     if index(l:left_bar_ft, &filetype) >= 0
-        execute " wincmd H"
-        execute " wincmd t"
-        execute " vertical resize 32"
+        wincmd H
+        wincmd t
+        vertical resize 32
         setlocal winfixwidth
     endif
     if (&filetype=='qf')
-        execute " wincmd H"
-        execute " vertical resize 32"
+        wincmd H
+        vertical resize 32
         setlocal winfixwidth
     endif
-
-    execute " vertical wincmd = "
+    vertical wincmd = 
 endfunction
 
 autocmd FileType * call MoveRight()

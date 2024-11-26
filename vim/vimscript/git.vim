@@ -1,11 +1,11 @@
-
-command! Gc :G commit | call GitCommitMessageFn()
-command! Ga :w |  G add % 
-command! Gaa :wa |  G add -u .
-command! Gp :G push
-command! Gf :G fetch | G pull
+command! Gc :Git commit | call GitCommitMessageFn()
+command! Ga :w | Git add % 
+command! Gaa :wa |  Git add -u .
+command! Gp :Git push
+command! Gf :Git fetch | Git pull
 command! Gl :vsplit | wincmd L | call  RunTerm("tig")
-command!-nargs=1 Gs :G switch -c <args>
+command!-nargs=1 Gs :Git switch -c <args>
+command G :vertical Git
 
 function! GitCommitMessageFn()
   let l:diff = system('git --no-pager diff --staged')
