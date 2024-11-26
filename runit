@@ -46,7 +46,7 @@ def run_vim(
             CHANGES=$(git status --porcelain); \
             UPSTREAM_CHANGES=$(git cherry -v); \
             if [ -n "$CHANGES" ] || [ -n "$UPSTREAM_CHANGES" ]; then \
-                nvim -c \':G | only\'; \
+                nvim -c \':Git | only\'; \
             fi'
 
     display = os.getenv("DISPLAY")
