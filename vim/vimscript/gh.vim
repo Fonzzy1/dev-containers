@@ -1,19 +1,19 @@
 command! Gr :vsplit | wincmd L | call  RunTerm("/usr/bin/gh pr create")
 command! Grl :vsplit | wincmd L | call  RunTerm("/usr/bin/gh pr list")
-command!-nargs=1 Grv :vsplit | wincmd L | call RunTerm('/usr/bin/gh  pr view ' . <args>) 
-command!-nargs=1 Gre :vsplit | wincmd L | call RunTerm('/usr/bin/gh  pr edit ' . <args>)
-command!-nargs=1 Grm :vsplit | wincmd L | call RunTerm('/usr/bin/gh  pr merge ' . <args>)
-command!-nargs=1 Grc :vsplit | wincmd L | call RunTerm('/usr/bin/gh  pr checkout ' . <args>)
-command!-nargs=? Grr :vsplit | wincmd L | call RunTerm('/usr/bin/gh  pr review ' . <args>)
-command!-nargs=? Grd :vsplit | wincmd L | call RunTerm('/usr/bin/gh  pr close ' . <args>)
+command!-nargs=? Grv :vsplit | wincmd L | call RunTerm('/usr/bin/gh  pr view ' . <q-args>) 
+command!-nargs=? Gre :vsplit | wincmd L | call RunTerm('/usr/bin/gh  pr edit ' . <q-args>)
+command!-nargs=? Grm :vsplit | wincmd L | call RunTerm('/usr/bin/gh  pr merge ' . <q-args>)
+command!-nargs=? Grc :vsplit | wincmd L | call RunTerm('/usr/bin/gh  pr checkout ' . <q-args>)
+command!-nargs=? Grr :vsplit | wincmd L | call RunTerm('/usr/bin/gh  pr review ' . <q-args>)
+command!-nargs=? Grd :vsplit | wincmd L | call RunTerm('/usr/bin/gh  pr close ' . <q-args>)
 
 command! Gi :vsplit | wincmd L | call  RunTerm("/usr/bin/gh issue create")
 command! Gil :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue list ')
-command!-nargs=1 Giv :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue view ' . <args>)
-command!-nargs=1 Gie :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue  edit ' . <args>)
-command!-nargs=1 Gir :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue comment ' . <args>)
-command!-nargs=1 Gic :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue develop -c ' . <args>)
-command!-nargs=1 Gid :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue close ' . <args>)
+command!-nargs=? Giv :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue view ' . <q-args>)
+command!-nargs=? Gie :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue  edit ' . <q-args>)
+command!-nargs=? Gir :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue comment ' . <q-args>)
+command!-nargs=? Gic :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue develop -c ' . <q-args>)
+command!-nargs=? Gid :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue close ' . <q-args>)
 command!-nargs=* Gh :vsplit | wincmd L call StartTerm('/usr/bin/gh ' . <q-args>)
 
 command! -nargs=? Gt call RunGhAct(<f-args>)
@@ -48,6 +48,7 @@ function! VieworWatchLatest()
   
   " Check that we have at least one run to process
   if !empty(l:runs)
+
     " Get the first run's (latest) status and databaseId
     let l:latest_run_status = l:runs[0].status
     let l:latest_run_databaseId = l:runs[0].databaseId
