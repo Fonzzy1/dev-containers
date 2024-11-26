@@ -13,6 +13,7 @@ syntax on
 set background=dark
 set signcolumn=yes
 set number
+set bufhidden=delete
 highlight clear SignColumn
 set incsearch
 set nohidden

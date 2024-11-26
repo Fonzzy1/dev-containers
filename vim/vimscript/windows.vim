@@ -12,11 +12,11 @@ nnoremap = :horizontal wincmd =<CR>
 autocmd VimResized * wincmd =
 nnoremap + :only<CR>
 
-
 function! MoveRight()
     let l:exempt_ft = ['terminal','nerdtree','Outline','fugitive','gitcommit','qf','calendar','fzf']
     let l:left_bar_ft = ['nerdtree','Outline','calendar','fzf']
-    if index(l:exempt_ft, &filetype) == -1
+    let l:current_buf_path = expand('%:p:h')
+    if index(l:exempt_ft, &filetype) == -1 && l:current_buf_path !~ '^/tmp/'
         execute " wincmd L"
         execute " vertical wincmd = "
     endif

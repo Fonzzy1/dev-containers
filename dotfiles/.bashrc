@@ -50,8 +50,11 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export EDITOR=vim;
-export VISUAL=vim;
+export EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
+export VISUAL='nvr --remote-wait -cc split +"set bufhidden=delete"'
+export GH_EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
+
+
 # Function to render R Markdown file
 function knit() {
     R -e "rmarkdown::render('$1', output_dir = 'knits')"
@@ -65,3 +68,7 @@ function parse_git_branch() {
 }
 
 export PS1="\u@\h \[\e[32m\]\w \[\e[0;91m\]\$(parse_git_branch) \[\e[0;95m\]\$ENV_STAGE\[\e[00m\]\$ "
+
+
+
+

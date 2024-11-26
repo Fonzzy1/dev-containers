@@ -31,7 +31,7 @@ endfunction
 
 nnoremap t :split \| call StartTerm(g:slime_vimterminal_cmd)<CR>
 nnoremap rt :split \| call StartTerm(g:slime_vimterminal_cmd." %")<CR>
-nnoremap bt :vsplit \| call StartTerm(g:slime_vimterminal_cmd)<CR>
+nnoremap bt :vsplit \| wincmd L \| call StartTerm(g:slime_vimterminal_cmd)<CR>
 tnoremap <Esc><Esc> <C-\><C-n>
 
 

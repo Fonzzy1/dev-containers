@@ -67,7 +67,7 @@ RUN apt-get update && apt-get install nodejs -y;
 
 
 # Install the python packages
-RUN pip install pipreqs pgcli awscli ipython ipykernel
+RUN pip install pipreqs pgcli awscli ipython ipykernel neovim-remote
 
 # Install npm packages
 RUN npm install --save-dev --global prettier tree-sitter-cli
@@ -162,6 +162,12 @@ COPY run_scripts /scripts
 
 # Overwrite defaule xsg-open call
 COPY run_scripts/open.py /usr/bin/xdg-open   
-CMD nvim
+
+# Set the editor
+ENV EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
+ENV VISUAL='nvr --remote-wait -cc split +"set bufhidden=delete"'
+ENV GH_EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
+
+CMD nvim --listen /tmp/nvimsocket
 
 
