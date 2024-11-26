@@ -70,4 +70,3 @@ augroup CursorLine
     au WinLeave * setlocal nocursorline
 augroup END
 
-

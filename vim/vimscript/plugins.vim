@@ -20,6 +20,7 @@ Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 Plug 'itchyny/lightline.vim' 
 Plug 'Yggdroot/indentLine'
 Plug 'ryanoasis/vim-nerdfont'
+Plug 'TaDaa/vimade'
 
 " Markdown
 

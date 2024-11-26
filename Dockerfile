@@ -24,6 +24,7 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | d
 # git
 RUN git config --global user.name "Fonzzy1"
 RUN git config --global user.email "alfiechadwick@hotmail.com"
+RUN git config --global core.editor "nvr --remote-wait -cc split +\"set bufhidden=delete\""
 
 # Set the base work dir
 WORKDIR /src
@@ -167,6 +168,7 @@ COPY run_scripts/open.py /usr/bin/xdg-open
 ENV EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
 ENV VISUAL='nvr --remote-wait -cc split +"set bufhidden=delete"'
 ENV GH_EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
+ENV GIT_EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
 
 CMD nvim --listen /tmp/nvimsocket
 
