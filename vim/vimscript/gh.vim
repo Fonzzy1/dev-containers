@@ -7,7 +7,7 @@ command!-nargs=1 Grc :vsplit | wincmd L | call RunTerm('/usr/bin/gh  pr checkout
 command!-nargs=? Grr :vsplit | wincmd L | call RunTerm('/usr/bin/gh  pr review ' . <args>)
 command!-nargs=? Grd :vsplit | wincmd L | call RunTerm('/usr/bin/gh  pr close ' . <args>)
 
-command! Gi :split | call  RunTerm("/usr/bin/gh issue create")
+command! Gi :vsplit | wincmd L | call  RunTerm("/usr/bin/gh issue create")
 command! Gil :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue list ')
 command!-nargs=1 Giv :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue view ' . <args>)
 command!-nargs=1 Gie :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue  edit ' . <args>)
