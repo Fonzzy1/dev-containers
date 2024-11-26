@@ -4,7 +4,7 @@ command! Gaa :wa |  Git add -u .
 command! Gp :Git push
 command! Gf :Git fetch | Git pull
 command! Gl :vsplit | wincmd L | call  RunTerm("tig")
-command!-nargs=1 Gs :Git switch -c <args>
+command!-nargs=1 Gs :Git switch <args>
 command G :vertical Git
 
 function! GitCommitMessageFn()
