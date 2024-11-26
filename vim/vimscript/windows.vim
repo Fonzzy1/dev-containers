@@ -12,7 +12,6 @@ nnoremap = :horizontal wincmd =<CR>
 autocmd VimResized * wincmd =
 nnoremap + :only<CR>
 
-
 function! MoveRight()
     let l:exempt_ft = ['terminal','nerdtree','Outline','fugitive','gitcommit','qf','calendar','fzf']
     let l:left_bar_ft = ['nerdtree','Outline','calendar','fzf']

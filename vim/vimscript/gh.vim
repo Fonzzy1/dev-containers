@@ -1,24 +1,24 @@
-command! Gr :split | call  RunTerm("/usr/bin/gh pr create -w")
-command! Grl : split | call  RunTerm("/usr/bin/gh pr list")
-command!-nargs=1 Grv : split | call RunTerm('/usr/bin/gh  pr view ' . <args>) 
-command!-nargs=1 Gre : split | call RunTerm('/usr/bin/gh  pr edit ' . <args>)
-command!-nargs=1 Grm : split | call RunTerm('/usr/bin/gh  pr merge ' . <args>)
-command!-nargs=1 Grc : split | call RunTerm('/usr/bin/gh  pr checkout ' . <args>)
-command!-nargs=? Grr : split | call RunTerm('/usr/bin/gh  pr review ' . <args>)
-command!-nargs=? Grd : split | call RunTerm('/usr/bin/gh  pr close ' . <args>)
+command! Gr :vsplit | wincmd L | call  RunTerm("/usr/bin/gh pr create")
+command! Grl :vsplit | wincmd L | call  RunTerm("/usr/bin/gh pr list")
+command!-nargs=1 Grv :vsplit | wincmd L | call RunTerm('/usr/bin/gh  pr view ' . <args>) 
+command!-nargs=1 Gre :vsplit | wincmd L | call RunTerm('/usr/bin/gh  pr edit ' . <args>)
+command!-nargs=1 Grm :vsplit | wincmd L | call RunTerm('/usr/bin/gh  pr merge ' . <args>)
+command!-nargs=1 Grc :vsplit | wincmd L | call RunTerm('/usr/bin/gh  pr checkout ' . <args>)
+command!-nargs=? Grr :vsplit | wincmd L | call RunTerm('/usr/bin/gh  pr review ' . <args>)
+command!-nargs=? Grd :vsplit | wincmd L | call RunTerm('/usr/bin/gh  pr close ' . <args>)
 
-command! Gi :split | call  RunTerm("/usr/bin/gh issue create -w")
-command! Gil : split | call RunTerm('/usr/bin/gh issue list ')
-command!-nargs=1 Giv : split | call RunTerm('/usr/bin/gh issue view ' . <args>)
-command!-nargs=1 Gie : split | call RunTerm('/usr/bin/gh issue  edit ' . <args>)
-command!-nargs=1 Gir : split | call RunTerm('/usr/bin/gh issue comment ' . <args>)
-command!-nargs=1 Gic : split | call RunTerm('/usr/bin/gh issue develop -c ' . <args>)
-command!-nargs=1 Gid : split | call RunTerm('/usr/bin/gh issue close ' . <args>)
-command!-nargs=* Gh : split call StartTerm('/usr/bin/gh ' . <q-args>)
+command! Gi :split | call  RunTerm("/usr/bin/gh issue create")
+command! Gil :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue list ')
+command!-nargs=1 Giv :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue view ' . <args>)
+command!-nargs=1 Gie :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue  edit ' . <args>)
+command!-nargs=1 Gir :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue comment ' . <args>)
+command!-nargs=1 Gic :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue develop -c ' . <args>)
+command!-nargs=1 Gid :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue close ' . <args>)
+command!-nargs=* Gh :vsplit | wincmd L call StartTerm('/usr/bin/gh ' . <q-args>)
 
 command! -nargs=? Gt call RunGhAct(<f-args>)
-command! Gtl : split | call RunTerm('/usr/bin/gh act --list ') | set nornu | set nu! 
-command! Gth : split | call RunTerm('/usr/bin/gh run view ') | set nornu | set nu!  | wincmd L 
+command! Gtl :vsplit | wincmd L | call RunTerm('/usr/bin/gh act --list ') | set nornu | set nu! 
+command! Gth :vsplit | wincmd L | call RunTerm('/usr/bin/gh run view ') | set nornu | set nu!  | wincmd L 
 command! Gtw call VieworWatchLatest()
 
 function! RunGhAct(...)
