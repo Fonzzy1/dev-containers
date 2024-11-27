@@ -17,7 +17,7 @@ Plug 'itchyny/vim-qfedit'
 Plug 'luochen1990/rainbow'
 Plug 'chrisbra/csv.vim' 
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
-Plug 'itchyny/lightline.vim' 
+Plug 'vim-airline/vim-airline'
 Plug 'Yggdroot/indentLine'
 Plug 'ryanoasis/vim-nerdfont'
 Plug 'TaDaa/vimade'

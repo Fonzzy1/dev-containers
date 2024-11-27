@@ -1,42 +1,16 @@
 " Long fix for having two different states for inside and outside working tree
 silent! !git rev-parse --is-inside-work-tree
 if v:shell_error == 0
-	let g:gitgutter_async=0
-	let g:gitgutter_max_signs = -1
-
-
-	let g:lightline = {
-          \ 'colorscheme': 'catppuccin',
-	      \ 'active': {
-	      \   'left': [ [ 'mode', 'paste' ],
-	      \             [ 'gitbranch', 'gitstatus', 'readonly', 'filename', 'modified' ] ]
-	      \ },
-	      \ 'component_function': {
-	      \   'gitbranch': 'FugitiveHead',
-          \   'gitstatus': 'GitStatus',
-	      \ },
-	      \ }
-
-	function! GitStatus()
-	  let [a,m,r] = GitGutterGetHunkSummary()
-	  return printf('+%d ~%d -%d', a, m, r)
-	endfunction
-
-else
-	let g:lightline = {
-                \ 'colorscheme': 'catppuccin',
-	      \ 'active': {
-	      \   'left': [ [ 'mode', 'paste' ],
-	      \             ['readonly', 'filename', 'modified' ] ]
-	      \ },
-	      \ }
-
+    let g:gitgutter_async=0
+    let g:gitgutter_max_signs = -1
 endif
 
 
+let g:airline_theme = 'catppuccin'
+
 "lightline
 if !has('gui_running')
-	  set t_Co=256
+    set t_Co=256
 endif
 set laststatus=2
 
