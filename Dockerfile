@@ -57,7 +57,12 @@ RUN apt-get update && apt-get install -y software-properties-common \
     r-cran-tidyverse \
     vim-gtk3 \
     xclip \
-    poppler-utils
+    poppler-utils \
+    ttf-mscorefonts-installer \
+    fontconfig 
+
+# Fix my fonts
+RUN fc-cache -f -v
 
 # Install node
 RUN set -uex 
