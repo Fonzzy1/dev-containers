@@ -61,8 +61,6 @@ RUN apt-get update && apt-get install -y software-properties-common \
     ttf-mscorefonts-installer \
     fontconfig 
 
-# Fix my fonts
-RUN fc-cache -f -v
 
 # Install node
 RUN set -uex 
@@ -174,6 +172,12 @@ ENV EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
 ENV VISUAL='nvr --remote-wait -cc split +"set bufhidden=delete"'
 ENV GH_EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
 ENV GIT_EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
+
+# Install the fonts
+RUN apt remove ttf-mscorefonts-installer --purge -y
+RUN echo "yes" | apt install ttf-mscorefonts-installer -y
+# Fix my fonts
+RUN fc-cache -f -v
 
 CMD nvim --listen /tmp/nvimsocket
 
