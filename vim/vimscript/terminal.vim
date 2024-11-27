@@ -11,6 +11,7 @@ autocmd VimEnter,BufEnter,FocusGained,WinEnter * let g:slime_vimterminal_cmd = g
 function! StartTerm(cmd)
   " Escape the command for proper execution
   execute 'terminal '. a:cmd
+  startinsert
   setlocal nonumber
   setlocal nornu
   setlocal scl=no
