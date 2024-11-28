@@ -5,10 +5,10 @@ ENV TZ=Australia/Melbourne
 ENV TERM="tmux-256color"
 WORKDIR /src
 
+RUN apt-get update && apt-get install -y software-properties-common 
 RUN add-apt-repository ppa:neovim-ppa/unstable
 # Enviroment Installs 
-RUN apt-get update && apt-get install -y software-properties-common \
-    tig \
+RUN apt-get update && apt-get install -y tig \
     fzf \
     pkg-config \
     texlive \
