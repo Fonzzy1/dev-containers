@@ -3,10 +3,9 @@ local fill = { ',',':', '-', '=', '#', '@' }
 local ascii_heatmap = require('git-dashboard-nvim').setup {
   show_only_weeks_with_commits = false,
   show_contributions_count = true,
-  use_current_branch = false,
+  use_current_branch = true,
   use_git_username_as_author=true,
   title = 'owner_with_repo_name',
-  branch_name='',
   top_padding = 10,
   centered = false,
   empty_square= '.',
