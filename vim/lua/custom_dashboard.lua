@@ -26,7 +26,7 @@ local opts = {
     header = ascii_heatmap,
     center = {
       { action = 'ene | startinsert', desc = 'New file', icon = '', key = 'i' },
-      { action = 'call RunTerm("gh issue list && gh pr list; tail -f /dev/null")', desc = 'List Git', icon = '', key = 'l' },
+      { action = 'call RunTerm("gh issue list && gh pr list && git branch -a; tail -f /dev/null")', desc = 'List Git', icon = '', key = 'l' },
       { action = 'call RunTerm("gh issue new; tail -f /dev/null")', desc = 'Create an issue', icon = '', key = 'n' },
       { action = 'call RunTerm("/bin/bash")', desc = 'Open Terminal', icon = '', key = 't' },
 

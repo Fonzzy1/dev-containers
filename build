@@ -13,7 +13,7 @@ docker build . -t "${username}/vim"
 # Make sure the login was successful before pushing images
 if [ $? -eq 0 ]; then
     #Push Docker Images to Docker Hub
-    #docker push "${username}/vim"
+    docker push "${username}/vim"
 else
     echo "Docker login failed. Cannot push images."
     exit 1
