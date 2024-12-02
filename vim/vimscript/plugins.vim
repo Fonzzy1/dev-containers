@@ -14,13 +14,15 @@ Plug 'junegunn/fzf.vim'
 Plug 'itchyny/vim-qfedit'
 
 " Visual
-Plug 'luochen1990/rainbow'
+Plug 'luochen1990/rainbfw'
 Plug 'chrisbra/csv.vim' 
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 Plug 'vim-airline/vim-airline'
 Plug 'Yggdroot/indentLine'
 Plug 'ryanoasis/vim-nerdfont'
 Plug 'TaDaa/vimade'
+Plug 'nvimdev/dashboard-nvim'
+Plug 'juansalvatore/git-dashboard-nvim'
 
 " Markdown
 

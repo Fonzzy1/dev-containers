@@ -69,6 +69,24 @@ function parse_git_branch() {
 
 export PS1="\u@\h \[\e[32m\]\w \[\e[0;91m\]\$(parse_git_branch) \[\e[0;95m\]\$ENV_STAGE\[\e[00m\]\$ "
 
+function gitdist() {
+    for branch in $(git branch --format='%(refname:short)'); do
+        behind=$(git rev-list --count "${branch}..origin/HEAD")
+        ahead=$(git rev-list --count "origin/HEAD..${branch}")
 
+        echo -n "${branch}: "
+        
+        # If ahead, print in green
+        if [ "$ahead" -gt 0 ]; then
+            echo -n "$(tput setaf 2)ahead by ${ahead} commits$(tput sgr0) "
+        fi
 
+        # If behind, print in red
+        if [ "$behind" -gt 0 ]; then
+            echo -n "$(tput setaf 1)behind by ${behind} commits$(tput sgr0)"
+        fi
+
+        echo
+    done
+}
 
