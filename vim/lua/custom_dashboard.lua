@@ -1,53 +1,41 @@
--- Function to execute shell commands
-local function shell_exec(command)
-  return vim.fn.systemlist(command)
-end
+local fill = { ',',':', '-', '=', '#', '@' }
 
--- Custom function to list branches using Telescope
-function _G.ListBranches()
-  local branches = shell_exec('git branch --list')
-  print(table.concat(branches, '\n'))
-end
+local ascii_heatmap = require('git-dashboard-nvim').setup {
+  show_only_weeks_with_commits = false,
+  show_contributions_count = true,
+  use_current_branch = false,
+  use_git_username_as_author=true,
+  title = 'owner_with_repo_name',
+  branch_name='',
+  top_padding = 10,
+  centered = false,
+  empty_square= '.',
+    colors = {
+        days_and_months_labels = '#8fbcbb',
+        empty_square_highlight = '#3b4252',
+        filled_square_highlights = { '#88c0d0', '#a5adcb', '#8aadf4', '#8bd5ca', '#a6da95', '#eed49f' },
+        branch_highlight = '#88c0d0',
+        dashboard_title = '#88c0d0',
+    },
+  filled_squares=fill
+}
 
--- Custom function to list PRs (using GitHub CLI)
-function _G.ListPRs()
-  local prs = shell_exec('gh pr list')
-  print(table.concat(prs, '\n'))
-end
-
--- Custom function to list Issues (using GitHub CLI)
-function _G.ListIssues()
-  local issues = shell_exec('gh issue list')
-  print(table.concat(issues, '\n'))
-end
-
-require('dashboard').setup {
+local opts = {
   theme = 'doom',
   config = {
-    header = {
-      '',
-      '     _   _   _   _   _   _   _   _',
-      '    / \\ / \\ / \\ / \\ / \\ / \\ / \\ / \\',
-      '   ( N | E | O | V | I | M )   )',
-      '    \\_/ \\_/ \\_/ \\_/ \\_/ \\_/ \\_/ \\_/',
-      '',
-    },
+    header = ascii_heatmap,
     center = {
-      {
-        icon = '  ',
-        desc = 'List all branches   ',
-        action = 'lua ListBranches()'
-      },
-      {
-        icon = '  ',
-        desc = 'List open PRs      ',
-        action = 'lua ListPRs()'
-      },
-      {
-        icon = '  ',
-        desc = 'List issues        ',
-        action = 'lua ListIssues()'
-      }
+      { action = 'ene | startinsert', desc = 'New file', icon = '', key = 'i' },
+      { action = 'call RunTerm("gh issue list && gh pr list; tail -f /dev/null")', desc = 'List Git', icon = '', key = 'l' },
+      { action = 'call RunTerm("gh issue new; tail -f /dev/null")', desc = 'Create an issue', icon = '', key = 'n' },
+      { action = 'call RunTerm("/bin/bash")', desc = 'Open Terminal', icon = '', key = 't' },
+
     },
-  }
+    footer = function()
+      return {}
+    end,
+  },
 }
+
+-- Proper way to require and set up dashboard-nvim
+require('dashboard').setup(opts)
