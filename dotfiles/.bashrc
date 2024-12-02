@@ -69,7 +69,7 @@ function parse_git_branch() {
 
 export PS1="\u@\h \[\e[32m\]\w \[\e[0;91m\]\$(parse_git_branch) \[\e[0;95m\]\$ENV_STAGE\[\e[00m\]\$ "
 
-gitdist() {
+function gitdist() {
     for branch in $(git branch --format='%(refname:short)'); do
         behind=$(git rev-list --count "${branch}..origin/HEAD")
         ahead=$(git rev-list --count "origin/HEAD..${branch}")
@@ -87,6 +87,6 @@ gitdist() {
         fi
 
         echo
-    done}
+    done
+}
 
-export gitdist
