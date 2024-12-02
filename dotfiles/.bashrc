@@ -87,6 +87,6 @@ gitdist() {
         fi
 
         echo
-    done
+    done}
 
 export gitdist
