@@ -21,6 +21,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'Yggdroot/indentLine'
 Plug 'ryanoasis/vim-nerdfont'
 Plug 'TaDaa/vimade'
+Plug 'nvimdev/dashboard-nvim'
 
 " Markdown
 
