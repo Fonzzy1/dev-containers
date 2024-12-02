@@ -87,8 +87,8 @@ RUN fc-cache -fv
 RUN npm install --save-dev --global prettier tree-sitter-cli
 
 # Download and Install Vim-Plug
-RUN curl -fLo /root/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+RUN sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 # Install ACT extention
 RUN mkdir -p /root/.local/share/gh/extensions/gh-act
