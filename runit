@@ -72,6 +72,8 @@ def run_vim(
             "/home/fonzzy/.Xauthority:/root/.Xauthority:rw",
             "-v",
             "/tmp/.X11-unix:/tmp/.X11-unix",
+            '--gpu',
+            'all'
             "--env",
             f"DISPLAY={display}",
             "-v",
