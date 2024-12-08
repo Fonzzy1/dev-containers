@@ -35,4 +35,5 @@ vim.api.nvim_set_keymap("n", "gd", "<cmd>lua require'otter'.ask_definition()<CR>
 vim.api.nvim_set_keymap("n", "gr", "<cmd>lua require'otter'.ask_references()<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "K", "<cmd>lua require'otter'.ask_hover()<CR>", {noremap = true, silent = true})
-
+vim.api.nvim_set_keymap("n", "gn", "<cmd>lua vim.diagnostic.goto_next()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "gp", "<cmd>lua vim.diagnostic.goto_prev()<CR>", { noremap = true, silent = true })
