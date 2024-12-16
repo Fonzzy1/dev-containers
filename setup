@@ -19,6 +19,8 @@ if [ "$1" = "--init" ]; then
   gnome-extensions-cli install 19
   gnome-extensions-cli install 1732
 
+  gnome-extensions-app &&
+
   # Load in catcuppin gnome theme
   mkdir -p ~/.themes
   wget https://github.com/catppuccin/gtk/releases/download/v0.7.1/Catppuccin-Macchiato-Standard-Lavender-Dark.zip -P ~
@@ -66,6 +68,26 @@ if [ "$1" = "--init" ]; then
 # By default, use Vim for most files
 mime ^text,  label editor = vim -- "$@"
 has xdg-open, flag f = xdg-open "$1"' > $HOME/.config/ranger/rifle.conf
+
+# Firefox tiling
+# Define the Firefox profile directory for Linux
+firefox_profile_path="$HOME/.mozilla/firefox"
+# Check if the Firefox profile directory exists
+if [[ ! -d "$firefox_profile_path" ]]; then
+    echo "Firefox profile directory not found."
+    exit 1
+fi
+# Locate the default profile folder
+profile_folder=$(find "$firefox_profile_path" -maxdepth 1 -name '*.default*' | head -n 1)
+# Verify if we found a profile folder
+if [[ -z "$profile_folder" ]]; then
+    echo "No default profile found."
+    exit 1
+fi
+# Create or append the user.js file with the desired configuration
+user_js_path="$profile_folder/user.js"
+echo 'user_pref("full-screen-api.ignore-widgets", true);' >> "$user_js_path"
+echo "Configuration was added to $user_js_path"
 
 # Wallpaper
 # Fetch the image from the url using wget and save it into the specific directory
@@ -122,3 +144,5 @@ mkdir -p ~/.local/bin
 ln -sf $SCRIPT_DIR/runit ~/.local/bin/runit
 
 echo "Setup complete!"
+echo "Remember to set full-screen-api.ignore-widgets to True in about:config"
+
