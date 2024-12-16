@@ -74,7 +74,7 @@ has xdg-open, flag f = xdg-open "$1"' > $HOME/.config/ranger/rifle.conf
 # Fetch the image from the url using wget and save it into the specific directory
 wget -O ~/.wallpaper http://web.archive.org/web/20230326122534if_/https://raw.githubusercontent.com/catppuccin/wallpapers/main/misc/spooky_spill.jpg
 # Set it as your wallpaper
-gsettings set org.gnome.desktop.background picture-uri file:///home/$USER/.wallpaper
+gsettings set org.gnome.desktop.background picture-uri-dark file:///home/$USER/.wallpaper
 fi
 
 if ! command -v docker &> /dev/null
