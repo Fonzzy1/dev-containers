@@ -45,12 +45,14 @@ let g:table_mode_syntax = 1
 
 "" Quato Preview Funtions
 function! QuartoPreview() 
+    :w
     let l:current_file = expand('%:p')
     :split
     call StartTerm('quarto preview "'.l:current_file .'"')
 endfunction
 
 function! QuartoRender() 
+    :w
     let l:current_file = expand('%:p')
     :split
     call StartTerm('quarto render "'.l:current_file .'" --to pdf')
