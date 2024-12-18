@@ -1,4 +1,5 @@
 command! Gc :Git commit | call GitCommitMessageFn()
+command! Gcc :wa |  Git add -u . | Git commit | call GitCommitMessageFn() | Git Push
 command! Ga :w | Git add % 
 command! Gaa :wa |  Git add -u .
 command! Gp :Git push
