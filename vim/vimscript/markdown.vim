@@ -26,6 +26,7 @@ endfunction
 augroup QuartoExtrasGroup
     autocmd!
     autocmd FileType quarto call QuartoExtras()
+    autocmd BufWritePost *.qmd call QuartoExtras()
 augroup END
 
 
