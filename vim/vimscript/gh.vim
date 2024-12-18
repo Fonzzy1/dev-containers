@@ -8,6 +8,7 @@ command!-nargs=? Grr :vsplit | wincmd L | call RunTerm('/usr/bin/gh  pr review '
 command!-nargs=? Grd :vsplit | wincmd L | call RunTerm('/usr/bin/gh  pr close ' . <q-args>)
 
 command! Gi :vsplit | wincmd L | call  RunTerm("/usr/bin/gh issue create")
+command! Giv :vsplit | wincmd L | call  RunTerm("/usr/bin/gh issue create -R fonzzy1/dev-containers")
 command! Gil :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue list ')
 command!-nargs=? Giv :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue view ' . <q-args>)
 command!-nargs=? Gie :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue  edit ' . <q-args>)
