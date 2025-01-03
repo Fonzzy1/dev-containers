@@ -94,6 +94,7 @@ echo "Configuration was added to $user_js_path"
 wget -O ~/.wallpaper http://web.archive.org/web/20230326122534if_/https://raw.githubusercontent.com/catppuccin/wallpapers/main/misc/spooky_spill.jpg
 # Set it as your wallpaper
 gsettings set org.gnome.desktop.background picture-uri-dark file:///home/$USER/.wallpaper
+echo "Remember to set full-screen-api.ignore-widgets to True in about:config"
 fi
 
 if ! command -v docker &> /dev/null
@@ -144,5 +145,4 @@ mkdir -p ~/.local/bin
 ln -sf $SCRIPT_DIR/runit ~/.local/bin/runit
 
 echo "Setup complete!"
-echo "Remember to set full-screen-api.ignore-widgets to True in about:config"
 
