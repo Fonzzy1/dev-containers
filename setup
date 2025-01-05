@@ -12,6 +12,16 @@ if [ "$1" = "--init" ]; then
   sudo apt-get -y upgrade
   sudo apt-get -y install jq zathura feh vlc ranger spotify-client gnome-tweaks vlc xclip python3-pip
 
+  entry="LABEL=ALFIE /mnt/ALFIE auto nosuid,nodev,nofail,x-gvfs-show 0 0"
+
+  # Check if the entry already exists
+  if grep -q '^LABEL=ALFIE' /etc/fstab; then
+      # The entry exists, so replace the line
+      sudo sed -i "s|^LABEL=ALFIE.*|$entry|" /etc/fstab
+  else
+      # The entry does not exist, append it to the file
+      echo "$entry" | sudo tee -a /etc/fstab > /dev/null
+  fi
 
   # Install the gnome extentions
   pip3 install --upgrade gnome-extensions-cli
