@@ -12,6 +12,12 @@ function! QuartoExtras()
     set conceallevel=2
     setlocal wrap
 
+    inoremap <buffer> // []: #
+    syntax match quartoComment "^\s*\[\]: #.*$"
+    highlight link quartoComment Comment
+    vnoremap > >gv
+    vnoremap < <gv
+
     nnoremap <buffer> j gj
     nnoremap <buffer> k gk
     "" todo stuff
