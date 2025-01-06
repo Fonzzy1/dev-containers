@@ -1,9 +1,4 @@
-require("outline").setup({
-  outline_window = {
-    -- Where to open the split window: right/left
-    position = 'left',
-  }
-})
+require("outline").setup({)
 
 -- Define the function in Lua
 function LeftBarToOutline()
