@@ -13,7 +13,7 @@ autocmd VimResized * wincmd =
 nnoremap + :only<CR>
 
 function! MoveRight()
-    let l:left_bar_ft = ['nerdtree','Outline','calendar','fzf']
+    let l:left_bar_ft = ['nerdtree','aerial','calendar','fzf']
     " If it is a left bar element move the element to the left
     if index(l:left_bar_ft, &filetype) >= 0
         wincmd H
@@ -38,7 +38,7 @@ nnoremap bh :new<CR>
 
 function! LeftBarToggle()
     wincmd t
-    if ((&ft=='nerdtree') || (&ft=='Outline') || (&ft=='qf') || (&ft=='calendar'))
+    if ((&ft=='nerdtree') || (&ft=='aerial') || (&ft=='qf') || (&ft=='calendar'))
         close
     endif
     wincmd p
