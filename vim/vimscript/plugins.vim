@@ -10,7 +10,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'Xuyuanp/nerdtree-git-plugin' 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug'simrat39/symbols-outline.nvim'
+Plug 'stevearc/aerial.nvim'
 Plug 'itchyny/vim-qfedit'
 
 " Visual

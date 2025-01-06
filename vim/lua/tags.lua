@@ -1,4 +1,4 @@
-require("outline").setup({)
+require("aerial").setup()
 
 -- Define the function in Lua
 function LeftBarToOutline()
