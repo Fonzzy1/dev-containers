@@ -18,7 +18,7 @@ function! GitCommitMessageFn(issue_number)
     let l:issue_details = system('gh issue view ' . a:issue_number . ' --json title,body --template "{{.title}}: {{.body}}"')
 
     " Append issue information to the prompt
-    let l:prompt .= " and fixes issue #" . a:issue_number . " (" . l:issue_details . ")"
+    let l:prompt .= " and fixes #" . a:issue_number . " (" . l:issue_details . ")"
   endif
 
   let l:prompt .= ":\n" . l:diff
