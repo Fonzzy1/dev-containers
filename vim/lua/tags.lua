@@ -8,7 +8,7 @@ require("outline").setup({
 -- Define the function in Lua
 function LeftBarToOutline()
   vim.cmd("call LeftBarToggle()") -- or use the appropriate Lua function if available
-  vim.cmd("Outline") -- or the equivalent Lua function
+  vim.cmd("SymbolsOutlineOpen") -- or the equivalent Lua function
 end
 
 -- Map the function to a key (e.g., <Leader>s)

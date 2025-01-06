@@ -8,9 +8,9 @@ Plug 'preservim/nerdtree'
 Plug 'tpope/vim-fugitive' 
 Plug 'airblade/vim-gitgutter' 
 Plug 'Xuyuanp/nerdtree-git-plugin' 
-Plug 'hedyhli/outline.nvim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug'simrat39/symbols-outline.nvim'
 Plug 'itchyny/vim-qfedit'
 
 " Visual
