@@ -12,5 +12,5 @@ command G :vertical Git
 function! GitCommitMessageFn()
   let l:diff = system('git --no-pager diff --staged')
   let l:prompt = "generate a short commit message that describe the changes made using the diff below:\n" . l:diff
-  call vim_ai#AIRun(0, l:prompt)
+  call vim_ai#AIRun(0,{}, l:prompt)
 endfunction
