@@ -49,3 +49,17 @@ command! -nargs=1 -complete=file Summarise call Summarise(<f-args>)
 command! -range=% FS <line1>,<line2>AIE fix spelling and gramar using australian english, assume marrdown formatting is being used:
 
 
+
+function! RunPythonScriptInScratch(...)
+    let l:question = join(a:000, ' ')
+    let l:cmd = 'python3 /wiki/References/_ask_question.py ' . shellescape(l:question)
+    let l:result = system(l:cmd)
+    vnew
+    setlocal buftype=nofile
+    setlocal bufhidden=wipe
+    setlocal filetype=quarto
+    setlocal noswapfile
+    call setline(1, split(l:result, "\n"))
+endfunction
+
+command! -nargs=* FindNote call RunPythonScriptInScratch(<f-args>)

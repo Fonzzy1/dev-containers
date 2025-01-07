@@ -72,7 +72,7 @@ RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesourc
 RUN apt-get update && apt-get install nodejs -y;
 
 # Install the python packages
-RUN pip install pipreqs pgcli awscli ipython ipykernel neovim-remote pynvim
+RUN pip install pipreqs pgcli awscli ipython ipykernel neovim-remote pynvim scikit-learn openai
 RUN pip install --no-cache-dir --force-reinstall git+https://github.com/sciunto-org/python-bibtexparser@main
 
 # Install the fonts
