@@ -31,7 +31,7 @@ function! Summarise(file)
     
     " Attempt to call AI service with appropriate error handling
     try
-      call vim_ai#AIRun({"options": {"initial_prompt": l:prompt, 'temperature':0.5}}, l:filetext)
+      call vim_ai#AIRun(5,{"options": {"initial_prompt": l:prompt, 'temperature':0.5}}, l:filetext)
     catch
       echoerr "Error: An issue occurred while trying to summarize the text with the AI service."
     endtry
