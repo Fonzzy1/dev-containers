@@ -8,10 +8,8 @@ Plug 'preservim/nerdtree'
 Plug 'tpope/vim-fugitive' 
 Plug 'airblade/vim-gitgutter' 
 Plug 'Xuyuanp/nerdtree-git-plugin' 
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
 Plug 'stevearc/aerial.nvim'
-Plug 'itchyny/vim-qfedit'
+Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 
 " Visual

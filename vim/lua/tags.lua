@@ -43,4 +43,4 @@ function LeftBarToOutline()
 end
 
 -- Map the function to a key (e.g., <Leader>s)
-vim.api.nvim_set_keymap('n', 's', ':lua LeftBarToOutline()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', 'fs', ':lua LeftBarToOutline()<CR>', { noremap = true, silent = true })

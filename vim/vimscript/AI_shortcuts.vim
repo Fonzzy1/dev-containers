@@ -62,4 +62,3 @@ function! RunPythonScriptInScratch(...)
     call setline(1, split(l:result, "\n"))
 endfunction
 
-command! -nargs=* FindNote call RunPythonScriptInScratch(<f-args>)

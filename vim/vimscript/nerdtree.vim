@@ -23,8 +23,8 @@ autocmd FileType nerdtree  noremap <buffer> / :Files<cr>
 let g:fzf_layout = { 'window': 'enew' }
 let g:fzf_vim = {'preview_window':[]}
 
-nnoremap F :call LeftBarToNerdFind() <CR>
-nnoremap f :call LeftBarToNerd()<CR>
+nnoremap fT :call LeftBarToNerdFind() <CR>
+nnoremap ft :call LeftBarToNerd()<CR>
 
 function! LeftBarToNerd()
     call LeftBarToggle()

@@ -26,7 +26,6 @@ function! QuartoExtras()
     autocmd InsertLeave <buffer> TableModeRealign
     autocmd InsertLeave,TextChanged <buffer> setlocal wrap
     "" Make links
-    lua require"telescope".load_extension("bibtex")
 
     inoremap [@ :Telescope bibtex<cr>
 
