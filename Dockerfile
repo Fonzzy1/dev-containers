@@ -45,7 +45,8 @@ RUN apt-get update && apt-get install -y tig \
     libtool \
     jq \ 
     neovim \
-    gdebi-core
+    gdebi-core \
+    ripgrep
 
 #Install Docker 
 RUN curl -fsSL https://get.docker.com -o install-docker.sh 

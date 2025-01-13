@@ -13,16 +13,11 @@ autocmd VimResized * wincmd =
 nnoremap + :only<CR>
 
 function! MoveRight()
-    let l:left_bar_ft = ['nerdtree','aerial','calendar','fzf']
+    let l:left_bar_ft = ['nerdtree','aerial']
     " If it is a left bar element move the element to the left
     if index(l:left_bar_ft, &filetype) >= 0
         wincmd H
         wincmd t
-        vertical resize 32
-        setlocal winfixwidth
-    endif
-    if (&filetype=='qf')
-        wincmd H
         vertical resize 32
         setlocal winfixwidth
     endif
@@ -38,9 +33,32 @@ nnoremap bh :new<CR>
 
 function! LeftBarToggle()
     wincmd t
-    if ((&ft=='nerdtree') || (&ft=='aerial') || (&ft=='qf') || (&ft=='calendar'))
+    if ((&ft=='nerdtree') || (&ft=='aerial'))
         close
     endif
     wincmd p
 endfunction
 
+
+nnoremap ff <cmd>Telescope find_files<cr>
+nnoremap fg <cmd>Telescope live_grep<cr>
+nnoremap gr <cmd>Telescope lsp_references<cr>
+
+lua << EOF
+require'telescope'.setup {
+  extensions = {
+    bibtex = {
+      -- Depth for the *.bib file
+      depth = 2,
+      search_keys = { 'author', 'year', 'title', 'label' },
+      wrap = true,
+      custom_formats = {
+        {id = 'quarto', cite_marker = '[[%s]]'}
+      },
+      format = 'quarto',
+    }
+  }
+}
+EOF
+
+nnoremap fb <cmd>Telescope bibtex<cr>

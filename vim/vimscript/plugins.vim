@@ -8,10 +8,9 @@ Plug 'preservim/nerdtree'
 Plug 'tpope/vim-fugitive' 
 Plug 'airblade/vim-gitgutter' 
 Plug 'Xuyuanp/nerdtree-git-plugin' 
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
 Plug 'stevearc/aerial.nvim'
-Plug 'itchyny/vim-qfedit'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 
 " Visual
 Plug 'luochen1990/rainbfw'
@@ -25,7 +24,7 @@ Plug 'nvimdev/dashboard-nvim'
 Plug 'juansalvatore/git-dashboard-nvim'
 
 " Markdown
-
+Plug 'nvim-telescope/telescope-bibtex.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
 Plug 'mattn/calendar-vim'
