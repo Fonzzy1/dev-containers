@@ -27,7 +27,7 @@ function! QuartoExtras()
     autocmd InsertLeave,TextChanged <buffer> setlocal wrap
     "" Make links
 
-    inoremap [[[ <cmd>Telescope bibtex
+    inoremap [[[ <cmd>Telescope bibtex<cr>
 
 endfunction
 
