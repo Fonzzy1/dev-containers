@@ -1,7 +1,7 @@
 let g:NERDTreeGitStatusUseNerdFonts = 0 " you should install nerdfonts by yourself. default: 0
 let g:NERDTreeGitStatusShowIgnored = 1 " a heavy feature may cost much more time. default: 0
 
-let g:NERDTreeCustomOpenArgs = {'file':{'where': 'v', 'reuse':'all', 'keepopen':1}}
+let g:NERDTreeCustomOpenArgs = {'file':{'where': 'p', 'reuse':'all', 'keepopen':1}}
 
 " Remap nerdtree opens to v and h
 let NERDTreeMapOpenVSplit='v'

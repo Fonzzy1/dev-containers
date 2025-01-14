@@ -2,7 +2,6 @@ set ruler
 set fillchars+=vert:\|
 set visualbell
 set autoindent
-set splitbelow
 set splitright
 set expandtab
 set shiftwidth=4
