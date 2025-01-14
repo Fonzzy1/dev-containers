@@ -32,6 +32,7 @@ nnoremap fg <cmd>Telescope live_grep<cr>
 nnoremap gr <cmd>Telescope lsp_references<cr>
 
 lua << EOF
+local actions = require "telescope.actions"
 require'telescope'.setup {
     defaults = {
         mappings = {
