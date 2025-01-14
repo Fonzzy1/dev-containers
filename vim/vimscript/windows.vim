@@ -50,8 +50,9 @@ require'telescope'.setup {
     bibtex = {
       -- Depth for the *.bib file
       depth = 2,
-      search_keys = { 'author', 'year', 'title', 'label' },
+      search_keys = { 'author', 'year', 'title', 'keywords' },
       wrap = true,
+      citation_max_auth = 1,
       custom_formats = {
         {id = 'quarto', cite_marker = '[[%s]]'}
       },
