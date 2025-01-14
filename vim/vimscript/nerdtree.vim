@@ -20,13 +20,11 @@ nnoremap ft :call LeftBarToNerd()<CR>
 
 function! LeftBarToNerd()
     call LeftBarToggle()
-    call Set_nerdtree_open_args()
     NERDTreeFocus
 endfunction
 
 function! LeftBarToNerdFind()
     call LeftBarToggle()
-    call Set_nerdtree_open_args()
     NERDTreeFind
 endfunction
 
