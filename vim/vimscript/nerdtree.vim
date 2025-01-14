@@ -26,4 +26,4 @@ function! LeftBarToNerdFind()
 endfunction
 
 
-autocmd BufEnter * if bufname('#') =~ 'NERD_tree_' && winnr('$') == 1 | q | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
