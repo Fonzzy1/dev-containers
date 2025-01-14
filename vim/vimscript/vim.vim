@@ -3,6 +3,7 @@ set fillchars+=vert:\|
 set visualbell
 set autoindent
 set splitright
+set splitbelow
 set expandtab
 set shiftwidth=4
 set tabstop=4
