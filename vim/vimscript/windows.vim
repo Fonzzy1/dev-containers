@@ -11,7 +11,7 @@ tnoremap <c-l> <Cmd>wincmd l<CR>
 nnoremap = :horizontal wincmd =<CR>
 autocmd VimResized * wincmd =
 set equalalways
-nnoremap + :tabedit %<cr>
+nnoremap + :let pos=getpos(".")<CR>:tabedit %<CR>:call setpos(".", pos)<CR>
 
 " Easier Nav of buffers
 nnoremap bv :vnew<CR>:wincmd L<CR>

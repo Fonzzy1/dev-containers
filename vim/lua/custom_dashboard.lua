@@ -39,12 +39,3 @@ local opts = {
 -- Proper way to require and set up dashboard-nvim
 require('dashboard').setup(opts)
 
-vim.api.nvim_create_autocmd('BufEnter', {
-  pattern = '*',
-  callback = function()
-    if vim.bo.filetype == 'dashboard' then
-      vim.cmd('bd') -- close the dashboard buffer
-    end
-  end,
-  nested = true,
-})
