@@ -13,7 +13,12 @@ command! Gil :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue list ')
 command!-nargs=? Giv :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue view ' . <q-args>)
 command!-nargs=? Gie :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue  edit ' . <q-args>)
 command!-nargs=? Gir :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue comment ' . <q-args>)
-command!-nargs=? Gic :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue develop -c ' . <q-args>)
+command! -nargs=1 Gic :vsplit | wincmd L | call RunTerm(
+    \ 'if git show-ref --verify --quiet refs/heads/'.shellescape(<q-args>).'; then ' .
+    \ 'git checkout '.shellescape(<q-args>).'; else ' .
+    \ '/usr/bin/gh issue develop -c '.shellescape(<q-args>).'; ' .
+    \ 'git checkout '.shellescape(<q-args>).'; fi'
+)
 command!-nargs=? Gid :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue close ' . <q-args>)
 command!-nargs=* Gh :vsplit | wincmd L call StartTerm('/usr/bin/gh ' . <q-args>)
 
