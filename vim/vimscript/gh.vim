@@ -34,6 +34,7 @@ function! CheckoutOrCreateBranchFromIssue(issue_number)
   if !empty(l:branches)
     " Extract the branch name, assuming the first match is relevant
     let l:branch_name = split(l:branches)[0]
+    let l:branch_name = substitute(l:branch_name, '^origin/', '', '')
 
     " Checkout the found branch
     execute '!git checkout ' . l:branch_name
