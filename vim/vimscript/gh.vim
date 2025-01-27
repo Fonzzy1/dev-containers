@@ -13,7 +13,8 @@ command! Gil :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue list ')
 command!-nargs=? Giv :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue view ' . <q-args>)
 command!-nargs=? Gie :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue  edit ' . <q-args>)
 command!-nargs=? Gir :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue comment ' . <q-args>)
-command! -nargs=1 Gic :vsplit | wincmd L | call RunTerm('if git show-ref --verify --quiet refs/heads/'.shellescape(<q-args>).'; then git checkout '.shellescape(<q-args>).'; else /usr/bin/gh issue develop -c '.shellescape(<q-args>).'; git checkout '.shellescape(<q-args>).'; fi')
+command! -nargs=1 Gic :call CheckoutOrCreateBranchFromIssue(<q-args>)
+
 command!-nargs=? Gid :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue close ' . <q-args>)
 command!-nargs=* Gh :vsplit | wincmd L call StartTerm('/usr/bin/gh ' . <q-args>)
 
@@ -21,6 +22,29 @@ command! -nargs=? Gt call RunGhAct(<f-args>)
 command! Gtl :vsplit | wincmd L | call RunTerm('/usr/bin/gh act --list ') | set nornu | set nu! 
 command! Gth :vsplit | wincmd L | call RunTerm('/usr/bin/gh run view ') | set nornu | set nu!  | wincmd L 
 command! Gtw call VieworWatchLatest()
+
+function! CheckoutOrCreateBranchFromIssue(issue_number)
+  " Store the command to check for existing branches
+  let l:branch_check_cmd = 'git branch -r --list | grep ' . a:issue_number 
+
+  " Run the command and capture the output
+  let l:branches = system(l:branch_check_cmd)
+
+  " Check if we found any branches
+  if !empty(l:branches)
+    " Extract the branch name, assuming the first match is relevant
+    let l:branch_name = split(l:branches)[0]
+
+    " Checkout the found branch
+    execute '!git checkout ' . l:branch_name
+  else
+    " Use gh to develop the issue, which will create a branch
+    let l:gh_cmd = '1gh issue develop ' . a:issue_number
+
+    " Run the gh command
+    execute l:gh_cmd
+  endif
+endfunction
 
 function! RunGhAct(...)
   let github_token = $GH_TOKEN
