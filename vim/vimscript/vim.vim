@@ -10,6 +10,7 @@ set tabstop=4
 set linebreak
 set nospell
 set belloff=all
+set nowrap
 syntax on
 set background=dark
 set signcolumn=yes
