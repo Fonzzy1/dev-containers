@@ -67,6 +67,14 @@ function! QuartoRender()
     call StartTerm('quarto render "'.l:current_file .'" --to pdf')
 endfunction
 
+function! QuartoPublish() 
+    :w
+    let l:current_file = expand('%:p')
+    :split
+    call StartTerm('quarto render "'.l:current_file .'" --to pdf --output-dir "/wiki/Public; cd /wiki/Public; git add .; git commit -m"Add '.l:current_file.'"; git push')
+endfunction
+
 command! Preview :call QuartoPreview()
+command! Publish :call QuartoPublish()
 command! Render :call QuartoRender()
 
