@@ -70,7 +70,7 @@ endfunction
 function! QuartoPublish()
     :w
     let l:current_file = expand('%:p')
-    let l:output_file = "expand('%:t:r') . ".pdf"
+    let l:output_file = expand('%:t:r') . ".pdf"
     :split
     call StartTerm('cd /wiki/Public; quarto render "' . l:current_file . '" --to pdf -o "' . l:output_file . '";  git add .; git commit -m "Add ' . expand('%:t') . '"; git push')
 endfunction
