@@ -33,7 +33,8 @@ nnoremap gr <cmd>Telescope lsp_references<cr>
 
 lua << EOF
 local actions = require "telescope.actions"
-require'telescope'.setup {
+local bibtex_actions = require('telescope-bibtex.actions')
+require 'telescope'.setup {
     defaults = {
         mappings = {
             i = {
@@ -44,19 +45,27 @@ require'telescope'.setup {
             },
         }
     },
-  extensions = {
-    bibtex = {
-      -- Depth for the *.bib file
-      depth = 2,
-      search_keys = { 'author', 'year', 'title', 'keywords' },
-      wrap = true,
-      citation_max_auth = 1,
-      custom_formats = {
-        {id = 'quarto', cite_marker = '[[%s]]'}
-      },
-      format = 'quarto',
+    extensions = {
+        bibtex = {
+            -- Depth for the *.bib file
+            depth = 2,
+            search_keys = { 'author', 'year', 'title', 'keywords' },
+            wrap = true,
+            citation_max_auth = 1,
+            custom_formats = {
+                { id = 'quarto', cite_marker = '[[%s]]' }
+            },
+            format = 'quarto',
+            mappings = {
+                i = {
+                    ["<CR>"] = bibtex_actions.key_append('[[%s]]'),
+                },
+                n = {
+                    ["<CR>"] = bibtex_actions.key_append('[[%s]]'),
+                }
+            }
+        }
     }
-  }
 }
 EOF
 
