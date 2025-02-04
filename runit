@@ -107,7 +107,7 @@ def run_notes(args):
         env_location,
         mount_dir=temp_dir,
         mount_dir_name="wiki",
-        command="gh repo clone wiki /wiki -- --recurse-submodules && nvim /wiki",
+        command="gh repo clone wiki /wiki -- --recurse-submodules; nvim;",
         check_changes=True,
         clean_mount_dir=True,
     )
