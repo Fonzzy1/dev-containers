@@ -14,7 +14,7 @@ Plug 'nvim-telescope/telescope.nvim'
 
 " Visual
 Plug 'luochen1990/rainbfw'
-Plug 'chrisbra/csv.vim' 
+Plug 'csvview.nvim' 
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 Plug 'vim-airline/vim-airline'
 Plug 'Yggdroot/indentLine'

@@ -44,3 +44,5 @@ augroup CursorLine
     au WinLeave * setlocal nocursorline
 augroup END
 
+
+lua require('csvview').setup()
