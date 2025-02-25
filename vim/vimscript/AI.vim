@@ -45,3 +45,5 @@ let chat_engine_config = {
 
 let g:vim_ai_complete = chat_engine_config
 let g:vim_ai_edit = chat_engine_config
+
+

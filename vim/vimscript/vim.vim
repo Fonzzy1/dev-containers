@@ -33,6 +33,7 @@ let g:python3_host_prog = '/usr/bin/python3'
 nnoremap gb <c-o>
 nnoremap ; :
 
-
 vnoremap > >gv
 vnoremap < <gv
+
+vnoremap ac gc

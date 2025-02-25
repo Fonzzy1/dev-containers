@@ -21,7 +21,7 @@ function! QuartoExtras()
     nnoremap <buffer> j gj
     nnoremap <buffer> k gk
     "" todo stuff
-    nnoremap gt :ToggleCheckbox<cr>
+    nnoremap at :ToggleCheckbox<cr>
 
     autocmd InsertLeave <buffer> TableModeRealign
     autocmd InsertLeave,TextChanged <buffer> setlocal wrap

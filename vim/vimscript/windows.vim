@@ -14,9 +14,9 @@ set equalalways
 nnoremap + :let pos=getpos(".")<CR>:tabedit %<CR>:call setpos(".", pos)<CR>
 
 " Easier Nav of buffers
-nnoremap bv :vnew<CR>:wincmd L<CR>
+nnoremap gvb :vnew<CR>:wincmd L<CR>
 
-nnoremap bh :new<CR>
+nnoremap gb :new<CR>
 
 function! LeftBarToggle()
     wincmd t

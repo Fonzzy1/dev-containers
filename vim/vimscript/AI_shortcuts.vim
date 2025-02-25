@@ -46,10 +46,6 @@ endfunction
 " Define the command to call the function
 command! -nargs=1 -complete=file Summarise call Summarise(<f-args>)
 
-command! -range=% FS <line1>,<line2>AIE fix spelling and gramar using australian english, assume marrdown formatting is being used:
-
-
-
 function! RunPythonScriptInScratch(...)
     let l:question = join(a:000, ' ')
     let l:cmd = 'python3 /wiki/References/_ask_question.py ' . shellescape(l:question)
@@ -62,3 +58,12 @@ function! RunPythonScriptInScratch(...)
     call setline(1, split(l:result, "\n"))
 endfunction
 
+
+nnoremap gc :AIC<CR>
+vnoremap gc :'<,'>AIC read this and wait for further instructions. Only respond with 'Understood'<CR>
+
+vnoremap as :'<,'>AIE fix spelling and gramar using australian english, assume marrdown formatting is being used. Only return the text without wraping it in code blocks:<cr>
+nnoremap as :.AIE fix spelling and gramar using australian english, assume marrdown formatting is being used. Only return the text without wraping it in code blocks:<cr>
+
+nnoremap ac :AI Complete this with boilerplate code:<CR>
+vnoremap ac :'<,'>Complete this with boilerplate code:<CR>
