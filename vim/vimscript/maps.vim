@@ -9,13 +9,13 @@
 
 
 "act
-vnoremap ad gc
+vnoremap ac gc
 nnoremap <silent> aa :lua vim.lsp.buf.code_action()<CR>
 nnoremap at :split \| call StartTerm(g:slime_vimterminal_cmd." %")<CR>
 vnoremap as :'<,'>AIE fix spelling and gramar using australian english, assume marrdown formatting is being used. Only return the text without wraping it in code blocks:<cr>
 nnoremap as :.AIE fix spelling and gramar using australian english, assume marrdown formatting is being used. Only return the text without wraping it in code blocks:<cr>
-nnoremap ac :.AI Complete this with boilerplate code:<CR>
-vnoremap ac :'<,'>AI Complete this with boilerplate code:<CR>
+nnoremap af :.AI Complete this with boilerplate code:<CR>
+vnoremap af :'<,'>AI Complete this with boilerplate code:<CR>
 
 "spawn
 nnoremap svb :vnew<CR>:wincmd L<CR>

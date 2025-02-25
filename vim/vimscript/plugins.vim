@@ -14,12 +14,11 @@ Plug 'nvim-telescope/telescope.nvim'
 
 " Visual
 Plug 'luochen1990/rainbfw'
-Plug 'csvview.nvim' 
+Plug 'hat0uma/csvview.nvim' 
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 Plug 'vim-airline/vim-airline'
 Plug 'Yggdroot/indentLine'
 Plug 'ryanoasis/vim-nerdfont'
-Plug 'TaDaa/vimade'
 Plug 'nvimdev/dashboard-nvim'
 Plug 'juansalvatore/git-dashboard-nvim'
 
