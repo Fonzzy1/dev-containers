@@ -13,6 +13,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 
 " Visual
+Plug 'nvim-tree/nvim-web-devicons'
 Plug 'luochen1990/rainbfw'
 Plug 'hat0uma/csvview.nvim' 
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
