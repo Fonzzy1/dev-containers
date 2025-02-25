@@ -31,6 +31,7 @@ Plug 'vitalk/vim-simple-todo'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'jbyuki/nabla.nvim'
 Plug 'bullets-vim/bullets.vim'
+Plug 'OXY2DEV/markview.nvim'
 
 " LSP
 Plug 'jmbuhr/otter.nvim', { 'tag': 'v1.15.1' }

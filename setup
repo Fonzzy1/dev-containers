@@ -10,7 +10,7 @@ if [ "$1" = "--init" ]; then
   ## Load in the apps that I use for viewing media
   sudo apt-get -y update
   sudo apt-get -y upgrade
-  sudo apt-get -y install jq zathura feh vlc ranger spotify-client gnome-tweaks vlc xclip python3-pip
+  sudo apt-get -y install jq zathura feh vlc ranger spotify-client gnome-tweaks vlc xclip python3-pip kitty
 
   entry="LABEL=ALFIE /mnt/ALFIE auto nosuid,nodev,nofail,x-gvfs-show 0 0"
 
@@ -47,6 +47,56 @@ if [ "$1" = "--init" ]; then
   dconf write /org/gnome/shell/extensions/pop-shell/stacking-with-mouse false
   gsettings set org.gnome.Terminal.Legacy.Settings headerbar false
   gsettings set org.gnome.desktop.interface enable-animations false
+
+    echo '#!/bin/bash
+    HISTCONTROL=ignoreboth
+    shopt -s histappend
+    HISTSIZE=1000
+    HISTFILESIZE=2000
+
+    shopt -s checkwinsize
+
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls="ls --color=auto"
+    alias grep="grep --color=auto"
+    alias fgrep="fgrep --color=auto"
+    alias egrep="egrep --color=auto"
+
+    # some more ls aliases
+    alias ll="ls -alF"
+    alias la="ls -A"
+    alias l="ls -CF"
+
+    # enable programmable completion features (you don'"'"'t need to enable
+    # this, if it'"'"'s already enabled in /etc/bash.bashrc and /etc/profile
+    # sources /etc/bash.bashrc).
+    if ! shopt -oq posix; then
+      if [ -f /usr/share/bash-completion/bash_completion ]; then
+        . /usr/share/bash-completion/bash_completion
+      elif [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+      fi
+    fi
+
+    PS1="\[\e[0;32m\]\A \[\e[1;34m\]\u\[\e[0;37m\]@\[\e[0;34m\]\h \[\e[0;35m\]\w \[\e[0m\]|> "
+    ' > ~/.bashrc
+
+    cat ~/.bashrc > ~/.bash_profile
+
+  #NERDFONT
+  wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip \
+  && cd ~/.local/share/fonts \
+  && unzip JetBrainsMono.zip \
+  && rm JetBrainsMono.zip \
+  && fc-cache -fv
+
+  # Kitty theme
+  sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
+  mkdir -p $HOME/.config/kitty
+  curl https://raw.githubusercontent.com/catppuccin/kitty/refs/heads/main/themes/macchiato.conf -o ~/.config/kitty/kitty.conf
+  echo "font_family JetBrainsMonoNL Nerd Font Mono" >> ~/.config/kitty/kitty.conf
+  echo "enable_audio_bell no" >> ~/.config/kitty/kitty.conf
+
 
   # Zathura Theme
   mkdir -p $HOME/.config/zathura
