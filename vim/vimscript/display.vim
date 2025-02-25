@@ -45,4 +45,3 @@ augroup CursorLine
 augroup END
 
 
-lua require('csvview').setup()
