@@ -7,6 +7,7 @@
 "(f)ind: find something, or show something. Wont move cursor
 "(g)o: jump to something.
 
+
 "act
 vnoremap ad gc
 nnoremap <silent> aa :lua vim.lsp.buf.code_action()<CR>
