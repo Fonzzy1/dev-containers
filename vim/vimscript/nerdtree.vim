@@ -12,17 +12,17 @@ let NERDTreeDirArrows = 1
 let g:NERDTreeWinSize = 32   " Set the width to 30 columns (adjust to your preference)
 
 
-nnoremap gT :call LeftBarToNerdFind() <CR>
-nnoremap gt :call LeftBarToNerd()<CR>
 
 function! LeftBarToNerd()
     call LeftBarToggle()
     NERDTreeFocus
+    wincmd p
 endfunction
 
 function! LeftBarToNerdFind()
     call LeftBarToggle()
     NERDTreeFind
+    wincmd p
 endfunction
 
 

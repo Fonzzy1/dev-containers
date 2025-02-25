@@ -13,10 +13,6 @@ autocmd VimResized * wincmd =
 set equalalways
 nnoremap + :let pos=getpos(".")<CR>:tabedit %<CR>:call setpos(".", pos)<CR>
 
-" Easier Nav of buffers
-nnoremap gvb :vnew<CR>:wincmd L<CR>
-
-nnoremap gb :new<CR>
 
 function! LeftBarToggle()
     wincmd t
@@ -27,9 +23,6 @@ function! LeftBarToggle()
 endfunction
 
 
-nnoremap ff <cmd>Telescope find_files<cr>
-nnoremap fg <cmd>Telescope live_grep<cr>
-nnoremap gr <cmd>Telescope lsp_references<cr>
 
 lua << EOF
 local actions = require "telescope.actions"
@@ -69,4 +62,3 @@ require 'telescope'.setup {
 }
 EOF
 
-nnoremap fb <cmd>Telescope bibtex<cr>

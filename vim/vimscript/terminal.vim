@@ -29,8 +29,5 @@ function! RunTerm(cmd)
   setlocal scl=no
 endfunction
 
-nnoremap gt :split \| call StartTerm(g:slime_vimterminal_cmd)<CR>
-nnoremap at :split \| call StartTerm(g:slime_vimterminal_cmd." %")<CR>
-nnoremap gvt :vsplit \| wincmd L \| call StartTerm(g:slime_vimterminal_cmd)<CR>
 tnoremap <Esc><Esc> <C-\><C-n>
 

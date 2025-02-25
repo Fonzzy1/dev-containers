@@ -59,11 +59,3 @@ function! RunPythonScriptInScratch(...)
 endfunction
 
 
-nnoremap gc :AIC<CR>
-vnoremap gc :'<,'>AIC read this and wait for further instructions. Only respond with 'Understood'<CR>
-
-vnoremap as :'<,'>AIE fix spelling and gramar using australian english, assume marrdown formatting is being used. Only return the text without wraping it in code blocks:<cr>
-nnoremap as :.AIE fix spelling and gramar using australian english, assume marrdown formatting is being used. Only return the text without wraping it in code blocks:<cr>
-
-nnoremap ac :AI Complete this with boilerplate code:<CR>
-vnoremap ac :'<,'>Complete this with boilerplate code:<CR>

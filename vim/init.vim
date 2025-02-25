@@ -23,3 +23,5 @@ lua require("lsp")
 lua require("tree_config")
 lua require("tags")
 lua require("custom_dashboard")
+
+source  ~/.config/nvim/vimscript/maps.vim
