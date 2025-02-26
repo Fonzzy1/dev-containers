@@ -11,7 +11,6 @@
 "act
 vnoremap ac gc
 nnoremap <silent> aa :lua vim.lsp.buf.code_action()<CR>
-nnoremap at :split \| call StartTerm(g:slime_vimterminal_cmd." %")<CR>
 vnoremap as :'<,'>AIE fix spelling and gramar using australian english, assume marrdown formatting is being used. Only return the text without wraping it in code blocks:<cr>
 nnoremap as :.AIE fix spelling and gramar using australian english, assume marrdown formatting is being used. Only return the text without wraping it in code blocks:<cr>
 nnoremap af :.AI Complete this with boilerplate code:<CR>
@@ -24,6 +23,7 @@ nnoremap sc :AIC<CR>
 vnoremap sc :'<,'>AIC read this and wait for further instructions. Only respond with 'Understood.'<CR>
 nnoremap st :split \| call StartTerm(g:slime_vimterminal_cmd)<CR>
 nnoremap svt :vsplit \| call StartTerm(g:slime_vimterminal_cmd)<CR>
+nnoremap st :split \| call StartTerm(g:slime_vimterminal_cmd." %")<CR>
 
 "find
 nnoremap fT :call LeftBarToNerdFind() <CR>
