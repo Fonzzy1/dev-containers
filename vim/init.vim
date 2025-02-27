@@ -1,6 +1,5 @@
 set nocompatible
 
-
 " vimscript
 source  ~/.config/nvim/vimscript/vim.vim
 source  ~/.config/nvim/vimscript/plugins.vim

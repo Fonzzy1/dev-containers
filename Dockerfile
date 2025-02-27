@@ -6,7 +6,6 @@ ENV TERM="tmux-256color"
 WORKDIR /src
 
 RUN apt-get update && apt-get install -y software-properties-common 
-RUN add-apt-repository ppa:neovim-ppa/unstable
 # Enviroment Installs 
 RUN apt-get update && apt-get install -y tig \
     fzf \
@@ -44,7 +43,6 @@ RUN apt-get update && apt-get install -y tig \
     automake \
     libtool \
     jq \ 
-    neovim \
     gdebi-core \
     ripgrep
 
@@ -87,9 +85,6 @@ RUN fc-cache -fv
 # Install npm packages
 RUN npm install --save-dev --global prettier tree-sitter-cli
 
-# Download and Install Vim-Plug
-RUN sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 # Install ACT extention
 RUN mkdir -p /root/.local/share/gh/extensions/gh-act
@@ -142,9 +137,19 @@ RUN quarto install tinytex
 COPY dotfiles /root
 COPY dotfiles/.bashrc /root/.bash_profile
 
+
+# Install nvim
+RUN wget https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+RUN tar -xzf nvim-linux-x86_64.tar.gz
+RUN mv nvim-linux-x86_64 /usr/local/
+RUN ln -s /usr/local/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim
+
 # Bring in the vim config
 COPY vim /root/.config/nvim/
-RUN nvim +PlugInstall +qall
+# Download and Install Vim-Plug
+RUN sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+RUN nvim -u /root/.config/nvim/vimscript/plugins.vim +PlugInstall +qall
 
 #Copy in the scripts
 COPY run_scripts /scripts

@@ -6,7 +6,6 @@ import uuid
 import subprocess
 
 
-
 # Location for mounts
 script_location = os.path.dirname(os.path.realpath(__file__))
 env_location = os.path.dirname(script_location) + "/env"
@@ -29,7 +28,7 @@ def run_vim(
     env_location,
     mount_dir,
     mount_dir_name=None,
-    command="nvim;",
+    command="bash;",
     check_changes=True,
     clean_mount_dir=False,
 ):
