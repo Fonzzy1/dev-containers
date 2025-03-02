@@ -11,7 +11,6 @@ tnoremap <c-l> <Cmd>wincmd l<CR>
 nnoremap = :horizontal wincmd =<CR>
 autocmd VimResized * wincmd =
 set equalalways
-nnoremap + :let pos=getpos(".")<CR>:tabedit %<CR>:call setpos(".", pos)<CR>
 
 
 function! LeftBarToggle()
