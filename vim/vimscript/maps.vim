@@ -38,6 +38,7 @@ nnoremap <silent> fd :lua require'otter'.ask_hover()<CR>
 "delete
 nnoremap do :let pos=getpos(".")<CR>:tabedit %<CR>:call setpos(".", pos)<CR>
 nnoremap dw :wq<CR>
+nnoremap ds :q<CR>
 
 "go
 nnoremap gb <c-o>

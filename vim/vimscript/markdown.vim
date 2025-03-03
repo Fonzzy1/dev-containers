@@ -10,9 +10,9 @@ function! QuartoExtras()
 
     "" Conceal For links
     set conceallevel=2
-    setlocal wrap
 
-    inoremap <buffer> // []: #
+    let b:commentstring = "[]: # %s"
+    unlet b:commentary_format
     syntax match quartoComment "^\s*\[\]: #.*$"
     highlight link quartoComment Comment
     vnoremap > >gv
