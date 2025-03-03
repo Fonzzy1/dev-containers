@@ -28,6 +28,8 @@ set shell=/bin/bash
 let $PATH = $PATH . ':/usr/bin'
 let g:python3_host_prog = '/usr/bin/python3'
 
+filetype plugin indent on
+
 
 "" Quick nav maps
 nnoremap ; :

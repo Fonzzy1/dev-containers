@@ -9,7 +9,8 @@
 "(d)elete: close and hide thingd.
 
 "act
-vnoremap ac gc
+vnoremap ac :'<,'>Commentary<cr>
+nnoremap ac :Commentary<cr>
 nnoremap <silent> aa :lua vim.lsp.buf.code_action()<CR>
 vnoremap as :'<,'>AIE fix spelling and grammar using Australian English, assume markdown formatting is being used. Only return the text without wrapping it in code blocks:<cr>
 nnoremap as :.AIE fix spelling and grammar using Australian English, assume markdown formatting is being used. Only return the text without wrapping it in code blocks:<cr>
@@ -36,7 +37,7 @@ nnoremap <silent> fd :lua require'otter'.ask_hover()<CR>
 
 "delete
 nnoremap do :let pos=getpos(".")<CR>:tabedit %<CR>:call setpos(".", pos)<CR>
-nnoremap dw :q
+nnoremap dw :wq<CR>
 
 "go
 nnoremap gb <c-o>

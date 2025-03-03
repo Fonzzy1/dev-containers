@@ -34,6 +34,8 @@ Plug 'jbyuki/nabla.nvim'
 Plug 'bullets-vim/bullets.vim'
 Plug 'OXY2DEV/markview.nvim'
 
+Plug 'tpope/vim-commentary'
+
 " LSP
 Plug 'jmbuhr/otter.nvim', { 'tag': 'v1.15.1' }
 Plug 'hrsh7th/cmp-nvim-lsp'
