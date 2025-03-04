@@ -11,10 +11,6 @@ function! QuartoExtras()
     "" Conceal For links
     set conceallevel=2
 
-    let b:commentstring = "[]: # %s"
-    unlet b:commentary_format
-    syntax match quartoComment "^\s*\[\]: #.*$"
-    highlight link quartoComment Comment
     vnoremap > >gv
     vnoremap < <gv
 
@@ -23,9 +19,7 @@ function! QuartoExtras()
     "" todo stuff
 
     autocmd InsertLeave <buffer> TableModeRealign
-    autocmd InsertLeave,TextChanged <buffer> setlocal wrap
     "" Make links
-
     inoremap [[[ <cmd>Telescope bibtex<cr>
 
 endfunction
