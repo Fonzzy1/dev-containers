@@ -66,15 +66,25 @@ require("virt-column").setup({
   char = "┃",
   virtcolumn = "80",
   exclude = {
-    'fugitive',
-    'help',
-    'gitcommit',
-    'lspinfo',
-    'packer',
-    'checkhealth',
-    'man',
-    'TelescopePrompt',
-    'TelescopeResults'
+    filetypes = {
+        'fugitive',
+        'help',
+        'gitcommit',
+        'lspinfo',
+        'packer',
+        'checkhealth',
+        'man',
+        'TelescopePrompt',
+        'TelescopeResults'
+        },
+    buftypes = { 
+            "nofile", 
+            "quickfix", 
+            "terminal", 
+            "prompt" 
+        },
+    },
+
   }
-})
+)
 EOF
