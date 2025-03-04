@@ -17,8 +17,8 @@ set laststatus=2
 "Relative Numbers
 augroup numbertoggle
   autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
-  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu | endif
+  autocmd BufLeave,FocusLost,InsertEnter,WinLeave * if &nu | set nornu | endif
 augroup END
 
 " Color stuff
@@ -30,7 +30,24 @@ set termguicolors
 silent! colorscheme catppuccin-macchiato
 let g:rainbow_active = 1
 " Color for the terminal
-let g:terminal_ansi_colors = ["#45475A", "#F38BA8", "#A6E3A1", "#F9E2AF", "#89B4FA", "#F5C2E7", "#94E2D5", "#BAC2DE", "#585B70", "#F38BA8", "#A6E3A1", "#F9E2AF", "#89B4FA", "#F5C2E7", "#94E2D5", "#A6ADC8"]
+let g:terminal_ansi_colors = [
+    \ "#45475A",
+    \ "#F38BA8",
+    \ "#A6E3A1",
+    \ "#F9E2AF",
+    \ "#89B4FA",
+    \ "#F5C2E7",
+    \ "#94E2D5",
+    \ "#BAC2DE",
+    \ "#585B70",
+    \ "#F38BA8",
+    \ "#A6E3A1",
+    \ "#F9E2AF",
+    \ "#89B4FA",
+    \ "#F5C2E7",
+    \ "#94E2D5",
+    \ "#A6ADC8"
+\ ]
 " Color for git GitGutter
 highlight GitGutterAdd    guifg=#89B4FA guibg=NONE
 highlight GitGutterChange guifg=#F9E2AF guibg=NONE
@@ -44,4 +61,4 @@ augroup CursorLine
     au WinLeave * setlocal nocursorline
 augroup END
 
-
+lua require("virt-column").setup({ char = "|", virtcolumn = "80" })

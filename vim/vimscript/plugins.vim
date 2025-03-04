@@ -22,6 +22,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'ryanoasis/vim-nerdfont'
 Plug 'nvimdev/dashboard-nvim'
 Plug 'juansalvatore/git-dashboard-nvim'
+Plug 'lukas-reineke/virt-column.nvim'
 
 " Markdown
 Plug 'nvim-telescope/telescope-bibtex.nvim'
