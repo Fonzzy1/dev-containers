@@ -3,10 +3,7 @@ let g:slime_target = 'neovim'
 let g:slime_input_pid=1
 
 " Auto close the terminal
-autocmd TermClose * 
-  if !v:event.status 
-    exe 'bdelete! '..expand('<abuf>') 
-  endif
+autocmd TermClose * if !v:event.status | exe 'bdelete! '..expand('<abuf>') | endif
 " Shebang stuff
 autocmd VimEnter,BufEnter,FocusGained,WinEnter * let g:slime_vimterminal_cmd = getline(1) =~ '\v^#!\s*\zs.*' ? matchstr(getline(1), '\v^#!\s*\zs.*') : '/usr/bin/bash'
 

@@ -14,10 +14,11 @@ nnoremap ac :Commentary<cr>
 nnoremap <silent> aa :lua vim.lsp.buf.code_action()<CR>
 vnoremap as :'<,'>AIE fix spelling and grammar using Australian English, assume markdown formatting is being used. Only return the text without wrapping it in code blocks:<cr>
 nnoremap as :.AIE fix spelling and grammar using Australian English, assume markdown formatting is being used. Only return the text without wrapping it in code blocks:<cr>
-nnoremap af :.AI Complete this with boilerplate code:<CR>
-vnoremap af :'<,'>AI Complete this with boilerplate code:<CR>
 nnoremap aw :.AIE Split this over multiple lines, so that no line exceeds 80 chars. Only return the text without wrapping it in code blocks:<cr>  
 vnoremap aw :'<,'>AIE Split this over multiple lines, so that no line exceeds 80 chars. Only return the text without wrapping it in code blocks:<cr>  
+nnoremap af :.AIE fix this. Only return the text without wrapping it in code blocks:<cr>
+vnoremap af :'<,'>AIE fix this. Only return the text without wrapping it in code blocks:<cr>
+
 
 
 "spawn
