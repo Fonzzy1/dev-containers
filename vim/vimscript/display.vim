@@ -64,7 +64,7 @@ augroup END
 lua << EOF
 require("virt-column").setup({
   char = "┃",
-  virtcolumn = "80",
+  virtcolumn = "81",
   exclude = {
     filetypes = {
         'fugitive',
