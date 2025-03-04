@@ -3,17 +3,12 @@ au BufRead,BufNewFile *.md  set filetype=quarto
 au BufRead,BufNewFile *.rmd  set filetype=quarto
 au BufRead,BufNewFile *.qmd  set filetype=quarto
 filetype plugin on
+inoremap [[[ <cmd>Telescope bibtex<cr>
+autocmd InsertLeave *.qmd<buffer> TableModeRealign
 
 function! QuartoExtras()
     lua require'otter'.activate()
     lua require "nabla".enable_virt({autogen = true})
-    "" Conceal For links
-    set conceallevel=2
-    vnoremap > >gv
-    vnoremap < <gv
-    autocmd InsertLeave <buffer> TableModeRealign
-    "" Make links
-    inoremap [[[ <cmd>Telescope bibtex<cr>
 endfunction
 
 

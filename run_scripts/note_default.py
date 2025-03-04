@@ -50,9 +50,20 @@ class Calendar():
             day = day.date()
 
         month_day = int(day.strftime('%d'))
-        day_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][day.weekday()]
+        day_week = [  
+            "Monday",  
+            "Tuesday",  
+            "Wednesday",  
+            "Thursday",  
+            "Friday",  
+            "Saturday",  
+            "Sunday"  
+        ][day.weekday()]  
 
-        reccuring_events = [ x for x in self.recuring_events if x.recur_on in [month_day, day_week]]
+        reccuring_events = [  
+            x for x in self.recuring_events  
+            if x.recur_on in [month_day, day_week]  
+        ]
         normal_events = [x for x in self.events if x.date == day ]
 
         combined_events = normal_events + reccuring_events
@@ -64,7 +75,8 @@ class Calendar():
             event.print_agenda()
 
     def upcoming_events(self):
-        for event in [ x for x in self.events if x.date > date.today()]+self.recuring_events:
+        for event in [x for x in self.events if x.date > date.today()] + \
+                      self.recuring_events:
             event.print_upcoming()
 
 
@@ -81,13 +93,15 @@ class Event:
 
     def print_agenda(self):
         if self.start_time:
-            print(f'{self.name} @ {self.start_time.strftime("%H:%M")}-{self.end_time.strftime("%H:%M")}')
+            print(f'{self.name} @ {self.start_time.strftime("%H:%M")}-'  
+                  f'{self.end_time.strftime("%H:%M")}')
         else:
             print(f'{self.name}')
             
     def print_upcoming(self):
         if self.start_time:
-            print(f'{self.date} @ {self.start_time.strftime("%H:%M")} for {self.length} {"hour" if self.length == 1 else "hours"} - {self.name}')
+            print(f'{self.date} @ {self.start_time.strftime("%H:%M")} for {self.length} '
+                  f'{"hour" if self.length == 1 else "hours"} - {self.name}')
         else:
             print(f'{self.date} - {self.name}')
 
@@ -109,7 +123,9 @@ class RecurringEvent:
 
     def print_upcoming(self):
         if self.start_time:
-            print(f'Every {self.recur_on} @ {self.start_time.strftime("%H:%M")} for {self.length} {"hour" if self.length == 1 else "hours"} - {self.name}')
+            print(f'Every {self.recur_on} @ {self.start_time.strftime("%H:%M")} '
+                  f'for {self.length} {"hour" if self.length == 1 else "hours"} - '
+                  f'{self.name}')
         else:
             print(f'Every {self.recur_on} - {self.name}')
 
