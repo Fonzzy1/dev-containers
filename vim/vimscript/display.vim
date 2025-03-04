@@ -76,7 +76,7 @@ require("virt-column").setup({
         'man',
         'TelescopePrompt',
         'TelescopeResults',
-        'daskboard'
+        'dashboard'
         },
     buftypes = { 
             "nofile", 
