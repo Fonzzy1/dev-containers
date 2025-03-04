@@ -2,24 +2,23 @@
 "File for settin up the maps in the vim:
 "
 "This is stuctrued around five key verbs:
-"(a)ct: edit some text in place
+"(a)ct: edit some text in place, always a visual map
 "(s)pawn: spawn a new window or process, Destrvive of curson
 "(f)ind: find something, or show something. Wont move cursor
 "(g)o: jump to something.
 "(d)elete: close and hide thingd.
+"
+"
+"Also doing some work on remapping the v commands to make them better
+"Here, the better is just lest key strokes for my main workflows
 
 "act
+"
 vnoremap ac :'<,'>Commentary<cr>
-nnoremap ac :Commentary<cr>
-nnoremap <silent> aa :lua vim.lsp.buf.code_action()<CR>
+vnoremap <silent> aa :lua vim.lsp.buf.code_action()<CR>
 vnoremap as :'<,'>AIE fix spelling and grammar using Australian English, assume markdown formatting is being used.<cr>
-nnoremap as :.AIE fix spelling and grammar using Australian English, assume markdown formatting is being used.<cr>
-nnoremap aw :.AIE Split this over multiple lines, so that no line exceeds 80 chars.<CR>
 vnoremap aw :'<,'>AIE Split this over multiple lines, so that no line exceeds 80 chars.<cr>  
-nnoremap af :.AIE fix this<cr>
 vnoremap af :'<,'>AIE fix this<cr>
-
-
 
 "spawn
 nnoremap svb :vnew<CR>:wincmd L<CR>
@@ -45,6 +44,7 @@ nnoremap dw :wq<CR>
 nnoremap ds :q<CR>
 
 "go
+" Big Jumps
 nnoremap gb <c-o>
 nnoremap gr <cmd>Telescope lsp_references<cr>
 nnoremap <silent> gd :lua require'otter'.ask_definition()<CR>
@@ -54,3 +54,47 @@ nnoremap <silent> gl :wincmd L
 nnoremap <silent> gh :wincmd H
 
 
+" Buffer jumps
+nnoremap <silent> gsl ^
+nnoremap <silent> gel $
+nnoremap gsw b
+nnoremap gss ^
+nnoremap gsp ][
+nnoremap gs( [
+nnoremap gs{ [
+
+nnoremap gs[ [
+nnoremap gs' T'
+nnoremap gs" T"
+
+nnoremap gew W
+nnoremap ges 0
+nnoremap gep ]]
+
+nnoremap ge( ( 
+nnoremap ge{ {
+nnoremap ge[ [
+nnoremap ge' F'
+nnoremap ge" F"
+
+
+" Visual  Mappigns
+nnoremap vw viw
+nnoremap vs vis
+nnoremap vp vip
+nnoremap v( vi(
+nnoremap v{ vi{
+nnoremap v[ vi[
+nnoremap v' vi'
+nnoremap v" vi"
+
+nnoremap vow vaw
+nnoremap vos vas
+nnoremap vop vap
+nnoremap vo( va(
+nnoremap vo{ va{
+nnoremap vo[ va[
+nnoremap vo' va'
+nnoremap vo" va"
+vnoremap > >gv
+vnoremap < <gv

@@ -6,29 +6,18 @@ vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
 })
 
 local markview = require("markview")
-local presets = require("markview.presets").headings
+local presets = require("markview.presets")
 --
 markview.setup({
   markdown = {
     enable = true,
-    block_quotes = {
-      ["^NOTE$"] = {},
-    },
+    headings = presets.headings.slanted,
+    tables = presets.tables.rounded,
     code_blocks = {
       enable = true,
-      style = "block",
-      label_direction = "right",
-      border_hl = "MarkviewCode",
-      info_hl = "MarkviewCodeInfo",
       min_width = 80,
-      pad_amount = 2,
-      pad_char = " ",
-      sign = true,
-      default = {
-        block_hl = "MarkviewCodeInfo",
-        pad_hl = "MarkviewCodeInfo",
-      },
-    list_items = { indent_size = 2, shift_width=0 },
+      pad_amount = 0,
+    },
+    list_items = { indent_size = 0, shift_width = 1 },
   },
 })
-
