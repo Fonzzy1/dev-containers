@@ -75,7 +75,8 @@ require("virt-column").setup({
         'checkhealth',
         'man',
         'TelescopePrompt',
-        'TelescopeResults'
+        'TelescopeResults',
+        'daskboard'
         },
     buftypes = { 
             "nofile", 
