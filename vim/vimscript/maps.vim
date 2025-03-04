@@ -14,7 +14,7 @@ nnoremap ac :Commentary<cr>
 nnoremap <silent> aa :lua vim.lsp.buf.code_action()<CR>
 vnoremap as :'<,'>AIE fix spelling and grammar using Australian English, assume markdown formatting is being used.<cr>
 nnoremap as :.AIE fix spelling and grammar using Australian English, assume markdown formatting is being used.<cr>
-nnoremap aw :.AIE Split this over multiple lines, so that no line exceeds 80 chars.<cr>  
+nnoremap aw :.AIE Split this over multiple lines, so that no line exceeds 80 chars.<CR>
 vnoremap aw :'<,'>AIE Split this over multiple lines, so that no line exceeds 80 chars.<cr>  
 nnoremap af :.AIE fix this<cr>
 vnoremap af :'<,'>AIE fix this<cr>
