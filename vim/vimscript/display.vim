@@ -61,4 +61,20 @@ augroup CursorLine
     au WinLeave * setlocal nocursorline
 augroup END
 
-lua require("virt-column").setup({ char = "|", virtcolumn = "80" })
+lua << EOF
+require("virt-column").setup({
+  char = "┃",
+  virtcolumn = "80",
+  exclude = {
+    'fugitive',
+    'help',
+    'gitcommit',
+    'lspinfo',
+    'packer',
+    'checkhealth',
+    'man',
+    'TelescopePrompt',
+    'TelescopeResults'
+  }
+})
+EOF
