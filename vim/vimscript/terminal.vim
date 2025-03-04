@@ -8,10 +8,7 @@ autocmd TermClose *
     exe 'bdelete! '..expand('<abuf>') 
   endif
 " Shebang stuff
-autocmd VimEnter,BufEnter,FocusGained,WinEnter * 
-    let g:slime_vimterminal_cmd = getline(1) =~ '\v^#!\s*\zs.*' ? 
-        matchstr(getline(1), '\v^#!\s*\zs.*') : 
-        '/usr/bin/bash'
+autocmd VimEnter,BufEnter,FocusGained,WinEnter * let g:slime_vimterminal_cmd = getline(1) =~ '\v^#!\s*\zs.*' ? matchstr(getline(1), '\v^#!\s*\zs.*') : '/usr/bin/bash'
 
 " Terminal Things
 function! StartTerm(cmd)

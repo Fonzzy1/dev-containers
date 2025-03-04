@@ -16,8 +16,9 @@ vnoremap as :'<,'>AIE fix spelling and grammar using Australian English, assume 
 nnoremap as :.AIE fix spelling and grammar using Australian English, assume markdown formatting is being used. Only return the text without wrapping it in code blocks:<cr>
 nnoremap af :.AI Complete this with boilerplate code:<CR>
 vnoremap af :'<,'>AI Complete this with boilerplate code:<CR>
-nnoremap aw :.AIE Split this over multiple lines, so that no line exceeds 80 chars. Infer the language and make sure it doesn't break anything by splitting it over multiple lines; however, feel free to add in additional intermediate variables. Only return the text without wrapping it in code blocks:<cr>
-vnoremap aw :'<,'>AIE Split this over multiple lines, so that no line exceeds 80 chars. Infer the language and make sure it doesn't break anything by splitting it over multiple lines; however, feel free to add in additional intermediate variables. Only return the text without wrapping it in code blocks:<cr>
+nnoremap aw :.AIE Split this over multiple lines, so that no line exceeds 80 chars. Only return the text without wrapping it in code blocks:<cr>  
+vnoremap aw :'<,'>AIE Split this over multiple lines, so that no line exceeds 80 chars. Only return the text without wrapping it in code blocks:<cr>  
+
 
 "spawn
 nnoremap svb :vnew<CR>:wincmd L<CR>

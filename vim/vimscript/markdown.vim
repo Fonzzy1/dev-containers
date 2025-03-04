@@ -7,21 +7,13 @@ filetype plugin on
 function! QuartoExtras()
     lua require'otter'.activate()
     lua require "nabla".enable_virt({autogen = true})
-
     "" Conceal For links
     set conceallevel=2
-
     vnoremap > >gv
     vnoremap < <gv
-
-    nnoremap <buffer> j gj
-    nnoremap <buffer> k gk
-    "" todo stuff
-
     autocmd InsertLeave <buffer> TableModeRealign
     "" Make links
     inoremap [[[ <cmd>Telescope bibtex<cr>
-
 endfunction
 
 

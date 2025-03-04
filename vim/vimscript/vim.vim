@@ -27,7 +27,6 @@ set encoding=utf-8
 set shell=/bin/bash
 let $PATH = $PATH . ':/usr/bin'
 let g:python3_host_prog = '/usr/bin/python3'
-set colorcolumn=80
 set textwidth=80
 set smartindent
 set smarttab
