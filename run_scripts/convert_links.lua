@@ -14,7 +14,10 @@ function Str(el)
     
     -- Return the modified element including handling for punctuation
     if trailing_punctuation and trailing_punctuation ~= "" then
-      return {pandoc.Cite({pandoc.Str(s)}, {citation}), pandoc.Str(trailing_punctuation)}
+      return {
+          pandoc.Cite({pandoc.Str(s)}, {citation}),
+          pandoc.Str(trailing_punctuation)
+      }
     else
       return pandoc.Cite({pandoc.Str(s)}, {citation})
     end

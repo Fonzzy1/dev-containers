@@ -12,7 +12,14 @@ local ascii_heatmap = require('git-dashboard-nvim').setup {
     colors = {
         days_and_months_labels = '#8fbcbb',
         empty_square_highlight = '#3b4252',
-        filled_square_highlights = { '#88c0d0', '#a5adcb', '#8aadf4', '#8bd5ca', '#a6da95', '#eed49f' },
+        filled_square_highlights = { 
+           '#88c0d0', 
+           '#a5adcb', 
+           '#8aadf4', 
+           '#8bd5ca', 
+           '#a6da95', 
+           '#eed49f' 
+           },
         branch_highlight = '#88c0d0',
         dashboard_title = '#88c0d0',
     },
@@ -39,4 +46,18 @@ local opts = {
 
 -- Proper way to require and set up dashboard-nvim
 require('dashboard').setup(opts)
+
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  callback = function()
+    if vim.bo.filetype ~= "dashboard" then
+      for _, win in ipairs(vim.api.nvim_list_wins()) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        if vim.bo[buf].filetype == "dashboard" then
+          vim.api.nvim_buf_delete(buf, { force = true })
+        end
+      end
+    end
+  end,
+})
+
 

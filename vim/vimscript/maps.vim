@@ -11,7 +11,7 @@
 "
 "Also doing some work on remapping the v commands to make them better
 "Here, the better is just lest key strokes for my main workflows
-
+" base insert
 "act
 "
 vnoremap ac :'<,'>Commentary<cr>
@@ -50,32 +50,22 @@ nnoremap gr <cmd>Telescope lsp_references<cr>
 nnoremap <silent> gd :lua require'otter'.ask_definition()<CR>
 nnoremap <silent> gn :lua vim.diagnostic.goto_next()<CR>
 nnoremap <silent> gp :lua vim.diagnostic.goto_prev()<CR>
-nnoremap <silent> gl :wincmd L
-nnoremap <silent> gh :wincmd H
 
-
-" Buffer jumps
+" Start/End of Line
 nnoremap <silent> gsl ^
 nnoremap <silent> gel $
+
+" Word Navigation
 nnoremap gsw b
-nnoremap gss ^
-nnoremap gsp ][
-nnoremap gs( [
-nnoremap gs{ [
+nnoremap gew Wbge
 
-nnoremap gs[ [
-nnoremap gs' T'
-nnoremap gs" T"
+" Sentence Navigation
+nnoremap gss (w
+nnoremap ges )bge
 
-nnoremap gew W
-nnoremap ges 0
-nnoremap gep ]]
-
-nnoremap ge( ( 
-nnoremap ge{ {
-nnoremap ge[ [
-nnoremap ge' F'
-nnoremap ge" F"
+" Paragraph Navigation
+nnoremap gsp {w^
+nnoremap gep }b$
 
 
 " Visual  Mappigns
@@ -87,6 +77,9 @@ nnoremap v{ vi{
 nnoremap v[ vi[
 nnoremap v' vi'
 nnoremap v" vi"
+
+nnoremap <silent> vl v^
+nnoremap <silent> ve v$
 
 nnoremap vow vaw
 nnoremap vos vas
