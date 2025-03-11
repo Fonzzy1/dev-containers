@@ -4,11 +4,10 @@ username="fonzzy1"
 #read -s -p "Enter Docker password for user $username: " DOCKER_PASSWORD
 
 # Login to Docker Hub
-#echo "$DOCKER_PASSWORD" | docker login -u "$username" --password-stdin
+echo "$DOCKER_PASSWORD" | docker login -u "$username" --password-stdin
 
 # Build Docker Images
-docker build . -t "${username}/vim"
-
+docker build --build-arg BUILD_DATE=$(date +%s) . -t "${username}/vim"
 
 # Make sure the login was successful before pushing images
 if [ $? -eq 0 ]; then
