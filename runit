@@ -9,6 +9,7 @@ import subprocess
 # Location for mounts
 script_location = os.path.dirname(os.path.realpath(__file__))
 env_location = os.path.dirname(script_location) + "/env"
+mount_location = os.path.dirname(script_location) + "/mount_files"
 # Current Location
 current_location = os.getcwd()
 # Code location
@@ -92,6 +93,8 @@ def run_vim(
             f"{mount_dir}:/{mount_dir_name}",
             "-v",
             f"{ env_location}:/root/.env",
+            "-v",
+            f"{ mount_location}:/root/mount",
             "fonzzy1/vim",
             "/bin/bash",
             "-c",
