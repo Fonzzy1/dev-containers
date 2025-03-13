@@ -39,6 +39,7 @@ export EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
 export VISUAL='nvr --remote-wait -cc split +"set bufhidden=delete"'
 export GH_EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
 
+source $HOME/.cargo/env 
 
 # Function to parse git branch
 function parse_git_branch() {
@@ -58,7 +59,7 @@ function gitdist() {
         if [ "$ahead" -gt 0 ]; then
             echo -n "$(tput setaf 2)ahead by ${ahead} commits$(tput sgr0) "
         fi
-
+sour
         # If behind, print in red
         if [ "$behind" -gt 0 ]; then
             echo -n "$(tput setaf 1)behind by ${behind} commits$(tput sgr0)"

@@ -25,10 +25,11 @@ vnoremap ae :'<,'>AIE
 nnoremap svb :vnew<CR>:wincmd L<CR>
 nnoremap sb :new<CR>
 nnoremap sc :AIC<CR>
-vnoremap sc :'<,'>AIC 
+vnoremap sc :AIC 
 nnoremap st :split \| call StartTerm(g:slime_vimterminal_cmd)<CR>
 nnoremap svt :vsplit \| call StartTerm(g:slime_vimterminal_cmd)<CR>
 nnoremap sr :split \| call StartTerm(g:slime_vimterminal_cmd." %")<CR>
+nnoremap sx :vsplit \| call StartTerm('/root/.cargo/bin/is-fast ' . input('Enter text: '))<CR>
 
 "find
 nnoremap fT :call LeftBarToNerdFind() <CR>

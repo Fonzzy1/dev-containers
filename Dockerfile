@@ -127,6 +127,9 @@ RUN curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb && \
 
 RUN fc-cache -fv
 
+# Is-fast
+RUN curl --proto '=https' --tlsv1.2 -LsSf https://github.com/Magic-JD/is-fast/releases/latest/download/is-fast-installer.sh | sh
+
 #Copy in the dotfiles
 COPY dotfiles /root
 COPY dotfiles/.bashrc /root/.bash_profile
