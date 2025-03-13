@@ -109,7 +109,8 @@ def run_notes(args):
         env_location,
         mount_dir=temp_dir,
         mount_dir_name="wiki",
-        command="gh repo clone wiki /wiki -- --recurse-submodules; nvim;",
+        command="gh repo clone wiki /wiki -- --recurse-submodules; \
+                 git submodule foreach 'git switch main'; nvim;",
         check_changes=True,
         clean_mount_dir=True,
     )
