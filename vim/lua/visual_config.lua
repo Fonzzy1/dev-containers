@@ -9,9 +9,14 @@ local markview = require("markview")
 local presets = require("markview.presets")
 --
 markview.setup({
-  markdown = {
+  preview = {
     enable = true,
-    filetypes = { "md", "rmd", "quarto","aichat" },
+    enable_hybrid_mode = false,
+    filetypes = { "md", "rmd", "quarto", "aichat" },
+    ignore_buftypes = {},
+    modes = { "n", "no", "c" },
+    },
+  markdown = {
     headings = presets.headings.slanted,
     tables = presets.tables.rounded,
     code_blocks = {
@@ -24,26 +29,7 @@ markview.setup({
 })
 
 
-require("virt-column").setup({
-  char = "┃",
-  virtcolumn = "81",
-  exclude = {
-    filetypes = {
-        'fugitive',
-        'help',
-        'gitcommit',
-        'lspinfo',
-        'packer',
-        'checkhealth',
-        'man',
-        'TelescopePrompt',
-        'TelescopeResults',
-        'dashboard'
-        },
-    buftypes = { 
-            "terminal", 
-        },
-    },
+vim.g.virtcolumn_char = '▕' -- char to display the line
+vim.g.virtcolumn_priority = 10 -- priority of extmark
 
-  }
-)
+
