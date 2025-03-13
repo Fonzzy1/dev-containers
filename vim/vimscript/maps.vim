@@ -19,12 +19,13 @@ vnoremap <silent> aa :lua vim.lsp.buf.code_action()<CR>
 vnoremap as :'<,'>AIE fix spelling and grammar using Australian English, assume markdown formatting is being used.<cr>
 vnoremap aw :'<,'>AIE Split this over multiple lines, so that no line exceeds 80 chars.<cr>  
 vnoremap af :'<,'>AIE fix this<cr>
+vnoremap ae :'<,'>AIE
 
 "spawn
 nnoremap svb :vnew<CR>:wincmd L<CR>
 nnoremap sb :new<CR>
 nnoremap sc :AIC<CR>
-vnoremap sc :'<,'>AIC read this and wait for further instructions. Only respond with 'Understood.'<CR>
+vnoremap sc :'<,'>AIC 
 nnoremap st :split \| call StartTerm(g:slime_vimterminal_cmd)<CR>
 nnoremap svt :vsplit \| call StartTerm(g:slime_vimterminal_cmd)<CR>
 nnoremap sr :split \| call StartTerm(g:slime_vimterminal_cmd." %")<CR>
