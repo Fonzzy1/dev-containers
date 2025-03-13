@@ -1,6 +1,18 @@
 let g:model = 'gpt-4o'
 let g:vim_ai_debug = 1
 let g:instruct_model = "gpt-4o-mini"
+
+let initial_prompt =<< trim END
+>>> system
+
+You are going to play the role of an assistant siting in neovim. 
+You will be asked to edit, discuss and generate both code and prose.
+Tips:
+- Only return the text you have been asked to provide without wrapping it in code blocks. 
+- Be aware of the current level of indenting of the text that has been given to you
+- Make sure to return equaly indented text
+- Try to keep code lines at less than 80 characters long
+END
 "config for chat
 let g:vim_ai_chat = {
             \  "ui": {
@@ -11,7 +23,8 @@ let g:vim_ai_chat = {
             \  },
             \  "options": {
             \    "model": g:model,
-            \    "max_tokens": 0
+            \    "max_tokens": 0,
+            \    "initial_prompt": initial_prompt,
             \  }
             \}
 
@@ -20,17 +33,6 @@ autocmd FileType aichat inoremap <buffer> <CR> <C-O>:AIChat<CR>
 autocmd FileType setlocal textwidth=80
 autocmd FileType aichat startinsert
 
-let initial_prompt =<< trim END
->>> system
-
-You are going to play the role of an assistant siting in neovim. 
-You will be asked to edit both markdown and prose.
-Tips:
-- Only return the text you have been asked to provide without wrapping it in code blocks. 
-- Be aware of the current level of indenting of the text that has been given to you
-- Make sure to return equaly indented text
-- Keep lines at less than 80 characters long
-END
 
 let chat_engine_config = {
 \  "engine": "chat",
