@@ -54,42 +54,9 @@ nnoremap <silent> gn :lua vim.diagnostic.goto_next()<CR>
 nnoremap <silent> gp :lua vim.diagnostic.goto_prev()<CR>
 
 " Start/End of Line
-nnoremap <silent> gsl ^
-nnoremap <silent> gel $
-
-" Word Navigation
-nnoremap gsw b
-nnoremap gew Wbge
-
-" Sentence Navigation
-nnoremap gss (w
-nnoremap ges )bge
-
-" Paragraph Navigation
-nnoremap gsp {w^
-nnoremap gep }b$
-
-
-" Visual  Mappigns
-nnoremap vw viw
-nnoremap vs vis
-nnoremap vp vip
-nnoremap v( vi(
-nnoremap v{ vi{
-nnoremap v[ vi[
-nnoremap v' vi'
-nnoremap v" vi"
-
-nnoremap <silent> vl v^
-nnoremap <silent> ve v$
-
-nnoremap vow vaw
-nnoremap vos vas
-nnoremap vop vap
-nnoremap vo( va(
-nnoremap vo{ va{
-nnoremap vo[ va[
-nnoremap vo' va'
-nnoremap vo" va"
 vnoremap > >gv
 vnoremap < <gv
+
+vnoremap a 
+vnoremap i
+

@@ -28,6 +28,7 @@ Plug 'xiyaowong/virtcolumn.nvim'
 Plug 'nvim-telescope/telescope-bibtex.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'mattn/calendar-vim'
 Plug 'vitalk/vim-simple-todo'
 Plug 'dhruvasagar/vim-table-mode'
