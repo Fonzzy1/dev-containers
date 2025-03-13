@@ -1,5 +1,4 @@
 set ruler
-set fillchars+=vert:\|
 set visualbell
 set autoindent
 set splitright
@@ -29,9 +28,17 @@ let $PATH = $PATH . ':/usr/bin'
 let g:python3_host_prog = '/usr/bin/python3'
 set textwidth=80
 set smartindent
-set smarttab
+set nosmarttab
+set fillchars+=vert:\▕
 
-filetype plugin indent on
+augroup ColorLine
+  autocmd!
+  autocmd FileType * setlocal cc=81
+  autocmd FileType fugitive setlocal cc=0
+  autocmd FileType dashboard setlocal cc=0
+  autocmd FileType Telescope setlocal cc=0
+  autocmd FileType TelescopePrompt setlocal cc=0
+augroup END
 "" Quick nav maps
 nnoremap ; :
 vnoremap > >gv
