@@ -28,6 +28,7 @@ function! RunTerm(cmd)
   setlocal nonumber
   setlocal nornu
   setlocal scl=no
+  startinsert
 endfunction
 
 tnoremap <Esc><Esc> <C-\><C-n>
