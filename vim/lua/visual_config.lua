@@ -11,6 +11,7 @@ local presets = require("markview.presets")
 markview.setup({
   markdown = {
     enable = true,
+    filetypes = { "md", "rmd", "quarto","aichat" },
     headings = presets.headings.slanted,
     tables = presets.tables.rounded,
     code_blocks = {
@@ -21,3 +22,28 @@ markview.setup({
     list_items = { indent_size = 0, shift_width = 1 },
   },
 })
+
+
+require("virt-column").setup({
+  char = "┃",
+  virtcolumn = "81",
+  exclude = {
+    filetypes = {
+        'fugitive',
+        'help',
+        'gitcommit',
+        'lspinfo',
+        'packer',
+        'checkhealth',
+        'man',
+        'TelescopePrompt',
+        'TelescopeResults',
+        'dashboard'
+        },
+    buftypes = { 
+            "terminal", 
+        },
+    },
+
+  }
+)

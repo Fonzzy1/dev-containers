@@ -7,7 +7,7 @@ let g:vim_ai_chat = {
             \    "code_syntax_enabled": 1,
             \    "open_chat_command": "rightbelow vnew | set nonu | set nornu",
             \    "scratch_buffer_keep_open": 0,
-            \    "paste_mode": 1
+            \    "paste_mode": 0
             \  },
             \  "options": {
             \    "model": g:model,
@@ -17,7 +17,7 @@ let g:vim_ai_chat = {
 
 " map  enter to :AIChat when filetype is aichat
 autocmd FileType aichat inoremap <buffer> <CR> <C-O>:AIChat<CR>
-autocmd FileType aichat setlocal wrap
+autocmd FileType setlocal textwidth=80
 autocmd FileType aichat startinsert
 
 let initial_prompt =<< trim END
@@ -42,6 +42,9 @@ let chat_engine_config = {
 \    "request_timeout": 20,
 \    "selection_boundary": "",
 \    "initial_prompt": initial_prompt,
+\  },
+\  "ui": {
+\    "paste_mode": 0,
 \  },
 \}
 

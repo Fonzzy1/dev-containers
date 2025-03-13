@@ -60,32 +60,3 @@ augroup CursorLine
     au BufWinEnter * setlocal cursorline
     au WinLeave * setlocal nocursorline
 augroup END
-
-lua << EOF
-require("virt-column").setup({
-  char = "┃",
-  virtcolumn = "81",
-  exclude = {
-    filetypes = {
-        'fugitive',
-        'help',
-        'gitcommit',
-        'lspinfo',
-        'packer',
-        'checkhealth',
-        'man',
-        'TelescopePrompt',
-        'TelescopeResults',
-        'dashboard'
-        },
-    buftypes = { 
-            "nofile", 
-            "quickfix", 
-            "terminal", 
-            "prompt" 
-        },
-    },
-
-  }
-)
-EOF

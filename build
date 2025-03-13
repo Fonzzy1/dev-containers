@@ -7,12 +7,12 @@ username="fonzzy1"
 echo "$DOCKER_PASSWORD" | docker login -u "$username" --password-stdin
 
 # Build Docker Images
-docker build --build-arg BUILD_DATE=$(date +%s) . -t "${username}/vim"
+docker build . -t "${username}/vim"
 
 # Make sure the login was successful before pushing images
 if [ $? -eq 0 ]; then
     #Push Docker Images to Docker Hub
-    docker push "${username}/vim"
+    # docker push "${username}/vim"
 else
     echo "Docker login failed. Cannot push images."
     exit 1

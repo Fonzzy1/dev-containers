@@ -1,12 +1,12 @@
 # Start from the official Ubuntu base image
 FROM ubuntu:22.04 AS vim
 
-ARG BUILD_DATE
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Australia/Melbourne
 ENV TERM="tmux-256color"
 WORKDIR /src
 
+RUN echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections
 # Combine apt-get update and install operations to take advantage of Docker layer caching.
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -31,7 +31,6 @@ RUN apt-get update && \
     r-cran-tidyverse \
     xclip \
     poppler-utils \
-    ttf-mscorefonts-installer \
     fontconfig \
     curl \
     git \
@@ -47,9 +46,11 @@ RUN apt-get update && \
     libtool \
     jq \
     gdebi-core \
+    wget \
     ripgrep && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/*  && \
+    fc-cache -fv
 
 
 #Install Docker 
@@ -111,11 +112,11 @@ RUN npm install -g vim-language-server dockerfile-language-server-nodejs \
     vscode-json-languageserver sql-language-server typescript-language-server \
     typescript yaml-language-server quick-lint-js \
     && \
-    curl -L -o /bin/marksman "https://github.com/artempyanykh/marksman/releases/latest/download/marksman-linux-x64" &&  chmod +x /bin/marksman && \
+    curl -L -o /bin/marksman "https://github.com/artempyanykh/marksman/releases/latest/download/marksman-linux-x64"  &&  chmod +x /bin/marksman \
     && \
     pip install -U nginx-language-server pyright \
     && \
-    R -e "install.packages('languageserver', Ncpus = 6)" && \
+    R -e "install.packages('languageserver', Ncpus = 6)" \
     && \
     curl -L https://github.com/valentjn/ltex-ls/releases/download/16.0.0/ltex-ls-16.0.0-linux-x64.tar.gz |  tar xz --strip-components=1 && mv ltex-ls-16.0.0 /usr/bin/ltex-ls
 
@@ -123,6 +124,8 @@ RUN npm install -g vim-language-server dockerfile-language-server-nodejs \
 RUN curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb && \
     gdebi --non-interactive quarto-linux-amd64.deb && \
     quarto install tinytex
+
+RUN fc-cache -fv
 
 #Copy in the dotfiles
 COPY dotfiles /root
