@@ -30,6 +30,7 @@ set textwidth=80
 set smartindent
 set nosmarttab
 set fillchars+=vert:\▕
+set cc=0
 
 augroup ColorLine
   autocmd!
