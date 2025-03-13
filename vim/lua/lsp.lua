@@ -14,9 +14,17 @@ require'lspconfig'.ltex.setup{
   cmd = {"/usr/bin/ltex-ls/bin/ltex-ls", "--log-file=/root/ltex_log"},
   settings = {
     ltex = {
-      enabled = { "bibtex", "gitcommit", "markdown", "org", "tex", "restructuredtext", "rsweave", "latex", "quarto", "rmd", "context", "html", "xhtml", "mail", "plaintext" },
-      markdown = {
-        nodes = {CodeBlock = "ignore", FencedCodeBlock = "ignore", AutoLink =  "dummy", Code = "dummy"},
+      enabled = { "bibtex", "gitcommit", "markdown", "org",  
+             "tex", "restructuredtext", "rsweave", "latex",  
+             "quarto", "rmd", "context", "html",  
+             "xhtml", "mail", "plaintext" },
+        markdown = {
+        nodes = {
+            CodeBlock = "ignore", 
+            FencedCodeBlock = "ignore", 
+            AutoLink = "dummy", 
+            Code = "dummy"
+        },
       },
       completionEnabled = true,
       disabledRules = {
@@ -30,4 +38,11 @@ require'lspconfig'.ltex.setup{
     }
   } 
 }
+
+vim.diagnostic.config({
+  virtual_text = false,
+})
+
+
+nvim_command('autocmd CursorHold <buffer> lua vim.diagnostic.open_float()')
 
