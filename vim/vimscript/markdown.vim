@@ -28,6 +28,8 @@ let g:bullets_enabled_file_types = [
     \ 'rmd'
     \]
 
+let g:bullets_outline_levels = ['ROM', 'ABC', 'num', 'abc', 'rom', 'std-', 'std*']
+
 "" TableMode
 let g:table_mode_always_active =1
 let g:table_mode_syntax = 1

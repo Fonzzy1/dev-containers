@@ -24,8 +24,25 @@ markview.setup({
       min_width = 80,
       pad_amount = 0,
     },
-    list_items = { indent_size = 0, shift_width = 1 },
-  },
+        list_items = {
+            shift_width = 0,
+            marker_minus = {
+                add_padding = false,
+            },
+            marker_plus = {
+                add_padding = false,
+            },
+            marker_star = {
+                add_padding = false,
+            },
+            marker_dot = {
+                add_padding = false,
+            },
+            marker_parenthesis = {
+                add_padding = false
+            }
+        }
+    }
 })
 
 

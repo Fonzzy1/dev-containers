@@ -41,11 +41,12 @@ You can emphasize text using asterisks or underscores.
 Markdown supports ordered and unordered lists.
 
 - Unordered lists can be created using asterisks, plus signs, or hyphens:
-  - Item 1
-  - Item 2
-    - Subitem 1
+  * this is a indented item
+      * this is another element
+     
 - Ordered lists are created using numbers followed by a period:
   1. First item
+              a. 
   2. Second item
 
 ### Links

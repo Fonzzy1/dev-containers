@@ -16,11 +16,11 @@ if [ "$1" = "--init" ]; then
 
   # Check if the entry already exists
   if grep -q '^LABEL=ALFIE' /etc/fstab; then
-      # The entry exists, so replace the line
-      sudo sed -i "s|^LABEL=ALFIE.*|$entry|" /etc/fstab
+    # The entry exists, so replace the line
+    sudo sed -i "s|^LABEL=ALFIE.*|$entry|" /etc/fstab
   else
       # The entry does not exist, append it to the file
-      echo "$entry" | sudo tee -a /etc/fstab > /dev/null
+  echo "$entry" | sudo tee -a /etc/fstab > /dev/null
   fi
 
   # Install the gnome extentions
@@ -48,38 +48,38 @@ if [ "$1" = "--init" ]; then
   gsettings set org.gnome.Terminal.Legacy.Settings headerbar false
   gsettings set org.gnome.desktop.interface enable-animations false
 
-    echo '#!/bin/bash
-    HISTCONTROL=ignoreboth
-    shopt -s histappend
-    HISTSIZE=1000
-    HISTFILESIZE=2000
+   echo '#!/bin/bash
+     HISTCONTROL=ignoreboth
+     shopt -s histappend
+     HISTSIZE=1000
+     HISTFILESIZE=2000
 
-    shopt -s checkwinsize
+     shopt -s checkwinsize
 
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls="ls --color=auto"
-    alias grep="grep --color=auto"
-    alias fgrep="fgrep --color=auto"
-    alias egrep="egrep --color=auto"
+     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+     alias ls="ls --color=auto"
+     alias grep="grep --color=auto"
+     alias fgrep="fgrep --color=auto"
+     alias egrep="egrep --color=auto"
 
-    # some more ls aliases
-    alias ll="ls -alF"
-    alias la="ls -A"
-    alias l="ls -CF"
+     # some more ls aliases
+     alias ll="ls -alF"
+     alias la="ls -A"
+     alias l="ls -CF"
 
-    # enable programmable completion features (you don'"'"'t need to enable
-    # this, if it'"'"'s already enabled in /etc/bash.bashrc and /etc/profile
-    # sources /etc/bash.bashrc).
-    if ! shopt -oq posix; then
-      if [ -f /usr/share/bash-completion/bash_completion ]; then
-        . /usr/share/bash-completion/bash_completion
-      elif [ -f /etc/bash_completion ]; then
-        . /etc/bash_completion
-      fi
-    fi
+     # enable programmable completion features (you don'"'"'t need to enable
+     # this, if it'"'"'s already enabled in /etc/bash.bashrc and /etc/profile
+     # sources /etc/bash.bashrc).
+     if ! shopt -oq posix; then
+       if [ -f /usr/share/bash-completion/bash_completion ]; then
+         . /usr/share/bash-completion/bash_completion
+       elif [ -f /etc/bash_completion ]; then
+         . /etc/bash_completion
+       fi
+     fi
 
-    PS1="\[\e[0;32m\]\A \[\e[1;34m\]\u\[\e[0;37m\]@\[\e[0;34m\]\h \[\e[0;35m\]\w \[\e[0m\]|> "
-    ' > ~/.bashrc
+     PS1="\[\e[0;32m\]\A \[\e[1;34m\]\u\[\e[0;37m\]@\[\e[0;34m\]\h \[\e[0;35m\]\w \[\e[0m\]|> "
+     ' > ~/.bashrc
 
     cat ~/.bashrc > ~/.bash_profile
 
@@ -125,9 +125,9 @@ if [ "$1" = "--init" ]; then
   xdg-mime default ranger.desktop inode/directory
   mkdir -p ~/.config/ranger
   echo '# rifle.conf
-# By default, use Vim for most files
-mime ^text,  label editor = vim -- "$@"
-has xdg-open, flag f = xdg-open "$1"' > $HOME/.config/ranger/rifle.conf
+    # By default, use Vim for most files
+    mime ^text,  label editor = vim -- "$@"
+    has xdg-open, flag f = xdg-open "$1"' > $HOME/.config/ranger/rifle.conf
 
 # Firefox tiling
 # Define the Firefox profile directory for Linux

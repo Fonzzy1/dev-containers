@@ -3,9 +3,9 @@ set visualbell
 set autoindent
 set splitright
 set splitbelow
-set expandtab
-set shiftwidth=4
 set tabstop=4
+set shiftwidth=4
+set expandtab
 set linebreak
 set nospell
 set belloff=all
@@ -27,7 +27,7 @@ set shell=/bin/bash
 let $PATH = $PATH . ':/usr/bin'
 let g:python3_host_prog = '/usr/bin/python3'
 set textwidth=80
-set smartindent
+set nosmartindent
 set nosmarttab
 set fillchars+=vert:\▕
 set cc=0
