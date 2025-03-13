@@ -19,6 +19,7 @@ function! StartTerm(cmd)
   wincmd p
   let b:slime_config = {'jobid': term_id}
   wincmd p
+  startinsert
 endfunction
 
 function! RunTerm(cmd)
