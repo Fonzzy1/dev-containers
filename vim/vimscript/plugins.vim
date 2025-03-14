@@ -11,6 +11,8 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'stevearc/aerial.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'echasnovski/mini.nvim'
+Plug 'tpope/vim-commentary'
 
 " Visual
 Plug 'nvim-tree/nvim-web-devicons'
@@ -36,7 +38,6 @@ Plug 'jbyuki/nabla.nvim'
 Plug 'bullets-vim/bullets.vim'
 Plug 'OXY2DEV/markview.nvim'
 
-Plug 'tpope/vim-commentary'
 
 " LSP
 Plug 'jmbuhr/otter.nvim', { 'tag': 'v1.15.1' }
