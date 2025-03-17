@@ -12,12 +12,12 @@
 "" base insert
 "edit
 ""
-vnoremap ec :'<,'>Commentary<cr>
+vnoremap ec :Commentary<cr>
 vnoremap <silent> aa :lua vim.lsp.buf.code_action()<CR>
-vnoremap es :'<,'>AIE fix spelling and grammar using Australian English, assume markdown formatting is being used.<cr>
-vnoremap ew :'<,'>AIE Split this over multiple lines, so that no line exceeds 80 chars.<cr>  
-vnoremap ef :'<,'>AIE fix this<cr>
-vnoremap ee :'<,'>AIE
+vnoremap es :AIE fix spelling and grammar using Australian English, assume markdown formatting is being used.<cr>
+vnoremap ew :AIE Split this over multiple lines, so that no line exceeds 80 chars.<cr>  
+vnoremap ef :AIE fix this<cr>
+vnoremap ee :AIE
 
 "spawn
 nnoremap svb :vnew<CR>:wincmd L<CR>
