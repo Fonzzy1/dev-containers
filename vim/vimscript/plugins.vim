@@ -16,23 +16,19 @@ Plug 'tpope/vim-commentary'
 
 " Visual
 Plug 'nvim-tree/nvim-web-devicons'
-Plug 'luochen1990/rainbfw'
 Plug 'hat0uma/csvview.nvim' 
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 Plug 'vim-airline/vim-airline'
-Plug 'Yggdroot/indentLine'
-Plug 'ryanoasis/vim-nerdfont'
 Plug 'nvimdev/dashboard-nvim'
 Plug 'juansalvatore/git-dashboard-nvim'
 Plug 'xiyaowong/virtcolumn.nvim'
+Plug 'lukas-reineke/indent-blankline.nvim'
 
 " Markdown
 Plug 'nvim-telescope/telescope-bibtex.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-Plug 'mattn/calendar-vim'
-Plug 'vitalk/vim-simple-todo'
 Plug 'jbyuki/nabla.nvim'
 Plug 'bullets-vim/bullets.vim'
 Plug 'OXY2DEV/markview.nvim'
@@ -49,3 +45,5 @@ Plug 'hrsh7th/cmp-path'
 
 
 call plug#end()
+
+

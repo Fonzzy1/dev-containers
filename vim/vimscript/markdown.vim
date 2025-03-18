@@ -4,6 +4,8 @@ au BufRead,BufNewFile *.rmd  set filetype=quarto
 au BufRead,BufNewFile *.qmd  set filetype=quarto
 filetype plugin on
 inoremap [[[ <cmd>Telescope bibtex<cr>
+set conceallevel=3
+set concealcursor=nc
 
 function! QuartoExtras()
     lua require'otter'.activate()

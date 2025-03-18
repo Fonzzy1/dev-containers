@@ -40,13 +40,14 @@ You can emphasize text using asterisks or underscores.
 
 Markdown supports ordered and unordered lists.
 
-- This is rdered lists can be created using asterisks, plus signs, or hyphens:
+- This is rendered lists can be created using asterisks, plus signs, or hyphens:
     - this is my test:
         - this is more test
             - this is another
                 - this is another 
 
-     
+
+
 1. First item
 2. Second item
 3. 
