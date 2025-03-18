@@ -59,7 +59,6 @@ function gitdist() {
         if [ "$ahead" -gt 0 ]; then
             echo -n "$(tput setaf 2)ahead by ${ahead} commits$(tput sgr0) "
         fi
-sour
         # If behind, print in red
         if [ "$behind" -gt 0 ]; then
             echo -n "$(tput setaf 1)behind by ${behind} commits$(tput sgr0)"
