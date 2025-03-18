@@ -4,7 +4,6 @@ au BufRead,BufNewFile *.rmd  set filetype=quarto
 au BufRead,BufNewFile *.qmd  set filetype=quarto
 filetype plugin on
 inoremap [[[ <cmd>Telescope bibtex<cr>
-autocmd InsertLeave *.qmd<buffer> TableModeRealign
 
 function! QuartoExtras()
     lua require'otter'.activate()
@@ -30,9 +29,6 @@ let g:bullets_enabled_file_types = [
 
 let g:bullets_outline_levels = ['ROM', 'ABC', 'num', 'abc', 'rom', 'std-',]
 
-"" TableMode
-let g:table_mode_always_active =1
-let g:table_mode_syntax = 1
 
 "" Quato Preview Funtions
 function! QuartoPreview() 
