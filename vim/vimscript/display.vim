@@ -7,6 +7,7 @@ endif
 
 
 let g:airline_theme = 'catppuccin'
+let g:airline#extensions#wordcount#filetypes = '\vasciidoc|help|mail|markdown|markdown.pandoc|org|rst|tex|text|quarto|rmarkdown'
 
 "lightline
 if !has('gui_running')

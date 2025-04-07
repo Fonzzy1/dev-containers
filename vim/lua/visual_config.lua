@@ -18,7 +18,6 @@ markview.setup({
     callbacks = {
         on_enable = function (_, win)
               vim.wo[win].conceallevel = 2;
-          -- This will prevent Tree-sitter concealment being disabled on the cmdline mode
               vim.wo[win].concealcursor = "n";
            end
      },

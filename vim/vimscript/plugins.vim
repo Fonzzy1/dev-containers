@@ -23,7 +23,6 @@ Plug 'nvimdev/dashboard-nvim'
 Plug 'juansalvatore/git-dashboard-nvim'
 Plug 'xiyaowong/virtcolumn.nvim'
 Plug 'lukas-reineke/indent-blankline.nvim'
-Plug 'skwee357/nvim-prose'
 
 " Markdown
 Plug 'nvim-telescope/telescope-bibtex.nvim'
