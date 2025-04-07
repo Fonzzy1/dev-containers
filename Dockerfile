@@ -32,6 +32,7 @@ RUN apt-get update && \
     xclip \
     poppler-utils \
     fontconfig \
+    cmake \
     curl \
     git \
     python3 \
@@ -47,6 +48,7 @@ RUN apt-get update && \
     jq \
     gdebi-core \
     wget \
+    luarocks \
     ripgrep && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*  && \
@@ -94,66 +96,16 @@ RUN mkdir -p /root/.local/share/gh/extensions/gh-act && \
 
 # Install R packages, tidyvverse is installed with apt
 RUN R -e "install.packages(c('rmarkdown', 'reticulate', 'blogdown', 'readxl', 'knitr', 'tinytex'), Ncpus = 6)" && R -e 'blogdown::install_hugo()'
+## Install go 
+# Download and install Go
+COPY --from=golang:1.24-bullseye /usr/local/go/ /usr/local/go/
 
-# Install all the Language Servers
-#Vimscript
-#Docker File
-# Json
-# Markdown
-# Nginx
-# Python
-# R
-# SQL
-# Typescript
-# YAML
-# JS 
-# English
-RUN npm install -g vim-language-server dockerfile-language-server-nodejs \
-    vscode-json-languageserver sql-language-server typescript-language-server \
-    typescript yaml-language-server quick-lint-js \
-    && \
-    curl -L -o /bin/marksman "https://github.com/artempyanykh/marksman/releases/latest/download/marksman-linux-x64"  &&  chmod +x /bin/marksman \
-    && \
-    pip install -U nginx-language-server pyright \
-    && \
-    R -e "install.packages('languageserver', Ncpus = 6)" \
-    && \
-    curl -L https://github.com/valentjn/ltex-ls/releases/download/16.0.0/ltex-ls-16.0.0-linux-x64.tar.gz |  tar xz --strip-components=1 && mv ltex-ls-16.0.0 /usr/bin/ltex-ls
+# Set up Go environment
+ENV PATH="/usr/local/go/bin:${PATH}"
 
-# Install the linters
-# Install vimscript linter
-RUN pip install vim-vint
-
-# Install Dockerfile linter
-RUN wget -O /usr/local/bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.17.5/hadolint-Linux-x86_64 && chmod +x /usr/local/bin/hadolint
-
-# Install JSON, Markdown, Typescript, JavaScript, YAML formatter/linter
-RUN npm install -g prettier eslint markdownlint-cli
-
-# Install Python linter
-RUN pip install flake8
-
-# Install R linter
-RUN R -e "install.packages('lintr', repos='http://cran.rstudio.com/')"
-
-# Install SQL linter
-RUN pip install sqlfluff
-
-# Install Lua linter
-RUN wget https://luarocks.org/releases/luarocks-3.11.1.tar.gz
-RUN tar zxpf luarocks-3.11.1.tar.gz
-RUN cd luarocks-3.11.1
-RUN ./configure && make && sudo make install
-RUN luarocks install luacheck
-
-# Install YAML linter
-RUN pip install yamllint
-
-# Install English linter
-RUN curl -fsSLo /tmp/vale.tar.gz https://github.com/errata-ai/vale/releases/download/v2.13.0/vale_2.13.0_Linux_64-bit.tar.gz && \
-    tar -C /usr/local/bin -xzf /tmp/vale.tar.gz vale && \
-    chmod +x /usr/local/bin/vale && \
-    rm /tmp/vale.tar.gz
+#Install rust
+RUN curl  --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
 
 # Quarto
 RUN curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb && \
@@ -176,8 +128,9 @@ RUN wget https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x8
 COPY vim /root/.config/nvim/
 # Download and Install Vim-Plug
 RUN sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 RUN nvim -u /root/.config/nvim/vimscript/plugins.vim +PlugInstall +qall
+RUN nvim --headless "+MasonInstall efm vim-language-server yaml-language-server yamlfmt prisma-language-server vim-language-server docker-compose-language-service dockerfile-language-server json-lsp typescript-language-server  yaml-language-server marksman nginx-language-server pyright r-languageserver ltex-ls lua-language-server" +qall
 
 #Copy in the scripts
 COPY run_scripts /scripts
