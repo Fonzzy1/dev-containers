@@ -23,5 +23,6 @@ lua require("tree_config")
 lua require("tags")
 lua require("custom_dashboard")
 lua require("visual_config")
+lua require("linter")
 
 source  ~/.config/nvim/vimscript/maps.vim

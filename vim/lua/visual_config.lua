@@ -30,15 +30,34 @@ markview.setup({
       min_width = 80,
       pad_amount = 0,
     },
-  list_items = {
+      list_items = {
           shift_width = function (buffer, item)
                   local parent_indnet = math.max(1, item.indent - vim.bo[buffer].shiftwidth);
                   return parent_indent+vim.bo[buffer].shiftwidth-1;
           end,
           marker_minus = {
                   add_padding = false
+          },
+          marker_minus = {
+                  add_padding = false
+          },
+
+          marker_plus = {
+                  add_padding = false
+          },
+
+          marker_star = {
+                  add_padding = false
+          },
+
+          marker_dot = {
+                  add_padding = false
+          },
+
+          marker_parenthesis = {
+                  add_padding = false
           }
-    }
+          }
 }})
 
 
