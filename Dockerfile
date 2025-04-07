@@ -120,6 +120,42 @@ RUN npm install -g vim-language-server dockerfile-language-server-nodejs \
     && \
     curl -L https://github.com/valentjn/ltex-ls/releases/download/16.0.0/ltex-ls-16.0.0-linux-x64.tar.gz |  tar xz --strip-components=1 && mv ltex-ls-16.0.0 /usr/bin/ltex-ls
 
+# Install the linters
+# Install vimscript linter
+RUN pip install vim-vint
+
+# Install Dockerfile linter
+RUN wget -O /usr/local/bin/hadolint
+https://github.com/hadolint/hadolint/releases/download/v1.17.5/hadolint-Linux-x86_64
+&& \
+    chmod +x /usr/local/bin/hadolint
+
+# Install JSON, Markdown, Typescript, JavaScript, YAML formatter/linter
+RUN npm install -g prettier eslint markdownlint-cli
+
+# Install Python linter
+RUN pip install flake8
+
+# Install R linter
+RUN R -e "install.packages('lintr', repos='http://cran.rstudio.com/')"
+
+# Install SQL linter
+RUN pip install sqlfluff
+
+# Install Lua linter
+RUN luarocks install luacheck
+
+# Install YAML linter
+RUN pip install yamllint
+
+# Install English linter
+RUN curl -fsSLo /tmp/vale.tar.gz
+https://github.com/errata-ai/vale/releases/download/v2.13.0/vale_2.13.0_Linux_64-bit.tar.gz
+&& \
+    tar -C /usr/local/bin -xzf /tmp/vale.tar.gz vale && \
+    chmod +x /usr/local/bin/vale && \
+    rm /tmp/vale.tar.gz
+
 # Quarto
 RUN curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb && \
     gdebi --non-interactive quarto-linux-amd64.deb && \
