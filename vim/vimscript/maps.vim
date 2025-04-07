@@ -27,7 +27,6 @@ vnoremap sc :AIC
 nnoremap st :split \| call StartTerm(g:slime_vimterminal_cmd)<CR>
 nnoremap svt :vsplit \| call StartTerm(g:slime_vimterminal_cmd)<CR>
 nnoremap sr :split \| call StartTerm(g:slime_vimterminal_cmd." %")<CR>
-nnoremap sx :vsplit \| call StartTerm('/usr/local/bin/ddgr --noua -r au-en -n 5')<CR>
 
 ""find
 nnoremap fT :call LeftBarToNerdFind() <CR>

@@ -125,10 +125,7 @@ RUN npm install -g vim-language-server dockerfile-language-server-nodejs \
 RUN pip install vim-vint
 
 # Install Dockerfile linter
-RUN wget -O /usr/local/bin/hadolint
-https://github.com/hadolint/hadolint/releases/download/v1.17.5/hadolint-Linux-x86_64
-&& \
-    chmod +x /usr/local/bin/hadolint
+RUN wget -O /usr/local/bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.17.5/hadolint-Linux-x86_64 && chmod +x /usr/local/bin/hadolint
 
 # Install JSON, Markdown, Typescript, JavaScript, YAML formatter/linter
 RUN npm install -g prettier eslint markdownlint-cli
@@ -149,9 +146,7 @@ RUN luarocks install luacheck
 RUN pip install yamllint
 
 # Install English linter
-RUN curl -fsSLo /tmp/vale.tar.gz
-https://github.com/errata-ai/vale/releases/download/v2.13.0/vale_2.13.0_Linux_64-bit.tar.gz
-&& \
+RUN curl -fsSLo /tmp/vale.tar.gz https://github.com/errata-ai/vale/releases/download/v2.13.0/vale_2.13.0_Linux_64-bit.tar.gz && \
     tar -C /usr/local/bin -xzf /tmp/vale.tar.gz vale && \
     chmod +x /usr/local/bin/vale && \
     rm /tmp/vale.tar.gz
@@ -162,9 +157,6 @@ RUN curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb && \
     quarto install tinytex
 
 RUN fc-cache -fv
-
-# Is-fast
-RUN curl --proto '=https' --tlsv1.2 -LsSf https://github.com/Magic-JD/is-fast/releases/latest/download/is-fast-installer.sh | sh
 
 #Copy in the dotfiles
 COPY dotfiles /root
