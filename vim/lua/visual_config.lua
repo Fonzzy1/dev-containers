@@ -62,11 +62,3 @@ require("ibl").setup({
   }
 })
 
-require('nvim-prose').setup {
-    wpm = 200.0,
-    filetypes = { 'markdown', 'quarto', 'text','txt' },
-    placeholders = {
-        words = 'words',
-        minutes = 'min'
-    }
-}
