@@ -140,6 +140,10 @@ RUN R -e "install.packages('lintr', repos='http://cran.rstudio.com/')"
 RUN pip install sqlfluff
 
 # Install Lua linter
+RUN wget https://luarocks.org/releases/luarocks-3.11.1.tar.gz
+RUN tar zxpf luarocks-3.11.1.tar.gz
+RUN cd luarocks-3.11.1
+RUN ./configure && make && sudo make install
 RUN luarocks install luacheck
 
 # Install YAML linter
