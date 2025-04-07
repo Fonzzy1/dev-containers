@@ -42,6 +42,7 @@ Plug 'hrsh7th/nvim-cmp',
 Plug 'neovim/nvim-lspconfig',
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'hrsh7th/cmp-path'
+Plug 'mfussenegger/nvim-lint'
 
 
 call plug#end()
