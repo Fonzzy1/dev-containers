@@ -17,7 +17,7 @@ markview.setup({
         ignore_buftypes = {},
     },
     latex = {
-        enable = false
+        enable = true
     },
     markdown = {
         headings = presets.headings.slanted,

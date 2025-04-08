@@ -30,7 +30,6 @@ Plug 'nvim-telescope/telescope-bibtex.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-Plug 'jbyuki/nabla.nvim'
 Plug 'bullets-vim/bullets.vim'
 
 

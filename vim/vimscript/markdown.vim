@@ -7,7 +7,6 @@ inoremap [[[ <cmd>Telescope bibtex<cr>
 
 function! QuartoExtras()
     lua require'otter'.activate()
-    lua require "nabla".enable_virt({autogen = true})
 endfunction
 
 
