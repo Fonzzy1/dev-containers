@@ -16,6 +16,9 @@ markview.setup({
         filetypes = { "md", "rmd", "quarto", "aichat" },
         ignore_buftypes = {},
     },
+    latex = {
+        enable = false
+    },
     markdown = {
         headings = presets.headings.slanted,
         tables = presets.tables.rounded,
