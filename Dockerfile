@@ -130,7 +130,7 @@ COPY vim /root/.config/nvim/
 RUN sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 RUN nvim -u /root/.config/nvim/vimscript/plugins.vim +PlugInstall +qall
-RUN nvim --headless "+MasonInstall efm vim-language-server yaml-language-server yamlfmt prisma-language-server vim-language-server docker-compose-language-service dockerfile-language-server json-lsp typescript-language-server  yaml-language-server marksman nginx-language-server pyright r-languageserver ltex-ls lua-language-server" +qall
+RUN nvim --headless "+MasonInstall efm vim-language-server yaml-language-server yamlfmt prisma-language-server vim-language-server docker-compose-language-service dockerfile-language-server json-lsp typescript-language-server  yaml-language-server marksman nginx-language-server pyright air ltex-ls lua-language-server mdformat black fixjson prettier" +qall
 
 #Copy in the scripts
 COPY run_scripts /scripts
