@@ -30,6 +30,7 @@ set ts=4
 set softtabstop=4
 set fillchars+=vert:\▕
 set cc=0
+set conceallevel=3
 
 augroup ColorLine
   autocmd!

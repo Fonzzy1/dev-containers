@@ -25,13 +25,13 @@ Plug 'xiyaowong/virtcolumn.nvim'
 Plug 'lukas-reineke/indent-blankline.nvim'
 
 " Markdown
+Plug 'OXY2DEV/markview.nvim'
 Plug 'nvim-telescope/telescope-bibtex.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'jbyuki/nabla.nvim'
 Plug 'bullets-vim/bullets.vim'
-Plug 'OXY2DEV/markview.nvim'
 
 
 " LSP
@@ -40,7 +40,6 @@ Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'kdheepak/cmp-latex-symbols'
 Plug 'hrsh7th/nvim-cmp',
 Plug 'neovim/nvim-lspconfig',
-Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'hrsh7th/cmp-path'
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'

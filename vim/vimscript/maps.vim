@@ -49,3 +49,6 @@ nnoremap <silent> gp :lua vim.diagnostic.goto_prev()<CR>
 vnoremap > >gv
 vnoremap < <gv
 nnoremap + :let pos=getpos(".")<CR>:tabedit %<CR>:call setpos(".", pos)<CR>
+
+
+

@@ -49,7 +49,11 @@ local formatters = {
         formatStdin = true,
     },
     markdown = {
-        formatCommand = "mdformat",
+        formatCommand = "pretter --parser markdown ",
+        formatStdin = true,
+    },
+    quarto = {
+        formatCommand = "prettier --parser markdown " ,
         formatStdin = true,
     },
     json = {
@@ -90,7 +94,7 @@ require "lspconfig".efm.setup {
         languages = {
             lua = { formatters.lua },
             markdown = { formatters.markdown },
-            quarto = { formatters.markdown },
+            quarto = { formatters.quarto },
             json = { formatters.json },
             python = { formatters.python },
             r = { formatters.r },
@@ -121,5 +125,5 @@ vim.api.nvim_create_autocmd({ "CursorHold" },
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
     callback = function()
         vim.lsp.buf.format()
-    end, -- Added missing 'end' for the function
+    end,
 })
