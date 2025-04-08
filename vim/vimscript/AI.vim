@@ -11,7 +11,8 @@ Tips:
 - Only return the text you have been asked to provide without wrapping it in code blocks. 
 - Be aware of the current level of indenting of the text that has been given to you
 - Make sure to return equaly indented text
-- Try to keep code lines at less than 80 characters long
+- Try to keep code lines at less than 80 characters long, however prose can be as long as you want
+- Ignore any preexisting wraps in prose that is sent to you, that will be reinserted by the editor
 END
 "config for chat
 let g:vim_ai_chat = {
@@ -19,7 +20,7 @@ let g:vim_ai_chat = {
             \    "code_syntax_enabled": 1,
             \    "open_chat_command": "rightbelow vnew | set nonu | set nornu",
             \    "scratch_buffer_keep_open": 0,
-            \    "paste_mode": 0
+            \    "paste_mode": 1
             \  },
             \  "options": {
             \    "model": g:model,
@@ -29,7 +30,7 @@ let g:vim_ai_chat = {
             \}
 
 " map  enter to :AIChat when filetype is aichat
-autocmd FileType aichat inoremap <buffer> <CR> <C-O>:AIChat<CR>
+autocmd FileType aichat inoremap <buffer> <CR> <C-O>:set nopaste<CR>:AIChat<CR>:set paste<CR>
 autocmd FileType setlocal textwidth=80
 autocmd FileType aichat startinsert
 
