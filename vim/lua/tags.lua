@@ -50,5 +50,4 @@ require("aerial").setup({
 function LeftBarToOutline()
   vim.cmd("call LeftBarToggle()") -- or use the appropriate Lua function if available
   vim.cmd("AerialOpen") -- or the equivalent Lua function
-  vim.cmd("wincmd p")
 end
