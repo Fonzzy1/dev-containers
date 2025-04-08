@@ -42,7 +42,7 @@ function! QuartoRender()
     :w
     let l:current_file = expand('%:p')
     :split
-    call StartTerm('quarto render "'.l:current_file .'" --to pdf')
+    call StartTerm('quarto render "'.l:current_file .'"')
 endfunction
 
 function! QuartoPublish()
