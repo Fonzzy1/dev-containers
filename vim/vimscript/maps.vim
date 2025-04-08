@@ -3,8 +3,8 @@
 "This is structured around five key verbs:
 ""(edit): edit some text in place, always a visual map
 "(s)pawn: spawn a new window or process, destructive of cursor
-""(f)ind: find something, or show something. Won't move cursor
-"(g)o: jump to something.
+""(f)ind: find something, or show something. 
+"(g)o: jump to something that we know.
 ""
 "
 ""Also doing some work on remapping the v commands to make them better.
@@ -35,7 +35,7 @@ nnoremap ft :call LeftBarToNerd()<CR>
 nnoremap fb <cmd>Telescope bibtex<cr>
 nnoremap ff <cmd>Telescope find_files<cr>
 nnoremap fg <cmd>Telescope live_grep<cr>
-nnoremap <silent> gd :lua nvim.lsp.buf.hover()<cr>
+nnoremap <silent> fd :lua nvim.lsp.buf.hover()<cr>
 
 "go
 " Big Jumps
