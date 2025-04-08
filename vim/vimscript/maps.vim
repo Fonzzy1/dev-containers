@@ -35,13 +35,13 @@ nnoremap ft :call LeftBarToNerd()<CR>
 nnoremap fb <cmd>Telescope bibtex<cr>
 nnoremap ff <cmd>Telescope find_files<cr>
 nnoremap fg <cmd>Telescope live_grep<cr>
-nnoremap <silent> fd :lua require'otter'.ask_hover()<CR>
+nnoremap <silent> gd :lua nvim.lsp.buf.hover()<cr>
 
 "go
 " Big Jumps
 nnoremap gb <c-o>
 nnoremap gr <cmd>Telescope lsp_references<cr>
-nnoremap <silent> gd :lua require'otter'.ask_definition()<CR>
+nnoremap <silent> gd :lua nvim.lsp.buf.definition()<cr>
 nnoremap <silent> gn :lua vim.diagnostic.goto_next()<CR>
 nnoremap <silent> gp :lua vim.diagnostic.goto_prev()<CR>
 

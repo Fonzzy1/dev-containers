@@ -27,14 +27,14 @@ Plug 'lukas-reineke/indent-blankline.nvim'
 " Markdown
 Plug 'OXY2DEV/markview.nvim'
 Plug 'nvim-telescope/telescope-bibtex.nvim'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'nvim-treesitter/playground'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'bullets-vim/bullets.vim'
 
 
 " LSP
-Plug 'jmbuhr/otter.nvim', { 'tag': 'v1.15.1' }
+Plug 'jmbuhr/otter.nvim'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'kdheepak/cmp-latex-symbols'
 Plug 'hrsh7th/nvim-cmp',
