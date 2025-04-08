@@ -21,7 +21,6 @@ cmp.setup{
   },
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'otter'},
     {
       name = "latex_symbols",
       option = {
@@ -29,7 +28,7 @@ cmp.setup{
       },
     },
     { name = 'path'},
-    { name = 'buffer', keyword_length = 2 },
+    -- { name = 'buffer', keyword_length = 2 },
   },
   experimental = {
     ghost_text = true,

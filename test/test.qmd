@@ -14,10 +14,11 @@ other features.
 
 ```{python}
 import numpy as np
+import os
 
 x = np.random.normal(size=100)
 mean_x = np.mean(x)
-mean_x
+mean_x = os.listdir()
 ```
 
 - Bullet point 1
