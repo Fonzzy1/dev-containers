@@ -30,7 +30,7 @@ let g:vim_ai_chat = {
             \}
 
 " map  enter to :AIChat when filetype is aichat
-autocmd FileType aichat inoremap <buffer> <CR> <C-O>:set nopaste<CR>:AIChat<CR>:set paste<CR>
+autocmd FileType aichat inoremap <buffer> <CR> <C-O>:set nopaste<CR><C-O>:AIChat<CR><C-O>:set paste<CR>
 autocmd FileType setlocal textwidth=80
 autocmd FileType aichat startinsert
 
