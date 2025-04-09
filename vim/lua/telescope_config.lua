@@ -1,5 +1,6 @@
-local actions = require "telescope.actions"
+local actions        = require "telescope.actions"
 local bibtex_actions = require('telescope-bibtex.actions')
+local action_state   = require('telescope.actions.state')
 
 require 'telescope'.setup {
     defaults = {
@@ -26,22 +27,17 @@ require 'telescope'.setup {
             mappings = {
                 i = {
                     ["<CR>"] = bibtex_actions.key_append('[[%s]]'),
-                    ["o"] = function(prompt_bufnr)
-                        local entry =
-                            require("telescope.actions.state").get_selected_entry(prompt_bufnr)
-                        local citation = entry.value
-                        actions.close(prompt_bufnr)
-                        os.execute("xdg-open references/" .. citation .. ".pdf")
+                    ["<c-o>"] = function(prompt_bufnr)
+                        local entry = action_state.get_selected_entry().id.content
+                        entry = table.concat(entry, "\n")
+                        local key = entry:match("@%w+{(.-),")
+                        os.execute('xdg-open /wiki/References/' .. key .. '.pdf')
                     end,
-                },
-                n = {
-                    ["<CR>"] = bibtex_actions.key_append('[[%s]]'),
-                    ["o"] = function(prompt_bufnr)
-                        local entry =
-                            require("telescope.actions.state").get_selected_entry(prompt_bufnr)
-                        local citation = entry.value
-                        actions.close(prompt_bufnr)
-                        os.execute("xdg-open references/" .. citation .. ".pdf")
+                    ["<C-n>"] = function(prompt_bufnr)
+                        local entry = action_state.get_selected_entry().id.content
+                        entry = table.concat(entry, "\n")
+                        local key = entry:match("@%w+{(.-),")
+                        vim.cmd("vsplit /wiki/References" .. key .. ".qmd")
                     end,
                 },
             },

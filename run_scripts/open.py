@@ -30,8 +30,7 @@ def path_to_command(path, reader_flag):
         return f'xdg-open "{path}"'
     else:
         os.system(
-            f"echo 'Path {path} is not within the container directory {cont_dir} or vault dir {cont_vault}. Skipping operation.' >> /root/.xgd_log.txt"
-        )  # Adds command to log.txt
+            f"echo 'Path {path} is not within the container directory {cont_dir}. Skipping operation.' >> /root/.xdg_log.txt")  # Adds command to log.txt
 
 
 def main():
@@ -45,7 +44,7 @@ def main():
     args = parser.parse_args()
 
     command = path_to_command(args.path, args.reader)
-    os.system(f"echo '{command}' >> /root/.xgd_log.txt")  # Adds command to log.txt
+    os.system(f"echo '{command}' >> /root/.xdg_log.txt")  # Adds command to log.txt
     os.system(f"echo '{command}' > /pipe")
 
 
