@@ -31,6 +31,7 @@ Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'nvim-treesitter/playground'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'bullets-vim/bullets.vim'
+Plug 'tpope/vim-surround'
 
 
 " LSP
@@ -42,6 +43,8 @@ Plug 'neovim/nvim-lspconfig',
 Plug 'hrsh7th/cmp-path'
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
+
+
 
 call plug#end()
 
