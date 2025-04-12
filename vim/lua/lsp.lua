@@ -61,7 +61,7 @@ local formatters = {
         formatStdin = true,
     },
     python = {
-        formatCommand = "black --quiet -",
+        formatCommand = "black --line-length 80 --quiet -",
         formatStdin = true,
     },
     r = {
