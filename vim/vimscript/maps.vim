@@ -12,12 +12,11 @@
 "" base insert
 "edit this is leader
 ""
-let g:mapleader = 'e'
-vnoremap <leader>c :Commentary<cr>
-vnoremap <leader>s :AIE fix spelling and grammar using Australian English, assume markdown formatting is being used.<cr>
-vnoremap <leader>w :AIE Split this over multiple lines, so that no line exceeds 80 chars.<cr>  
-vnoremap <leader>e :AIE
-vnoremap <leader>l :AIE
+vnoremap ec :Commentary<cr>
+vnoremap es :AIE fix spelling and grammar using Australian English, assume markdown formatting is being used.<cr>
+vnoremap ew :AIE Split this over multiple lines, so that no line exceeds 80 chars.<cr>  
+vnoremap ee :AIE
+vnoremap el :AIE
 
 "spawn
 nnoremap svb :vnew<CR>:wincmd L<CR>
@@ -27,11 +26,11 @@ vnoremap sc :AIC
 nnoremap st :split \| call StartTerm(g:slime_vimterminal_cmd)<CR>
 nnoremap svt :vsplit \| call StartTerm(g:slime_vimterminal_cmd)<CR>
 nnoremap sr :split \| call StartTerm(g:slime_vimterminal_cmd." %")<CR>
+nnoremap sN :call LeftBarToNerdFind() <CR>
+nnoremap ss :lua LeftBarToOutline()<CR>
+nnoremap sn :call LeftBarToNerd()<CR>
 
 ""find
-nnoremap fT :call LeftBarToNerdFind() <CR>
-nnoremap fs :lua LeftBarToOutline()<CR>
-nnoremap ft :call LeftBarToNerd()<CR>
 nnoremap fb <cmd>Telescope bibtex<cr>
 nnoremap ff <cmd>Telescope find_files<cr>
 nnoremap fg <cmd>Telescope live_grep<cr>

@@ -1,9 +1,11 @@
-" Let the rmd hander function! on files ending with .md
+"" Let the rmd hander function! on files ending with .md
 au BufRead,BufNewFile *.md  set filetype=quarto
 au BufRead,BufNewFile *.rmd  set filetype=quarto
 au BufRead,BufNewFile *.qmd  set filetype=quarto
 filetype plugin on
 inoremap [[[ <cmd>Telescope bibtex<cr>
+
+
 
 function! QuartoExtras()
     lua require'otter'.activate()
@@ -17,7 +19,7 @@ augroup QuartoExtrasGroup
 augroup END
 
 
-"" Bullet Setup
+""" Bullet Setup
 let g:bullets_enabled_file_types = [
     \ 'markdown',
     \ 'text',

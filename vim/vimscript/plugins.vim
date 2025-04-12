@@ -11,7 +11,6 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'stevearc/aerial.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'echasnovski/mini.nvim'
 Plug 'tpope/vim-commentary'
 
 " Visual
@@ -31,7 +30,6 @@ Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'nvim-treesitter/playground'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'bullets-vim/bullets.vim'
-Plug 'tpope/vim-surround'
 
 
 " LSP
@@ -44,6 +42,9 @@ Plug 'hrsh7th/cmp-path'
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
 
+" Motions
+Plug 'echasnovski/mini.nvim'
+Plug 'kylechui/nvim-surround'
 
 
 call plug#end()
