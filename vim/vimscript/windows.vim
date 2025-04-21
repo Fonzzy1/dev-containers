@@ -10,7 +10,6 @@ tnoremap <c-l> <Cmd>wincmd l<CR>
 
 nnoremap = :horizontal wincmd =<CR>
 autocmd VimResized * wincmd =
-set equalalways
 
 
 function! LeftBarToggle()

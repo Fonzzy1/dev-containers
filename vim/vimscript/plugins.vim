@@ -22,6 +22,9 @@ Plug 'nvimdev/dashboard-nvim'
 Plug 'juansalvatore/git-dashboard-nvim'
 Plug 'xiyaowong/virtcolumn.nvim'
 Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'anuvyklack/windows.nvim'
+Plug 'anuvyklack/middleclass'
+Plug 'anuvyklack/animation.nvim'
 
 " Markdown
 Plug 'OXY2DEV/markview.nvim'
@@ -30,7 +33,6 @@ Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'nvim-treesitter/playground'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'bullets-vim/bullets.vim'
-
 
 " LSP
 Plug 'jmbuhr/otter.nvim'
