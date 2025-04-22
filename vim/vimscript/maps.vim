@@ -47,7 +47,7 @@ nnoremap <silent> gp :lua vim.diagnostic.goto_prev()<CR>
 " misc
 vnoremap > >gv
 vnoremap < <gv
-nnoremap + :WindowsMaximize
+nnoremap + :WindowsMaximize<CR>
 
 
 
