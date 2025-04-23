@@ -13,7 +13,7 @@ command! Gil :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue list ')
 command!-nargs=? Giv :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue view ' . <q-args>)
 command!-nargs=? Gie :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue  edit ' . <q-args>)
 command!-nargs=? Gir :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue comment ' . <q-args>)
-command! -nargs=1 Gid :call CheckoutOrCreateBranchFromIssue(<q-args>)
+command!-nargs=1 Gid :call CheckoutOrCreateBranchFromIssue(<q-args>)
 
 command!-nargs=? Gix :vsplit | wincmd L | call RunTerm('/usr/bin/gh issue close ' . <q-args>)
 command!-nargs=* Gh :vsplit | wincmd L call StartTerm('/usr/bin/gh ' . <q-args>)
@@ -40,7 +40,7 @@ function! CheckoutOrCreateBranchFromIssue(issue_number)
     execute '!git checkout ' . l:branch_name
   else
     " Use gh to develop the issue, which will create a branch
-    let l:gh_cmd = '1gh issue develop ' . a:issue_number
+    let l:gh_cmd = '!gh issue develop ' . a:issue_number
 
     " Run the gh command
     execute l:gh_cmd

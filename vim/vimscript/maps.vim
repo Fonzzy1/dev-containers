@@ -15,8 +15,7 @@
 vnoremap ec :Commentary<cr>
 vnoremap es :AIE fix spelling and grammar using Australian English, assume markdown formatting is being used.<cr>
 vnoremap ew :AIE Split this over multiple lines, so that no line exceeds 80 chars.<cr>  
-vnoremap ee :AIE
-vnoremap el :AIE
+vnoremap ee :AIE 
 
 "spawn
 nnoremap svb :vnew<CR>:wincmd L<CR>
