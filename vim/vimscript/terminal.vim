@@ -11,7 +11,6 @@ autocmd VimEnter,BufEnter,FocusGained,WinEnter * let g:slime_vimterminal_cmd = g
 function! StartTerm(cmd)
   " Escape the command for proper execution
   execute 'terminal '. a:cmd
-  startinsert
   setlocal nonumber
   setlocal nornu
   setlocal scl=no
@@ -19,7 +18,6 @@ function! StartTerm(cmd)
   wincmd p
   let b:slime_config = {'jobid': term_id}
   wincmd p
-  startinsert
 endfunction
 
 function! RunTerm(cmd)
@@ -28,8 +26,9 @@ function! RunTerm(cmd)
   setlocal nonumber
   setlocal nornu
   setlocal scl=no
-  startinsert
 endfunction
 
-tnoremap <Esc><Esc> <C-\><C-n>
+tnoremap <esc><esc> <C-w><C-N>
+autocmd BufEnter * if &buftype == 'terminal' | startinsert | endif
+
 
