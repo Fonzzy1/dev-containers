@@ -3,7 +3,6 @@ call plug#begin()
 Plug 'madox2/vim-ai'
 
 " Nav
-Plug 'jpalardy/vim-slime' 
 Plug 'preservim/nerdtree' 
 Plug 'tpope/vim-fugitive' 
 Plug 'airblade/vim-gitgutter' 
@@ -25,6 +24,10 @@ Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'anuvyklack/windows.nvim'
 Plug 'anuvyklack/middleclass'
 Plug 'anuvyklack/animation.nvim'
+Plug 'MunifTanjim/nui.nvim'
+Plug 'folke/noice.nvim'
+Plug 'rcarriga/nvim-notify'
+
 
 " Markdown
 Plug 'OXY2DEV/markview.nvim'
@@ -47,6 +50,10 @@ Plug 'williamboman/mason-lspconfig.nvim'
 " Motions
 Plug 'echasnovski/mini.nvim'
 Plug 'kylechui/nvim-surround'
+
+"Code Running
+Plug 'Vigemus/iron.nvim' 
+Plug 'stevearc/overseer.nvim'
 
 
 call plug#end()

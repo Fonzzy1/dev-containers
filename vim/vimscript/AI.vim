@@ -30,9 +30,8 @@ let g:vim_ai_chat = {
             \}
 
 " map  enter to :AIChat when filetype is aichat
-autocmd FileType aichat inoremap <buffer> <CR> <C-O>:AIChat<CR>
+autocmd FileType aichat inoremap <buffer> <silent> <CR> <C-O>:AIChat<CR>
 autocmd FileType setlocal textwidth=80
-autocmd FileType aichat startinsert
 
 
 let chat_engine_config = {

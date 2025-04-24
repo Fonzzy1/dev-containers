@@ -42,6 +42,9 @@ require 'lspconfig'.ltex.setup {
         }
     }
 }
+
+
+
 -- Define the command and arguments for each formatter
 local formatters = {
     lua = {
@@ -53,7 +56,7 @@ local formatters = {
         formatStdin = true,
     },
     quarto = {
-        formatCommand = "prettier --parser markdown " ,
+        formatCommand = "prettier --parser markdown ",
         formatStdin = true,
     },
     json = {
@@ -91,19 +94,7 @@ require "lspconfig".efm.setup {
     init_options = { documentFormatting = true },
     settings = {
         rootMarkers = { ".git/" },
-        languages = {
-            lua = { formatters.lua },
-            markdown = { formatters.markdown },
-            quarto = { formatters.quarto },
-            json = { formatters.json },
-            python = { formatters.python },
-            r = { formatters.r },
-            javascript = { formatters.javascript },
-            html = { formatters.html },
-            yaml = { formatters.yaml },
-            dockerfile = { formatters.dockerfile },
-            prisma = { formatters.prisma },
-        },
+        languages = formatters,
     },
     filetypes = vim.tbl_keys(formatters),
 }

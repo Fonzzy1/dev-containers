@@ -18,6 +18,7 @@ function! StartTerm(cmd)
   wincmd p
   let b:slime_config = {'jobid': term_id}
   wincmd p
+  startinsert
 endfunction
 
 function! RunTerm(cmd)
@@ -28,7 +29,17 @@ function! RunTerm(cmd)
   setlocal scl=no
 endfunction
 
-tnoremap <esc><esc> <C-w><C-N>
-autocmd BufEnter * if &buftype == 'terminal' | startinsert | endif
+tnoremap <ESC><ESC> <C-\><C-n>
 
+augroup insertonenter
+    function! InsertOnTerminal()
+        if &buftype ==# "terminal"
+            normal i
+        endif
+    endfunction
 
+    autocmd! BufEnter * call InsertOnTerminal()
+    if has('nvim')
+        autocmd! TermOpen * call InsertOnTerminal()
+    endif
+augroup END
