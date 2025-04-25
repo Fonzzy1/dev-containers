@@ -14,7 +14,7 @@ autocmd VimResized * wincmd =
 
 function! LeftBarToggle()
     wincmd t
-    if ((&ft=='nerdtree') || (&ft=='aerial'))
+    if ((&ft=='nerdtree') || (&ft=='aerial') || (&ft=='OverseerList'))
         close
     endif
     wincmd p

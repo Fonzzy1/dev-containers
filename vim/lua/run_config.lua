@@ -51,7 +51,7 @@ iron.setup {
         toggle_repl = "st",  -- toggles the repl open and closed.
         restart_repl = "sT", -- calls `IronRestart` to restart the repl
         send_motion = "s",
-        visual_send = "s",
+        visual_send = "ss",
     },
     -- If the highlight is on, you can change how it looks
     -- For the available options, check nvim_set_hl
@@ -65,20 +65,21 @@ iron.setup {
 require('overseer').setup({
     task_list = {
         direction = 'left'
-    ,
-    bindings = {
-        ["?"] = "ShowHelp",
-        ["g?"] = "ShowHelp",
-        ["<CR>"] = "OpenFloat",
-        ["l"] = "IncreaseDetail",
-        ["h"] = "DecreaseDetail",
-        ["L"] = "IncreaseAllDetail",
-        ["H"] = "DecreaseAllDetail",
-        ["k"] = "PrevTask",
-        ["j"] = "NextTask",
-        ["q"] = "Close",
-    },
-}
+        ,
+        bindings = {
+            ["?"] = "ShowHelp",
+            ["g?"] = "ShowHelp",
+            ["<CR>"] = "OpenFloat",
+            ["l"] = "IncreaseDetail",
+            ["h"] = "DecreaseDetail",
+            ["L"] = "IncreaseAllDetail",
+            ["H"] = "DecreaseAllDetail",
+            ["k"] = "PrevTask",
+            ["j"] = "NextTask",
+            ["q"] = "Close",
+            ["dd"] = "Dispose",
+        },
+    }
 })
 
 -- Define the function in Lua
@@ -86,3 +87,12 @@ function LeftBarToOver()
     vim.cmd("call LeftBarToggle()") -- or use the appropriate Lua function if available
     vim.cmd("OverseerOpen")         -- or the equivalent Lua function
 end
+
+vim.api.nvim_create_autocmd("TermOpen", {
+    pattern = "*",
+    callback = function()
+        vim.defer_fn(function()
+            vim.cmd("startinsert")
+        end, 10) -- Delay by 10ms
+    end,
+})

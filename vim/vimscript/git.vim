@@ -9,6 +9,14 @@ command Gb :vsplit | wincmd L | call RunTerm("source ~/.bashrc; gitdist")
 command!-nargs=1 Gs :Git switch <args>
 command G :vertical Git
 
+function! RunTerm(cmd)
+  " Escape the command for proper execution
+  execute 'terminal '. a:cmd . ' && tail -f /dev/null'
+  setlocal nonumber
+  setlocal nornu
+  setlocal scl=no
+endfunction
+
 function! GitCommitMessageFn(issue_number)
   let l:diff = system('git --no-pager diff --staged')
   let l:prompt = "generate a short commit message that describes the changes made using the diff below. Make sure it is not longer than 52 chars."

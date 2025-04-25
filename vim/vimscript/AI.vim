@@ -1,6 +1,9 @@
-let g:model = 'gpt-4o'
+let g:model = 'gpt-4o-search-preview'
 let g:vim_ai_debug = 1
 let g:instruct_model = "gpt-4o-mini"
+let g:vim_ai_role = ''
+
+
 
 let initial_prompt =<< trim END
 >>> system
@@ -15,6 +18,7 @@ Tips:
 - Ignore any preexisting wraps in prose that is sent to you, that will be reinserted by the editor
 END
 "config for chat
+
 let g:vim_ai_chat = {
             \  "ui": {
             \    "code_syntax_enabled": 1,
@@ -25,12 +29,24 @@ let g:vim_ai_chat = {
             \  "options": {
             \    "model": g:model,
             \    "max_tokens": 0,
+            \    "temperature": -1,
             \    "initial_prompt": initial_prompt,
+            \    "web_search_options": {
+            \      "user_location": {
+            \        "type": "approximate",
+            \        "approximate": {
+            \          "country": "AU",
+            \          "region": "VIC",
+            \          "city": "Bentleigh"
+            \        }
+            \      }
+            \    }
             \  }
             \}
 
 " map  enter to :AIChat when filetype is aichat
 autocmd FileType aichat inoremap <buffer> <silent> <CR> <C-O>:AIChat<CR>
+autocmd FileType aichat startinsert
 autocmd FileType setlocal textwidth=80
 
 
@@ -52,5 +68,4 @@ let chat_engine_config = {
 
 let g:vim_ai_complete = chat_engine_config
 let g:vim_ai_edit = chat_engine_config
-
 

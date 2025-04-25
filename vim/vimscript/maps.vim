@@ -49,8 +49,8 @@ vnoremap > >gv
 vnoremap < <gv
 nnoremap + :WindowsMaximize<CR>
 
-nnoremap <silent> dw :wq<CR>
+nnoremap <silent> dw :w<CR>:close<CR>
 nnoremap <silent> da :wa<CR>:qa<CR>
-nnoremap <silent> dn :q!<CR>
+nnoremap <silent> dn :close<CR>
 
 
