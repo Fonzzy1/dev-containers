@@ -56,5 +56,15 @@ nnoremap <silent> da :wa<CR>:qa<CR>
 nnoremap <silent> dn :close<CR>
 
 
-
-
+nnoremap <c-h> <c-w>h
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-l> <c-w>l
+tnoremap <c-h> <Cmd>wincmd h<CR>
+tnoremap <c-j> <Cmd>wincmd j<CR>
+tnoremap <c-k> <Cmd>wincmd k<CR>
+tnoremap <c-l> <Cmd>wincmd l<CR>
+inoremap <C-h> <Esc><C-w>h
+inoremap <C-j> <Esc><C-w>j
+inoremap <C-k> <Esc><C-w>k
+inoremap <C-l> <Esc><C-w>l

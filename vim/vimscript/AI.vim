@@ -54,6 +54,7 @@ function! SetupAIChat()
 
   " Configure local settings
   setlocal noautoindent nosmartindent nocindent
+  setlocal tw=80
 
   " Enable Markview
   :Markview Enable
@@ -65,8 +66,6 @@ function! SetupAIChat()
   " Link aichatRole to Comment highlight
   highlight default link aichatRole Comment
 
-  highlight link @markup.quote.markdown Comment
-  highlight link @punctuation.special.markdown Comment
   echo 'AIChat Setup'
   startinsert
 
@@ -83,8 +82,7 @@ let chat_engine_config = {
 \    "max_tokens": 0,
 \    "temperature": 0.1,
 \    "request_timeout": 20,
-\    "selection_boundary": "",
-\    "initial_prompt": initial_prompt,
+\    "selection_boundary": "#####",
 \  },
 \  "ui": {
 \    "paste_mode": 0,

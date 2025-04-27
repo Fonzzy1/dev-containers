@@ -6,6 +6,8 @@ filetype plugin on
 inoremap [[[ <cmd>Telescope bibtex<cr>
 
 autocmd FileType quarto setlocal textwidth=80
+highlight link @markup.quote.markdown Comment
+highlight link @punctuation.special.markdown Comment
 
 function! QuartoExtras()
     lua require'otter'.activate()
@@ -32,26 +34,53 @@ let g:bullets_outline_levels = ['ROM', 'ABC', 'num', 'abc', 'rom', 'std-',]
 
 
 "" Quato Preview Funtions
-function! QuartoPreview() 
-    :w
+function! QuartoPreview()
+    " Save the current file
+    write
+
+    " Get the full path of the current file
     let l:current_file = expand('%:p')
-    :split
-    call StartTerm('quarto preview "'.l:current_file .'"')
+
+    " Construct the command to be executed
+    let l:cmd = 'quarto preview ' . shellescape(l:current_file)
+
+    " Execute the command using OverseerRunCmd
+    execute 'OverseerRunCmd ' . l:cmd
 endfunction
 
-function! QuartoRender() 
-    :w
+function! QuartoRender()
+    " Save the current file
+    write
+
+    " Get the full path of the current file
     let l:current_file = expand('%:p')
-    :split
-    call StartTerm('quarto render "'.l:current_file .'"')
+
+    " Construct the command to be executed
+    let l:cmd = 'quarto render ' . shellescape(l:current_file)
+
+    " Execute the command using OverseerRunCmd
+    execute 'OverseerRunCmd ' . l:cmd
 endfunction
 
 function! QuartoPublish()
-    :w
+    " Save the current file
+    write
+
+    " Get the full path of the current file
     let l:current_file = expand('%:p')
+
+    " Get the output file name with .pdf extension
     let l:output_file = expand('%:t:r') . ".pdf"
-    :split
-    call StartTerm('cd /wiki/Public; quarto render "' . l:current_file . '" --to pdf -o "' . l:output_file . '";  git add .; git commit -m "Add ' . expand('%:t') . '"; git push')
+
+    " Construct the command to be executed
+    let l:cmd = 'cd /wiki/Public && ' .
+                \ 'quarto render ' . shellescape(l:current_file) . ' --to pdf -o ' . shellescape(l:output_file) . ' && ' .
+                \ 'git add . && ' .
+                \ 'git commit -m ' . shellescape('Add ' . expand('%:t')) . ' && ' .
+                \ 'git push'
+
+    " Execute the command using OverseerRunCmd
+    execute 'OverseerRunCmd ' . string(l:cmd)
 endfunction
 
 command! Preview :call QuartoPreview()

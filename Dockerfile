@@ -115,6 +115,16 @@ RUN curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb && \
     gdebi --non-interactive quarto-linux-amd64.deb && \
     quarto install tinytex
 
+
+RUN mkdir -p /root/.quarto && \
+    cat > /root/.quarto/config.yml <<EOF
+filters:
+  - /scripts/callouts.lua
+  - quarto
+EOF
+
+
+
 RUN fc-cache -fv
 
 #Copy in the dotfiles

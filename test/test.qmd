@@ -3,9 +3,12 @@ title: "Test Document"
 author: "Your Name"
 date: "`r Sys.Date()`"
 format: html
+filters:
+    - /scripts/callouts.lua
 ---
 
 # Introduction
+
 
 This is a test document to check the functionality of LSP, auto formatting, and
 other features.
@@ -13,12 +16,7 @@ other features.
 ## Code Chunk
 
 ```{python}
-import numpy as np
 import os
-
-x = np.random.normal(size=100)
-mean_x = np.mean(x)
-mean_x = os.listdir()
 ```
 
 - Bullet point 1
@@ -30,3 +28,10 @@ mean_x = os.listdir()
 ## Conclusion
 
 This document serves as a basic template for testing various features in Quarto.
+
+
+> [!TIP] This has been updated
+>
+
+
+
