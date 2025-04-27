@@ -15,13 +15,13 @@
 vnoremap <silent> ec :Commentary<cr>
 vnoremap <silent> es :AIE fix spelling and grammar using Australian English, assume markdown formatting is being used.<cr>
 vnoremap <silent> ew :AIE Split this over multiple lines, so that no line exceeds 80 chars.<cr>  
-vnoremap <silent> ee :AIE
+vnoremap ee :AIE
 
 "spawn
 nnoremap <silent> svb :vnew<CR>:wincmd L<CR>
 nnoremap <silent> sb :new<CR>
 nnoremap <silent> sc :AIC<CR>
-vnoremap <silent> sc :AIC 
+vnoremap sc :AIC 
 nnoremap <silent> sN :call LeftBarToNerdFind() <CR>
 nnoremap <silent> ss :lua LeftBarToOutline()<CR>
 nnoremap <silent> sn :call LeftBarToNerd()<CR>
@@ -44,13 +44,17 @@ nnoremap <silent> gd :lua vim.lsp.buf.definition()<cr>
 nnoremap <silent> gn :lua vim.diagnostic.goto_next()<CR>
 nnoremap <silent> gp :lua vim.diagnostic.goto_prev()<CR>
 
-" misc
+" miscmap
 vnoremap > >gv
 vnoremap < <gv
 nnoremap + :WindowsMaximize<CR>
+"" map esc to enter terminal normal mode
+tnoremap <Esc><Esc> <C-\><C-n>
 
 nnoremap <silent> dw :w<CR>:close<CR>
 nnoremap <silent> da :wa<CR>:qa<CR>
 nnoremap <silent> dn :close<CR>
+
+
 
 

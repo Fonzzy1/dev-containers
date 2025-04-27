@@ -5,7 +5,7 @@ au BufRead,BufNewFile *.qmd  set filetype=quarto
 filetype plugin on
 inoremap [[[ <cmd>Telescope bibtex<cr>
 
-
+autocmd FileType quarto setlocal textwidth=80
 
 function! QuartoExtras()
     lua require'otter'.activate()

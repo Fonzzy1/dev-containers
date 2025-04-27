@@ -5,6 +5,7 @@ from urllib.parse import urlparse
 import argparse
 
 
+
 def is_url(path):
     try:
         result = urlparse(path)

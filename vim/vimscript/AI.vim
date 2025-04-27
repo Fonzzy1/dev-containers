@@ -2,7 +2,7 @@ let g:model = 'gpt-4o-search-preview'
 let g:vim_ai_debug = 1
 let g:instruct_model = "gpt-4o-mini"
 let g:vim_ai_role = ''
-
+let g:vim_ai_chat_markdown = 0
 
 
 let initial_prompt =<< trim END
@@ -11,11 +11,12 @@ let initial_prompt =<< trim END
 You are going to play the role of an assistant siting in neovim. 
 You will be asked to edit, discuss and generate both code and prose.
 Tips:
+- Feel free to use all markdown features, including headers
 - Only return the text you have been asked to provide without wrapping it in code blocks. 
 - Be aware of the current level of indenting of the text that has been given to you
 - Make sure to return equaly indented text
-- Try to keep code lines at less than 80 characters long, however prose can be as long as you want
-- Ignore any preexisting wraps in prose that is sent to you, that will be reinserted by the editor
+- Try to keep lines at less than 80 characters long, prose can be as long as you want
+- Dont put any indenting on code blocks
 END
 "config for chat
 
@@ -28,10 +29,12 @@ let g:vim_ai_chat = {
             \  },
             \  "options": {
             \    "model": g:model,
+            \    "selection_boundary":  "```",
             \    "max_tokens": 0,
             \    "temperature": -1,
             \    "initial_prompt": initial_prompt,
             \    "web_search_options": {
+		    \    "search_context_size": "low",
             \      "user_location": {
             \        "type": "approximate",
             \        "approximate": {
@@ -45,9 +48,31 @@ let g:vim_ai_chat = {
             \}
 
 " map  enter to :AIChat when filetype is aichat
-autocmd FileType aichat inoremap <buffer> <silent> <CR> <C-O>:AIChat<CR>
-autocmd FileType aichat startinsert
-autocmd FileType setlocal textwidth=80
+function! SetupAIChat()
+  " Set up insert mode mapping for <CR>
+  inoremap <buffer> <silent> <CR> <C-O>:AIChat<CR>
+
+  " Configure local settings
+  setlocal noautoindent nosmartindent nocindent
+
+  " Enable Markview
+  :Markview Enable
+
+  " Define syntax highlighting for roles
+  syntax match aichatRole "<<< thinking"
+  syntax match aichatRole "<<< assistant"
+
+  " Link aichatRole to Comment highlight
+  highlight default link aichatRole Comment
+
+  highlight link @markup.quote.markdown Comment
+  highlight link @punctuation.special.markdown Comment
+  echo 'AIChat Setup'
+  startinsert
+
+endfunction
+
+autocmd FileType aichat call timer_start(10, { -> SetupAIChat() })
 
 
 let chat_engine_config = {

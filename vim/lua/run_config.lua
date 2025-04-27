@@ -1,4 +1,4 @@
--- autocmd({ "VimEnter", "BufEnter", "FocusGained", "WinEnter" }, {
+-- autocmd({ "VimEnter", "BufEnter", "FocusGained", "WinEnter" }, {startin
 --     callback = function()
 --         local line = vim.fn.getline(1)
 --         vim.g.shebang = line:match("^#!%s*(.*)") or "/usr/bin/bash"
@@ -88,11 +88,3 @@ function LeftBarToOver()
     vim.cmd("OverseerOpen")         -- or the equivalent Lua function
 end
 
-vim.api.nvim_create_autocmd("TermOpen", {
-    pattern = "*",
-    callback = function()
-        vim.defer_fn(function()
-            vim.cmd("startinsert")
-        end, 10) -- Delay by 10ms
-    end,
-})
