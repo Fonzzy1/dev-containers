@@ -1,6 +1,6 @@
 call plug#begin()
 " AI
-Plug 'fonzzy1/vim-ai'
+Plug 'madox2/vim-ai'
 
 " Nav
 Plug 'preservim/nerdtree' 

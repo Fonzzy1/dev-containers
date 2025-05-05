@@ -3,10 +3,4 @@ username="fonzzy1"
 # Build Docker Images
 docker build . -t "${username}/vim"
 
-#if [ $? -eq 0 ]; then
-#    #Push Docker Images to Docker Hub
-#    docker push "${username}/vim"
-#else
-#    echo "Docker login failed. Cannot push images."
-#    exit 1
-#fi
+docker push "${username}/vim"
