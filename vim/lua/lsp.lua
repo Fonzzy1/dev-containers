@@ -1,20 +1,22 @@
 require("mason").setup()
 require("mason-lspconfig").setup()
 
+local lspconfig = require("lspconfig")
+local configs = require("lspconfig.configs")
 
-require 'lspconfig'.vimls.setup {}
-require 'lspconfig'.dockerls.setup {}
-require 'lspconfig'.docker_compose_language_service.setup {}
-require 'lspconfig'.jsonls.setup {}
-require 'lspconfig'.marksman.setup { filetypes = { 'vimwiki', 'quarto', 'rmarkdown', 'markdown' } }
-require 'lspconfig'.nginx_language_server.setup {}
-require 'lspconfig'.pyright.setup {}
-require 'lspconfig'.air.setup {}
-require 'lspconfig'.ts_ls.setup {}
-require 'lspconfig'.yamlls.setup {}
-require 'lspconfig'.prismals.setup {}
-require 'lspconfig'.lua_ls.setup {}
-require 'lspconfig'.ltex.setup {
+
+lspconfig.vimls.setup {}
+lspconfig.dockerls.setup {}
+lspconfig.docker_compose_language_service.setup {}
+lspconfig.jsonls.setup {}
+lspconfig.nginx_language_server.setup {}
+lspconfig.pyright.setup {}
+lspconfig.air.setup {}
+lspconfig.ts_ls.setup {}
+lspconfig.yamlls.setup {}
+lspconfig.prismals.setup {}
+lspconfig.lua_ls.setup {}
+lspconfig.ltex.setup {
     cmd = { "ltex-ls", "--log-file=/root/ltex_log" },
     settings = {
         ltex = {
@@ -90,8 +92,8 @@ local formatters = {
 }
 
 -- Configure efm-langserver
-require "lspconfig".efm.setup {
-    init_options = { documentFormatting = true },
+lspconfig.efm.setup {
+    init_options = { documentFormatting = true, },
     settings = {
         rootMarkers = { ".git/" },
         languages = formatters,
@@ -118,3 +120,16 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
         vim.lsp.buf.format()
     end,
 })
+
+
+if not configs.bibli_ls then
+    configs.bibli_ls = {
+        default_config = {
+            cmd = { "bibli_ls" },
+            filetypes = { "quarto" },
+            root_dir = lspconfig.util.root_pattern(".bibli.toml"),
+        },
+    }
+end
+
+lspconfig.bibli_ls.setup({})

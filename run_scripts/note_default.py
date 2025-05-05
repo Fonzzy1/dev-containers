@@ -10,13 +10,13 @@ import argparse
 
 def main():
     template = """---
-        title: {name}
-        author: Alfie Chadwick
-        date: "{date}"
-        filters:
-            - /scripts/callouts.lua
-        ---
-        """
+title: {name}
+author: Alfie Chadwick
+date: "{date}"
+filters:
+    - /scripts/callouts.lua
+---
+"""
 
     parser = argparse.ArgumentParser()
     parser.add_argument("file", metavar="F", type=str, help="file to check")

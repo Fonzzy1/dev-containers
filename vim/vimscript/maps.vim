@@ -51,9 +51,6 @@ nnoremap + :WindowsMaximize<CR>
 "" map esc to enter terminal normal mode
 tnoremap <Esc><Esc> <C-\><C-n>
 
-nnoremap <silent> dw :w<CR>:close<CR>
-nnoremap <silent> da :wa<CR>:qa<CR>
-nnoremap <silent> dn :close<CR>
 
 
 nnoremap <c-h> <c-w>h

@@ -82,7 +82,7 @@ RUN set -uex && \
     apt-get update && apt-get install nodejs -y;
 
 # Install the python packages
-RUN pip install pipreqs pgcli awscli ipython ipykernel neovim-remote pynvim openai ddgr googlesearch-python requests beautifulsoup4 && \
+RUN pip install pipreqs pgcli awscli ipython ipykernel neovim-remote pynvim openai ddgr googlesearch-python requests bibli-ls && \
     pip install --no-cache-dir --force-reinstall git+https://github.com/sciunto-org/python-bibtexparser@main
 
 # Install npm packages
@@ -143,7 +143,7 @@ COPY vim /root/.config/nvim/
 RUN sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 RUN nvim -u /root/.config/nvim/vimscript/plugins.vim +PlugInstall +qall
-RUN nvim -u /root/.config/nvim/vimscript/plugins.vim --headless "+lua require('mason').setup()" "+MasonInstall efm vim-language-server yaml-language-server yamlfmt prisma-language-server vim-language-server docker-compose-language-service dockerfile-language-server json-lsp typescript-language-server  yaml-language-server marksman nginx-language-server pyright air ltex-ls lua-language-server mdformat black fixjson prettier" +qall
+RUN nvim -u /root/.config/nvim/vimscript/plugins.vim --headless "+lua require('mason').setup()" "+MasonInstall efm vim-language-server yaml-language-server yamlfmt prisma-language-server vim-language-server docker-compose-language-service dockerfile-language-server json-lsp typescript-language-server  yaml-language-server nginx-language-server pyright air ltex-ls lua-language-server mdformat black fixjson prettier" +qall
 RUN timeout --preserve-status 30s nvim "+TSUpdateSync" || exit 0
 
 #Copy in the scripts

@@ -9,8 +9,12 @@ autocmd FileType quarto setlocal textwidth=80
 highlight link @markup.quote.markdown Comment
 highlight link @punctuation.special.markdown Comment
 
+
+
 function! QuartoExtras()
     lua require'otter'.activate()
+
+    
 endfunction
 
 

@@ -1,43 +1,43 @@
-local cmp = require'cmp'
+local cmp = require 'cmp'
 
-cmp.setup{
-  mapping = {
-    ['<Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      else
-        fallback()
-      end
-    end, {'i', 's'}),
+cmp.setup {
+    mapping = {
+        ['<Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item()
+            else
+                fallback()
+            end
+        end, { 'i', 's' }),
 
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      else
-        fallback()
-      end
-    end, {'i', 's'}),
+        ['<S-Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_prev_item()
+            else
+                fallback()
+            end
+        end, { 'i', 's' }),
 
-  },
-  sources = {
-    { name = 'nvim_lsp' },
-    {
-      name = "latex_symbols",
-      option = {
-        strategy = 2, -- mixed
-      },
     },
-    { name = 'path'},
-    -- { name = 'buffer', keyword_length = 2 },
-  },
-  experimental = {
-    ghost_text = true,
-  },
+    sources = {
+        { name = 'nvim_lsp' },
+        {
+            name = "latex_symbols",
+            option = {
+                strategy = 2, -- mixed
+            },
+        },
+        { name = 'path' },
+        -- { name = 'buffer', keyword_length = 2 },
+    },
+    experimental = {
+        ghost_text = true,
+    },
 }
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 require('lspconfig').clangd.setup {
-  capabilities = capabilities,
-  ...  -- other lspconfig configs
+    capabilities = capabilities,
+    ... -- other lspconfig configs
 }
