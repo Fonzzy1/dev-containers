@@ -77,7 +77,8 @@ require("ibl").setup({
             'gitcommit',
             'TelescopePrompt',
             'TelescopeResults',
-            ''
+            '',
+            'terminal'
         }
     }
 })
@@ -91,10 +92,10 @@ require("windows").setup({
         },
     },
     ignore = { --			  |windows.ignore|
-        filetype = { "nerdtree", "aerial", "dashboard" }
+        filetype = { "NvimTree", "aerial", "dashboard" }
     },
     animation = {
-        enable = true,
+        enable = false,
         duration = 300,
         fps = 30,
         easing = "in_out_sine"

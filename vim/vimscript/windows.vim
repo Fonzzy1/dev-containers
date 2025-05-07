@@ -14,11 +14,15 @@ autocmd VimResized * wincmd =
 
 function! LeftBarToggle()
     wincmd t
-    if ((&ft=='nerdtree') || (&ft=='aerial') || (&ft=='OverseerList'))
+    if ((&ft=='NvimTree') || (&ft=='aerial') || (&ft=='OverseerList'))
         close
     endif
     wincmd p
 endfunction
 
 
+function LeftBarPost()
+    vertical resize 32
+    setlocal winhighlight=Normal:NvimTreeNormal
+endfunction
 

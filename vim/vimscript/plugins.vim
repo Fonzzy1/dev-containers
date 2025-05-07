@@ -3,10 +3,9 @@ call plug#begin()
 Plug 'madox2/vim-ai'
 
 " Nav
-Plug 'preservim/nerdtree' 
+Plug 'nvim-tree/nvim-tree.lua'
 Plug 'tpope/vim-fugitive' 
 Plug 'airblade/vim-gitgutter' 
-Plug 'Xuyuanp/nerdtree-git-plugin' 
 Plug 'stevearc/aerial.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'

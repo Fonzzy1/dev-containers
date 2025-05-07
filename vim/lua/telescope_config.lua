@@ -6,10 +6,10 @@ require 'telescope'.setup {
     defaults = {
         mappings = {
             i = {
-                ["<CR>"] = actions.select_vertical, -- Use vsplit for Enter in insert mode
+                ["<CR>"] = actions.select_vertical,   -- Use vsplit for 'v'
             },
             n = {
-                ["<CR>"] = actions.select_vertical, -- Use vsplit for Enter in normal mode
+                ["<CR>"] = actions.select_vertical,   -- Use vsplit for 'v'
             },
         },
     },

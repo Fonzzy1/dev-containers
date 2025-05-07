@@ -67,7 +67,6 @@ function! SetupAIChat()
   highlight default link aichatRole Comment
 
   echo 'AIChat Setup'
-  startinsert
 
 endfunction
 

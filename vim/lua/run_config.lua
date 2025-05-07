@@ -16,7 +16,8 @@ iron.setup {
         -- Your repl definitions come here
         repl_definition = {
             quarto = { command = '/bin/bash' },
-            text = { command = '/bin/bash' }
+            text = { command = '/bin/bash' },
+            aichat = { command = '/bin/bash' }
         },
         -- set the file type of the newly created repl to ft
         -- bufnr is the buffer id of the REPL and ft is the filetype of the
@@ -86,5 +87,5 @@ require('overseer').setup({
 function LeftBarToOver()
     vim.cmd("call LeftBarToggle()") -- or use the appropriate Lua function if available
     vim.cmd("OverseerOpen")         -- or the equivalent Lua function
+    vim.cmd('call LeftBarPost()')
 end
-
