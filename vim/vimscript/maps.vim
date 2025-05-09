@@ -27,7 +27,7 @@ nnoremap <silent> ss :lua LeftBarToOutline()<CR>
 nnoremap <silent> sn :call LeftBarToNerd()<CR>
 " sa, si st and sT are all defined vim iron for sending code
 nnoremap sr :OverseerRunCmd 
-nnoremap sR :lua LeftBarToOver()<CR>
+nnoremap <silent> sR :lua LeftBarToOver()<CR>
 
 
 ""find

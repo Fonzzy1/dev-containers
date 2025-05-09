@@ -3,20 +3,19 @@ au BufRead,BufNewFile *.md  set filetype=quarto
 au BufRead,BufNewFile *.rmd  set filetype=quarto
 au BufRead,BufNewFile *.qmd  set filetype=quarto
 filetype plugin on
-inoremap [[[ <cmd>Telescope bibtex<cr>
 
 autocmd FileType quarto setlocal textwidth=80
 highlight link @markup.quote.markdown Comment
 highlight link @punctuation.special.markdown Comment
 
+highlight link MarkviewLink MarkviewPalette7Fg
 
 
 function! QuartoExtras()
     lua require'otter'.activate()
-
-    
+    syntax match Cite /\k\@<!@\k\+\>/
+    highlight link Cite MarkviewPalette7Fg
 endfunction
-
 
 augroup QuartoExtrasGroup
     autocmd!

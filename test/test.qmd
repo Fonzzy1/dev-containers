@@ -9,6 +9,17 @@ filters:
 
 # Introduction
 
+[[@cite]]
+
+[@cite]
+
+[see @cite;@cite2]
+
+[@cite]
+
+as referenced by @cite, who said that [@cite]
+
+
 
 This is a test document to check the functionality of LSP, auto formatting, and
 other features.
@@ -32,6 +43,5 @@ This document serves as a basic template for testing various features in Quarto.
 
 > [!TIP] This has been updated
 >
-
 
 

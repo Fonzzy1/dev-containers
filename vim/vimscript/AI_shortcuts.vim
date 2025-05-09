@@ -27,7 +27,7 @@ function! Summarise(file)
   " Check if the tempfile was successfully created and is readable
   if filereadable(l:tempfile)
     let l:filetext = join(readfile(l:tempfile), "\n")
-    let l:prompt = ">>> system \n Please summarize the following journal article or academic piece. Focus on clarity and brevity while retaining the essential information.  Before this summary include a section called key take aways, that will have the key information that I should take away from the peice .Retain the structure of the original piece, and return it as a markdown document, including headers using the # markers, noting that in this flavour ## is highest level of heading (dont use a single #)"
+    let l:prompt = ">>> system \n Please summarize the following journal article or text. Focus on the key findings of the peice, with the main idea being what I would cite this peice for"
     
     " Attempt to call AI service with appropriate error handling
     try

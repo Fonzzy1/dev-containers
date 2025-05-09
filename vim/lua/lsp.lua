@@ -90,6 +90,14 @@ local formatters = {
         formatCommand = "prisma format -i",
         formatStdin = true,
     },
+    bash = {
+        formatCommand = "shellharden --transform",
+        formatStdin = true,
+    },
+    sh = {
+        formatCommand = "shellharden --transform",
+        formatStdin = true,
+    },
 }
 
 -- Configure efm-langserver

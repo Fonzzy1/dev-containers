@@ -80,25 +80,25 @@ require 'nvim-treesitter.configs'.setup {
 
 }
 
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = "markdown",
-    callback = function()
-        local query = require("vim.treesitter.query")
-        local parser_config = vim.treesitter.language.get_lang("markdown")
+-- vim.api.nvim_create_autocmd("FileType", {
+--     pattern = "aichat",
+--     callback = function()
+--         local query = require("vim.treesitter.query")
+--         local parser_config = vim.treesitter.language.get_lang("markdown")
 
-        -- Get the existing highlight query for markdown
-        local existing = query.get_query("markdown", "highlights")
-        local existing_str = tostring(existing)
+--         -- Get the existing highlight query for markdown
+--         local existing = query.get_query("markdown", "highlights")
+--         local existing_str = tostring(existing)
 
-        -- Add your custom rule to highlight lines starting with ">>>"
-        local custom = [[
-      ((paragraph) @comment (#match? @comment "^>>>"))
-    ]]
+--         -- Add your custom rule to highlight lines starting with ">>>"
+--         local custom = [[
+--       ((paragraph) @comment (#match? @comment "^>>>"))
+--     ]]
 
-        -- Merge and set the new combined query
-        query.set("markdown", "highlights", existing_str .. "\n" .. custom)
-    end,
-})
+--         -- Merge and set the new combined query
+--         query.set("markdown", "highlights", existing_str .. "\n" .. custom)
+--     end,
+-- })
 
 
 require('mini.ai').setup()

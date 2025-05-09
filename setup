@@ -24,10 +24,10 @@ if [ "$1" = "--init" ]; then
   fi
 
   # Install the gnome extentions
-  pip3 install --upgrade gnome-extensions-cli
-  gnome-extensions-cli install 545
-  gnome-extensions-cli install 19
-  gnome-extensions-cli install 1732
+  pip3 install --upgrade git+https://github.com/essembeh/gnome-extensions-cli
+  /home/fonzzy/.local/bin/gext install 545
+  /home/fonzzy/.local/bin/gext install 19
+  /home/fonzzy/.local/bin/gext install 1732
 
   gnome-extensions-app &&
 
@@ -40,12 +40,8 @@ if [ "$1" = "--init" ]; then
   gsettings set org.gnome.desktop.interface gtk-theme "Catppuccin-Macchiato-Standard-Lavender-Dark"
   gsettings set org.gnome.shell.extensions.user-theme name  "Catppuccin-Macchiato-Standard-Lavender-Dark" || true
 
-  # Set the gnome Terminal theme
-  curl -L https://raw.githubusercontent.com/catppuccin/gnome-terminal/v0.2.0/install.py | python3 -
-
   # Turn off stacking and set color
   dconf write /org/gnome/shell/extensions/pop-shell/stacking-with-mouse false
-  gsettings set org.gnome.Terminal.Legacy.Settings headerbar false
   gsettings set org.gnome.desktop.interface enable-animations false
 
    echo '#!/bin/bash
@@ -96,6 +92,7 @@ if [ "$1" = "--init" ]; then
   curl https://raw.githubusercontent.com/catppuccin/kitty/refs/heads/main/themes/macchiato.conf -o ~/.config/kitty/kitty.conf
   echo "font_family JetBrainsMonoNL Nerd Font Mono" >> ~/.config/kitty/kitty.conf
   echo "enable_audio_bell no" >> ~/.config/kitty/kitty.conf
+  echo "hide_window_decorations yes" >> ~/.config/kitty/kitty.conf
 
 
   # Zathura Theme
@@ -148,13 +145,14 @@ fi
 user_js_path="$profile_folder/user.js"
 echo 'user_pref("full-screen-api.ignore-widgets", true);' >> "$user_js_path"
 echo "Configuration was added to $user_js_path"
+echo "Remember to set full-screen-api.ignore-widgets to True in about:config"
+
 
 # Wallpaper
 # Fetch the image from the url using wget and save it into the specific directory
 wget -O ~/.wallpaper http://web.archive.org/web/20230326122534if_/https://raw.githubusercontent.com/catppuccin/wallpapers/main/misc/spooky_spill.jpg
 # Set it as your wallpaper
 gsettings set org.gnome.desktop.background picture-uri-dark file:///home/$USER/.wallpaper
-echo "Remember to set full-screen-api.ignore-widgets to True in about:config"
 fi
 
 if ! command -v docker &> /dev/null

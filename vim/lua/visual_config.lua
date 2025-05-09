@@ -9,6 +9,8 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 local markview = require("markview")
 local presets = require("markview.presets")
 
+
+
 --
 markview.setup({
     preview = {
@@ -25,7 +27,7 @@ markview.setup({
             enable = true,
             default = {
                 border = ">",
-                hl = "comment"
+                hl = "Comment"
             },
         },
         tables = presets.tables.rounded,
@@ -42,9 +44,6 @@ markview.setup({
             marker_minus = {
                 add_padding = false
             },
-            marker_minus = {
-                add_padding = false
-            },
             marker_plus = {
                 add_padding = false
             },
@@ -58,7 +57,39 @@ markview.setup({
                 add_padding = false
             }
         }
-    }
+    },
+    markdown_inline = {
+        hyperlinks = {
+
+            ["[%s;]?@"] = {
+                --- github.com/<user>
+                hl = "MarkviewPalette7Fg",
+                corner_left = "[",
+                padding_left = "",
+                icon = "",
+                padding_right = "",
+                corner_right = "]",
+                -- padding_left
+
+                -- icon
+
+                -- padding_right
+
+                -- corner_right
+
+                -- corner_left_hl
+
+                -- padding_left_hl
+
+                -- icon_hl
+
+                -- padding_right_hl
+
+                -- corner_right_hl
+            }
+        },
+    },
+
 })
 
 

@@ -6,10 +6,10 @@ require 'telescope'.setup {
     defaults = {
         mappings = {
             i = {
-                ["<CR>"] = actions.select_vertical,   -- Use vsplit for 'v'
+                ["<CR>"] = actions.select_vertical, -- Use vsplit for 'v'
             },
             n = {
-                ["<CR>"] = actions.select_vertical,   -- Use vsplit for 'v'
+                ["<CR>"] = actions.select_vertical, -- Use vsplit for 'v'
             },
         },
     },
@@ -21,24 +21,19 @@ require 'telescope'.setup {
             wrap = true,
             citation_max_auth = 1,
             custom_formats = {
-                { id = 'quarto', cite_marker = '[[%s]]' },
+                { id = 'quarto', cite_marker = '@%s' },
             },
             format = 'quarto',
             mappings = {
                 i = {
-                    ["<CR>"] = bibtex_actions.key_append('[[%s]]'),
+                    ["<CR>"] = bibtex_actions.key_append('@%s'),
                     ["<c-o>"] = function(prompt_bufnr)
                         local entry = action_state.get_selected_entry().id.content
                         entry = table.concat(entry, "\n")
                         local key = entry:match("@%w+{(.-),")
                         os.execute('xdg-open /wiki/References/' .. key .. '.pdf')
                     end,
-                    ["<C-n>"] = function(prompt_bufnr)
-                        local entry = action_state.get_selected_entry().id.content
-                        entry = table.concat(entry, "\n")
-                        local key = entry:match("@%w+{(.-),")
-                        vim.cmd("vsplit /wiki/References" .. key .. ".qmd")
-                    end,
+                    ["<c-i>"] = bibtex_actions.citation_append('({{url}}?cite_key={{label}}'),
                 },
             },
         },

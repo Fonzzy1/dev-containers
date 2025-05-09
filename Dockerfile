@@ -143,7 +143,7 @@ COPY vim /root/.config/nvim/
 RUN sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 RUN nvim -u /root/.config/nvim/vimscript/plugins.vim +PlugInstall +qall
-RUN nvim -u /root/.config/nvim/vimscript/plugins.vim --headless "+lua require('mason').setup()" "+MasonInstall prisma-language-server efm vim-language-server yaml-language-server yamlfmt prisma-language-server vim-language-server docker-compose-language-service dockerfile-language-server json-lsp typescript-language-server  yaml-language-server nginx-language-server pyright air ltex-ls lua-language-server mdformat black fixjson prettier" +qall
+RUN nvim -u /root/.config/nvim/vimscript/plugins.vim --headless "+lua require('mason').setup()" "+MasonInstall prisma-language-server efm vim-language-server yaml-language-server yamlfmt prisma-language-server vim-language-server docker-compose-language-service dockerfile-language-server json-lsp typescript-language-server  yaml-language-server nginx-language-server pyright air ltex-ls lua-language-server mdformat black fixjson prettier shellharden" +qall
 RUN timeout --preserve-status 30s nvim "+TSUpdateSync" || exit 0
 
 #Copy in the scripts
