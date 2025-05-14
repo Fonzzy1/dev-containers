@@ -1,4 +1,5 @@
 vim.treesitter.language.register("markdown", { "quarto", "rmd", "aichat" })
+vim.treesitter.language.register("html", { "ejs" })
 require 'nvim-treesitter.configs'.setup {
     -- A list of parser names, or "all" (the listed parsers MUST always be installed)
     ensure_installed = {

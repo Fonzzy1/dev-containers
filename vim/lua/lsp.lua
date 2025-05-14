@@ -82,6 +82,10 @@ local formatters = {
         formatCommand = "prettier --stdin-filepath ${INPUT}",
         formatStdin = true,
     },
+    ejs = {
+        formatCommand = "prettier --stdin-filepath ${INPUT}",
+        formatStdin = true,
+    },
     yaml = {
         formatCommand = "prettier --stdin-filepath ${INPUT}",
         formatStdin = true,
