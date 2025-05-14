@@ -4,11 +4,8 @@ Plug 'madox2/vim-ai'
 
 " Nav
 Plug 'nvim-tree/nvim-tree.lua'
-Plug 'tpope/vim-fugitive' 
-Plug 'airblade/vim-gitgutter' 
 Plug 'stevearc/aerial.nvim'
 Plug 'nvim-lua/plenary.nvim'
-Plug 'tpope/vim-commentary'
 
 " Visual
 Plug 'nvim-tree/nvim-web-devicons'
@@ -16,7 +13,6 @@ Plug 'hat0uma/csvview.nvim'
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 Plug 'vim-airline/vim-airline'
 Plug 'nvimdev/dashboard-nvim'
-Plug 'juansalvatore/git-dashboard-nvim'
 Plug 'xiyaowong/virtcolumn.nvim'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'anuvyklack/windows.nvim'
@@ -25,6 +21,12 @@ Plug 'anuvyklack/animation.nvim'
 Plug 'MunifTanjim/nui.nvim'
 Plug 'folke/noice.nvim'
 Plug 'rcarriga/nvim-notify'
+
+" Git
+Plug 'kdheepak/lazygit.nvim'
+Plug 'juansalvatore/git-dashboard-nvim'
+Plug 'airblade/vim-gitgutter' 
+Plug 'pwntester/octo.nvim'
 
 
 " Markdown
@@ -47,6 +49,7 @@ Plug 'williamboman/mason-lspconfig.nvim'
 " Motions
 Plug 'echasnovski/mini.nvim'
 Plug 'kylechui/nvim-surround'
+Plug 'tpope/vim-commentary'
 
 "Code Running
 Plug 'Vigemus/iron.nvim' 

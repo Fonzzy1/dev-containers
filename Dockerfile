@@ -11,7 +11,6 @@ RUN echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula sele
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     software-properties-common \
-    tig \
     fzf \
     pkg-config \
     texlive \
@@ -27,6 +26,7 @@ RUN apt-get update && \
     libfreetype6-dev \
     libpng-dev \
     libtiff5-dev \
+    default-jre \
     libjpeg-dev \
     r-cran-tidyverse \
     xclip \
@@ -72,6 +72,11 @@ RUN git config --global user.name "Fonzzy1" && \
     git config --global core.editor "nvr --remote-wait -cc split +\"set bufhidden=delete\"" && \
     git config --global --add safe.directory /src
 
+RUN LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*') && \
+    curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz" && \
+    tar xf lazygit.tar.gz lazygit && \
+    install lazygit -D -t /usr/local/bin/ 
+
 # Install node
 RUN set -uex && \
     mkdir -p /etc/apt/keyrings && \
@@ -107,14 +112,10 @@ ENV PATH="/usr/local/go/bin:${PATH}"
 RUN curl  --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 ENV PATH="/root/.cargo/bin:${PATH}"
 
-
-RUN apt-get update && apt-get install -y default-jre
-
 # Quarto
 RUN curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb && \
     gdebi --non-interactive quarto-linux-amd64.deb && \
     quarto install tinytex
-
 
 
 RUN fc-cache -fv

@@ -54,5 +54,3 @@ require 'telescope'.setup {
 }
 
 
--- Load the arecibo extension
-require("telescope").load_extension("arecibo")

@@ -35,8 +35,8 @@ set ss=79
 augroup ColorLine
   autocmd!
   autocmd FileType * setlocal cc=81
-  autocmd FileType fugitive setlocal cc=0
   autocmd FileType dashboard setlocal cc=0
+  autocmd FileType lazygit setlocal cc=0
   autocmd FileType Telescope setlocal cc=0
   autocmd FileType TelescopePrompt setlocal cc=0
 augroup END

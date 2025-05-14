@@ -106,3 +106,4 @@ function! GitPrRequestGeneration()
   call vim_ai#AIRun( {}, l:prompt)
 endfunction
 
+lua require"octo".setup({})

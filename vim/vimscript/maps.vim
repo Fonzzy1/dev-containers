@@ -28,6 +28,8 @@ nnoremap <silent> sn :call LeftBarToNerd()<CR>
 " sa, si st and sT are all defined vim iron for sending code
 nnoremap sr :OverseerRunCmd 
 nnoremap <silent> sR :lua LeftBarToOver()<CR>
+nnoremap <silent> sg :LazyGit
+nnoremap sG :Octo 
 
 
 ""find (temp windows)
@@ -35,7 +37,6 @@ nnoremap fb <cmd>Telescope bibtex<cr>
 nnoremap ff <cmd>Telescope find_files<cr>
 nnoremap fg <cmd>Telescope live_grep<cr>
 nnoremap <silent> fd :lua vim.lsp.buf.hover()<cr>
-nnoremap <silent> fw :lua require("telescope").extensions.arecibo.websearch()<cr>
 
 "go
 " Big Jumps

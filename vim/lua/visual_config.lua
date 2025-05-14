@@ -100,6 +100,7 @@ require("ibl").setup({
     exclude = {
         filetypes = {
             'dashboard',
+            'lazygit',
             'lspinfo',
             'packer',
             'checkhealth',
@@ -123,7 +124,7 @@ require("windows").setup({
         },
     },
     ignore = { --			  |windows.ignore|
-        filetype = { "NvimTree", "aerial", "dashboard" }
+        filetype = { "NvimTree", "aerial", "dashboard", 'lazygit' }
     },
     animation = {
         enable = false,
