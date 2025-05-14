@@ -81,7 +81,7 @@ let chat_engine_config = {
 \    "max_tokens": 0,
 \    "temperature": 0.1,
 \    "request_timeout": 20,
-\    "selection_boundary": "#####",
+\    "selection_boundary": "",
 \  },
 \  "ui": {
 \    "paste_mode": 0,
