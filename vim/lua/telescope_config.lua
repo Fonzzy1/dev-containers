@@ -1,15 +1,28 @@
-local actions        = require "telescope.actions"
-local bibtex_actions = require('telescope-bibtex.actions')
-local action_state   = require('telescope.actions.state')
+local actions         = require "telescope.actions"
+local bibtex_actions  = require('telescope-bibtex.actions')
+local action_state    = require('telescope.actions.state')
+
+local function xdg_open_selected_file(prompt_bufnr)
+    local entry = action_state.get_selected_entry()
+    actions.close(prompt_bufnr)
+    if entry and entry.path then
+        vim.fn.jobstart({ "xdg-open", entry.path }, { detach = true })
+    else
+        print("No valid path to open.")
+    end
+end
+
 
 require 'telescope'.setup {
     defaults = {
         mappings = {
             i = {
                 ["<CR>"] = actions.select_vertical, -- Use vsplit for 'v'
+                ["<C-o>"] = xdg_open_selected_file  -- Open file with default system
             },
             n = {
                 ["<CR>"] = actions.select_vertical, -- Use vsplit for 'v'
+                ["<C-o>"] = xdg_open_selected_file
             },
         },
     },
@@ -39,3 +52,7 @@ require 'telescope'.setup {
         },
     },
 }
+
+
+-- Load the arecibo extension
+require("telescope").load_extension("arecibo")

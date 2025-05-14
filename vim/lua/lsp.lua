@@ -55,7 +55,7 @@ local formatters = {
         formatStdin = true,
     },
     markdown = {
-        formatCommand = "pretter --parser markdown ",
+        formatCommand = "prettier --parser markdown ",
         formatStdin = true,
     },
     quarto = {
@@ -92,11 +92,11 @@ local formatters = {
     },
     bash = {
         formatCommand = "shellharden --transform",
-        formatStdin = true,
+        formatStdin = false,
     },
     sh = {
         formatCommand = "shellharden --transform",
-        formatStdin = true,
+        formatStdin = false,
     },
 }
 

@@ -8,7 +8,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter' 
 Plug 'stevearc/aerial.nvim'
 Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
 Plug 'tpope/vim-commentary'
 
 " Visual
@@ -30,7 +29,6 @@ Plug 'rcarriga/nvim-notify'
 
 " Markdown
 Plug 'OXY2DEV/markview.nvim'
-Plug 'nvim-telescope/telescope-bibtex.nvim'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'nvim-treesitter/playground'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -54,6 +52,9 @@ Plug 'kylechui/nvim-surround'
 Plug 'Vigemus/iron.nvim' 
 Plug 'stevearc/overseer.nvim'
 
+" Telescope 
+Plug 'nvim-telescope/telescope-bibtex.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 
 call plug#end()
 

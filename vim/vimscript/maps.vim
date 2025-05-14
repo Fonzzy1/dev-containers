@@ -15,9 +15,9 @@
 vnoremap <silent> ec :Commentary<cr>
 vnoremap <silent> es :AIE fix spelling and grammar using Australian English, assume markdown formatting is being used.<cr>
 vnoremap <silent> ew :AIE Split this over multiple lines, so that no line exceeds 80 chars.<cr>  
-vnoremap ee :AIE
+vnoremap ee :AIE 
 
-"spawn
+"spawn (permanent windows)
 nnoremap <silent> svb :vnew<CR>:wincmd L<CR>
 nnoremap <silent> sb :new<CR>
 nnoremap <silent> sc :AIC<CR>
@@ -30,11 +30,12 @@ nnoremap sr :OverseerRunCmd
 nnoremap <silent> sR :lua LeftBarToOver()<CR>
 
 
-""find
+""find (temp windows)
 nnoremap fb <cmd>Telescope bibtex<cr>
 nnoremap ff <cmd>Telescope find_files<cr>
 nnoremap fg <cmd>Telescope live_grep<cr>
 nnoremap <silent> fd :lua vim.lsp.buf.hover()<cr>
+nnoremap <silent> fw :lua require("telescope").extensions.arecibo.websearch()<cr>
 
 "go
 " Big Jumps

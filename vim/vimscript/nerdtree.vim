@@ -43,7 +43,7 @@ require("nvim-tree").setup({
   vim.keymap.set("n", "p",              api.fs.paste,                       opts("Paste"))
   vim.keymap.set("n", "r",              api.fs.rename,                      opts("Rename"))
   vim.keymap.set("n", "R",              api.tree.reload,                    opts("Refresh"))
-  vim.keymap.set("n", "x",              api.node.run.system,                opts("Run System"))
+  vim.keymap.set("n", "o",              api.node.run.system,                opts("Run System"))
   vim.keymap.set("n", "u",              api.fs.rename_full,                 opts("Rename: Full Path"))
   vim.keymap.set("n", "U",              api.tree.toggle_custom_filter,      opts("Toggle Filter: Hidden"))
   vim.keymap.set("n", "W",              api.tree.collapse_all,              opts("Collapse"))
