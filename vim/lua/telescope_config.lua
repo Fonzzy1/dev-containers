@@ -1,6 +1,6 @@
-local actions         = require "telescope.actions"
-local bibtex_actions  = require('telescope-bibtex.actions')
-local action_state    = require('telescope.actions.state')
+local actions        = require "telescope.actions"
+local bibtex_actions = require('telescope-bibtex.actions')
+local action_state   = require('telescope.actions.state')
 
 local function xdg_open_selected_file(prompt_bufnr)
     local entry = action_state.get_selected_entry()
@@ -30,7 +30,7 @@ require 'telescope'.setup {
         bibtex = {
             -- Depth for the *.bib file
             depth = 2,
-            search_keys = { 'author', 'year', 'title', 'keywords' },
+            search_keys = { 'author', 'title', 'abstract' },
             wrap = true,
             citation_max_auth = 1,
             custom_formats = {
@@ -52,5 +52,3 @@ require 'telescope'.setup {
         },
     },
 }
-
-
