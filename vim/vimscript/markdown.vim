@@ -5,9 +5,10 @@ au BufRead,BufNewFile *.qmd  set filetype=quarto
 filetype plugin on
 
 autocmd FileType quarto setlocal textwidth=80
+highlight link MarkviewPalette7Fg Keyword
+
 highlight link @markup.quote.markdown Comment
 highlight link @punctuation.special.markdown Comment
-
 highlight link MarkviewLink MarkviewPalette7Fg
 
 
