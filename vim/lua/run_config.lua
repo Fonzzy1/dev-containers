@@ -51,8 +51,8 @@ iron.setup {
     keymaps = {
         toggle_repl = "st",  -- toggles the repl open and closed.
         restart_repl = "sT", -- calls `IronRestart` to restart the repl
-        send_motion = "s",
-        visual_send = "ss",
+        send_motion = "t",
+        visual_send = "tt",
     },
     -- If the highlight is on, you can change how it looks
     -- For the available options, check nvim_set_hl
