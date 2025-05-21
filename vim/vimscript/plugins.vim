@@ -58,6 +58,7 @@ Plug 'stevearc/overseer.nvim'
 " Telescope 
 Plug 'nvim-telescope/telescope-bibtex.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'lalitmee/browse.nvim'
 
 call plug#end()
 

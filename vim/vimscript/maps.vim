@@ -25,11 +25,13 @@ vnoremap sc :AIC
 nnoremap <silent> sN :call LeftBarToNerdFind() <CR>
 nnoremap <silent> ss :lua LeftBarToOutline()<CR>
 nnoremap <silent> sn :call LeftBarToNerd()<CR>
-" sa, si st and sT are all defined vim iron for sending code
 nnoremap sr :OverseerRunCmd 
 nnoremap <silent> sR :lua LeftBarToOver()<CR>
 nnoremap <silent> sg :LazyGit<CR>
 nnoremap sG :Octo 
+nnoremap sd :lua require('browse').input_search()<CR>
+
+
 
 
 ""find (temp windows)
