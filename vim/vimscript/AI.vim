@@ -1,6 +1,6 @@
-let g:model = 'gpt-4o-search-preview'
+let g:model = 'gpt-4.1'
 let g:vim_ai_debug = 1
-let g:instruct_model = "gpt-4o-mini"
+let g:instruct_model = "gpt-4.1-mini"
 let g:vim_ai_role = ''
 let g:vim_ai_chat_markdown = 0
 
@@ -32,18 +32,6 @@ let g:vim_ai_chat = {
             \    "selection_boundary":  "```",
             \    "max_tokens": 0,
             \    "temperature": -1,
-            \    "initial_prompt": initial_prompt,
-            \    "web_search_options": {
-		    \    "search_context_size": "low",
-            \      "user_location": {
-            \        "type": "approximate",
-            \        "approximate": {
-            \          "country": "AU",
-            \          "region": "VIC",
-            \          "city": "Bentleigh"
-            \        }
-            \      }
-            \    }
             \  }
             \}
 
