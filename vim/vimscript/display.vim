@@ -7,10 +7,24 @@ endif
 
 
 let g:airline_theme = 'catppuccin'
-
 let g:airline#extensions#wordcount#enabled=0
-let g:airline_section_warning = '%{airline#extensions#wordcount#get()}'
 let g:airline#extensions#wordcount#formatter#default#fmt_short = '%sW'
+let g:airline_section_y = '%{airline#extensions#wordcount#get()}'
+
+
+let g:airline#extensions#branch#enabled = 1
+
+function! GetGitBranch()
+  let l:branch = systemlist("git rev-parse --abbrev-ref HEAD")[0]
+  if v:shell_error
+    return ''
+  endif
+  return l:branch
+endfunction
+
+let g:airline#extensions#branch#custom_head = 'GetGitBranch'
+
+
 
 "lightline
 if !has('gui_running')
