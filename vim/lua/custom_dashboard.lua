@@ -29,13 +29,7 @@ local ascii_heatmap = require('git-dashboard-nvim').setup {
 local opts = {
     theme = 'doom',
     config = {
-        header = function()
-            return {}
-        end,
-        center = ascii_heatmap,
-        footer = function()
-            return {}
-        end,
+        header = ascii_heatmap,
     },
 }
 
