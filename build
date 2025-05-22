@@ -3,4 +3,8 @@ username="fonzzy1"
 # Build Docker Images
 docker build . -t "${username}/vim"
 
-docker push "${username}/vim"
+
+
+if [ "$(git rev-parse --abbrev-ref HEAD)" = "master" ]; then
+  docker push "${username}/vim"
+fi
