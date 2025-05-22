@@ -27,6 +27,7 @@ Plug 'kdheepak/lazygit.nvim'
 Plug 'juansalvatore/git-dashboard-nvim'
 Plug 'airblade/vim-gitgutter' 
 Plug 'pwntester/octo.nvim'
+Plug 'whb/vim-gitbranch'
 
 
 " Markdown

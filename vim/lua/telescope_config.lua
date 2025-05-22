@@ -14,15 +14,29 @@ end
 
 
 require 'telescope'.setup {
-    defaults = {
-        mappings = {
-            i = {
-                ["<CR>"] = actions.select_vertical, -- Use vsplit for 'v'
-                ["<C-o>"] = xdg_open_selected_file  -- Open file with default system
+    pickers = {
+        find_files = {
+            mappings = {
+                i = {
+                    ["<CR>"] = actions.select_vertical,
+                    ["<C-o>"] = xdg_open_selected_file,
+                },
+                n = {
+                    ["<CR>"] = actions.select_vertical,
+                    ["<C-o>"] = xdg_open_selected_file,
+                },
             },
-            n = {
-                ["<CR>"] = actions.select_vertical, -- Use vsplit for 'v'
-                ["<C-o>"] = xdg_open_selected_file
+        },
+        live_grep = {
+            mappings = {
+                i = {
+                    ["<CR>"] = actions.select_vertical,
+                    ["<C-o>"] = xdg_open_selected_file,
+                },
+                n = {
+                    ["<CR>"] = actions.select_vertical,
+                    ["<C-o>"] = xdg_open_selected_file,
+                },
             },
         },
     },
