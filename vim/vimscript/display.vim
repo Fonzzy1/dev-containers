@@ -11,6 +11,8 @@ let g:airline_theme = 'catppuccin'
 let g:airline#extensions#wordcount#enabled=0
 let g:airline_section_warning = '%{airline#extensions#wordcount#get()}'
 let g:airline#extensions#wordcount#formatter#default#fmt_short = '%sW'
+let g:airline_section_x = airline#section#create_right(['branch'])
+let g:airline_section_inactive_x = ''
 
 "lightline
 if !has('gui_running')
