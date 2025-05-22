@@ -30,10 +30,12 @@ local opts = {
     theme = 'doom',
     config = {
         header = ascii_heatmap,
-        center = {},
+        center = {
+            { action = '', desc = '', icon = '', key = 'n' },
+        },
         footer = function()
             return {}
-        end
+        end,
     },
 }
 
