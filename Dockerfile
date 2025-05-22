@@ -25,6 +25,7 @@ RUN apt-get update && \
     libfribidi-dev \
     libfreetype6-dev \
     libpng-dev \
+    git-flow \
     libtiff5-dev \
     default-jre \
     libjpeg-dev \
