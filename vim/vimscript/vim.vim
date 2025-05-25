@@ -34,7 +34,8 @@ set ss=79
 
 augroup ColorLine
   autocmd!
-  autocmd FileType * setlocal cc=81
+  autocmd FileType * setlocal textwidth=80
+  autocmd FileType * setlocal cc=81 
   autocmd FileType dashboard setlocal cc=0
   autocmd FileType lazygit setlocal cc=0
   autocmd FileType Telescope setlocal cc=0
