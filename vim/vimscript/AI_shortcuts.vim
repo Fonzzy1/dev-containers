@@ -27,14 +27,10 @@ function! Summarise(file)
   " Check if the tempfile was successfully created and is readable
   if filereadable(l:tempfile)
     let l:filetext = join(readfile(l:tempfile), "\n")
-    let l:prompt = ">>> system \n Extract and list the main claims of the following journal article or text; present them in a single paragraph; separate each claim with a ';'; do not add explanations or introductory sentences."
+    let l:prompt = "Extract and list the main claims of the following journal article or text; present them in a single paragraph; separate each claim with a ';'; do not add explanations or introductory sentences."
     
     " Attempt to call AI service with appropriate error handling
-    try
-      call vim_ai#AIRun(5,{"options": {"initial_prompt": l:prompt, 'temperature':0.5}}, l:filetext)
-    catch
-      echoerr "Error: An issue occurred while trying to summarize the text with the AI service."
-    endtry
+    call vim_ai#AIRun(0,{"options": {'temperature':0.5}}, l:prompt . l:filetext)
     
     call delete(l:tempfile)
   else
