@@ -27,7 +27,7 @@ function! Summarise(file)
   " Check if the tempfile was successfully created and is readable
   if filereadable(l:tempfile)
     let l:filetext = join(readfile(l:tempfile), "\n")
-    let l:prompt = ">>> system \n Please summarize the following journal article or text. Focus on the key findings of the peice, and its contribution to knowledge. Keep your response in sentences seperated by ';'"
+    let l:prompt = ">>> system \n Extract and list the main claims of the following journal article or text; present them in a single paragraph; separate each claim with a ';'; do not add explanations or introductory sentences."
     
     " Attempt to call AI service with appropriate error handling
     try
