@@ -4,7 +4,6 @@ au BufRead,BufNewFile *.rmd  set filetype=quarto
 au BufRead,BufNewFile *.qmd  set filetype=quarto
 filetype plugin on
 
-autocmd FileType quarto setlocal textwidth=80
 highlight link MarkviewPalette7Fg Keyword
 
 highlight link @markup.quote.markdown Comment
