@@ -52,6 +52,7 @@ nnoremap <silent> gp :lua vim.diagnostic.goto_prev()<CR>
 vnoremap > >gv
 vnoremap < <gv
 nnoremap + :WindowsMaximize<CR>
+nnoremap <silent><Esc> :noh<CR>
 "" map esc to enter terminal normal mode
 tnoremap <Esc><Esc> <C-\><C-n>
 
