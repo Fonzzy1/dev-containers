@@ -258,13 +258,13 @@ vim.keymap.set('n', 'sj', function()
         'https://www.tandfonline.com/feed/rss/cajp20',
         -- Arxiv
         'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+all:"climate+change"+AND+all:(framing+OR+denial+OR+misinformation)&start=0&max_results=50&sortBy=submittedDate&sortOrder=descending',
-        -- Automated Framing Analysis
-        'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+all:framing&start=0&max_results=50&sortBy=submittedDate&sortOrder=descending',
+        -- Arxiv Automated framing
+        'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+all:media+AND+all:framing&start=0&max_results=50&sortBy=submittedDate&sortOrder=descending',
         -- Automated Misinformation Analysis
         'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+all:misinformation&start=0&max_results=50&sortBy=submittedDate&sortOrder=descending',
         -- Automated Denial Analysis
         'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+all:denial&start=0&max_results=50&sortBy=submittedDate&sortOrder=descending',
         -- Automated Australian Political Analysis
-        'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+(all:Australia+OR+all:politics)&start=0&max_results=50&sortBy=submittedDate&sortOrder=descending',
+        'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+(all:Australia+AND+all:politics)&start=0&max_results=50&sortBy=submittedDate&sortOrder=descending',
     })
 end)
