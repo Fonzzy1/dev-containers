@@ -264,11 +264,7 @@ vim.keymap.set('n', 'sj', function()
         'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+all:misinformation&start=0&max_results=50&sortBy=submittedDate&sortOrder=descending',
         -- Automated Denial Analysis
         'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+all:denial&start=0&max_results=50&sortBy=submittedDate&sortOrder=descending',
-        -- Automated News Analysis
-        'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+all:News&start=0&max_results=50&sortBy=submittedDate&sortOrder=descending',
         -- Automated Australian Political Analysis
         'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+(all:Australia+OR+all:politics)&start=0&max_results=50&sortBy=submittedDate&sortOrder=descending',
-        -- Automated Analysis of Communications
-        'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+(all:communication+OR+all:communications+OR+all:comms)&start=0&max_results=50&sortBy=submittedDate&sortOrder=descending'
     })
 end)
