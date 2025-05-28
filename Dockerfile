@@ -88,7 +88,7 @@ RUN set -uex && \
     apt-get update && apt-get install nodejs -y;
 
 # Install the python packages
-RUN pip install pipreqs pgcli awscli ipython ipykernel neovim-remote pynvim openai ddgr googlesearch-python requests feedparser aiohttp && \
+RUN pip install pipreqs pgcli awscli ipython ipykernel neovim-remote pynvim openai ddgr googlesearch-python requests feedparser aiohttp bibli_ls && \
     pip install --no-cache-dir --force-reinstall git+https://github.com/sciunto-org/python-bibtexparser@main
 
 # Install npm packages
