@@ -219,6 +219,8 @@ vim.keymap.set('n', 'sp', function()
         "https://www.abc.net.au/news/feed/104496728/rss.xml",
         -- Crikey
         'https://www.crikey.com.au/feed/',
+        -- NYT Climate
+        'https://rss.nytimes.com/services/xml/rss/nyt/Climate.xml'
     })
 end)
 
