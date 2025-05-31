@@ -74,6 +74,7 @@ require 'telescope'.setup {
                         os.execute('xdg-open /wiki/References/' .. key .. '.pdf')
                     end,
                     ["<c-i>"] = bibtex_actions.citation_append('({{url}}?cite_key={{label}}'),
+                    ["<c-a>"] = bibtex_actions.citation_append('[@{{label}}] -- {{abstract}}'),
                 },
             },
         },
