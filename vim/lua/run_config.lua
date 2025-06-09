@@ -17,7 +17,8 @@ iron.setup {
         repl_definition = {
             quarto = { command = '/bin/bash' },
             text = { command = '/bin/bash' },
-            aichat = { command = '/bin/bash' }
+            aichat = { command = '/bin/bash' },
+            python = { command = 'ipython' }
         },
         -- set the file type of the newly created repl to ft
         -- bufnr is the buffer id of the REPL and ft is the filetype of the
