@@ -40,14 +40,7 @@ def strip_tags(html):
 
 def parse_entry_date(entry):
     # Prioritize updated_parsed over published_parsed
-    for date_key in ["updated_parsed", "published_parsed"]:
-        if date_key in entry and entry[date_key]:
-            try:
-                return datetime(*entry[date_key][:6], tzinfo=timezone.utc)
-            except Exception:
-                continue
-    # Fallback to parsing string date, updated over published
-    for date_key in ["updated", "published"]:
+    for date_key in ["updated","published"]:
         if date_key in entry and entry[date_key]:
             try:
                 dt = date_parser.parse(entry[date_key])
@@ -133,3 +126,6 @@ if __name__ == "__main__":
 file=sys.stderr)
         sys.exit(1)
     asyncio.run(main(sys.argv[1:]))
+
+
+    url = 'http://export.arxiv.org/api/query?search_query=cat:cs.cl+and+all:media+and+all:framing&start=0&max_results=50&sortby=submitteddate&sortorder=descending'

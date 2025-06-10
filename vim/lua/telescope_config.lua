@@ -260,14 +260,14 @@ vim.keymap.set('n', 'sj', function()
         -- Australian Journal of Political Science
         'https://www.tandfonline.com/feed/rss/cajp20',
         -- Arxiv
-        'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+all:"climate+change"+AND+all:(framing+OR+denial+OR+misinformation)&start=0&max_results=50&sortBy=submittedDate&sortOrder=descending',
+        'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+all:"climate+change"+AND+all:(framing+OR+denial+OR+misinformation)&start=0&max_results=50&sortBy=lastUpdatedDate&sortOrder=descending',
         -- Arxiv Automated framing
-        'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+all:media+AND+all:framing&start=0&max_results=50&sortBy=submittedDate&sortOrder=descending',
+        'http://export.arxiv.org/api/query?search_query=cat:cs.cl+and+all:media+and+all:framing&start=0&max_results=50&sortby=lastUpdateddate&sortorder=descending',
         -- Automated Misinformation Analysis
-        'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+all:misinformation&start=0&max_results=50&sortBy=submittedDate&sortOrder=descending',
+        'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+all:misinformation&start=0&max_results=50&sortBy=lastUpdatedDate&sortOrder=descending',
         -- Automated Denial Analysis
-        'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+all:denial&start=0&max_results=50&sortBy=submittedDate&sortOrder=descending',
+        'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+all:denial&start=0&max_results=50&sortBy=lastUpdatedDate&sortOrder=descending',
         -- Automated Australian Political Analysis
-        'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+(all:Australia+AND+all:politics)&start=0&max_results=50&sortBy=submittedDate&sortOrder=descending',
+        'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+(all:Australia+AND+all:politics)&start=0&max_results=50&sortBy=updatedDate&sortOrder=descending',
     })
 end)
