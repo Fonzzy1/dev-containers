@@ -39,16 +39,15 @@ def strip_tags(html):
     return s.get_data()
 
 def parse_entry_date(entry):
-    # Try entry.published_parsed first, then entry.updated_parsed, else try
-    # parsing string
-    for date_key in ["published_parsed", "updated_parsed"]:
+    # Prioritize updated_parsed over published_parsed
+    for date_key in ["updated_parsed", "published_parsed"]:
         if date_key in entry and entry[date_key]:
             try:
                 return datetime(*entry[date_key][:6], tzinfo=timezone.utc)
             except Exception:
                 continue
-    # Fallback to parsing string date
-    for date_key in ["published", "updated"]:
+    # Fallback to parsing string date, updated over published
+    for date_key in ["updated", "published"]:
         if date_key in entry and entry[date_key]:
             try:
                 dt = date_parser.parse(entry[date_key])
