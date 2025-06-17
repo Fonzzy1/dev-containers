@@ -68,6 +68,8 @@ def run_vim(
             "docker",
             "run",
             "-it",
+            "--user",
+            f"{os.getuid()}:{os.getgid()}",
             "--env-file",
             env_location,
             "-e",
