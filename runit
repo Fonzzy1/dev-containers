@@ -112,8 +112,8 @@ def run_notes(args):
         mount_dir=temp_dir,
         mount_dir_name="wiki",
         command="""gh repo clone wiki /wiki -- --recurse-submodules;
-                 git submodule foreach 'git switch main'; chown -R
-                 $HOST_UID:$HOST_GID /wiki ;nvim;""",
+                 git submodule foreach 'git switch main';
+                 chown -R $HOST_UID:$HOST_GID /wiki ;nvim;""",
         check_changes=True,
         clean_mount_dir=True,
     )
