@@ -68,8 +68,8 @@ def run_vim(
             "docker",
             "run",
             "-it",
-            "--user",
-            f"{os.getuid()}:{os.getgid()}",
+            "--env", f"HOST_UID={os.getuid()}",
+            "--env", f"HOST_GID={os.getgid()}",
             "--env-file",
             env_location,
             "-e",
@@ -111,8 +111,9 @@ def run_notes(args):
         env_location,
         mount_dir=temp_dir,
         mount_dir_name="wiki",
-        command="gh repo clone wiki /wiki -- --recurse-submodules; \
-                 git submodule foreach 'git switch main'; nvim;",
+        command="""gh repo clone wiki /wiki -- --recurse-submodules;
+                 git submodule foreach 'git switch main'; chown -R
+                 $HOST_UID:$HOST_GID /wiki ;nvim;""",
         check_changes=True,
         clean_mount_dir=True,
     )
@@ -159,6 +160,7 @@ def run_gh(args):
     command = f"""\
     gh repo clone {args.repo} /{repo} 
     git config --global --add safe.directory /{repo}
+    chown -R $HOST_UID:$HOST_GID /{repo}; 
     """
 
     # Additional git command based on input parameters
