@@ -21,6 +21,7 @@ Plug 'anuvyklack/animation.nvim'
 Plug 'MunifTanjim/nui.nvim'
 Plug 'folke/noice.nvim'
 Plug 'rcarriga/nvim-notify'
+Plug 'stevearc/dressing.nvim'
 
 " Git
 Plug 'kdheepak/lazygit.nvim'
@@ -52,16 +53,17 @@ Plug 'echasnovski/mini.nvim'
 Plug 'kylechui/nvim-surround'
 Plug 'tpope/vim-commentary'
 
-"Code Running
-Plug 'Vigemus/iron.nvim' 
-Plug 'stevearc/overseer.nvim'
-
 " Telescope 
 Plug 'nvim-telescope/telescope-bibtex.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'lalitmee/browse.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' }
 Plug 'axkirillov/easypick.nvim'
+
+"Code Running
+Plug 'Vigemus/iron.nvim' 
+Plug 'stevearc/overseer.nvim'
+
 
 call plug#end()
 

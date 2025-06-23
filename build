@@ -3,8 +3,6 @@ username="fonzzy1"
 # Build Docker Images
 docker build . -t "${username}/vim"
 
-
-
-if [ "$(git rev-parse --abbrev-ref HEAD)" = "master" ]; then
+if [ "$(git rev-parse --abbrev-ref HEAD)" = "master" ] && [ -z "$(git status --porcelain)" ]; then
   docker push "${username}/vim"
 fi

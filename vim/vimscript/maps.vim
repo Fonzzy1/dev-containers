@@ -25,11 +25,11 @@ vnoremap sc :AIC
 nnoremap <silent> sN :call LeftBarToNerdFind() <CR>
 nnoremap <silent> ss :lua LeftBarToOutline()<CR>
 nnoremap <silent> sn :call LeftBarToNerd()<CR>
-nnoremap sr :OverseerRunCmd 
+nnoremap <silent> sr :OverseerRun<CR>
 nnoremap <silent> sR :lua LeftBarToOver()<CR>
 nnoremap <silent> sg :LazyGit<CR>
 nnoremap sG :Octo 
-nnoremap sd :lua require('browse').input_search()<CR>
+nnoremap <silent> sd :lua require('browse').input_search()<CR>
 
 
 

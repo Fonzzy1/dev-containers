@@ -63,6 +63,17 @@ iron.setup {
     ignore_blank_lines = true, -- ignore blank lines when sending visual select lines
 }
 
+function load_project_overseer_templates()
+    local file = vim.fn.getcwd() .. "/.overseer.lua"
+    local ok, templates = pcall(dofile, file)
+    if ok and type(templates) == "table" then
+        for _, tpl in ipairs(templates) do
+            require("overseer").register_template(tpl)
+        end
+        print("[Overseer] Loaded project templates from .overseer.lua")
+    end
+end
+
 -- iron also has a list of commands, see :h iron-commands for all available commands
 require('overseer').setup({
     task_list = {
@@ -72,6 +83,7 @@ require('overseer').setup({
             ["?"] = "ShowHelp",
             ["g?"] = "ShowHelp",
             ["<CR>"] = "OpenFloat",
+            ["S"] = "<CMD>OverseerQuickAction Save as template<CR>",
             ["l"] = "IncreaseDetail",
             ["h"] = "DecreaseDetail",
             ["L"] = "IncreaseAllDetail",
@@ -81,7 +93,114 @@ require('overseer').setup({
             ["q"] = "Close",
             ["dd"] = "Dispose",
         },
-    }
+    },
+    actions = {
+        ["Save as template"] = {
+      desc = "Save minimal task template with name, cwd, and cmd to .overseer.lua",
+      condition = function(task)
+        return task.serialize ~= nil
+      end,
+      run = function(task)
+        local def = task:serialize()
+
+        -- Minimal fields: name, cwd, cmd only
+        local minimal = {
+          name = def.name,
+          cwd = def.cwd,
+          cmd = def.cmd,
+        }
+
+        local function serialize(tbl, indent)
+          indent = indent or 0
+          local pad = string.rep("  ", indent)
+          local chunks = {"{\n"}
+          for k, v in pairs(tbl) do
+            if v ~= nil then
+              local key = type(k) == "string" and string.format("%s", k) or tostring(k)
+              local value
+              if type(v) == "string" then
+                value = string.format("%q", v)
+              elseif type(v) == "table" then
+                if vim.tbl_islist(v) then
+                  local parts = {}
+                  for _, item in ipairs(v) do
+                    table.insert(parts, string.format("%q", item))
+                  end
+                  value = "{ " .. table.concat(parts, ", ") .. " }"
+                else
+                  value = serialize(v, indent + 1)
+                end
+              else
+                value = tostring(v)
+              end
+              table.insert(chunks, string.format("%s  %s = %s,\n", pad, key, value))
+            end
+          end
+          table.insert(chunks, pad .. "}")
+          return table.concat(chunks)
+        end
+
+        local block = string.format([[
+{
+  name = %q,
+  builder = function()
+    return %s
+  end,
+},
+]], minimal.name or "Task", serialize(minimal))
+
+        local path = vim.fn.getcwd() .. "/.overseer.lua"
+
+        -- Read existing file or create new
+        local lines = {}
+        local file = io.open(path, "r")
+        if file then
+          for line in file:lines() do
+            table.insert(lines, line)
+          end
+          file:close()
+        else
+          lines = { "return {", block, "}" }
+        end
+
+        -- Find closing brace to insert before
+        local insert_index = nil
+        for i = #lines, 1, -1 do
+          if vim.trim(lines[i]) == "}" then
+            insert_index = i
+            break
+          end
+        end
+        if not insert_index then
+          vim.notify("No closing } found in .overseer.lua", vim.log.levels.ERROR)
+          return
+        end
+
+        table.insert(lines, insert_index, block)
+
+        file = io.open(path, "w")
+        if not file then
+          vim.notify("Failed to write to .overseer.lua", vim.log.levels.ERROR)
+          return
+        end
+        file:write(table.concat(lines, "\n") .. "\n")
+        file:close()
+
+        vim.notify("✅ Task saved (name, cwd, cmd only) to .overseer.lua", vim.log.levels.INFO)
+        load_project_overseer_templates()
+
+      end,
+        },
+
+        -- Disable unwanted default actions
+        watch = false,
+    },
+
+})
+
+
+vim.api.nvim_create_autocmd("VimEnter", {
+    callback = load_project_overseer_templates,
 })
 
 -- Define the function in Lua
