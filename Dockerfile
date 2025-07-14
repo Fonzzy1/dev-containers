@@ -119,6 +119,11 @@ RUN curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb && \
     quarto install tinytex
 
 
+# Chrome 
+RUN curl -L http://bit.ly/google-chrome-stable -o chrome.deb && \
+    apt-get -y install ./chrome.deb && \
+    rm chrome.deb
+
 RUN fc-cache -fv
 
 #Copy in the dotfiles
