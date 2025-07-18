@@ -18,7 +18,11 @@ iron.setup {
             quarto = { command = '/bin/bash' },
             text = { command = '/bin/bash' },
             aichat = { command = '/bin/bash' },
-            python = { command = 'ipython' }
+            python = {
+                command = { "ipython", "--no-autoindent"}, -- or { "ipython", "--no-autoindent" }
+                format = common.bracketed_paste_python,
+                block_dividers = { "# %%", "#%%" },
+            }
         },
         -- set the file type of the newly created repl to ft
         -- bufnr is the buffer id of the REPL and ft is the filetype of the
@@ -96,51 +100,51 @@ require('overseer').setup({
     },
     actions = {
         ["Save as template"] = {
-      desc = "Save minimal task template with name, cwd, and cmd to .overseer.lua",
-      condition = function(task)
-        return task.serialize ~= nil
-      end,
-      run = function(task)
-        local def = task:serialize()
+            desc = "Save minimal task template with name, cwd, and cmd to .overseer.lua",
+            condition = function(task)
+                return task.serialize ~= nil
+            end,
+            run = function(task)
+                local def = task:serialize()
 
-        -- Minimal fields: name, cwd, cmd only
-        local minimal = {
-          name = def.name,
-          cwd = def.cwd,
-          cmd = def.cmd,
-        }
+                -- Minimal fields: name, cwd, cmd only
+                local minimal = {
+                    name = def.name,
+                    cwd = def.cwd,
+                    cmd = def.cmd,
+                }
 
-        local function serialize(tbl, indent)
-          indent = indent or 0
-          local pad = string.rep("  ", indent)
-          local chunks = {"{\n"}
-          for k, v in pairs(tbl) do
-            if v ~= nil then
-              local key = type(k) == "string" and string.format("%s", k) or tostring(k)
-              local value
-              if type(v) == "string" then
-                value = string.format("%q", v)
-              elseif type(v) == "table" then
-                if vim.tbl_islist(v) then
-                  local parts = {}
-                  for _, item in ipairs(v) do
-                    table.insert(parts, string.format("%q", item))
-                  end
-                  value = "{ " .. table.concat(parts, ", ") .. " }"
-                else
-                  value = serialize(v, indent + 1)
+                local function serialize(tbl, indent)
+                    indent = indent or 0
+                    local pad = string.rep("  ", indent)
+                    local chunks = { "{\n" }
+                    for k, v in pairs(tbl) do
+                        if v ~= nil then
+                            local key = type(k) == "string" and string.format("%s", k) or tostring(k)
+                            local value
+                            if type(v) == "string" then
+                                value = string.format("%q", v)
+                            elseif type(v) == "table" then
+                                if vim.tbl_islist(v) then
+                                    local parts = {}
+                                    for _, item in ipairs(v) do
+                                        table.insert(parts, string.format("%q", item))
+                                    end
+                                    value = "{ " .. table.concat(parts, ", ") .. " }"
+                                else
+                                    value = serialize(v, indent + 1)
+                                end
+                            else
+                                value = tostring(v)
+                            end
+                            table.insert(chunks, string.format("%s  %s = %s,\n", pad, key, value))
+                        end
+                    end
+                    table.insert(chunks, pad .. "}")
+                    return table.concat(chunks)
                 end
-              else
-                value = tostring(v)
-              end
-              table.insert(chunks, string.format("%s  %s = %s,\n", pad, key, value))
-            end
-          end
-          table.insert(chunks, pad .. "}")
-          return table.concat(chunks)
-        end
 
-        local block = string.format([[
+                local block = string.format([[
 {
   name = %q,
   builder = function()
@@ -149,47 +153,46 @@ require('overseer').setup({
 },
 ]], minimal.name or "Task", serialize(minimal))
 
-        local path = vim.fn.getcwd() .. "/.overseer.lua"
+                local path = vim.fn.getcwd() .. "/.overseer.lua"
 
-        -- Read existing file or create new
-        local lines = {}
-        local file = io.open(path, "r")
-        if file then
-          for line in file:lines() do
-            table.insert(lines, line)
-          end
-          file:close()
-        else
-          lines = { "return {", block, "}" }
-        end
+                -- Read existing file or create new
+                local lines = {}
+                local file = io.open(path, "r")
+                if file then
+                    for line in file:lines() do
+                        table.insert(lines, line)
+                    end
+                    file:close()
+                else
+                    lines = { "return {", block, "}" }
+                end
 
-        -- Find closing brace to insert before
-        local insert_index = nil
-        for i = #lines, 1, -1 do
-          if vim.trim(lines[i]) == "}" then
-            insert_index = i
-            break
-          end
-        end
-        if not insert_index then
-          vim.notify("No closing } found in .overseer.lua", vim.log.levels.ERROR)
-          return
-        end
+                -- Find closing brace to insert before
+                local insert_index = nil
+                for i = #lines, 1, -1 do
+                    if vim.trim(lines[i]) == "}" then
+                        insert_index = i
+                        break
+                    end
+                end
+                if not insert_index then
+                    vim.notify("No closing } found in .overseer.lua", vim.log.levels.ERROR)
+                    return
+                end
 
-        table.insert(lines, insert_index, block)
+                table.insert(lines, insert_index, block)
 
-        file = io.open(path, "w")
-        if not file then
-          vim.notify("Failed to write to .overseer.lua", vim.log.levels.ERROR)
-          return
-        end
-        file:write(table.concat(lines, "\n") .. "\n")
-        file:close()
+                file = io.open(path, "w")
+                if not file then
+                    vim.notify("Failed to write to .overseer.lua", vim.log.levels.ERROR)
+                    return
+                end
+                file:write(table.concat(lines, "\n") .. "\n")
+                file:close()
 
-        vim.notify("✅ Task saved (name, cwd, cmd only) to .overseer.lua", vim.log.levels.INFO)
-        load_project_overseer_templates()
-
-      end,
+                vim.notify("✅ Task saved (name, cwd, cmd only) to .overseer.lua", vim.log.levels.INFO)
+                load_project_overseer_templates()
+            end,
         },
 
         -- Disable unwanted default actions
