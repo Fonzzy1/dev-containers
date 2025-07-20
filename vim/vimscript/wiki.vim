@@ -1,6 +1,6 @@
 "" Default Note
 function! NoteDefault()
-    :silent 0r !/scripts/note_default.py '%'
+execute 'silent 0r !/scripts/note_default.py ' . shellescape(expand('%:p'))
     normal! gg
 endfunction
 autocmd BufNewFile *.qmd :call NoteDefault()
