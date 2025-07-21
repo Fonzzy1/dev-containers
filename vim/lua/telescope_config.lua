@@ -130,6 +130,7 @@ require('browse').setup({
             ["my monash"] = "https://my.monash.edu.au/",
             ["timesheet"] = "https://eservices.monash.edu.au/irj/portal#TimeSheetEntry-manage",
             ["wes"] = "https://my.monash.edu.au/wes/",
+            ["opark"] = "https://portal.opark.com.au/motorist/dashboard",
             ["moodle"] = "https://lms.monash.edu/",
         },
 
