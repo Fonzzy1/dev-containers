@@ -94,8 +94,8 @@ require('browse').setup({
         ["Comms"] = {
             ["name"] = "All my messaging platforms",
             ["Personal Emails"] = "https://outlook.live.com/mail/0/",
-            ["Staff"] = "https://mail.google.com/mail/u/1/#inbox",
-            ["Student"] = "https://mail.google.com/mail/u/2/#inbox",
+            ["Staff"] = "https://mail.google.com/mail/?authuser=alfie.chadwick@monash.edu",
+            ["Student"] = "https://mail.google.com/mail/?authuser=alfie.chadwick1@monash.edu",
             ["MCCCRH"] = "https://mcccrh.slack.com",
             ["Soda Labs"] = "https://soda-labs.slack.com",
             ["ADMS"] = "https://adms-centre..slack.com/",
