@@ -112,9 +112,15 @@ require('browse').setup({
             ["issues search"] = "https://github.com/search?q=%s&type=issues",
             ["pulls search"] = "https://github.com/search?q=%s&type=pullrequests",
         },
+        ["Hockey"] = {
+            ["name"] = "Hockey Vic Fixtures",
+            ["PEN A"] = "https://www.hockeyvictoria.org.au/games/team/21935/337151",
+            ["Monday"] = "https://www.hockeyvictoria.org.au/games/team/22076/338838",
+        }
+
 
         ["stack overflow"] = {
-            ["name"] = "search stack overflow",
+            ["Name"] = "search stack overflow",
             ["search"] = "https://stackoverflow.com/search?q=%s",
             ["home"] = "https://stackoverflow.com/",
         },
