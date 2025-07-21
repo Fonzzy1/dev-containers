@@ -30,6 +30,7 @@ nnoremap <silent> sR :lua LeftBarToOver()<CR>
 nnoremap <silent> sg :LazyGit<CR>
 nnoremap sG :Octo 
 nnoremap <silent> sd :lua require('browse').input_search()<CR>
+nnoremap <silent> sD :lua require("browse").open_bookmarks()<CR>
 
 
 

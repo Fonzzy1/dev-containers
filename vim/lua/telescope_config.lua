@@ -86,11 +86,52 @@ require('telescope').load_extension('fzf')
 -- default values for the setup
 require('browse').setup({
     -- search provider you want to use
-    provider = "duckduckgo", -- duckduckgo, bing
+    provider = "google", -- duckduckgo, bing
 
     -- either pass it here or just pass the table to the functions
     -- see below for more
-    bookmarks = {},
+    bookmarks = {
+        ["Comms"] = {
+            ["name"] = "All my messaging platforms",
+            ["Personal Emails"] = "https://outlook.live.com/mail/0/",
+            ["Staff"] = "https://mail.google.com/mail/u/1/#inbox",
+            ["Student"] = "https://mail.google.com/mail/u/2/#inbox",
+            ["MCCCRH"] = "https://mcccrh.slack.com",
+            ["Soda Labs"] = "https://soda-labs.slack.com",
+            ["ADMS"] = "https://adms-centre..slack.com/",
+            ["facebook messenger"] = "https://www.messenger.com/",
+            ["whatsapp"] = "https://web.whatsapp.com/",
+            ["calendar"] = "https://calendar.google.com/calendar/u/1/r",
+        },
+
+        ["github"] = {
+            ["name"] = "Search Github",
+            ["main"] = "https://github.com/",
+            ["code search"] = "https://github.com/search?q=%s&type=code",
+            ["repo search"] = "https://github.com/search?q=%s&type=repositories",
+            ["issues search"] = "https://github.com/search?q=%s&type=issues",
+            ["pulls search"] = "https://github.com/search?q=%s&type=pullrequests",
+        },
+
+        ["stack overflow"] = {
+            ["name"] = "search stack overflow",
+            ["search"] = "https://stackoverflow.com/search?q=%s",
+            ["home"] = "https://stackoverflow.com/",
+        },
+
+        ["monash"] = {
+            ["name"] = "Monash Tools",
+            ["my monash"] = "https://my.monash.edu.au/",
+            ["timesheet"] = "https://eservices.monash.edu.au/irj/portal#TimeSheetEntry-manage",
+            ["wes"] = "https://my.monash.edu.au/wes/",
+            ["moodle"] = "https://lms.monash.edu/",
+        },
+
+        ["Google Maps"] = "https://www.google.com/maps/search/%s",
+        ["uber"] = "https://m.uber.com/",
+        ["ptv"] = "https://www.ptv.vic.gov.au/",
+        ["bom"] = "http://www.bom.gov.au/vic/forecasts/melbourne.shtml",
+    },
     icons = {
         bookmark_alias = "->",    -- if you have nerd fonts, you can set this to ""
         bookmarks_prompt = "",    -- if you have nerd fonts, you can set this to "󰂺 "
