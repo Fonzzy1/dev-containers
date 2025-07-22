@@ -124,6 +124,11 @@ require('browse').setup({
             ["search"] = "https://stackoverflow.com/search?q=%s",
             ["home"] = "https://stackoverflow.com/",
         },
+        ["Money"] = {
+            ["Raiz"] = "https://app.raizinvest.com.au/?activeTab=today",
+            ["Splitwise"] = "https://secure.splitwise.com/#/dashboard",
+            ["Afterpay"] = "https://portal.afterpay.com/en-AU/home",
+        },
 
         ["monash"] = {
             ["name"] = "Monash Tools",
