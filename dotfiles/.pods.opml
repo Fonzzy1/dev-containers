@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+        <opml version="1.0">
+            <head>
+                <title>Podcast Feeds</title>
+            </head>
+            <body>
+                <outline text="feeds">
+<!-- Daily News Podcasts -->
+                                <outline
+                                    xmlUrl="https://www.omnycontent.com/d/playlist/fa326977-3de5-4283-9b8b-af3500c58607/b9301347-ddcc-4fd0-939f-af4600179c26/59791975-c455-4fb4-aa17-af4600179c34/podcast.rss"
+                                    type="rss"
+                                    text="The Daily Aus"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.acast.com/public/shows/6244d1918dd186001211b37a"
+                                    type="rss"
+                                    text="Crikey&#39;s Electioncast"
+                                />
+                                <outline
+                                    xmlUrl="https://www.omnycontent.com/d/playlist/820f09cf-2ace-4180-a92d-aa4c0008f5fb/043e2cc8-6045-47cd-af36-ab98000641fa/16e65677-c110-4ef1-a534-ab980006a91f/podcast.rss"
+                                    type="rss"
+                                    text="The Briefing"
+                                />
+                                <outline
+                                    xmlUrl="https://www.abc.net.au/feeds/9443166/podcast.xml"
+                                    type="rss"
+                                    text="ABC News Daily"
+                                />
+                                <outline
+                                    xmlUrl="https://www.omnycontent.com/d/playlist/88b564ea-a9a6-4751-910a-a5d800019396/111d8251-9a05-4c76-bcf0-ab84002d2024/e23e2275-2bcf-4868-b394-ab84002d2037/podcast.rss"
+                                    type="rss"
+                                    text="The Morning Edition"
+                                />
+                                <outline
+                                    xmlUrl="https://www.omnycontent.com/d/playlist/2fb3740d-3436-44af-8cc0-a91900716aa5/62723a1f-3e96-4fc4-882c-b25e0181da4d/70f29d90-2a63-48aa-bf8f-b25e0181da70/podcast.rss"
+                                    type="rss"
+                                    text="7am"
+                                />
+                                <outline
+                                    xmlUrl="https://www.abc.net.au/feeds/6840588/podcast.xml"
+                                    type="rss"
+                                    text="Hack"
+                                />
+                                <outline
+                                    xmlUrl="https://www.abc.net.au/feeds/7288214/podcast.xml"
+                                    type="rss"
+                                    text="Politics Now"
+                                />
+<!-- Sports Podcasts -->
+                                <outline
+                                    xmlUrl="https://anchor.fm/s/1876f9e0/podcast/rss"
+                                    type="rss"
+                                    text="The Shootaround"
+                                />
+                            
+
+                                <outline
+                                    xmlUrl="https://anchor.fm/s/86b2b318/podcast/rss"
+                                    type="rss"
+                                    text="Thinking Basketball"
+                                />
+                                <outline
+                                    xmlUrl="https://www.theguardian.com/australia-news/series/australian-politics-live/podcast.xml"
+                                    type="rss"
+                                    text="Australian Politics"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.megaphone.fm/CRDOR9576461777"
+                                    type="rss"
+                                    text="The Footy with Broden Kelly"
+                                />
+                                <outline
+                                    xmlUrl="https://anchor.fm/s/eb0beaf0/podcast/rss"
+                                    type="rss"
+                                    text="Round Ball Australia"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.buzzsprout.com/2303932.rss"
+                                    type="rss"
+                                    text="Cheeky Run Club"
+                                />
+                                <outline
+                                    xmlUrl="https://feed.podbean.com/HowTheyTrain/feed.xml"
+                                    type="rss"
+                                    text="The Triathlon Hour"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.captivate.fm/runningchannel/"
+                                    type="rss"
+                                    text="The Running Channel Podcast"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.acast.com/public/shows/681ccc7c8b1f3232bc1e797e"
+                                    type="rss"
+                                    text="The Athletic FC Tactics Podcast"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.megaphone.fm/GLT8847082992"
+                                    type="rss"
+                                    text="The Rest Is Football"
+                                />
+                                <outline
+                                    xmlUrl="https://podcasts.files.bbci.co.uk/p02nrsjn.rss"
+                                    type="rss"
+                                    text="F1: Chequered Flag"
+                                />
+<!-- Weekly News Podcasts -->
+                                <outline
+                                    xmlUrl="https://feeds.megaphone.fm/GLT5336643697"
+                                    type="rss"
+                                    text="The Rest Is Politics: US"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.acast.com/public/shows/6807036738088415694bc173"
+                                    type="rss"
+                                    text="Lamestream"
+                                />
+                                <outline
+                                    xmlUrl="https://www.omnycontent.com/d/playlist/d3d56d8d-11c9-411a-aade-af8f001be4a7/8525743e-7bef-4547-9c53-b17f0056512d/39a8dc14-1cc3-4f50-8364-b17f00636670/podcast.rss"
+                                    type="rss"
+                                    text="Punters Politics"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.megaphone.fm/GLT9029505120"
+                                    type="rss"
+                                    text="The Rest Is Politics: Leading"
+                                />
+                                <outline
+                                    xmlUrl="https://podcasts.files.bbci.co.uk/p02nrss1.rss"
+                                    type="rss"
+                                    text="More or Less: Behind the Stats"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.megaphone.fm/EFRMF6053448231"
+                                    type="rss"
+                                    text="Fourth Estate"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.megaphone.fm/theezrakleinshow"
+                                    type="rss"
+                                    text="The Gray Area with Sean Illing"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.megaphone.fm/STHZE1133433304"
+                                    type="rss"
+                                    text="News Club"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.megaphone.fm/GLT9190936013"
+                                    type="rss"
+                                    text="The Rest Is Politics"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.acast.com/public/shows/2c2eab86-45bd-53ae-b72f-f474f0e08bc9"
+                                    type="rss"
+                                    text="Democracy Sausage with Mark Kenny"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.megaphone.fm/MIK7048949111"
+                                    type="rss"
+                                    text="Big Small Talk"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.acast.com/public/shows/6858d0a2dc316de3df2aac5a"
+                                    type="rss"
+                                    text="We Used to be Journos"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.soundcloud.com/users/soundcloud:users:259067925/sounds.rss"
+                                    type="rss"
+                                    text="Grattan Institute"
+                                />
+                            
+<!-- Society and Technolgy Podcasts -->
+                                <outline
+                                    xmlUrl="https://www.omnycontent.com/d/playlist/e73c998e-6e60-432f-8610-ae210140c5b1/cf0c25ad-cf01-4da5-ae1c-b0fc015f790e/53ed270b-7147-4f70-81c2-b0fc015fe4ed/podcast.rss"
+                                    type="rss"
+                                    text="Better Offline"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.buzzsprout.com/2425400.rss"
+                                    type="rss"
+                                    text="System Crash"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.buzzsprout.com/2126417.rss"
+                                    type="rss"
+                                    text="Mystery AI Hype Theater 3000"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.buzzsprout.com/1004689.rss"
+                                    type="rss"
+                                    text="Tech Won&#39;t Save Us"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.megaphone.fm/KQINC6993880386"
+                                    type="rss"
+                                    text="Close All Tabs"
+                                />
+                                <outline
+                                    xmlUrl="https://anchor.fm/s/5901aff0/podcast/rss"
+                                    type="rss"
+                                    text="Automated Societies"
+                                />
+                                <outline
+                                    xmlUrl="https://waroncars.libsyn.com/rss"
+                                    type="rss"
+                                    text="The War on Cars"
+                                />
+                                <outline
+                                    xmlUrl="https://www.spreaker.com/show/2731764/episodes/feed"
+                                    type="rss"
+                                    text="New Politics: Australian Politics"
+                                />
+<!-- Cultrure Podcasts -->
+                                <outline
+                                    xmlUrl="https://feeds.buzzsprout.com/2040953.rss"
+                                    type="rss"
+                                    text="If Books Could Kill"
+                                />
+                                <outline
+                                    xmlUrl="https://publicfeeds.net/f/5637/Dinner-SOS"
+                                    type="rss"
+                                    text="Bon Appétit"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.megaphone.fm/IMP6296096176"
+                                    type="rss"
+                                    text="One Song"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.megaphone.fm/every-single-album"
+                                    type="rss"
+                                    text="Every Single Album"
+                                />
+
+                                <outline
+                                    xmlUrl="https://feeds.megaphone.fm/the-rewatchables"
+                                    type="rss"
+                                    text="The Rewatchables"
+                                />
+<!-- Learning Podcasts -->
+                                <outline
+                                    xmlUrl="http://joy.quantamagazine.org"
+                                    type="rss"
+                                    text="The Joy of Why"
+                                />
+                                <outline
+                                    xmlUrl="https://podcasts.files.bbci.co.uk/p07mdbhg.rss"
+                                    type="rss"
+                                    text="You&#39;re Dead to Me"
+                                />
+                                <outline
+                                    xmlUrl="https://podcasts.files.bbci.co.uk/m001qw8x.rss"
+                                    type="rss"
+                                    text="Uncharted with Hannah Fry"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.megaphone.fm/ARML6831509338"
+                                    type="rss"
+                                    text="The world, the universe and us"
+                                />
+                                <outline
+                                    xmlUrl="https://podcasts.files.bbci.co.uk/w13xtvb6.rss"
+                                    type="rss"
+                                    text="The Climate Question"
+                                />
+                                <outline
+                                    xmlUrl="https://www.omnycontent.com/d/playlist/ad231410-8be4-423a-9ebf-add700363fba/ef60ce89-f7ae-44ef-be62-b2d6002ac82c/d54d2a80-311c-4648-8269-b2d6002ace05/podcast.rss"
+                                    type="rss"
+                                    text="Totally Cooked: The Climate &amp; Weather Podcast"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.simplecast.com/FO6kxYGj"
+                                    type="rss"
+                                    text="Ologies with Alie Ward"
+                                />
+                                <outline
+                                    xmlUrl="https://podcasts.files.bbci.co.uk/b00snr0w.rss"
+                                    type="rss"
+                                    text="The Infinite Monkey Cage"
+                                />
+                            
+
+                                <outline
+                                    xmlUrl="https://podcasts.files.bbci.co.uk/b07dx75g.rss"
+                                    type="rss"
+                                    text="Curious Cases"
+                                />
+<!-- Commedy Podcasts -->
+                                <outline
+                                    xmlUrl="https://podcasts.files.bbci.co.uk/p02pc9pj.rss"
+                                    type="rss"
+                                    text="Friday Night Comedy from BBC Radio 4"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.acast.com/public/shows/5e7b777ba085cbe7192b0607"
+                                    type="rss"
+                                    text="The Bugle"
+                                />
+                                <outline
+                                    xmlUrl="https://citationpod.libsyn.com/rss"
+                                    type="rss"
+                                    text="Citation Needed"
+                                />
+                                <outline
+                                    xmlUrl="https://feeds.megaphone.fm/JGP4299671666"
+                                    type="rss"
+                                    text="The Kick it Forward Podcast"
+                                />
+                                <outline
+                                    xmlUrl="https://audioboom.com/channels/2399216.rss"
+                                    type="rss"
+                                    text="No Such Thing As A Fish"
+                                />
+                            
+                                <outline
+                                    xmlUrl="https://feeds.acast.com/public/shows/8d72ef0d-c0ba-4e52-a425-c3fcfa9e55fb"
+                                    type="rss"
+                                    text="The Gargle"
+                                />
+                            
+
+                                <outline
+                                    xmlUrl="https://podcasts.files.bbci.co.uk/b006s5dp.rss"
+                                    type="rss"
+                                    text="Just a Minute"
+                                />
+
+                            
+
+                            
+
+
+                            
+
+                            
+
+
+                            
+
+
+                            
+
+                            
+
+                            
+
+
+                            
+
+
+                            
+
+                            
+
+
+                            
+
+
+                            
+
+                            
+
+
+                            
+
+                            
+
+
+                            
+
+                            
+
+                            
+
+                            
+
+
+
+                            
+
+                            
+
+                            
+
+                            
+
+
+                            
+
+
+                            
+
+                            
+
+                            
+
+                            
+
+                </outline>
+            </body>
+        </opml>
