@@ -8,6 +8,8 @@ from mutagen.easyid3 import EasyID3
 from mutagen.mp3 import MP3
 from mutagen.id3 import APIC
 from mutagen.id3 import ID3, ID3NoHeaderError, APIC
+import argparse
+import subprocess
 from PIL import Image
 from io import BytesIO
 from tqdm import tqdm
@@ -15,7 +17,7 @@ from mutagen.id3 import ID3
 
 # Configuration
 OPML_FILE = "/root/.pods.opml"
-DEST_FOLDER = "."
+DEST_FOLDER = "./Podcasts"
 AUS_TZ = pytz.timezone("Australia/Sydney")
 TEMP_COVER = "_temp_cover.jpg"
 
@@ -151,6 +153,9 @@ def embed_metadata(mp3_path, artist, title, album, genre, track, total_tracks,co
     id3.save(mp3_path, v2_version=3)
 
 def main():
+    parser = argparse.ArgumentParser(description="Podcast downloader and tagger")
+    parser.add_argument('-m', '--music', action='store_true', help='Sync /Music from computer to ./Music on this device')
+    args = parser.parse_args()
     # Time window: 9AM YESTERDAY to 9AM TODAY (Sydney)
     now = datetime.now(AUS_TZ)
     today_9am = now.replace(hour=9, minute=0, second=0, microsecond=0)
@@ -231,6 +236,25 @@ def main():
     if os.path.isfile(TEMP_COVER):
         os.remove(TEMP_COVER)
     print(f"Downloaded and tagged {len(episodes)} episode(s). Saved in {os.path.abspath(DEST_FOLDER)}")
+
+    if args.music:
+        source_music_dir = "/Music"
+        local_music_folder = "./Music"           # On the device, where you run the script
+        os.makedirs(local_music_folder, exist_ok=True)
+
+        print(f"Syncing music from {source_music_dir} to {local_music_folder} ...")
+        try:
+            subprocess.run([
+                "rsync",
+                "-avu",           # archive, verbose, update only
+                "--progress",
+                "--include=*.mp3", "--include=*/", "--exclude=*",
+                source_music_dir + "/",            # Always /Music on computer
+                os.path.abspath(local_music_folder) + "/"
+            ], check=True)
+            print("Music sync complete.")
+        except subprocess.CalledProcessError as e:
+            print("Rsync failed:", e)
 
 if __name__ == "__main__":
     main()

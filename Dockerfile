@@ -101,7 +101,7 @@ RUN mkdir -p /root/.local/share/gh/extensions/gh-act && \
     chmod +x /root/.local/share/gh/extensions/gh-act/gh-act
 
 # Install R packages, tidyvverse is installed with apt
-RUN R -e "install.packages(c('rmarkdown', 'reticulate', 'readxl', 'knitr'), Ncpus = 6)" && R -e 'blogdown::install_hugo()'
+RUN R -e "install.packages(c('rmarkdown', 'reticulate', 'readxl', 'knitr'), Ncpus = 6)"
 ## Install go 
 # Download and install Go
 COPY --from=golang:1.24-bullseye /usr/local/go/ /usr/local/go/

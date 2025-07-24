@@ -214,23 +214,25 @@ def run_config(args):
     )
 
 def run_podcasts(args):
-    """
-    """
     current_dir = subprocess.run(
         ["pwd"], capture_output=True, text=True).stdout.strip()
     # Get the name of the current directory
     dir_name = current_dir.split("/")[-1]
+    # Build the command and add the -m flag if requested
+    command = "python3 /scripts/podcast_downloader.py"
+    if args.music:
+        command += " -m"
     run_vim(
         env_location,
         mount_dir=current_dir,
         mount_dir_name=dir_name,
-        command="python3 /run_scripts/podcast_downloader.py",
+        command=command,
         check_changes=False,
         clean_mount_dir=False,
         additional_mounts=[
             (env_location,"/root/.env"),
             (mount_location,"/root/mount"),
-            ('~/Music','/Music')
+            ('/home/fonzzy/Music','/Music')
         ]
     )
 
@@ -280,7 +282,12 @@ if __name__ == "__main__":
     podcast_parser = subparsers.add_parser(
         "audio", help="Dowload the Podcasts in current Dir"
     )
-    config_parser.set_defaults(func=run_podcasts)
+    podcast_parser.add_argument(
+        '--music', '-m', 
+        action='store_true', 
+        help="If true, process as music as well"
+    )
+    podcast_parser.set_defaults(func=run_podcasts)
 
     args = parser.parse_args()
     if 'func' in args:
