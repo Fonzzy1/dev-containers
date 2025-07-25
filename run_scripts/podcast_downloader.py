@@ -4,10 +4,7 @@ from datetime import datetime, timedelta
 import feedparser
 import pytz
 import requests
-from mutagen.easyid3 import EasyID3
-from mutagen.mp3 import MP3
-from mutagen.id3 import APIC
-from mutagen.id3 import ID3, ID3NoHeaderError, APIC
+from mutagen.id3 import ID3, APIC, TIT2, TPE1, TALB, TCON, TRCK, TPE2, ID3NoHeaderError
 import argparse
 import subprocess
 from PIL import Image
@@ -109,48 +106,45 @@ def get_feed_image(feed):
         img_url = feed.itunes_image
     return img_url
 
-def embed_metadata(mp3_path, artist, title, album, genre, track, total_tracks,cover_path):
-    # Ensure EasyID3 header exists
-    try:
-        audio = MP3(mp3_path, ID3=EasyID3)
-    except ID3NoHeaderError:
-        # Create ID3 tag if not present
-        EasyID3.register_text_key('albumartist', 'TPE2')
-        audio = MP3(mp3_path)
-        audio.add_tags(ID3=EasyID3)
-        audio = MP3(mp3_path, ID3=EasyID3)
-    
-    audio["artist"] = artist
-    audio["album"] = album
-    audio["title"] = title
-    audio["genre"] = genre
-    audio["tracknumber"] = "{}/{}".format(track, total_tracks)
-    audio["albumartist"] = 'Various Podcasters'
-    audio.save()
-
-    # Now work with the full ID3 tag for APIC etc.
+def embed_metadata(mp3_path, artist, title, album, genre, track, total_tracks, cover_path):
     try:
         id3 = ID3(mp3_path)
     except ID3NoHeaderError:
         id3 = ID3()
-    
-    for frame in list(id3.getall('TXXX')):
-        if 'podcast' in (frame.desc or '').lower():
-            id3.delall('TXXX:' + frame.desc)
+
+    id3.delall('APIC')
+
+    id3.add(TIT2(encoding=3, text=str(title)))
+    id3.add(TPE1(encoding=3, text=str(artist)))
+    id3.add(TALB(encoding=3, text=str(album)))
+    id3.add(TCON(encoding=3, text=str(genre)))
+    id3.add(TRCK(encoding=3, text=f"{track}/{total_tracks}"))
+    id3.add(TPE2(encoding=3, text='Various Podcasters'))
 
     if cover_path:
-        with open(cover_path, "rb") as img:
-            id3.delall('APIC')
-            id3.add(
-                APIC(
-                    encoding=3,  # 3 is for utf-8  
-                    mime='image/jpeg',
-                    type=3,  # Front cover
-                    desc=u'Cover',
-                    data=img.read()
-                )
-            )
+        ext = cover_path.lower().split('.')[-1]
+        mime = 'image/jpeg' if ext in ('jpg', 'jpeg') else 'image/png'
+
+        # Open and resize the image
+        with Image.open(cover_path) as img:
+            img.thumbnail((600, 600), Image.LANCZOS)  # Resize while maintaining aspect ratio
+            # Save to a buffer in the original format
+            img_buffer = BytesIO()
+            pil_format = "JPEG" if mime == 'image/jpeg' else "PNG"
+            img.save(img_buffer, format=pil_format)
+            img_data = img_buffer.getvalue()
+
+        # Embed image
+        id3.add(APIC(
+            encoding=3,
+            mime=mime,
+            type=3,  # front cover
+            desc=u'Cover',
+            data=img_data,
+        ))
+
     id3.save(mp3_path, v2_version=3)
+    print(f"Metadata saved to {mp3_path}")
 
 def main():
     parser = argparse.ArgumentParser(description="Podcast downloader and tagger")
@@ -208,9 +202,13 @@ def main():
         outpath = os.path.join(DEST_FOLDER, filename)
         print(f"[{track_idx}/{len(episodes)}] Downloading: {feed_title} - {entry.title}")
 
-        if not download(audio_url, outpath):
-            print("Failed to download", audio_url)
-            continue
+        already_downloaded = os.path.exists(outpath)
+        if not already_downloaded:
+            if not download(audio_url, outpath):
+                print("Failed to download", audio_url)
+                continue
+        else:
+            print(f"File exists. Skipping download: {filename}. Updating tags/metadata only.")
 
         # Try episode image, then feed image, then fallback
         img_url = get_episode_image(entry)
@@ -247,8 +245,7 @@ def main():
             subprocess.run([
                 "rsync",
                 "-avu",           # archive, verbose, update only
-                "--progress",
-                "--include=*.mp3", "--include=*/", "--exclude=*",
+                "--info=progress2",
                 source_music_dir + "/",            # Always /Music on computer
                 os.path.abspath(local_music_folder) + "/"
             ], check=True)

@@ -22,6 +22,7 @@ RUN apt-get update && \
     libxml2-dev \
     libfontconfig1-dev \
     libharfbuzz-dev \
+    rsync \
     libfribidi-dev \
     libfreetype6-dev \
     libpng-dev \
