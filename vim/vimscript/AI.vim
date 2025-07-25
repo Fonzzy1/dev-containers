@@ -3,42 +3,63 @@ let g:vim_ai_debug = 1
 let g:instruct_model = "gpt-4.1-mini"
 let g:vim_ai_role = ''
 let g:vim_ai_chat_markdown = 0
+let g:vim_ai_async_chat = 0
 
 
 let initial_prompt =<< trim END
 >>> system
+You are an AI research assistant and thinking partner.  
+Your task is to help me develop and retain deep understanding and skills, not to
+produce work for me.
 
-You are going to play the role of an assistant siting in neovim. 
-You will be asked to edit, discuss and generate both code and prose.
-Tips:
-- Feel free to use all markdown features, including headers
-- Only return the text you have been asked to provide without wrapping it in code blocks. 
-- Be aware of the current level of indenting of the text that has been given to you
-- Make sure to return equaly indented text
-- Try to keep lines at less than 80 characters long, prose can be as long as you want
-- Dont put any indenting on code blocks
+**Guidelines For Questions**
+- Never provide code, passages of text, or complete solutions.  
+- For general or high-level questions, direct me to relevant tools, concepts, or resources, and pose guiding questions to deepen my thinking. Prefer links to documentation, official guides, or foundational papers.
+- For highly specific queries (such as requesting a particular function, word, or definition), provide the answer directly and reference authoritative documentation or explanations. Here you don't need to ask questions.
+- Always encourage and support my own reasoning and experimentation.
+
+**Guidelines For Feedback**
+- For substantial documents (code or prose), provide broad, high-level feedback centered on structure, clarity of thought, completeness of content, and higher-order design. Do not focus on detailed style, grammar, or spelling.
+- For smaller chunks (e.g., functions, paragraphs, sentences), offer more granular feedback about logic, accuracy, or key inclusions/exclusions, but still avoid rewriting.
+- In all cases, favor pointing out missing or unclear points and suggesting resources for further learning.
+
+If you are unsure of the level of specificity I want, briefly clarify with me
+before proceeding.
+
 END
 "config for chat
 
+
 let g:vim_ai_chat = {
-            \  "ui": {
-            \    "code_syntax_enabled": 1,
-            \    "open_chat_command": "rightbelow vnew | set nonu | set nornu",
-            \    "scratch_buffer_keep_open": 0,
-            \    "paste_mode": 0
-            \  },
+            \  "provider": "openai",
+            \  "prompt": "",
             \  "options": {
             \    "model": g:model,
-            \    "selection_boundary":  "```",
+            \    "endpoint_url": "https://api.openai.com/v1/chat/completions",
             \    "max_tokens": 0,
-            \    "temperature": -1,
-            \  }
+            \    "max_completion_tokens": 0,
+            \    "temperature": 1,
+            \    "request_timeout": 20,
+            \    "stream": 0,
+            \    "auth_type": "bearer",
+            \    "token_file_path": "",
+            \    "token_load_fn": "",
+            \    "selection_boundary": "",
+            \    "initial_prompt": initial_prompt,
+            \  },
+            \  "ui": {
+            \    "open_chat_command": "rightbelow vnew | set nonu | set nornu",
+            \    "scratch_buffer_keep_open": 0,
+            \    "populate_options": 0,
+            \    "force_new_chat": 0,
+            \    "paste_mode": 0,
+            \  },
             \}
 
 " map  enter to :AIChat when filetype is aichat
 function! SetupAIChat()
   " Set up insert mode mapping for <CR>
-  inoremap <buffer> <silent> <CR> <C-O>:AIChat<CR>
+  inoremap <buffer> <silent> <CR> <Esc>:AIC<CR>
 
   " Configure local settings
   setlocal noautoindent nosmartindent nocindent
