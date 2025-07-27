@@ -144,7 +144,6 @@ def embed_metadata(mp3_path, artist, title, album, genre, track, total_tracks, c
         ))
 
     id3.save(mp3_path, v2_version=3)
-    print(f"Metadata saved to {mp3_path}")
 
 def main():
     parser = argparse.ArgumentParser(description="Podcast downloader and tagger")
@@ -152,88 +151,91 @@ def main():
     args = parser.parse_args()
     # Time window: 9AM YESTERDAY to 9AM TODAY (Sydney)
     now = datetime.now(AUS_TZ)
+
+    windows = {}
     today_9am = now.replace(hour=9, minute=0, second=0, microsecond=0)
     if now < today_9am:
         today_9am -= timedelta(days=1)
-    window_start = today_9am - timedelta(days=1)
-    window_end = today_9am
-
-    album_date = (today_9am - timedelta(days=0)).date()  # window_end's date
-    album_name = f"{album_date} Podcasts"
+    for i in range(0, 6):
+        date = today_9am - timedelta(days=i)
+        windows[date.strftime('%Y-%m-%d')] = {
+                'start': date - timedelta(days=1),
+                'end': date,
+                'episodes': [],
+                'album_name': f"{date.strftime('%Y-%m-%d')} Podcasts"
+                }
 
     feeds = parse_opml(OPML_FILE)
     os.makedirs(DEST_FOLDER, exist_ok=True)
 
-    episodes = []
 
     # Collect episodes
     for feed_idx, feed in tqdm(enumerate(feeds),total=len(feeds), desc="Fetching Episode Data"):
         parsed = feedparser.parse(feed['url'])
         for entry in parsed.entries:
-            if is_episode_in_window(entry, window_start, window_end):
-                episodes.append({
+            for k,v in windows.items():
+                if is_episode_in_window(entry,v['start'],v['end']):
+                    windows[k]['episodes'].append({
                     'feed_pos': feed_idx,
                     'feed_title': feed['title'],
                     'feed': parsed.feed,
                     'entry': entry
                 })
 
-    print(f"{len(episodes)} episodes to process ({window_start} to {window_end}).")
+    all_tracks = []
+    for date, v in windows.items():
+        windows[date]['episodes'].sort(key=lambda e: (e['feed_pos'], getattr(e['entry'],"published_parsed", (0,0,0,0,0,0))))
+        for track_idx, item in tqdm(enumerate(v['episodes'], start=1),total=len(v['episodes']), desc=f'Downloading Episodes for {date}'):
+            entry = item['entry']
+            feed_title = item['feed_title']
+            feed = item['feed']
 
-    episodes.sort(key=lambda e: (e['feed_pos'], getattr(e['entry'],"published_parsed", (0,0,0,0,0,0))))
-
-    for track_idx, item in tqdm(enumerate(episodes, start=1),total=len(episodes), desc='Downloading Episodes'):
-        entry = item['entry']
-        feed_title = item['feed_title']
-        feed = item['feed']
-
-        # File setup
-        ext = "mp3"
-        if 'enclosures' in entry and entry.enclosures:
-            audio_url = entry.enclosures[0].get('url')
-            if audio_url and '.' in audio_url.split("?")[0]:
-                ext = audio_url.split('.')[-1].split('?')[0]
-        else:
-            print("No enclosure found for", entry.title)
-            continue
-
-        base = sanitize_filename(feed_title[:40]) + "_" + sanitize_filename(entry.title[:50])
-        filename = f"{base}.{ext}"
-        outpath = os.path.join(DEST_FOLDER, filename)
-        print(f"[{track_idx}/{len(episodes)}] Downloading: {feed_title} - {entry.title}")
-
-        already_downloaded = os.path.exists(outpath)
-        if not already_downloaded:
-            if not download(audio_url, outpath):
-                print("Failed to download", audio_url)
+            # File setup
+            ext = "mp3"
+            if 'enclosures' in entry and entry.enclosures:
+                audio_url = entry.enclosures[0].get('url')
+                if audio_url and '.' in audio_url.split("?")[0]:
+                    ext = audio_url.split('.')[-1].split('?')[0]
+            else:
+                print("No enclosure found for", entry.title)
                 continue
-        else:
-            print(f"File exists. Skipping download: {filename}. Updating tags/metadata only.")
 
-        # Try episode image, then feed image, then fallback
-        img_url = get_episode_image(entry)
-        cover_path = download_cover_image(img_url)
-        if not cover_path:
-            feed_img_url = get_feed_image(feed)
-            cover_path = download_cover_image(feed_img_url)
-        if not cover_path:
-            # Use local fallback only if nothing else available
-            cover_path = None
-        embed_metadata(
-            outpath,
-            artist = feed_title,
-            title= entry.title,
-            album = album_name,
-            genre = "pods",
-            track = track_idx,
-            total_tracks = len(episodes),
-            cover_path = cover_path
-        )
-        print("Done:", filename)
+            base = sanitize_filename(feed_title[:40]) + "_" + sanitize_filename(entry.title[:50])
+            filename = f"{base}.{ext}"
+            all_tracks.append(filename)
+            outpath = os.path.join(DEST_FOLDER, filename)
+
+            already_downloaded = os.path.exists(outpath)
+            if not already_downloaded:
+                if not download(audio_url, outpath):
+                    print("Failed to download", audio_url)
+                    continue
+
+            # Try episode image, then feed image, then fallback
+            img_url = get_episode_image(entry)
+            cover_path = download_cover_image(img_url)
+            if not cover_path:
+                feed_img_url = get_feed_image(feed)
+                cover_path = download_cover_image(feed_img_url)
+            if not cover_path:
+                # Use local fallback only if nothing else available
+                cover_path = None
+            embed_metadata(
+                outpath,
+                artist = feed_title,
+                title= entry.title,
+                album = v['album_name'],
+                genre = "pods",
+                track = track_idx,
+                total_tracks = len(v['episodes']),
+                cover_path = cover_path
+            )
     # Clean up
     if os.path.isfile(TEMP_COVER):
         os.remove(TEMP_COVER)
-    print(f"Downloaded and tagged {len(episodes)} episode(s). Saved in {os.path.abspath(DEST_FOLDER)}")
+    for file in os.listdir(DEST_FOLDER):
+        if file not in all_tracks:
+            os.remove(f'{DEST_FOLDER}/{file}')
 
     if args.music:
         source_music_dir = "/Music"
