@@ -5,7 +5,6 @@ from urllib.parse import urlparse
 import argparse
 
 
-
 def is_url(path):
     try:
         result = urlparse(path)
@@ -20,10 +19,8 @@ def path_to_command(path, reader_flag):
             return f'xdg-open "about:reader?url={path}"'
         else:
             return f'xdg-open "{path}"'
-
     sys_dir = os.environ["SYS_DIR"]
     cont_dir = os.environ["CONT_DIR"]
-
     if path is None:
         return f'xdg-open "{sys_dir}"'
     elif path.startswith(cont_dir):
@@ -31,7 +28,8 @@ def path_to_command(path, reader_flag):
         return f'xdg-open "{path}"'
     else:
         os.system(
-            f"echo 'Path {path} is not within the container directory {cont_dir}. Skipping operation.' >> /root/.xdg_log.txt")  # Adds command to log.txt
+            f"echo 'Path {path} is not within the container directory {cont_dir}. Skipping operation.' >> /root/.xdg_log.txt"
+        )  # Adds command to log.txt
 
 
 def main():
@@ -45,7 +43,9 @@ def main():
     args = parser.parse_args()
 
     command = path_to_command(args.path, args.reader)
-    os.system(f"echo '{command}' >> /root/.xdg_log.txt")  # Adds command to log.txt
+    os.system(
+        f"echo '{command}' >> /root/.xdg_log.txt"
+    )  # Adds command to log.txt
     os.system(f"echo '{command}' > /pipe")
 
 

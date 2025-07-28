@@ -48,71 +48,65 @@ lspconfig.ltex.setup {
 
 
 
--- Define the command and arguments for each formatter
-local formatters = {
-    lua = {
-        formatCommand = "stylua --search-parent-directories --stdin-filepath ${INPUT} -",
-        formatStdin = true,
-    },
-    markdown = {
-        formatCommand = "prettier --parser markdown ",
-        formatStdin = true,
-    },
-    quarto = {
-        formatCommand = "prettier --parser markdown ",
-        formatStdin = true,
-    },
-    json = {
-        formatCommand = "fixjson",
-        formatStdin = true,
-    },
-    python = {
-        formatCommand = "black --line-length 80 --quiet -",
-        formatStdin = true,
-    },
-    r = {
-        formatCommand = "Rscript -e \"air::style_file(stdin())\"",
-        formatStdin = true,
-    },
-    javascript = {
-        formatCommand = "prettier --stdin-filepath ${INPUT}",
-        formatStdin = true,
-    },
-    html = {
-        formatCommand = "prettier --stdin-filepath ${INPUT}",
-        formatStdin = true,
-    },
-    ejs = {
-        formatCommand = "prettier --stdin-filepath ${INPUT}",
-        formatStdin = true,
-    },
-    yaml = {
-        formatCommand = "prettier --stdin-filepath ${INPUT}",
-        formatStdin = true,
-    },
-    prisma = {
-        formatCommand = "prisma format -i",
-        formatStdin = true,
-    },
-    bash = {
-        formatCommand = "shellharden --transform",
-        formatStdin = false,
-    },
-    sh = {
-        formatCommand = "shellharden --transform",
-        formatStdin = false,
-    },
+local null_ls = require("null-ls")
+local helpers = require("null-ls.helpers")
+
+local prisma_formatter = {
+    method = null_ls.methods.FORMATTING,
+    filetypes = { "prisma" },
+    generator = helpers.formatter_factory({
+        command = "prisma",
+        args = { "format", "--stdin" }, -- prisma doesn't support stdin as of July 2025
+        to_stdin = false,               -- should be false if no stdin support
+        from_stderr = false,
+    }),
 }
 
--- Configure efm-langserver
-lspconfig.efm.setup {
-    init_options = { documentFormatting = true, },
-    settings = {
-        rootMarkers = { ".git/" },
-        languages = formatters,
+null_ls.setup({
+    sources = {
+
+        -- Markdown, Quarto, YAML, EJS, HTML, JavaScript
+        null_ls.builtins.formatting.prettier.with({
+            filetypes = { "markdown", "quarto", "yaml", "html", "javascript", "ejs", "json" },
+        }),
+        --spell
+        null_ls.builtins.formatting.codespell,
+
+        -- Python
+        null_ls.builtins.formatting.black.with({
+            args = { "--line-length", "80", "--stdin-filename", "$FILENAME", "--quiet", "-" }
+        }),
+
+        null_ls.builtins.formatting.format_r,
+
+        -- Prisma
+        prisma_formatter,
+
+
+        -- Shell/Bash
+        null_ls.builtins.formatting.shellharden.with({
+            filetypes = { "sh", "bash" },
+            to_stdin = false,
+        }),
+        null_ls.builtins.formatting.shfmt
     },
-    filetypes = vim.tbl_keys(formatters),
-}
+    -- Optional: format on save
+    on_attach = function(client, bufnr)
+        -- Always create the group first
+        local augroup = vim.api.nvim_create_augroup("LspFormatting", { clear = true })
+
+        -- Then clear any existing autocommands for that group & buffer
+        vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            group = augroup,
+            buffer = bufnr,
+            callback = function()
+                vim.lsp.buf.format({ bufnr = bufnr })
+            end,
+        })
+    end
+})
 
 vim.diagnostic.config({
     virtual_text = false,
@@ -127,12 +121,6 @@ vim.api.nvim_create_autocmd({ "CursorHold" },
         end
     }
 )
-
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-    callback = function()
-        vim.lsp.buf.format()
-    end,
-})
 
 
 if not configs.bibli_ls then

@@ -16,31 +16,31 @@ from datetime import datetime, timedelta, timezone
 from dateutil import parser as date_parser
 from zoneinfo import ZoneInfo
 
+
 def to_melbourne_time(dt):
     melbourne = ZoneInfo("Australia/Melbourne")
     dt_mel = dt.astimezone(melbourne)
     return dt_mel.strftime("%Y-%m-%d %H:%M")
-
 class MLStripper(HTMLParser):
     def __init__(self):
         super().__init__()
         self.reset()
         self.fed = []
-
     def handle_data(self, d):
         self.fed.append(d)
-
     def get_data(self):
-        return ''.join(self.fed)
+        return "".join(self.fed)
+
 
 def strip_tags(html):
     s = MLStripper()
     s.feed(html)
     return s.get_data()
 
+
 def parse_entry_date(entry):
     # Prioritize updated_parsed over published_parsed
-    for date_key in ["updated","published"]:
+    for date_key in ["updated", "published"]:
         if date_key in entry and entry[date_key]:
             try:
                 dt = date_parser.parse(entry[date_key])
@@ -56,14 +56,15 @@ def clean_and_limit(s, n):
     if not isinstance(s, str):
         s = str(s)
     # Remove all line breaks and collapse whitespace
-    s = re.sub(r'\s+', ' ', s).strip()
+    s = re.sub(r"\s+", " ", s).strip()
     if n is None or n < 0:
         return s
     if len(s) > n:
         # Use ... and ensure total length is n
-        return s[:n-3].rstrip() + "..."
+        return s[: n - 3].rstrip() + "..."
     else:
         return s
+
 
 def get_abstract(entry):
     # Try to find an 'abstract' field, else fallback to summary or description
@@ -75,32 +76,36 @@ def get_abstract(entry):
         return strip_tags(str(entry["content"][0]))
     return ""
 
+
 async def fetch_feed(session, url):
     try:
         async with session.get(url) as resp:
             content = await resp.read()
             feed = feedparser.parse(content)
-            source_name = feed.feed.get("title", '<Unknown Source>')
-            source_name = clean_and_limit(source_name,100)
+            source_name = feed.feed.get("title", "<Unknown Source>")
+            source_name = clean_and_limit(source_name, 100)
             entries = []
             for entry in feed.entries:
                 dt = parse_entry_date(entry)
                 if not dt:
                     continue
                 title = clean_and_limit(entry.get("title", "<No Title>"), 400)
-                entries.append({
-                    "source": source_name,
-                    "source_url": url,
-                    "title": title,
-                    "link": entry.get("link", ""),
-                    "date": to_melbourne_time(dt),
-                    "description": clean_and_limit(get_abstract(entry),-1),
-                    "sort_dt": dt,
-                })
+                entries.append(
+                    {
+                        "source": source_name,
+                        "source_url": url,
+                        "title": title,
+                        "link": entry.get("link", ""),
+                        "date": to_melbourne_time(dt),
+                        "description": clean_and_limit(get_abstract(entry), -1),
+                        "sort_dt": dt,
+                    }
+                )
             return entries
     except Exception as e:
         print(f"Error fetching {url}: {e}", file=sys.stderr)
         return []
+
 
 async def main(urls):
     all_entries = []
@@ -120,12 +125,11 @@ async def main(urls):
 
     print(json.dumps(all_entries, indent=2, ensure_ascii=False))
 
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print(f"Usage: {sys.argv[0]} <feed_url1> <feed_url2> ...",
-file=sys.stderr)
+        print(f"Usage: {sys.argv[0]} <feed_url1> <feed_url2> ...", file=sys.stderr)
         sys.exit(1)
     asyncio.run(main(sys.argv[1:]))
 
-
-    url = 'http://export.arxiv.org/api/query?search_query=cat:cs.cl+and+all:media+and+all:framing&start=0&max_results=50&sortby=submitteddate&sortorder=descending'
+    url = "http://export.arxiv.org/api/query?search_query=cat:cs.cl+and+all:media+and+all:framing&start=0&max_results=50&sortby=submitteddate&sortorder=descending"

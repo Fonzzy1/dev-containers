@@ -89,7 +89,7 @@ RUN set -uex && \
     apt-get update && apt-get install nodejs -y;
 
 # Install the python packages
-RUN pip install pipreqs pgcli awscli ipython ipykernel neovim-remote pynvim openai ddgr googlesearch-python requests feedparser aiohttp bibli_ls pillow mutagen && \
+RUN pip install mdformat-black mdformat-config pipreqs pgcli awscli ipython ipykernel neovim-remote pynvim openai ddgr googlesearch-python requests feedparser aiohttp bibli_ls pillow mutagen codespell && \
     pip install --no-cache-dir --force-reinstall git+https://github.com/sciunto-org/python-bibtexparser@main
 
 # Install npm packages
@@ -144,7 +144,7 @@ COPY vim/lua/tree_config.lua /root/.config/nvim/lua/tree_config.lua
 RUN sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 RUN nvim -u /root/.config/nvim/vimscript/plugins.vim +PlugInstall +qall
-RUN nvim -u /root/.config/nvim/vimscript/plugins.vim --headless "+lua require('mason').setup()" "+MasonInstall prisma-language-server efm vim-language-server yaml-language-server yamlfmt prisma-language-server vim-language-server docker-compose-language-service dockerfile-language-server json-lsp typescript-language-server  yaml-language-server nginx-language-server pyright air ltex-ls lua-language-server mdformat black fixjson prettier shellharden" +qall
+RUN nvim -u /root/.config/nvim/vimscript/plugins.vim --headless "+lua require('mason').setup()" "+MasonInstall prisma-language-server vim-language-server yaml-language-server yamlfmt prisma-language-server vim-language-server docker-compose-language-service dockerfile-language-server json-lsp typescript-language-server  yaml-language-server nginx-language-server pyright air ltex-ls lua-language-server mdformat black fixjson prettier shellharden" +qall
 RUN timeout 60s nvim -u /root/.config/nvim/vimscript/plugins.vim '+lua require("tree_config")' "+TSUpdateSync" || exit 0
 
 # Copy in the rest of the conig

@@ -47,6 +47,7 @@ Plug 'neovim/nvim-lspconfig',
 Plug 'hrsh7th/cmp-path'
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'nvimtools/none-ls.nvim'
 
 " Motions
 Plug 'echasnovski/mini.nvim'

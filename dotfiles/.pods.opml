@@ -60,11 +60,6 @@
                                     text="Thinking Basketball"
                                 />
                                 <outline
-                                    xmlUrl="https://www.theguardian.com/australia-news/series/australian-politics-live/podcast.xml"
-                                    type="rss"
-                                    text="Australian Politics"
-                                />
-                                <outline
                                     xmlUrl="https://feeds.megaphone.fm/CRDOR9576461777"
                                     type="rss"
                                     text="The Footy with Broden Kelly"
@@ -124,6 +119,11 @@
                                     xmlUrl="https://feeds.megaphone.fm/GLT9029505120"
                                     type="rss"
                                     text="The Rest Is Politics: Leading"
+                                />
+                                <outline
+                                    xmlUrl="https://www.theguardian.com/australia-news/series/australian-politics-live/podcast.xml"
+                                    type="rss"
+                                    text="Australian Politics"
                                 />
                                 <outline
                                     xmlUrl="https://podcasts.files.bbci.co.uk/p02nrss1.rss"
