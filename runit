@@ -13,8 +13,7 @@ mount_location = os.path.dirname(script_location) + "/mount_files"
 # Current Location
 current_location = os.getcwd()
 # Code location
-temp_dir = f"/tmp/code_mount/{str(uuid.uuid4())}"
-os.makedirs(temp_dir)
+
 
 def is_gpu_available():
     try:
@@ -25,6 +24,7 @@ def is_gpu_available():
         # If nvidia-smi is not found, no GPU is available or NVIDIA drivers are not installed
         return False
 
+
 def run_vim(
     env_location,
     mount_dir,
@@ -33,12 +33,13 @@ def run_vim(
     check_changes=True,
     clean_mount_dir=False,
     additional_mounts=[
-        (env_location,"/root/.env"),
-        (mount_location,"/root/mount")
-        ]
+        (env_location, "/root/.env"),
+        (mount_location, "/root/mount"),
+    ],
 ):
     current_dir = subprocess.run(
-        ["pwd"], capture_output=True, text=True).stdout.strip()
+        ["pwd"], capture_output=True, text=True
+    ).stdout.strip()
     os.chdir(mount_dir)
 
     if mount_dir_name == None:
@@ -64,21 +65,22 @@ def run_vim(
 
     display = os.getenv("DISPLAY")
 
-    gpu_flag = ['--gpus', 'all'] if is_gpu_available() else []
-
+    gpu_flag = ["--gpus", "all"] if is_gpu_available() else []
 
     mount_list = []
     for mount in additional_mounts:
-        mount_list.append('-v')
-        mount_list.append(f'{mount[0]}:{mount[1]}')
+        mount_list.append("-v")
+        mount_list.append(f"{mount[0]}:{mount[1]}")
 
     subprocess.run(
         [
             "docker",
             "run",
             "-it",
-            "--env", f"HOST_UID={os.getuid()}",
-            "--env", f"HOST_GID={os.getgid()}",
+            "--env",
+            f"HOST_UID={os.getuid()}",
+            "--env",
+            f"HOST_GID={os.getgid()}",
             "--env-file",
             env_location,
             "-e",
@@ -113,6 +115,9 @@ def run_vim(
 
 
 def run_notes(args):
+    temp_dir = f"/tmp/code_mount/wiki"
+    if not os.path.isdir(temp_dir):
+        os.makedirs(temp_dir)
     run_vim(
         env_location,
         mount_dir=temp_dir,
@@ -136,7 +141,8 @@ def run_local(args):
         None
     """
     current_dir = subprocess.run(
-        ["pwd"], capture_output=True, text=True).stdout.strip()
+        ["pwd"], capture_output=True, text=True
+    ).stdout.strip()
     # Get the name of the current directory
     dir_name = current_dir.split("/")[-1]
     run_vim(
@@ -159,8 +165,6 @@ def run_gh(args):
     Returns:
         None
     """
-    os.chdir(temp_dir)
-
     name = args.repo.replace("/", "-")
     repo = args.repo.split("/")[-1] if "/" in args.repo else args.repo
     command = f"""\
@@ -169,13 +173,10 @@ def run_gh(args):
     chown -R $HOST_UID:$HOST_GID /{repo}; 
     """
 
-    # Additional git command based on input parameters
-    if args.branch:
-        command += f"git switch {args.branch}; "
-    elif args.pullrequest:
-        command += f"gh pr checkout {args.pullrequest}; "
-    elif args.checkout:
-        command += f"git checkout -b {args.checkout}; git push --set-upstream origin {args.checkout}; "
+    temp_dir = f"/tmp/code_mount/{name}"
+    if not os.path.isdir(temp_dir):
+        os.makedirs(temp_dir)
+    os.chdir(temp_dir)
 
     # Update submodules if any
     command += "git submodule update --init; ln -s /root/.env .env;nvim;"
@@ -213,9 +214,11 @@ def run_config(args):
         clean_mount_dir=False,
     )
 
+
 def run_podcasts(args):
     current_dir = subprocess.run(
-        ["pwd"], capture_output=True, text=True).stdout.strip()
+        ["pwd"], capture_output=True, text=True
+    ).stdout.strip()
     # Get the name of the current directory
     dir_name = current_dir.split("/")[-1]
     # Build the command and add the -m flag if requested
@@ -230,17 +233,18 @@ def run_podcasts(args):
         check_changes=False,
         clean_mount_dir=False,
         additional_mounts=[
-            (env_location,"/root/.env"),
-            (mount_location,"/root/mount"),
-            ('/home/fonzzy/Music','/Music')
-        ]
+            (env_location, "/root/.env"),
+            (mount_location, "/root/mount"),
+            ("/home/fonzzy/Music", "/Music"),
+        ],
     )
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(title="commands", dest="command")
 
-    subparsers.default = 'local'
+    subparsers.default = "local"
 
     local_parser = subparsers.add_parser(
         "local", help="Run command for a container with local directory"
@@ -248,15 +252,10 @@ if __name__ == "__main__":
     local_parser.set_defaults(func=run_local)
 
     gh_parser = subparsers.add_parser(
-        "gh", help="Run command for cloning a repo")
+        "gh", help="Run command for cloning a repo"
+    )
     gh_parser.add_argument("repo", help="Specify the repository for cloning")
     gh_parser.set_defaults(func=run_gh)
-    gh_parser.add_argument("-b", "--branch", help="The branch to checkout")
-    gh_parser.add_argument(
-        "-p", "--pullrequest", help="The pull request number to checkout"
-    )
-    gh_parser.add_argument(
-        "-c", "--checkout", help="Checkout a new branch from main")
 
     gistnote_parser = subparsers.add_parser(
         "notes", help="Open GistNotes Browsing Tool"
@@ -267,7 +266,8 @@ if __name__ == "__main__":
         "setup", help="Setup the mounting and filestructure"
     )
     setup_parser.add_argument(
-        "--init", help="Run the init flag", action="store_true")
+        "--init", help="Run the init flag", action="store_true"
+    )
     setup_parser.set_defaults(func=run_setup)
 
     build_parser = subparsers.add_parser(
@@ -276,21 +276,23 @@ if __name__ == "__main__":
     build_parser.set_defaults(func=run_build)
 
     config_parser = subparsers.add_parser(
-        "config", help="Edit the runit files inplace")
+        "config", help="Edit the runit files inplace"
+    )
     config_parser.set_defaults(func=run_config)
 
     podcast_parser = subparsers.add_parser(
-        "audio", help="Dowload the Podcasts in current Dir"
+        "audio", help="Download the Podcasts in current Dir"
     )
     podcast_parser.add_argument(
-        '--music', '-m', 
-        action='store_true', 
-        help="If true, process as music as well"
+        "--music",
+        "-m",
+        action="store_true",
+        help="If true, process as music as well",
     )
     podcast_parser.set_defaults(func=run_podcasts)
 
     args = parser.parse_args()
-    if 'func' in args:
+    if "func" in args:
         args.func(args)
     else:
-        run_local(args)   # default function to run 
+        run_local(args)  # default function to run
