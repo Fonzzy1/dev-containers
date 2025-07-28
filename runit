@@ -31,7 +31,6 @@ def run_vim(
     mount_dir_name=None,
     command="bash;",
     check_changes=True,
-    clean_mount_dir=False,
     additional_mounts=[
         (env_location, "/root/.env"),
         (mount_location, "/root/mount"),
@@ -51,9 +50,6 @@ def run_vim(
             """
 
     command = pre_command + command
-
-    if clean_mount_dir:
-        command = f"find /{mount_dir_name} -mindepth 1 -delete;" + command
 
     if check_changes:
         command += ' \
@@ -118,24 +114,16 @@ def run_notes(args):
     temp_dir = f"/tmp/code_mount/wiki"
     if not os.path.isdir(temp_dir):
         os.makedirs(temp_dir)
-        command = (
-            """gh repo clone wiki /wiki -- --recurse-submodules;
-                 git submodule foreach 'git switch main';
-                 chown -R $HOST_UID:$HOST_GID /wiki ;nvim;""",
-        )
+        command = """gh repo clone wiki /wiki -- --recurse-submodules; git submodule foreach 'git switch main'; chown -R $HOST_UID:$HOST_GID /wiki ;nvim;"""
     else:
-        command = (
-            """
-                 git submodule foreach 'git switch main';
-                 chown -R $HOST_UID:$HOST_GID /wiki; nvim;""",
-        )
+        command = """git submodule foreach 'git switch main'; chown -R $HOST_UID:$HOST_GID /wiki; nvim;"""
+
     run_vim(
         env_location,
         mount_dir=temp_dir,
         mount_dir_name="wiki",
         command=command,
         check_changes=True,
-        clean_mount_dir=True,
     )
 
 
@@ -160,7 +148,6 @@ def run_local(args):
         mount_dir_name=dir_name,
         command="nvim;",
         check_changes=False,
-        clean_mount_dir=False,
     )
 
 
@@ -198,7 +185,6 @@ def run_gh(args):
         mount_dir_name=repo,
         command=command,
         check_changes=True,
-        clean_mount_dir=True,
     )
 
 
@@ -222,7 +208,6 @@ def run_config(args):
         mount_dir_name=dir_name,
         command="nvim; ",
         check_changes=True,
-        clean_mount_dir=False,
     )
 
 
@@ -242,7 +227,6 @@ def run_podcasts(args):
         mount_dir_name=dir_name,
         command=command,
         check_changes=False,
-        clean_mount_dir=False,
         additional_mounts=[
             (env_location, "/root/.env"),
             (mount_location, "/root/mount"),

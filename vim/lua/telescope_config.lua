@@ -141,7 +141,7 @@ require('browse').setup({
 
         ["Google Maps"] = "https://www.google.com/maps/search/%s",
         ["uber"] = "https://m.uber.com/",
-        ["ptv"] = "https://www.ptv.vic.gov.au/",
+        ["ptv"] = "https://www.ptv.vic.gov.au/tickets/myki",
         ["bom"] = "http://www.bom.gov.au/vic/forecasts/melbourne.shtml",
     },
     icons = {
@@ -255,13 +255,13 @@ vim.keymap.set('n', 'sp', function()
     TelescopeRssPicker({
         -- The Conversation
         "https://theconversation.com/au/articles.atom",
-        -- The Conversation - Enviroment
+        -- The Conversation - Environment
         "https://theconversation.com/au/environment/articles.atom",
         -- The Conversation - Politics
         "https://theconversation.com/au/politics/articles.atom",
         -- The Guardian AU
         "https://www.theguardian.com/au/rss",
-        -- The Guardian AU - Enviroment
+        -- The Guardian AU - Environment
         "https://www.theguardian.com/au/environment/rss",
         -- The Guardian AU - Politics
         "https://www.theguardian.com/au/politics/rss",
@@ -280,7 +280,7 @@ end)
 
 vim.keymap.set('n', 'sj', function()
     TelescopeRssPicker({
-        -- Enviromental Communication
+        -- Environmental Communication
         'https://www.tandfonline.com/feed/rss/renc20',
         -- Global Climate Change
         'https://rss.sciencedirect.com/publication/science/09593780',
@@ -300,7 +300,7 @@ vim.keymap.set('n', 'sj', function()
         'https://academic.oup.com/rss/site_6096/3967.xml',
         -- Journal of Political Marketing
         'https://www.tandfonline.com/feed/rss/wplm20',
-        -- Enviromental Science and Policy
+        -- Environmental Science and Policy
         'https://rss.sciencedirect.com/publication/science/14629011',
         -- Computational Communication Research
         'https://journal.computationalcommunication.org/gateway/plugin/WebFeedGatewayPlugin/rss2',
