@@ -118,13 +118,22 @@ def run_notes(args):
     temp_dir = f"/tmp/code_mount/wiki"
     if not os.path.isdir(temp_dir):
         os.makedirs(temp_dir)
+        command = (
+            """gh repo clone wiki /wiki -- --recurse-submodules;
+                 git submodule foreach 'git switch main';
+                 chown -R $HOST_UID:$HOST_GID /wiki ;nvim;""",
+        )
+    else:
+        command = (
+            """
+                 git submodule foreach 'git switch main';
+                 chown -R $HOST_UID:$HOST_GID /wiki; nvim;""",
+        )
     run_vim(
         env_location,
         mount_dir=temp_dir,
         mount_dir_name="wiki",
-        command="""gh repo clone wiki /wiki -- --recurse-submodules;
-                 git submodule foreach 'git switch main';
-                 chown -R $HOST_UID:$HOST_GID /wiki ;nvim;""",
+        command=command,
         check_changes=True,
         clean_mount_dir=True,
     )
@@ -167,15 +176,17 @@ def run_gh(args):
     """
     name = args.repo.replace("/", "-")
     repo = args.repo.split("/")[-1] if "/" in args.repo else args.repo
-    command = f"""\
-    gh repo clone {args.repo} /{repo} 
-    git config --global --add safe.directory /{repo}
-    chown -R $HOST_UID:$HOST_GID /{repo}; 
-    """
 
     temp_dir = f"/tmp/code_mount/{name}"
     if not os.path.isdir(temp_dir):
         os.makedirs(temp_dir)
+        command = f"""\
+        gh repo clone {args.repo} /{repo} 
+        git config --global --add safe.directory /{repo}
+        chown -R $HOST_UID:$HOST_GID /{repo}; 
+        """
+    else:
+        command = "chown -R $HOST_UID:$HOST_GID /{repo}; "
     os.chdir(temp_dir)
 
     # Update submodules if any
