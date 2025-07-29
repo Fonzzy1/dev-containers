@@ -112,7 +112,7 @@ require("ibl").setup({
             '',
             'terminal'
         }
-    }
+    },
 })
 
 require("windows").setup({
