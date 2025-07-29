@@ -10,7 +10,7 @@ if [ "$1" = "--init" ]; then
   ## Load in the apps that I use for viewing media
   sudo apt-get -y update
   sudo apt-get -y upgrade
-  sudo apt-get -y install jq zathura feh vlc ranger spotify-client gnome-tweaks vlc xclip python3-pip kitty
+  sudo apt-get -y install jq zathura feh vlc ranger spotify-client gnome-tweaks vlc xclip python3-pip kitty devilspie2
 
   entry="LABEL=ALFIE /mnt/ALFIE auto nosuid,nodev,nofail,x-gvfs-show 0 0"
 
@@ -23,7 +23,7 @@ if [ "$1" = "--init" ]; then
   echo "$entry" | sudo tee -a /etc/fstab > /dev/null
   fi
 
-  # Install the gnome extentions
+  # Install the gnome extensions
   pip3 install --upgrade git+https://github.com/essembeh/gnome-extensions-cli
   /home/fonzzy/.local/bin/gext install 545
   /home/fonzzy/.local/bin/gext install 19
@@ -79,6 +79,18 @@ if [ "$1" = "--init" ]; then
 
     cat ~/.bashrc > ~/.bash_profile
 
+    echo '-- For all NORMAL windows, set to a specific small size
+    if (get_window_is_maximized()) then
+        -- Remove fullscreen and maximized state
+        unmaximize()
+    end
+
+    if (get_fullscreen) then
+        set_window_fullscreen(false)
+    end
+
+    set_window_size(700, 440) -- Width, Height in pixels' > ~/.config/devilspie2/small-windows.lua
+
   #NERDFONT
   wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip \
   && cd ~/.local/share/fonts \
@@ -88,7 +100,7 @@ if [ "$1" = "--init" ]; then
 
   # Kitty theme
   sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
-  mkdir -p $HOME/.config/kitty
+  mkdir -p "$HOME"/.config/kitty
   curl https://raw.githubusercontent.com/catppuccin/kitty/refs/heads/main/themes/macchiato.conf -o ~/.config/kitty/kitty.conf
   echo "font_family JetBrainsMonoNL Nerd Font Mono" >> ~/.config/kitty/kitty.conf
   echo "enable_audio_bell no" >> ~/.config/kitty/kitty.conf
@@ -96,22 +108,22 @@ if [ "$1" = "--init" ]; then
 
 
   # Zathura Theme
-  mkdir -p $HOME/.config/zathura
-  wget -O $HOME/.config/zathura/catppuccin-macchiato https://raw.githubusercontent.com/catppuccin/zathura/main/src/catppuccin-macchiato
+  mkdir -p "$HOME"/.config/zathura
+  wget -O "$HOME"/.config/zathura/catppuccin-macchiato https://raw.githubusercontent.com/catppuccin/zathura/main/src/catppuccin-macchiato
   echo '
     include catppuccin-macchiato
     set recolor                     "true"
     set recolor-reverse-video       "true"
     set recolor-keephue             "true"
     set selection-clipboard clipboard
-  ' > $HOME/.config/zathura/zathurarc
+  ' > "$HOME"/.config/zathura/zathurarc
   # Make zathura default for all pdf in xmim
   xdg-mime default org.pwmt.zathura-pdf-poppler.desktop application/pdf
   xdg-mime default org.pwmt.zathura-pdf-poppler.desktop application/x-pdf
   
   # Feh Theme
-  mkdir -p $HOME/.config/feh
-  wget -O $HOME/.config/feh/keys https://gist.githubusercontent.com/yudi-matsuzake/688a6273339cbb2d7a97a53d0d8ab6c7/raw/74193d26f849353eb578d9da30106170cf9927c9/keys
+  mkdir -p "$HOME"/.config/feh
+  wget -O "$HOME"/.config/feh/keys https://gist.githubusercontent.com/yudi-matsuzake/688a6273339cbb2d7a97a53d0d8ab6c7/raw/74193d26f849353eb578d9da30106170cf9927c9/keys
   xdg-mime default feh.desktop image/jpeg
   xdg-mime default feh.desktop image/png
   xdg-mime default feh.desktop image/gif
@@ -124,7 +136,7 @@ if [ "$1" = "--init" ]; then
   echo '# rifle.conf
     # By default, use Vim for most files
     mime ^text,  label editor = vim -- "$@"
-    has xdg-open, flag f = xdg-open "$1"' > $HOME/.config/ranger/rifle.conf
+    has xdg-open, flag f = xdg-open "$1"' > "$HOME"/.config/ranger/rifle.conf
 
 # Firefox tiling
 # Define the Firefox profile directory for Linux
@@ -152,7 +164,7 @@ echo "Remember to set full-screen-api.ignore-widgets to True in about:config"
 # Fetch the image from the url using wget and save it into the specific directory
 wget -O ~/.wallpaper http://web.archive.org/web/20230326122534if_/https://raw.githubusercontent.com/catppuccin/wallpapers/main/misc/spooky_spill.jpg
 # Set it as your wallpaper
-gsettings set org.gnome.desktop.background picture-uri-dark file:///home/$USER/.wallpaper
+gsettings set org.gnome.desktop.background picture-uri-dark file:///home/"$USER"/.wallpaper
 fi
 
 if ! command -v docker &> /dev/null
@@ -177,7 +189,7 @@ then
     sudo rm install-docker.sh
 
     # Add the current user to the Docker group
-    sudo usermod -aG docker $USER
+    sudo usermod -aG docker "$USER"
 
     sudo apt-get install -y nvidia-container-toolkit
     
@@ -185,6 +197,9 @@ then
 else
     echo "Docker is already installed."
 fi
+
+#Start devilspie
+devilspie2&
 
 # Delete and make the pipe
 rm -rf ~/pipe
@@ -200,7 +215,6 @@ docker pull fonzzy1/vim
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 mkdir -p ~/.local/bin
-ln -sf $SCRIPT_DIR/runit ~/.local/bin/runit
+ln -sf "$SCRIPT_DIR"/runit ~/.local/bin/runit
 
 echo "Setup complete!"
-
