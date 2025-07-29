@@ -102,6 +102,8 @@ if [ "$1" = "--init" ]; then
   echo "font_family JetBrainsMonoNL Nerd Font Mono" >> ~/.config/kitty/kitty.conf
   echo "enable_audio_bell no" >> ~/.config/kitty/kitty.conf
   echo "hide_window_decorations yes" >> ~/.config/kitty/kitty.conf
+  echo "background_opacity 0.8" >> ~/.config/kitty/kitty.conf
+  echo "backgrounnd_blur 1" >> ~/.config/kitty/kitty.conf
 
 
   # Zathura Theme
