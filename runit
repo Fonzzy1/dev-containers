@@ -34,6 +34,7 @@ def run_vim(
     additional_mounts=[
         (env_location, "/root/.env"),
         (mount_location, "/root/mount"),
+        ("/home/fonzzy/Documents/Data", "/Data"),
     ],
 ):
     current_dir = subprocess.run(
