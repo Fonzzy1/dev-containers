@@ -151,7 +151,7 @@ require('browse').setup({
     },
     -- if you want to persist the query for grouped bookmarks
     -- See https://github.com/lalitmee/browse.nvim/pull/23
-    persist_grouped_bookmarks_query = false,
+    persist_grouped_bookmarks_query = true,
 })
 
 
@@ -250,33 +250,6 @@ function TelescopeRssPicker(urls)
         end,
     }):find()
 end
-
-vim.keymap.set('n', 'sp', function()
-    TelescopeRssPicker({
-        -- The Conversation
-        "https://theconversation.com/au/articles.atom",
-        -- The Conversation - Environment
-        "https://theconversation.com/au/environment/articles.atom",
-        -- The Conversation - Politics
-        "https://theconversation.com/au/politics/articles.atom",
-        -- The Guardian AU
-        "https://www.theguardian.com/au/rss",
-        -- The Guardian AU - Environment
-        "https://www.theguardian.com/au/environment/rss",
-        -- The Guardian AU - Politics
-        "https://www.theguardian.com/au/politics/rss",
-        -- The Guardian AU - Opinion
-        "https://www.theguardian.com/au/opinion/rss",
-        -- ABC News
-        "https://www.abc.net.au/news/feed/10719986/rss.xml",
-        -- ABC News - Long Reads
-        "https://www.abc.net.au/news/feed/104496728/rss.xml",
-        -- Crikey
-        'https://www.crikey.com.au/feed/',
-        -- NYT Climate
-        'https://rss.nytimes.com/services/xml/rss/nyt/Climate.xml'
-    })
-end)
 
 vim.keymap.set('n', 'sj', function()
     TelescopeRssPicker({
