@@ -29,9 +29,9 @@ nnoremap <silent> sr :OverseerRun<CR>
 nnoremap <silent> sR :lua LeftBarToOver()<CR>
 nnoremap <silent> sg :LazyGit<CR>
 nnoremap sG :Octo 
-nnoremap <silent> sd :lua require('browse').input_search()<CR>
-nnoremap <silent> sD :lua require("browse").open_bookmarks()<CR>
-
+nnoremap <silent> sd :lua require('browse').open_bookmarks()<CR>
+nnoremap <silent> sD :lua browse_bookmarks()<CR>
+"sj papers
 
 
 

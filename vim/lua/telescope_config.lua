@@ -1,6 +1,10 @@
 local actions        = require "telescope.actions"
 local bibtex_actions = require('telescope-bibtex.actions')
 local action_state   = require('telescope.actions.state')
+local pickers        = require('telescope.pickers')
+local finders        = require('telescope.finders')
+local conf           = require('telescope.config').values
+local themes         = require("telescope.themes")
 
 vim.api.nvim_create_autocmd("User", {
     pattern = "TelescopePreviewerLoaded",
@@ -84,83 +88,121 @@ require 'telescope'.setup {
 -- load_extension, somewhere after setup function:
 require('telescope').load_extension('fzf')
 -- default values for the setup
+local bookmarks = {
+    ["Comms"] = {
+        ["name"] = "All my messaging platforms",
+        ["Personal Emails"] = "https://outlook.live.com/mail/0/",
+        ["Staff"] = "https://mail.google.com/mail/?authuser=alfie.chadwick@monash.edu",
+        ["Student"] = "https://mail.google.com/mail/?authuser=alfie.chadwick1@monash.edu",
+        ["MCCCRH"] = "https://mcccrh.slack.com",
+        ["Soda Labs"] = "https://soda-labs.slack.com",
+        ["ADMS"] = "https://adms-centre..slack.com/",
+        ["facebook messenger"] = "https://www.messenger.com/",
+        ["whatsapp"] = "https://web.whatsapp.com/",
+        ["calendar"] = "https://calendar.google.com/calendar/u/1/r",
+    },
+
+    ["github"] = {
+        ["name"] = "Search Github",
+        ["main"] = "https://github.com/",
+        ["code search"] = "https://github.com/search?q=%s&type=code",
+        ["repo search"] = "https://github.com/search?q=%s&type=repositories",
+        ["issues search"] = "https://github.com/search?q=%s&type=issues",
+        ["pulls search"] = "https://github.com/search?q=%s&type=pullrequests",
+    },
+    ["Hockey"] = {
+        ["name"] = "Hockey Vic Fixtures",
+        ["PEN A"] = "https://www.hockeyvictoria.org.au/games/team/21935/337151",
+        ["Monday"] = "https://www.hockeyvictoria.org.au/games/team/22076/338838",
+    },
+
+    ["stack overflow"] = {
+        ["Name"] = "search stack overflow",
+        ["search"] = "https://stackoverflow.com/search?q=%s",
+        ["home"] = "https://stackoverflow.com/",
+    },
+    ["Money"] = {
+        ["Raiz"] = "https://app.raizinvest.com.au/?activeTab=today",
+        ["Splitwise"] = "https://secure.splitwise.com/#/dashboard",
+        ["Afterpay"] = "https://portal.afterpay.com/en-AU/home",
+    },
+
+    ["monash"] = {
+        ["name"] = "Monash Tools",
+        ["my monash"] = "https://my.monash.edu.au/",
+        ["timesheet"] = "https://eservices.monash.edu.au/irj/portal#TimeSheetEntry-manage",
+        ["wes"] = "https://my.monash.edu.au/wes/",
+        ["opark"] = "https://portal.opark.com.au/motorist/dashboard",
+        ["moodle"] = "https://lms.monash.edu/",
+    },
+
+    ["Google Maps"] = "https://www.google.com/maps/search/%s",
+    ["uber"] = "https://m.uber.com/",
+    ["ptv"] = "https://www.ptv.vic.gov.au/tickets/myki",
+    ["bom"] = "http://www.bom.gov.au/vic/forecasts/melbourne.shtml",
+}
 require('browse').setup({
     -- search provider you want to use
     provider = "google", -- duckduckgo, bing
 
+    bookmarks = bookmarks,
     -- either pass it here or just pass the table to the functions
     -- see below for more
-    bookmarks = {
-        ["Comms"] = {
-            ["name"] = "All my messaging platforms",
-            ["Personal Emails"] = "https://outlook.live.com/mail/0/",
-            ["Staff"] = "https://mail.google.com/mail/?authuser=alfie.chadwick@monash.edu",
-            ["Student"] = "https://mail.google.com/mail/?authuser=alfie.chadwick1@monash.edu",
-            ["MCCCRH"] = "https://mcccrh.slack.com",
-            ["Soda Labs"] = "https://soda-labs.slack.com",
-            ["ADMS"] = "https://adms-centre..slack.com/",
-            ["facebook messenger"] = "https://www.messenger.com/",
-            ["whatsapp"] = "https://web.whatsapp.com/",
-            ["calendar"] = "https://calendar.google.com/calendar/u/1/r",
-        },
-
-        ["github"] = {
-            ["name"] = "Search Github",
-            ["main"] = "https://github.com/",
-            ["code search"] = "https://github.com/search?q=%s&type=code",
-            ["repo search"] = "https://github.com/search?q=%s&type=repositories",
-            ["issues search"] = "https://github.com/search?q=%s&type=issues",
-            ["pulls search"] = "https://github.com/search?q=%s&type=pullrequests",
-        },
-        ["Hockey"] = {
-            ["name"] = "Hockey Vic Fixtures",
-            ["PEN A"] = "https://www.hockeyvictoria.org.au/games/team/21935/337151",
-            ["Monday"] = "https://www.hockeyvictoria.org.au/games/team/22076/338838",
-        },
-
-
-        ["stack overflow"] = {
-            ["Name"] = "search stack overflow",
-            ["search"] = "https://stackoverflow.com/search?q=%s",
-            ["home"] = "https://stackoverflow.com/",
-        },
-        ["Money"] = {
-            ["Raiz"] = "https://app.raizinvest.com.au/?activeTab=today",
-            ["Splitwise"] = "https://secure.splitwise.com/#/dashboard",
-            ["Afterpay"] = "https://portal.afterpay.com/en-AU/home",
-        },
-
-        ["monash"] = {
-            ["name"] = "Monash Tools",
-            ["my monash"] = "https://my.monash.edu.au/",
-            ["timesheet"] = "https://eservices.monash.edu.au/irj/portal#TimeSheetEntry-manage",
-            ["wes"] = "https://my.monash.edu.au/wes/",
-            ["opark"] = "https://portal.opark.com.au/motorist/dashboard",
-            ["moodle"] = "https://lms.monash.edu/",
-        },
-
-        ["Google Maps"] = "https://www.google.com/maps/search/%s",
-        ["uber"] = "https://m.uber.com/",
-        ["ptv"] = "https://www.ptv.vic.gov.au/tickets/myki",
-        ["bom"] = "http://www.bom.gov.au/vic/forecasts/melbourne.shtml",
-    },
     icons = {
-        bookmark_alias = "->",    -- if you have nerd fonts, you can set this to ""
-        bookmarks_prompt = "",    -- if you have nerd fonts, you can set this to "󰂺 "
-        grouped_bookmarks = "->", -- if you have nerd fonts, you can set this to 
+        bookmark_alias = "", -- if you have nerd fonts, you can set this to ""
+        bookmarks_prompt = "📑   ", -- if you have nerd fonts, you can set this to "󰂺 "
+        grouped_bookmarks = "", -- if you have nerd fonts, you can set this to 
     },
     -- if you want to persist the query for grouped bookmarks
     -- See https://github.com/lalitmee/browse.nvim/pull/23
-    persist_grouped_bookmarks_query = true,
+    persist_grouped_bookmarks_query = false
 })
 
 
+function open_urls(tbl)
+    for _, v in pairs(tbl) do
+        if type(v) == "string" and not v:find("%%s") then
+            vim.fn.jobstart({ "xdg-open", v }, { detach = true })
+        end
+    end
+end
+
+function browse_bookmarks()
+    local keys = vim.tbl_keys(bookmarks)
+    table.sort(keys)
+
+    local theme = themes.get_dropdown({
+        prompt_title = "📚 Bookmark Groups",
+        results_height = 15,
+        width = 0.5,
+    })
+
+    pickers.new(theme, {
+        finder = finders.new_table({
+            results = keys,
+        }),
+
+        sorter = conf.generic_sorter(theme),
+
+        attach_mappings = function(prompt_bufnr)
+            actions.select_default:replace(function()
+                actions.close(prompt_bufnr)
+                local selection = action_state.get_selected_entry()
+                local key = selection[1]
+                local group = bookmarks[key]
+
+                if type(group) == "table" then
+                    open_urls(group)
+                elseif type(group) == "string" and not group:find("%%s") then
+                    vim.fn.jobstart({ "xdg-open", group }, { detach = true })
+                end
+            end)
+            return true
+        end,
+    }):find()
+end
 
 function TelescopeRssPicker(urls)
-    local pickers = require('telescope.pickers')
-    local finders = require('telescope.finders')
-    local conf = require('telescope.config').values
-
     -- Check input
     if not urls or type(urls) ~= "table" or #urls == 0 then
         vim.notify("No feed URLs provided", vim.log.levels.WARN)
