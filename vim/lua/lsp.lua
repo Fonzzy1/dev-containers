@@ -1,5 +1,8 @@
 require("mason").setup()
-require("mason-lspconfig").setup()
+-- require("mason-lspconfig").setup {
+--     ensure_installed = {},
+--     automatic_installation = true,
+-- }
 
 local lspconfig = require("lspconfig")
 local configs = require("lspconfig.configs")
@@ -71,17 +74,12 @@ null_ls.setup({
         }),
         --spell
         null_ls.builtins.formatting.codespell,
-
         -- Python
         null_ls.builtins.formatting.black.with({
             args = { "--line-length", "80", "--stdin-filename", "$FILENAME", "--quiet", "-" }
         }),
 
         null_ls.builtins.formatting.format_r,
-
-        -- Prisma
-        prisma_formatter,
-
 
         -- Shell/Bash
         null_ls.builtins.formatting.shellharden.with({
