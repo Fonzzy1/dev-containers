@@ -76,7 +76,8 @@ null_ls.setup({
         null_ls.builtins.formatting.codespell,
         -- Python
         null_ls.builtins.formatting.black.with({
-            args = { "--line-length", "80", "--stdin-filename", "$FILENAME", "--quiet", "-" }
+            filetypes = { "py", 'python' },
+            args = { "--line-length", "80", "--stdin-filename", "$FILENAME", "-" }
         }),
 
         null_ls.builtins.formatting.format_r,

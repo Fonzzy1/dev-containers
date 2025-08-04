@@ -107,7 +107,7 @@ if [ "$1" = "--init" ]; then
 
   # Zathura Theme
   mkdir -p "$HOME"/.config/zathura
-  wget -O "$HOME"/.config/zathura/catppuccin-macchiato https://raw.githubusercontent.com/catppuccin/zathura/main/src/catppuccin-macchiato
+  wget -O "$HOME"/.config/zathura/catppuccin-macchiato https://raw.githubusercontent.com/catppuccin/zathura/refs/heads/main/themes/catppuccin-macchiato
   echo '
     include catppuccin-macchiato
     set recolor                     "true"

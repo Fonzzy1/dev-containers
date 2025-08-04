@@ -21,13 +21,17 @@ def to_melbourne_time(dt):
     melbourne = ZoneInfo("Australia/Melbourne")
     dt_mel = dt.astimezone(melbourne)
     return dt_mel.strftime("%Y-%m-%d %H:%M")
+
+
 class MLStripper(HTMLParser):
     def __init__(self):
         super().__init__()
         self.reset()
         self.fed = []
+
     def handle_data(self, d):
         self.fed.append(d)
+
     def get_data(self):
         return "".join(self.fed)
 
@@ -128,7 +132,9 @@ async def main(urls):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print(f"Usage: {sys.argv[0]} <feed_url1> <feed_url2> ...", file=sys.stderr)
+        print(
+            f"Usage: {sys.argv[0]} <feed_url1> <feed_url2> ...", file=sys.stderr
+        )
         sys.exit(1)
     asyncio.run(main(sys.argv[1:]))
 
