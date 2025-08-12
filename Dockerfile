@@ -93,9 +93,9 @@ RUN pip install mdformat-black mdformat-config pipreqs pgcli awscli ipython ipyk
     pip install --no-cache-dir --force-reinstall git+https://github.com/sciunto-org/python-bibtexparser@main
 
 # Install npm packages
-RUN npm install --save-dev --global prettier tree-sitter-cli
+RUN npm install --save-dev --global prettier tree-sitter-cli bibtex-tidy
 
-# Install ACT extention
+# Install ACT extension
 RUN mkdir -p /root/.local/share/gh/extensions/gh-act && \
     curl -L -o /root/.local/share/gh/extensions/gh-act/gh-act \
     "https://github.com/nektos/gh-act/releases/download/v0.2.57/linux-amd64" && \
@@ -147,13 +147,13 @@ RUN nvim -u /root/.config/nvim/vimscript/plugins.vim +PlugInstall +qall
 RUN nvim -u /root/.config/nvim/vimscript/plugins.vim --headless "+lua require('mason').setup()" "+MasonInstall prisma-language-server vim-language-server yaml-language-server yamlfmt prisma-language-server vim-language-server docker-compose-language-service dockerfile-language-server json-lsp typescript-language-server  yaml-language-server nginx-language-server pyright air ltex-ls lua-language-server mdformat black fixjson prettier shellharden" +qall
 RUN timeout 60s nvim -u /root/.config/nvim/vimscript/plugins.vim '+lua require("tree_config")' "+TSUpdateSync" || exit 0
 
-# Copy in the rest of the conig
+# Copy in the rest of the config
 COPY vim/vimscript /root/.config/nvim/vimscript
 COPY vim/lua /root/.config/nvim/lua
 COPY vim/init.vim /root/.config/nvim/init.vim
 #Copy in the scripts
 COPY run_scripts /scripts
-# Overwrite defaule xsg-open call
+# Overwrite default xsg-open call
 COPY run_scripts/open.py /usr/bin/xdg-open   
 
 # Set the editor

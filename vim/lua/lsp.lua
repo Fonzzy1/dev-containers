@@ -56,13 +56,17 @@ local helpers = require("null-ls.helpers")
 
 local bibtex_formatter = {
     method = null_ls.methods.FORMATTING,
-    filetypes = { "bibtex" },
+    filetypes = { "bib" },
     generator = helpers.formatter_factory({
         command =
-        "bibtex-tidy -m --curly --numeric --align=13 --duplicates=key no-escape --sort-fields --remove-empty-fields --no-remove-dupe-fields sort=-year,key --wrap=80 ",
-        args = {},
-        to_stdin = false, -- should be false if no stdin support
-        from_stderr = false,
+        "bibtex-tidy",
+        args = {
+            '--v2', "--curly", "--numeric", "--align=13", "--duplicates=key", "no-escape",
+            "--sort-fields", "--remove-empty-fields", "--no-remove-dupe-fields",
+            "sort=-year,key", "--wrap=80"
+        },
+        to_stdin = true, -- should be false if no stdin support
+        from_stderr = true,
     }),
 }
 
