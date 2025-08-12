@@ -76,17 +76,25 @@ if [ "$1" = "--init" ]; then
 
     cat ~/.bashrc > ~/.bash_profile
 
-    echo '-- For all NORMAL windows, set to a specific small size
-    if (get_window_is_maximized()) then
+    echo 'if (get_window_is_maximized()) then
+    set_window_below(true)
+    else
+        set_window_below(false)
+    end' > ~/.config/devilspie2/window_focus.lua
+
+    echo 'scripts_window_open = {
+        "small_windows.lua",
+    }
+    scripts_window_focus = {
+        "window_focus.lua",
+    }' > ~/.config/devilspie2/devilspie2.lua
+
+    echo 'if (get_window_is_maximized()) then
         -- Remove fullscreen and maximized state
         unmaximize()
     end
 
-    if (get_fullscreen) then
-        set_window_fullscreen(false)
-    end
-
-    set_window_size(1080,700) -- Width, Height in pixels' > ~/.config/devilspie2/small-windows.lua
+    set_window_size(1080, 700) -- Width, Height in pixels' > ~/.config/devilspie2/small_windows.lua
 
   #NERDFONT
   wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip \
