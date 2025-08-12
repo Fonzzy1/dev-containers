@@ -86,7 +86,7 @@ if [ "$1" = "--init" ]; then
         set_window_fullscreen(false)
     end
 
-    set_window_size(700, 440) -- Width, Height in pixels' > ~/.config/devilspie2/small-windows.lua
+    set_window_size(1080,700) -- Width, Height in pixels' > ~/.config/devilspie2/small-windows.lua
 
   #NERDFONT
   wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip \
