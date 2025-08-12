@@ -54,19 +54,21 @@ lspconfig.ltex.setup {
 local null_ls = require("null-ls")
 local helpers = require("null-ls.helpers")
 
-local prisma_formatter = {
+local bibtex_formatter = {
     method = null_ls.methods.FORMATTING,
-    filetypes = { "prisma" },
+    filetypes = { "bibtex" },
     generator = helpers.formatter_factory({
-        command = "prisma",
-        args = { "format", "--stdin" }, -- prisma doesn't support stdin as of July 2025
-        to_stdin = false,               -- should be false if no stdin support
+        command =
+        "bibtex-tidy -m --curly --numeric --align=13 --duplicates=key no-escape --sort-fields --remove-empty-fields --no-remove-dupe-fields sort=-year,key --wrap=80 ",
+        args = {},
+        to_stdin = false, -- should be false if no stdin support
         from_stderr = false,
     }),
 }
 
 null_ls.setup({
     sources = {
+        bibtex_formatter,
 
         -- Markdown, Quarto, YAML, EJS, HTML, JavaScript
         null_ls.builtins.formatting.prettier.with({
