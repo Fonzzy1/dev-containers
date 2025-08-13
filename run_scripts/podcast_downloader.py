@@ -2,6 +2,7 @@ import os
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 import feedparser
+import shutil
 import pytz
 import requests
 from mutagen.id3 import (
@@ -228,6 +229,7 @@ def main():
 
     all_tracks = []
     for date, v in windows.items():
+        os.makedirs(os.path.join(DEST_FOLDER, date), exist_ok=True)
         windows[date]["episodes"].sort(
             key=lambda e: (
                 e["feed_pos"],
@@ -259,8 +261,8 @@ def main():
                 + sanitize_filename(entry.title[:50])
             )
             filename = f"{base}.{ext}"
-            all_tracks.append(filename)
-            outpath = os.path.join(DEST_FOLDER, filename)
+            outpath = os.path.join(DEST_FOLDER, date, filename)
+            all_tracks.append(outpath)
 
             already_downloaded = os.path.exists(outpath)
             if not already_downloaded:
@@ -290,9 +292,9 @@ def main():
     # Clean up
     if os.path.isfile(TEMP_COVER):
         os.remove(TEMP_COVER)
-    for file in os.listdir(DEST_FOLDER):
-        if file not in all_tracks:
-            os.remove(f"{DEST_FOLDER}/{file}")
+    for folder in os.listdir(DEST_FOLDER):
+        if not folder in windows.keys():
+            shutil.rmtree(os.path.join(DEST_FOLDER, folder))
 
     if args.music:
         source_music_dir = "/Music"
