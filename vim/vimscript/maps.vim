@@ -13,7 +13,7 @@
 "edit this is leader
 ""
 vnoremap <silent> ec :Commentary<cr>
-vnoremap <silent> es :AIE fix spelling and grammar using Australian English, assume markdown formatting is being used.<cr>
+vnoremap <silent> es :AIE fix spelling and grammar using Australian English, assume markdown formatting is being used. Don't replace -- with dashes<cr>
 vnoremap <silent> ew :AIE Split this over multiple lines, so that no line exceeds 80 chars.<cr>  
 vnoremap ee :AIE 
 
