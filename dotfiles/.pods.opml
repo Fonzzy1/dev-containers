@@ -174,6 +174,11 @@
                                     type="rss"
                                     text="Grattan Institute"
                                 />
+                                <outline
+                                    xmlUrl="https://www.spreaker.com/show/2731764/episodes/feed"
+                                    type="rss"
+                                    text="New Politics: Australian Politics"
+                                />
                             
 <!-- Society and Technology Podcasts -->
                                 <outline
@@ -212,9 +217,9 @@
                                     text="The War on Cars"
                                 />
                                 <outline
-                                    xmlUrl="https://www.spreaker.com/show/2731764/episodes/feed"
+                                    xmlUrl="https://feeds.acast.com/public/shows/58ad887a1608b1752663b04"
                                     type="rss"
-                                    text="New Politics: Australian Politics"
+                                    text="Team Human"
                                 />
 <!-- Cultrure Podcasts -->
                                 <outline
@@ -233,10 +238,15 @@
                                     text="One Song"
                                 />
                                 <outline
-                                    xmlUrl="https://feeds.megaphone.fm/every-single-album"
+                                    xmlUrl="https://feeds.megaphone.fm/switchedonpop"
                                     type="rss"
-                                    text="Every Single Album"
-                                />
+                                    text="Switched On Pop"
+                                    />
+                                <outline
+                                    xmlUrl="https://rss.art19.com/the-allusionist"
+                                    type="rss"
+                                    text="The Allusionist"
+                                    />
 
 <!-- Learning Podcasts -->
                                 <outline
