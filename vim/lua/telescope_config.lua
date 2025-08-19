@@ -337,5 +337,12 @@ vim.keymap.set('n', 'sj', function()
         'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+all:denial&start=0&max_results=50&sortBy=lastUpdatedDate&sortOrder=descending',
         -- Automated Australian Political Analysis
         'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+(all:Australia+AND+all:politics)&start=0&max_results=50&sortBy=lastUpdatedDate&sortOrder=descending',
+        -- energy policy
+        'https://rss.sciencedirect.com/publication/science/03014215',
+        -- carbon brief
+        '4mthd8p8qs99x37rx8ab@kill-the-newsletter.com'
+        -- Energy and social science
+        'https://rss.sciencedirect.com/publication/science/22146296'
+
     })
 end)
