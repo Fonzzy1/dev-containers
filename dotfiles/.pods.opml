@@ -250,9 +250,9 @@
 
 <!-- Learning Podcasts -->
                                 <outline
-                                    xmlUrl="http://joy.quantamagazine.org"
+                                    xmlUrl="https://podcasts.files.bbci.co.uk/b006qykl.rss"
                                     type="rss"
-                                    text="The Joy of Why"
+                                    text="In Our Time"
                                 />
                                 <outline
                                     xmlUrl="https://podcasts.files.bbci.co.uk/p07mdbhg.rss"
