@@ -6,7 +6,6 @@ Plug 'madox2/vim-ai'
 Plug 'nvim-tree/nvim-tree.lua'
 Plug 'stevearc/aerial.nvim'
 Plug 'nvim-lua/plenary.nvim'
-Plug 'folke/trouble.nvim'
 
 " Visual
 Plug 'nvim-tree/nvim-web-devicons'
