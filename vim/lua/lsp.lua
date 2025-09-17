@@ -24,7 +24,7 @@ lspconfig.ltex.setup {
     cmd = { "ltex-ls", "--log-file=/root/ltex_log" },
     settings = {
         ltex = {
-            enabled = { "bibtex", "gitcommit", "markdown", "org",
+            enabled = {  "gitcommit", "markdown", "org",
                 "tex", "restructuredtext", "rsweave", "latex",
                 "quarto", "rmd", "context", "html",
                 "xhtml", "mail", "plaintext" },
@@ -105,7 +105,7 @@ null_ls.setup({
             group = augroup,
             buffer = bufnr,
             callback = function()
-                vim.lsp.buf.format({ bufnr = bufnr })
+                vim.lsp.buf.format({ bufnr = bufnr, timeout_ms =10000 })
             end,
         })
     end
