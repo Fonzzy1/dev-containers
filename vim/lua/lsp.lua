@@ -78,8 +78,6 @@ null_ls.setup({
         null_ls.builtins.formatting.prettier.with({
             filetypes = { "markdown", "quarto", "yaml", "html", "javascript", "ejs", "json" },
         }),
-        --spell
-        null_ls.builtins.formatting.codespell,
         -- Python
         null_ls.builtins.formatting.black.with({
             filetypes = { "py", 'python' },
