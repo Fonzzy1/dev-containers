@@ -70,7 +70,7 @@ def download(url, outpath):
             for chunk in r.iter_content(1024 * 128):
                 f.write(chunk)
         return True
-    except Exception as e:
+    except requests.RequestException as e:
         print("Failed:", url, str(e))
         return False
 
