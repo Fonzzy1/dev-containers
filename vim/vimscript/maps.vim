@@ -14,30 +14,30 @@
 ""
 vnoremap <silent> ec :Commentary<cr>
 vnoremap <silent> es :AIE fix spelling and grammar using Australian English, assume markdown formatting is being used. Don't replace -- with dashes<cr>
-vnoremap <silent> ew :AIE Split this over multiple lines, so that no line exceeds 80 chars.<cr>  
+vnoremap <silent> ew gw
 vnoremap ee :AIE 
 
-"spawn 
-nnoremap <silent> svb :vnew<CR>:wincmd L<CR>
+" Spawn
+nnoremap <silent> sB :vnew<CR>:wincmd L<CR>
 nnoremap <silent> sb :new<CR>
 nnoremap <silent> sc :AIC<CR>
 vnoremap sc :AIC 
 nnoremap <silent> sr :OverseerRun<CR>
+nnoremap <silent> sR :lua LeftBarToOver()<CR>
 nnoremap <silent> sg :LazyGit<CR>
+nnoremap <silent> sv :LazyGitCurrentFile<CR>
 nnoremap sG :Octo 
-nnoremap <silent> sd :lua require('browse').open_bookmarks()<CR>
-nnoremap <silent> sD :lua browse_bookmarks()<CR>
+nnoremap <silent> sm :lua require('browse').open_bookmarks()<CR>
+nnoremap <silent> sM :lua browse_bookmarks()<CR>
 
 
-""find (temp windows)
+""find ()
 nnoremap fb <cmd>Telescope bibtex<cr>
 nnoremap ff <cmd>Telescope find_files<cr>
 nnoremap fg <cmd>Telescope live_grep<cr>
-nnoremap <silent> fd :lua vim.lsp.buf.hover()<cr>
 nnoremap <silent> fn :call LeftBarToNerd()<CR>
 nnoremap <silent> fN :call LeftBarToNerdFind() <CR>
 nnoremap <silent> fs :lua LeftBarToOutline()<CR>
-nnoremap <silent> fr :lua LeftBarToOver()<CR>
 nnoremap  <silent> fh :Gitsigns preview_hunk<CR>
 nnoremap  <silent> fa :Gitsigns blame_line<CR>
 
@@ -45,7 +45,7 @@ nnoremap  <silent> fa :Gitsigns blame_line<CR>
 " Big Jumps
 nnoremap gb <c-o>
 nnoremap gr <cmd>Telescope lsp_references<cr>
-nnoremap <silent> gd :lua vim.lsp.buf.definitn:on()<cr>
+nnoremap <silent> gd :lua vim.lsp.buf.definitnon()<cr>
 nnoremap <silent> gn :lua vim.diagnostic.goto_next()<CR>
 nnoremap <silent> gp :lua vim.diagnostic.goto_prev()<CR>
 nmap <silent> ghn :Gitsigns nav_hunk next<CR>
@@ -56,7 +56,9 @@ nnoremap  <silent> aa :Gitsigns stage_hunk<CR>
 nnoremap  <silent> ar :Gitsigns reset_hunk<CR>
 vnoremap  <silent> aa :'<,'>Gitsigns stage_hunk<CR>
 vnoremap  <silent> ar :'<,'>Gitsigns reset_hunk<CR>
-nnoremap  <silent> ac :Gitsigns stage_hunk<CR>
+nnoremap  <silent> ac :lua GitCommit()<CR>
+nnoremap ab :Gitsigns change_base
+nnoremap <silent> ad :lua vim.lsp.buf.hover()<cr>
 
 " miscmap
 vnoremap > >gv
@@ -67,6 +69,22 @@ nnoremap <silent><Esc> :noh<CR>
 tnoremap <Esc><Esc> <C-\><C-n>
 
 
+
+lua <<EOF
+-- Function to run git commit with a custom message
+function GitCommit()
+  -- Ask for a commit message
+  local message = vim.fn.input("Commit message: ")
+  if message == "" then
+    print("Aborted: no commit message.")
+    return
+  end
+
+  -- Run git commit in a shell
+  local cmd = "git commit -m " .. vim.fn.shellescape(message)
+  vim.cmd("!" .. cmd)
+end
+EOF
 
 nnoremap <c-h> <c-w>h
 nnoremap <c-j> <c-w>j
