@@ -71,16 +71,40 @@ require 'telescope'.setup {
             mappings = {
                 i = {
                     ["<CR>"] = bibtex_actions.key_append('@%s'),
-                    ["<c-o>"] = function(prompt_bufnr)
+
+                    -- Shift+Enter: insert @key; and keep picker open
+                    ["<S-CR>"] = function(prompt_bufnr)
+                        local entry = action_state.get_selected_entry()
+                        if not entry then return end
+
+                        -- extract key
+                        local content = table.concat(entry.id.content, "\n")
+                        local key = content:match("@%w+{(.-),")
+
+                        -- capture original buffer (the one Telescope was opened from)
+                        local original_buf = vim.fn.bufnr("#")
+
+                        vim.schedule(function()
+                            -- insert into the *original* buffer, not Telescope prompt
+                            vim.api.nvim_set_current_buf(original_buf)
+                            vim.api.nvim_put({ "@" .. key .. ";" }, "c", true, true)
+                            vim.api.nvim_set_current_win(0) -- ensure cursor stays correct
+                        end)
+
+                        -- keep Telescope open and move to next selection
+                        actions.move_selection_next(prompt_bufnr)
+                    end,
+
+                    ["<C-o>"] = function(prompt_bufnr)
                         local entry = action_state.get_selected_entry().id.content
                         entry = table.concat(entry, "\n")
                         local key = entry:match("@%w+{(.-),")
-                        os.execute('xdg-open /wiki/References/' .. key .. '.pdf')
+                        vim.fn.jobstart({ "xdg-open", "/wiki/References/" .. key .. ".pdf" }, { detach = true })
                     end,
-                    ["<c-i>"] = bibtex_actions.citation_append('({{url}}?cite_key={{label}}'),
-                    ["<c-a>"] = bibtex_actions.citation_append('[@{{label}}] -- {{abstract}}'),
+
+                    ["<C-i>"] = bibtex_actions.citation_append('({{url}}?cite_key={{label}})'),
                 },
-            },
+            }
         },
     },
 }
@@ -89,57 +113,82 @@ require 'telescope'.setup {
 require('telescope').load_extension('fzf')
 -- default values for the setup
 local bookmarks = {
+    -- Communication tools
     ["Comms"] = {
         ["name"] = "All my messaging platforms",
         ["Personal Emails"] = "https://outlook.live.com/mail/0/",
-        ["Staff"] = "https://mail.google.com/mail/?authuser=alfie.chadwick@monash.edu",
-        ["Student"] = "https://mail.google.com/mail/?authuser=alfie.chadwick1@monash.edu",
-        ["MCCCRH"] = "https://mcccrh.slack.com",
-        ["Soda Labs"] = "https://soda-labs.slack.com",
-        ["ADMS"] = "https://adms-centre..slack.com/",
-        ["facebook messenger"] = "https://www.messenger.com/",
-        ["whatsapp"] = "https://web.whatsapp.com/",
-        ["calendar"] = "https://calendar.google.com/calendar/u/1/r",
+        ["Staff Email"] = "https://mail.google.com/mail/?authuser=alfie.chadwick@monash.edu",
+        ["Student Email"] = "https://mail.google.com/mail/?authuser=alfie.chadwick1@monash.edu",
+        ["MCCCRH Slack"] = "https://mcccrh.slack.com",
+        ["Soda Labs Slack"] = "https://soda-labs.slack.com",
+        ["ADMS Slack"] = "https://adms-centre..slack.com/",
+        ["Messenger"] = "https://www.messenger.com/",
+        ["WhatsApp"] = "https://web.whatsapp.com/",
+        ["Google Calendar"] = "https://calendar.google.com/calendar/u/1/r",
     },
 
-    ["github"] = {
-        ["name"] = "Search Github",
-        ["main"] = "https://github.com/",
-        ["code search"] = "https://github.com/search?q=%s&type=code",
-        ["repo search"] = "https://github.com/search?q=%s&type=repositories",
-        ["issues search"] = "https://github.com/search?q=%s&type=issues",
-        ["pulls search"] = "https://github.com/search?q=%s&type=pullrequests",
+    -- Development / Coding (all search-first)
+    ["Dev"] = {
+        ["name"] = "Development Search",
+        ["GitHub"] = "https://github.com/search?q=%s",
+        ["Stack Overflow"] = "https://stackoverflow.com/search?q=%s",
+        ["Prisma Docs"] = "https://www.prisma.io/docs/search?q=%s",
+        ["Docker Docs"] = "https://docs.docker.com/search/?q=%s",
+        ["Python Docs"] = "https://docs.python.org/3/search.html?q=%s",
+        ["PyPI"] = "https://pypi.org/search/?q=%s",
+        ["Quarto Docs"] = "https://quarto.org/docs/search.html?q=%s",
+        ["Tidyverse Docs"] = "https://www.tidyverse.org/search?q=%s",
     },
+
+    -- Research / Academic work
+    ["Research"] = {
+        ["name"] = "Research & Academic Search",
+        ["Monash Library"] =
+        "https://monash.primo.exlibrisgroup.com/discovery/search?vid=61MONASH_AU:MONUI&tab=MonashLibrary&search_scope=MonashAll&lang=en&query=any,contains,%s",
+        ["Google Scholar"] = "https://scholar.google.com/scholar?q=%s",
+        ["Semantic Scholar"] = "https://www.semanticscholar.org/search?q=%s",
+        ["Wikipedia"] = "https://en.wikipedia.org/wiki/Special:Search?search=%s",
+        ["Marginalia"] = "https://search.marginalia.nu/search?query=%s",
+        ["Reddit"] = "https://www.reddit.com/search/?q=%s",
+    },
+
+    -- News
+    ["News"] = {
+        ["name"] = "Australian & General News",
+        ["The Conversation"] = "https://theconversation.com/au/",
+        ["The Guardian Australia"] = "https://www.theguardian.com/au/",
+        ["ABC News Australia"] = "https://www.abc.net.au/news/",
+        ["Crikey"] = "https://www.crikey.com.au/",
+    },
+
+    -- Personal / Life admin
+    ["Life"] = {
+        ["name"] = "Life & Everyday Tools",
+        ["Money - Raiz"] = "https://app.raizinvest.com.au/?activeTab=today",
+        ["Money - Splitwise"] = "https://secure.splitwise.com/#/dashboard",
+        ["Money - Afterpay"] = "https://portal.afterpay.com/en-AU/home",
+        ["Google Maps"] = "https://www.google.com/maps/search/%s",
+        ["Uber"] = "https://m.uber.com/",
+        ["PTV (Myki)"] = "https://www.ptv.vic.gov.au/tickets/myki",
+        ["Weather (BOM)"] = "http://www.bom.gov.au/vic/forecasts/melbourne.shtml",
+    },
+
+    -- Monash work-specific tools
+    ["Monash"] = {
+        ["name"] = "Monash Tools",
+        ["My Monash"] = "https://my.monash.edu.au/",
+        ["Timesheet"] = "https://eservices.monash.edu.au/irj/portal#TimeSheetEntry-manage",
+        ["WES"] = "https://my.monash.edu.au/wes/",
+        ["O-Park"] = "https://portal.opark.com.au/motorist/dashboard",
+        ["Moodle"] = "https://lms.monash.edu/",
+    },
+
+    -- Hockey
     ["Hockey"] = {
         ["name"] = "Hockey Vic Fixtures",
         ["PEN A"] = "https://www.hockeyvictoria.org.au/games/team/21935/337151",
         ["Monday"] = "https://www.hockeyvictoria.org.au/games/team/22076/338838",
     },
-
-    ["stack overflow"] = {
-        ["Name"] = "search stack overflow",
-        ["search"] = "https://stackoverflow.com/search?q=%s",
-        ["home"] = "https://stackoverflow.com/",
-    },
-    ["Money"] = {
-        ["Raiz"] = "https://app.raizinvest.com.au/?activeTab=today",
-        ["Splitwise"] = "https://secure.splitwise.com/#/dashboard",
-        ["Afterpay"] = "https://portal.afterpay.com/en-AU/home",
-    },
-
-    ["monash"] = {
-        ["name"] = "Monash Tools",
-        ["my monash"] = "https://my.monash.edu.au/",
-        ["timesheet"] = "https://eservices.monash.edu.au/irj/portal#TimeSheetEntry-manage",
-        ["wes"] = "https://my.monash.edu.au/wes/",
-        ["opark"] = "https://portal.opark.com.au/motorist/dashboard",
-        ["moodle"] = "https://lms.monash.edu/",
-    },
-
-    ["Google Maps"] = "https://www.google.com/maps/search/%s",
-    ["uber"] = "https://m.uber.com/",
-    ["ptv"] = "https://www.ptv.vic.gov.au/tickets/myki",
-    ["bom"] = "http://www.bom.gov.au/vic/forecasts/melbourne.shtml",
 }
 require('browse').setup({
     -- search provider you want to use
@@ -339,10 +388,7 @@ vim.keymap.set('n', 'sj', function()
         'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+(all:Australia+AND+all:politics)&start=0&max_results=50&sortBy=lastUpdatedDate&sortOrder=descending',
         -- energy policy
         'https://rss.sciencedirect.com/publication/science/03014215',
-        -- carbon brief
-        '4mthd8p8qs99x37rx8ab@kill-the-newsletter.com'
         -- Energy and social science
         'https://rss.sciencedirect.com/publication/science/22146296'
-
     })
 end)
