@@ -5,7 +5,6 @@ source  ~/.config/nvim/vimscript/vim.vim
 source  ~/.config/nvim/vimscript/plugins.vim
 source  ~/.config/nvim/vimscript/AI.vim
 source  ~/.config/nvim/vimscript/gh.vim
-source  ~/.config/nvim/vimscript/git.vim
 source  ~/.config/nvim/vimscript/markdown.vim
 source  ~/.config/nvim/vimscript/nerdtree.vim
 source  ~/.config/nvim/vimscript/R.vim

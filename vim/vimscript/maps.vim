@@ -2,8 +2,8 @@
 ""
 "This is structured around five key verbs:
 ""(edit): edit some text in place, always a visual map
-"(s)pawn/send: spawn a new window or process, destructive of cursor
-""(f)ind: find something, or show something. 
+"(s)pawn/send: spawn a new window or process
+""(f)ind: find something, or show something, navigation
 "(g)o: jump to something that we know.
 ""
 "
@@ -17,22 +17,16 @@ vnoremap <silent> es :AIE fix spelling and grammar using Australian English, ass
 vnoremap <silent> ew :AIE Split this over multiple lines, so that no line exceeds 80 chars.<cr>  
 vnoremap ee :AIE 
 
-"spawn (permanent windows)
+"spawn 
 nnoremap <silent> svb :vnew<CR>:wincmd L<CR>
 nnoremap <silent> sb :new<CR>
 nnoremap <silent> sc :AIC<CR>
 vnoremap sc :AIC 
-nnoremap <silent> sN :call LeftBarToNerdFind() <CR>
-nnoremap <silent> ss :lua LeftBarToOutline()<CR>
-nnoremap <silent> sn :call LeftBarToNerd()<CR>
 nnoremap <silent> sr :OverseerRun<CR>
-nnoremap <silent> sR :lua LeftBarToOver()<CR>
 nnoremap <silent> sg :LazyGit<CR>
 nnoremap sG :Octo 
 nnoremap <silent> sd :lua require('browse').open_bookmarks()<CR>
 nnoremap <silent> sD :lua browse_bookmarks()<CR>
-"sj papers
-
 
 
 ""find (temp windows)
@@ -40,16 +34,29 @@ nnoremap fb <cmd>Telescope bibtex<cr>
 nnoremap ff <cmd>Telescope find_files<cr>
 nnoremap fg <cmd>Telescope live_grep<cr>
 nnoremap <silent> fd :lua vim.lsp.buf.hover()<cr>
+nnoremap <silent> fn :call LeftBarToNerd()<CR>
+nnoremap <silent> fN :call LeftBarToNerdFind() <CR>
+nnoremap <silent> fs :lua LeftBarToOutline()<CR>
+nnoremap <silent> fr :lua LeftBarToOver()<CR>
+nnoremap  <silent> fh :Gitsigns preview_hunk<CR>
+nnoremap  <silent> fa :Gitsigns blame_line<CR>
 
 "go
 " Big Jumps
 nnoremap gb <c-o>
 nnoremap gr <cmd>Telescope lsp_references<cr>
-nnoremap <silent> gd :lua vim.lsp.buf.definition()<cr>
+nnoremap <silent> gd :lua vim.lsp.buf.definitn:on()<cr>
 nnoremap <silent> gn :lua vim.diagnostic.goto_next()<CR>
 nnoremap <silent> gp :lua vim.diagnostic.goto_prev()<CR>
-nmap <silent> gcn <Plug>(GitGutterNextHunk)
-nmap <silent> gcp <Plug>(GitGutterPrevHunk)
+nmap <silent> ghn :Gitsigns nav_hunk next<CR>
+nmap <silent> ghp :Gitsigns nav_hunk prev<CR>
+
+"actions
+nnoremap  <silent> aa :Gitsigns stage_hunk<CR>
+nnoremap  <silent> ar :Gitsigns reset_hunk<CR>
+vnoremap  <silent> aa :'<,'>Gitsigns stage_hunk<CR>
+vnoremap  <silent> ar :'<,'>Gitsigns reset_hunk<CR>
+nnoremap  <silent> ac :Gitsigns stage_hunk<CR>
 
 " miscmap
 vnoremap > >gv

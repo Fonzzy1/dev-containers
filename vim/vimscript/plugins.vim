@@ -6,6 +6,7 @@ Plug 'madox2/vim-ai'
 Plug 'nvim-tree/nvim-tree.lua'
 Plug 'stevearc/aerial.nvim'
 Plug 'nvim-lua/plenary.nvim'
+Plug 'folke/trouble.nvim'
 
 " Visual
 Plug 'nvim-tree/nvim-web-devicons'
@@ -26,7 +27,7 @@ Plug 'stevearc/dressing.nvim'
 " Git
 Plug 'kdheepak/lazygit.nvim'
 Plug 'juansalvatore/git-dashboard-nvim'
-Plug 'airblade/vim-gitgutter' 
+Plug 'lewis6991/gitsigns.nvim'
 Plug 'pwntester/octo.nvim'
 Plug 'whb/vim-gitbranch'
 

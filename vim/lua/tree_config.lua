@@ -80,6 +80,8 @@ require 'nvim-treesitter.configs'.setup {
     playground = { enable = false }, -- Fixed the syntax here
 
 }
+-- additional hunk object
+vim.keymap.set({'o', 'x'}, 'ih', '<Cmd>Gitsigns select_hunk<CR>')
 
 vim.api.nvim_create_autocmd("FileType", {
     pattern = "aichat",
