@@ -1,8 +1,9 @@
 " Long fix for having two different states for inside and outside working tree
 silent! !git rev-parse --is-inside-work-tree
 if v:shell_error == 0
-    let g:gitgutter_async=0
-    let g:gitgutter_max_signs = -1
+    let g:gitgutter_async=1
+    let g:gitgutter_max_signs = 500
+    let g:gitgutter_highlight_lines = 1
 endif
 
 
