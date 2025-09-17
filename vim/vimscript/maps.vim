@@ -48,6 +48,8 @@ nnoremap gr <cmd>Telescope lsp_references<cr>
 nnoremap <silent> gd :lua vim.lsp.buf.definition()<cr>
 nnoremap <silent> gn :lua vim.diagnostic.goto_next()<CR>
 nnoremap <silent> gp :lua vim.diagnostic.goto_prev()<CR>
+nmap <silent> gcn <Plug>(GitGutterNextHunk)
+nmap <silent> gcp <Plug>(GitGutterPrevHunk)
 
 " miscmap
 vnoremap > >gv
