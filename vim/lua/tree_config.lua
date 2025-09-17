@@ -81,7 +81,6 @@ require 'nvim-treesitter.configs'.setup {
 
 }
 -- additional hunk object
-vim.keymap.set({'o', 'x'}, 'ih', '<Cmd>Gitsigns select_hunk<CR>')
 
 vim.api.nvim_create_autocmd("FileType", {
     pattern = "aichat",
