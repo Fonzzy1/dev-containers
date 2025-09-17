@@ -46,3 +46,11 @@ nnoremap ; :
 vnoremap > >gv
 vnoremap < <gv
 
+
+function! RunTerm(cmd)
+  " Escape the command for proper execution
+  execute 'terminal '. a:cmd . ' && tail -f /dev/null'
+  setlocal nonumber
+  setlocal nornu
+  setlocal scl=no
+endfunction
