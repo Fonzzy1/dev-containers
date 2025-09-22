@@ -91,7 +91,8 @@ null_ls.setup({
             filetypes = { "sh", "bash" },
             to_stdin = false,
         }),
-        null_ls.builtins.formatting.shfmt
+        null_ls.builtins.formatting.shfmt,
+        null_ls.builtins.formatting.prismaFmt
     },
     -- Optional: format on save
     on_attach = function(client, bufnr)
