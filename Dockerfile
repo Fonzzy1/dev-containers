@@ -89,11 +89,11 @@ RUN set -uex && \
     apt-get update && apt-get install nodejs -y;
 
 # Install the python packages
-RUN pip install mdformat-black mdformat-config pipreqs pgcli awscli ipython ipykernel neovim-remote pynvim openai ddgr googlesearch-python requests feedparser aiohttp bibli_ls pillow mutagen codespell && \
+RUN pip install mdformat-black mdformat-config pipreqs pgcli awscli ipython ipykernel neovim-remote pynvim openai ddgr googlesearch-python requests feedparser aiohttp bibli_ls pillow mutagen codespell prisma  && \
     pip install --no-cache-dir --force-reinstall git+https://github.com/sciunto-org/python-bibtexparser@main
 
 # Install npm packages
-RUN npm install --save-dev --global prettier tree-sitter-cli bibtex-tidy
+RUN npm install --save-dev --global prettier tree-sitter-cli bibtex-tidy prisma
 
 # Install ACT extension
 RUN mkdir -p /root/.local/share/gh/extensions/gh-act && \
