@@ -9,7 +9,6 @@ local configs = require("lspconfig.configs")
 
 
 lspconfig.vimls.setup {}
-lspconfig.prismals.setup {}
 lspconfig.dockerls.setup {}
 lspconfig.docker_compose_language_service.setup {}
 lspconfig.jsonls.setup {}
