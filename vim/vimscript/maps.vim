@@ -25,7 +25,7 @@ vnoremap sc :AIC
 nnoremap <silent> sr :OverseerRun<CR>
 nnoremap <silent> sR :lua LeftBarToOver()<CR>
 nnoremap <silent> sg :LazyGit<CR>
-nnoremap <silent> sv :LazyGitCurrentFile<CR>
+nnoremap <silent> sv :LazyGitFilterCurrentFile<CR>
 nnoremap sG :Octo 
 nnoremap <silent> sm :lua require('browse').open_bookmarks()<CR>
 nnoremap <silent> sM :lua browse_bookmarks()<CR>
