@@ -45,7 +45,7 @@ nnoremap  <silent> fa :Gitsigns blame_line<CR>
 " Big Jumps
 nnoremap gb <c-o>
 nnoremap gr <cmd>Telescope lsp_references<cr>
-nnoremap <silent> gd :lua vim.lsp.buf.definitnon()<cr>
+nnoremap <silent> gd :lua vim.lsp.buf.definition()<cr>
 nnoremap <silent> gn :lua vim.diagnostic.goto_next()<CR>
 nnoremap <silent> gp :lua vim.diagnostic.goto_prev()<CR>
 nmap <silent> ghn :Gitsigns nav_hunk next<CR>
