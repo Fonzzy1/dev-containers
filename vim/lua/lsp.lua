@@ -9,6 +9,7 @@ local configs = require("lspconfig.configs")
 
 
 lspconfig.vimls.setup {}
+lspconfig.bibli_ls.setup({})
 lspconfig.dockerls.setup {}
 lspconfig.docker_compose_language_service.setup {}
 lspconfig.jsonls.setup {}
@@ -23,7 +24,7 @@ lspconfig.ltex.setup {
     cmd = { "ltex-ls", "--log-file=/root/ltex_log" },
     settings = {
         ltex = {
-            enabled = {  "gitcommit", "markdown", "org",
+            enabled = { "gitcommit", "markdown", "org",
                 "tex", "restructuredtext", "rsweave", "latex",
                 "quarto", "rmd", "context", "html",
                 "xhtml", "mail", "plaintext" },
@@ -68,10 +69,20 @@ local bibtex_formatter = {
         from_stderr = true,
     }),
 }
+local prisma_formatter = {
+    method = null_ls.methods.FORMATTING,
+    filetypes = { "prisma" },
+    generator = require("null-ls.helpers").formatter_factory({
+        command = "npx",
+        args = { "prisma", "format", "--stdin" },
+        to_stdin = true,
+    }),
+}
 
 null_ls.setup({
     sources = {
         bibtex_formatter,
+        prisma_formatter,
 
         -- Markdown, Quarto, YAML, EJS, HTML, JavaScript
         null_ls.builtins.formatting.prettier.with({
@@ -91,25 +102,9 @@ null_ls.setup({
             to_stdin = false,
         }),
         null_ls.builtins.formatting.shfmt,
-        null_ls.builtins.formatting.prismaFmt
-    },
-    -- Optional: format on save
-    on_attach = function(client, bufnr)
-        -- Always create the group first
-        local augroup = vim.api.nvim_create_augroup("LspFormatting", { clear = true })
-
-        -- Then clear any existing autocommands for that group & buffer
-        vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-
-        vim.api.nvim_create_autocmd("BufWritePre", {
-            group = augroup,
-            buffer = bufnr,
-            callback = function()
-                vim.lsp.buf.format({ bufnr = bufnr, timeout_ms =10000 })
-            end,
-        })
-    end
-})
+    }
+}
+)
 
 vim.diagnostic.config({
     virtual_text = false,
@@ -136,4 +131,17 @@ if not configs.bibli_ls then
     }
 end
 
-lspconfig.bibli_ls.setup({})
+
+-- Always create the group first
+local augroup = vim.api.nvim_create_augroup("LspFormatting", { clear = true })
+
+-- Then clear any existing autocommands for that group & buffer
+vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+    group = augroup,
+    buffer = bufnr,
+    callback = function()
+        vim.lsp.buf.format({ async = true })
+    end,
+})
