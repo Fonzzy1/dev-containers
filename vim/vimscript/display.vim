@@ -1,12 +1,3 @@
-" Long fix for having two different states for inside and outside working tree
-silent! !git rev-parse --is-inside-work-tree
-if v:shell_error == 0
-    let g:gitgutter_async=1
-    let g:gitgutter_max_signs = 500
-    let g:gitgutter_highlight_lines = 1
-endif
-
-
 let g:airline_theme = 'catppuccin'
 let g:airline#extensions#wordcount#enabled=0
 let g:airline#extensions#wordcount#formatter#default#fmt_short = '%sW'
@@ -64,10 +55,6 @@ let g:terminal_ansi_colors = [
     \ "#94E2D5",
     \ "#A6ADC8"
 \ ]
-" Color for git GitGutter
-highlight GitGutterAdd    guifg=#89B4FA guibg=NONE
-highlight GitGutterChange guifg=#F9E2AF guibg=NONE
-highlight GitGutterDelete guifg=#F38BA8 guibg=NONE
 
 augroup CursorLine
     au!
