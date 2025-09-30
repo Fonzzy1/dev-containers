@@ -34,9 +34,20 @@ def run_vim(
     additional_mounts=[
         (env_location, "/root/.env"),
         (mount_location, "/root/mount"),
-        ("/home/fonzzy/Documents/Data", "/Data"),
     ],
 ):
+
+    # Check if container is running
+    result = subprocess.run(
+        ["docker", "ps", "-q", "-f", f"name={mount_dir_name}"],
+        capture_output=True,
+        text=True,
+    )
+    if result.stdout.strip():
+        # Container is running, exec into it
+        subprocess.run(["docker", "exec", "-it", mount_dir_name, "bash"])
+        return
+
     current_dir = subprocess.run(
         ["pwd"], capture_output=True, text=True
     ).stdout.strip()
@@ -84,6 +95,10 @@ def run_vim(
             f"SYS_DIR={mount_dir}",
             "-e",
             f"CONT_DIR=/{mount_dir_name}",
+            "--hostname",
+            mount_dir_name,
+            "--name",
+            mount_dir_name,
             "--net=host",
             "--rm",
             "-w",
