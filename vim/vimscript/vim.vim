@@ -47,4 +47,5 @@ nnoremap ; :
 vnoremap > >gv
 vnoremap < <gv
 
-
+hi link LazyGitFloat TelescopeNormal
+hi link LazyGitBorder TelescopeBorder
