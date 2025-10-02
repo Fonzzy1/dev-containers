@@ -9,8 +9,6 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 local markview = require("markview")
 local presets = require("markview.presets")
 
-
-
 --
 markview.setup({
     preview = {
@@ -116,10 +114,10 @@ require("ibl").setup({
 })
 
 require("windows").setup({
-    autowidth = {       --		       |windows.autowidth|
+    autowidth = {      --		       |windows.autowidth|
         enable = true,
-        winwidth = 12,  --		        |windows.winwidth|
-        filetype = {    --	      |windows.autowidth.filetype|
+        winwidth = 12, --		        |windows.winwidth|
+        filetype = {   --	      |windows.autowidth.filetype|
             help = 2,
         },
     },
