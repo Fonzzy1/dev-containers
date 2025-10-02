@@ -35,9 +35,10 @@ nnoremap <silent> sM :lua browse_bookmarks()<CR>
 nnoremap fb <cmd>Telescope bibtex<cr>
 nnoremap ff <cmd>Telescope find_files<cr>
 nnoremap fg <cmd>Telescope live_grep<cr>
-nnoremap <silent> fn :call LeftBarToNerd()<CR>
-nnoremap <silent> fN :call LeftBarToNerdFind() <CR>
-nnoremap <silent> fs :lua LeftBarToOutline()<CR>
+nnoremap <silent> fn :RnvimrToggle<CR>
+nnoremap <silent> fs <cmd>Telescope lsp_document_symbols<cr>
+nnoremap <silent> fd <cmd>Telescope lsp_diagnostics<cr>
+nnoremap <silent> fc <cmd>Telescope git_status<cr>
 nnoremap  <silent> fh :Gitsigns preview_hunk<CR>
 nnoremap  <silent> fa :Gitsigns blame_line<CR>
 
