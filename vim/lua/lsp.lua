@@ -7,6 +7,21 @@ require("mason").setup()
 local lspconfig = require("lspconfig")
 local configs = require("lspconfig.configs")
 
+configs.bibli_ls = {
+    default_config = {
+        cmd = { "bibli_ls" },
+        filetypes = { "markdown", "quarto" },
+        root_dir = lspconfig.util.root_pattern(".bibli.toml"),
+        -- Optional: visit the URL of the citation with LSP DocumentImplementation
+        on_attach = function(client, bufnr)
+            vim.keymap.set({ "n" }, "<cr>", function()
+                vim.lsp.buf.implementation()
+            end)
+        end,
+    },
+}
+
+lspconfig.bibli_ls.setup({})
 
 lspconfig.vimls.setup {}
 lspconfig.bibli_ls.setup({})

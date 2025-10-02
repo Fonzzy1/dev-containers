@@ -1,1 +1,5 @@
 disableStartupPopups: true
+os:
+  edit: 'nvr  --remote-wait -cc split +"set bufhidden=delete" {{filename}}'
+  editAtLine: 'nvr  --remote-wait -cc split +"set bufhidden=delete" {{filename}}'
+  open: 'nvr  --remote-wait -cc split +"set bufhidden=delete" {{filename}}'
