@@ -86,7 +86,7 @@ function! SetupAIChat()
   setlocal tw=80
 
   " Enable Markview
-  :Markview Enable
+  :Markview attach
 
   " Define syntax highlighting for roles
   syntax match aichatRole "<<< thinking"
