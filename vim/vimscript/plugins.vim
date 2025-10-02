@@ -62,8 +62,7 @@ Plug 'axkirillov/easypick.nvim'
 
 "Code Running
 Plug 'Vigemus/iron.nvim' 
-Plug 'jedrzejboczar/toggletasks.nvim',
-Plug 'akinsho/toggleterm.nvim'
+Plug 'stevearc/overseer.nvim'
 
 call plug#end()
 

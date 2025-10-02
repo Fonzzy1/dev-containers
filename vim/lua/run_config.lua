@@ -39,13 +39,18 @@ iron.setup {
         -- bufnr is the buffer id of the REPL and ft is the filetype of the
         -- language being used for the REPL.
         repl_filetype = function(bufnr, ft)
-            return ft
+            return "iron"
             -- or return a string name such as the following
             -- return "iron"
         end,
         -- How the repl window will be displayed
         -- See below for more information
-        repl_open_cmd = view.split("40%")
+        repl_open_cmd = view.split("40%", {
+            winfixwidth = false,
+            winfixheight = false,
+            -- any window-local configuration can be used here
+            number = true
+        })
 
         -- repl_open_cmd can also be an array-style table so that multiple
         -- repl_open_commands can be given.
@@ -216,10 +221,3 @@ require('overseer').setup({
 vim.api.nvim_create_autocmd("VimEnter", {
     callback = load_project_overseer_templates,
 })
-
--- Define the function in Lua
-function LeftBarToOver()
-    vim.cmd("call LeftBarToggle()") -- or use the appropriate Lua function if available
-    vim.cmd("OverseerOpen")         -- or the equivalent Lua function
-    vim.cmd('call LeftBarPost()')
-end

@@ -123,7 +123,7 @@ require("windows").setup({
         },
     },
     ignore = { --			  |windows.ignore|
-        filetype = { "NvimTree", "aerial", "dashboard", 'lazygit' }
+        filetype = { "dashboard", 'lazygit' }
     },
     animation = {
         enable = false,

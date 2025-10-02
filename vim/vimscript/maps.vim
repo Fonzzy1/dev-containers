@@ -14,6 +14,7 @@
 ""
 vnoremap <silent> ec :Commentary<cr>
 vnoremap <silent> es :AIE fix spelling and grammar using Australian English, assume markdown formatting is being used. Don't replace -- with dashes<cr>
+nnoremap <silent> es <cmd>Telescope spell_suggest<cr>
 vnoremap <silent> ew gw
 vnoremap ee :AIE 
 
@@ -23,7 +24,7 @@ nnoremap <silent> sb :new<CR>
 nnoremap <silent> sc :AIC<CR>
 vnoremap sc :AIC 
 nnoremap <silent> sr :OverseerRun<CR>
-nnoremap <silent> sR :lua LeftBarToOver()<CR>
+nnoremap <silent> sR :lua load_project_overseer_templates()<CR>
 nnoremap <silent> sg :LazyGit<CR>
 nnoremap <silent> sv :LazyGitFilterCurrentFile<CR>
 nnoremap sG :Octo 

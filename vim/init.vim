@@ -4,7 +4,6 @@ set nocompatible
 source  ~/.config/nvim/vimscript/vim.vim
 source  ~/.config/nvim/vimscript/plugins.vim
 source  ~/.config/nvim/vimscript/AI.vim
-source  ~/.config/nvim/vimscript/gh.vim
 source  ~/.config/nvim/vimscript/markdown.vim
 source  ~/.config/nvim/vimscript/nerdtree.vim
 source  ~/.config/nvim/vimscript/R.vim
@@ -22,7 +21,7 @@ lua require("tree_config")
 lua require("tags")
 lua require("custom_dashboard")
 lua require("telescope_config")
-#lua require("run_config")
+lua require("run_config")
 
 source  ~/.config/nvim/vimscript/maps.vim
 
