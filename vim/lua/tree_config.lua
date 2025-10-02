@@ -80,27 +80,7 @@ require 'nvim-treesitter.configs'.setup {
     playground = { enable = false }, -- Fixed the syntax here
 
 }
--- additional hunk object
 
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = "aichat",
-    callback = function()
-        local query = require("vim.treesitter.query")
-        local parser_config = vim.treesitter.language.get_lang("markdown")
-
-        -- Get the existing highlight query for markdown
-        local existing = query.get_query("markdown", "highlights")
-        local existing_str = tostring(existing)
-
-        -- Add your custom rule to highlight lines starting with ">>>"
-        local custom = [[
-      ((paragraph) @comment (#match? @comment "^>>>"))
-    ]]
-
-        -- Merge and set the new combined query
-        query.set("markdown", "highlights", existing_str .. "\n" .. custom)
-    end,
-})
 
 
 require('mini.ai').setup()
