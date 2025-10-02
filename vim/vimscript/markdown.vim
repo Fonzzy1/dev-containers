@@ -36,60 +36,6 @@ let g:bullets_enabled_file_types = [
 let g:bullets_outline_levels = ['ROM', 'ABC', 'num', 'abc', 'rom', 'std-',]
 
 
-"" Quato Preview Functions
-function! QuartoPreview()
-    " Save the current file
-    write
-
-    " Get the full path of the current file
-    let l:current_file = expand('%:p')
-
-    " Construct the command to be executed
-    let l:cmd = 'quarto preview ' . shellescape(l:current_file)
-
-    " Execute the command using OverseerRunCmd
-    execute 'OverseerRunCmd ' . l:cmd
-endfunction
-
-function! QuartoRender()
-    " Save the current file
-    write
-
-    " Get the full path of the current file
-    let l:current_file = expand('%:p')
-
-    " Construct the command to be executed
-    let l:cmd = 'quarto render ' . shellescape(l:current_file)
-
-    " Execute the command using OverseerRunCmd
-    execute 'OverseerRunCmd ' . l:cmd
-endfunction
-
-function! QuartoPublish()
-    " Save the current file
-    write
-
-    " Get the full path of the current file
-    let l:current_file = expand('%:p')
-
-    " Get the output file name with .pdf extension
-    let l:output_file = expand('%:t:r') . ".pdf"
-
-    " Construct the command to be executed
-    let l:cmd = 'cd /wiki/Public && ' .
-                \ 'quarto render ' . shellescape(l:current_file) . ' --to pdf -o ' . shellescape(l:output_file) . ' && ' .
-                \ 'git add . && ' .
-                \ 'git commit -m ' . shellescape('Add ' . expand('%:t')) . ' && ' .
-                \ 'git push'
-
-    " Execute the command using OverseerRunCmd
-    execute 'OverseerRunCmd ' . string(l:cmd)
-endfunction
-
-command! Preview :call QuartoPreview()
-command! Publish :call QuartoPublish()
-command! Render :call QuartoRender()
-
 
 lua << EOF
 function _G.GetBibTex()

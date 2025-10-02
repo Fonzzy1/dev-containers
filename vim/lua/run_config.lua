@@ -97,7 +97,7 @@ end
 -- iron also has a list of commands, see :h iron-commands for all available commands
 require('overseer').setup({
     task_list = {
-        direction = 'left'
+        direction = 'bottom'
         ,
         bindings = {
             ["?"] = "ShowHelp",
@@ -217,7 +217,33 @@ require('overseer').setup({
 
 })
 
+require("overseer").register_template({
+    name = "Quarto Preview",
+    builder = function()
+        local current_file = vim.fn.expand('%:p')
+        return {
+            cmd = { "quarto", "preview", current_file },
+            components = { "default" },
+        }
+    end,
+    condition = {
+        filetype = { "quarto" },
+    },
+})
 
+require("overseer").register_template({
+    name = "Quarto Render",
+    builder = function()
+        local current_file = vim.fn.expand('%:p')
+        return {
+            cmd = { "quarto", "render", current_file },
+            components = { "default" },
+        }
+    end,
+    condition = {
+        filetype = { "quarto" },
+    },
+})
 vim.api.nvim_create_autocmd("VimEnter", {
     callback = load_project_overseer_templates,
 })
