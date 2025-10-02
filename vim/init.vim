@@ -22,7 +22,7 @@ lua require("tree_config")
 lua require("tags")
 lua require("custom_dashboard")
 lua require("telescope_config")
-lua require("run_config")
+#lua require("run_config")
 
 source  ~/.config/nvim/vimscript/maps.vim
 

@@ -3,9 +3,9 @@ call plug#begin()
 Plug 'madox2/vim-ai'
 
 " Nav
-Plug 'nvim-tree/nvim-tree.lua'
 Plug 'stevearc/aerial.nvim'
 Plug 'nvim-lua/plenary.nvim'
+Plug 'kevinhwang91/rnvimr'
 
 " Visual
 Plug 'nvim-tree/nvim-web-devicons'
@@ -46,7 +46,6 @@ Plug 'hrsh7th/nvim-cmp',
 Plug 'neovim/nvim-lspconfig',
 Plug 'hrsh7th/cmp-path'
 Plug 'williamboman/mason.nvim'
-" Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'nvimtools/none-ls.nvim'
 
 " Motions
@@ -63,8 +62,8 @@ Plug 'axkirillov/easypick.nvim'
 
 "Code Running
 Plug 'Vigemus/iron.nvim' 
-Plug 'stevearc/overseer.nvim'
-
+Plug 'jedrzejboczar/toggletasks.nvim',
+Plug 'akinsho/toggleterm.nvim'
 
 call plug#end()
 

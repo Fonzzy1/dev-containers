@@ -25,6 +25,16 @@ end
 
 require 'telescope'.setup {
     pickers = {
+        git_status = {
+            mappings = {
+                i = {
+                    ["<CR>"] = actions.select_vertical,
+                },
+                n = {
+                    ["<CR>"] = actions.select_vertical,
+                },
+            },
+        },
         find_files = {
             mappings = {
                 i = {
@@ -150,6 +160,8 @@ local bookmarks = {
         ["Wikipedia"] = "https://en.wikipedia.org/wiki/Special:Search?search=%s",
         ["Marginalia"] = "https://search.marginalia.nu/search?query=%s",
         ["Reddit"] = "https://www.reddit.com/search/?q=%s",
+        ["Kagi"] = "https://kagi.com/search?q=%s"
+
     },
 
     -- News

@@ -11,6 +11,7 @@ RUN echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula sele
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     software-properties-common \
+    ranger \
     fzf \
     pkg-config \
     texlive \

@@ -108,7 +108,8 @@ require("ibl").setup({
             'TelescopePrompt',
             'TelescopeResults',
             '',
-            'terminal'
+            'terminal',
+            'rnvimr'
         }
     },
 })
@@ -151,22 +152,6 @@ require("noice").setup({
     },
 })
 require('gitsigns').setup {
-    signs                        = {
-        add          = { text = '┃' },
-        change       = { text = '┃' },
-        delete       = { text = '_' },
-        topdelete    = { text = '‾' },
-        changedelete = { text = '~' },
-        untracked    = { text = '┆' },
-    },
-    signs_staged                 = {
-        add          = { text = '┃' },
-        change       = { text = '┃' },
-        delete       = { text = '_' },
-        topdelete    = { text = '‾' },
-        changedelete = { text = '~' },
-        untracked    = { text = '┆' },
-    },
     signs_staged_enable          = true,
     signcolumn                   = false, -- Toggle with `:Gitsigns toggle_signs`
     numhl                        = true,  -- Toggle with `:Gitsigns toggle_numhl`

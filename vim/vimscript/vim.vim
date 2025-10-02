@@ -40,6 +40,7 @@ augroup ColorLine
   autocmd FileType lazygit setlocal cc=0
   autocmd FileType Telescope setlocal cc=0
   autocmd FileType TelescopePrompt setlocal cc=0
+  autocmd FileType rnvimr setlocal cc=0
 augroup END
 "" Quick nav maps
 nnoremap ; :
