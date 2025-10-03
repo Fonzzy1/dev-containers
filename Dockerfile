@@ -72,7 +72,7 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | d
 # git
 RUN git config --global user.name "Fonzzy1" && \
     git config --global user.email "alfiechadwick@hotmail.com" && \
-    git config --global core.editor "nvr --remote-wait -cc split +\"set bufhidden=delete\"" && \
+    git config --global core.editor "nvim" && \
     git config --global --add safe.directory /src
 
 RUN LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*') && \
@@ -158,10 +158,8 @@ COPY run_scripts /scripts
 COPY run_scripts/open.py /usr/bin/xdg-open   
 
 # Set the editor
-ENV EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
-ENV VISUAL='nvr --remote-wait -cc split +"set bufhidden=delete"'
-ENV GH_EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
-ENV GIT_EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
+ENV EDITOR='nvim'
+ENV VISUAL='nvim'
+ENV GH_EDITOR='nvim'
+ENV GIT_EDITOR='nvim'
 
-
-CMD nvim --listen /tmp/nvimsocket
