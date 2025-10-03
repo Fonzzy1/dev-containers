@@ -14,7 +14,7 @@ let g:rnvimr_draw_border = 1
 let g:rnvimr_hide_gitignore = 0
 
 " Change the border's color
-let g:rnvimr_border_attr = {'fg': 14, 'bg': -1}
+let g:rnvimr_border_attr = {'fg': 4, 'bg': -1}
 
 " Make Neovim wipe the buffers corresponding to the files deleted by Ranger
 let g:rnvimr_enable_bw = 1
@@ -26,8 +26,7 @@ let g:rnvimr_shadow_winblend = 100
 let g:rnvimr_ranger_cmd = ['ranger', '--cmd=set draw_borders both']
 
 " Link CursorLine into RnvimrNormal highlight in the Floating window
-highlight link RnvimrNormal CursorLine
-
+highlight link RnvimrCurses TelescopeNormal
 
 " Resize floating window by all preset layouts
 tnoremap <silent> <M-i> <C-\><C-n>:RnvimrResize<CR>
