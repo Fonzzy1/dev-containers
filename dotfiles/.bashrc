@@ -35,9 +35,15 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
-export VISUAL='nvr --remote-wait -cc split +"set bufhidden=delete"'
-export GH_EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
+if [ -n "$NVIM_LISTEN_ADDRESS" ]; then
+    export EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
+    export VISUAL='nvr --remote-wait -cc split +"set bufhidden=delete"'
+    export GH_EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
+else
+    export VISUAL="nvim"
+    export EDITOR="nvim"
+    export GH_EDITOR='nvim'
+fi
 
 source $HOME/.cargo/env 
 

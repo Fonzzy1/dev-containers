@@ -114,7 +114,7 @@ end
   echo "font_family JetBrainsMonoNL Nerd Font Mono" >> ~/.config/kitty/kitty.conf
   echo "enable_audio_bell no" >> ~/.config/kitty/kitty.conf
   echo "hide_window_decorations yes" >> ~/.config/kitty/kitty.conf
-  echo "background_opacity 0.9" >> ~/.config/kitty/kitty.conf
+  echo "background_opacity f" >> ~/.config/kitty/kitty.conf
 
 
   # Zathura Theme
