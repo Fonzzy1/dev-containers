@@ -35,16 +35,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
-if [ -n "$NVIM_LISTEN_ADDRESS" ]; then
-    export EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
-    export VISUAL='nvr --remote-wait -cc split +"set bufhidden=delete"'
-    export GH_EDITOR='nvr --remote-wait -cc split +"set bufhidden=delete"'
-else
-    export VISUAL="nvim"
-    export EDITOR="nvim"
-    export GH_EDITOR='nvim'
-fi
-
+alias vim='nvim'
 source $HOME/.cargo/env 
 
 # Function to parse git branch
