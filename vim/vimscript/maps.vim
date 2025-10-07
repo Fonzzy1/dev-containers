@@ -25,6 +25,7 @@ nnoremap <silent> sc :AIC<CR>
 vnoremap sc :AIC 
 nnoremap <silent> sr :OverseerRun<CR>
 nnoremap <silent> sR :lua load_project_overseer_templates()<CR>
+nnoremap <silent> so :OverseerToggle<CR>
 nnoremap <silent> sg :LazyGit<CR>
 nnoremap <silent> sv :LazyGitFilterCurrentFile<CR>
 nnoremap sG :Octo 
