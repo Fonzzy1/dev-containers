@@ -7,7 +7,7 @@ if [ "$1" = "--init" ]; then
   ## Load in the apps that I use for viewing media
   sudo apt-get -y update
   sudo apt-get -y upgrade
-  sudo apt-get -y install jq zathura feh vlc ranger gnome-tweaks xclip python3-pip kitty devilspie2
+  sudo apt-get -y install jq zathura feh vlc ranger gnome-tweaks xclip python3-pip kitty
 
   entry="LABEL=ALFIE /mnt/ALFIE auto nosuid,nodev,nofail,x-gvfs-show 0 0"
 
@@ -76,29 +76,6 @@ if [ "$1" = "--init" ]; then
 
     cat ~/.bashrc > ~/.bash_profile
 
-    echo '
-if (get_window_name() ~= nil and get_window_xid() ~= 0) then
-    local ok, is_max = pcall(get_window_is_maximized)
-    if ok and is_max then
-        pcall(set_window_below, true)
-    else
-        pcall(set_window_below, false)
-    end
-end
-
-    ' > ~/.config/devilspie2/window_focus.lua
-
-    echo 'scripts_window_open = {
-        "small_windows.lua",
-    }
-    scripts_window_focus = {
-        "window_focus.lua",
-    }' > ~/.config/devilspie2/devilspie2.lua
-
-    echo 'if (get_window_type() == "NORMAL" and get_window_name() ~= nil) then
-    set_window_size(1080, 700)
-end
-' > ~/.config/devilspie2/small_windows.lua
 
   #NERDFONT
   wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip \
@@ -114,7 +91,7 @@ end
   echo "font_family JetBrainsMonoNL Nerd Font Mono" >> ~/.config/kitty/kitty.conf
   echo "enable_audio_bell no" >> ~/.config/kitty/kitty.conf
   echo "hide_window_decorations yes" >> ~/.config/kitty/kitty.conf
-  echo "background_opacity f" >> ~/.config/kitty/kitty.conf
+  echo "background_opacity 1" >> ~/.config/kitty/kitty.conf
 
 
   # Zathura Theme
@@ -208,8 +185,6 @@ else
     echo "Docker is already installed."
 fi
 
-#Start devilspie
-devilspie2&
 
 # Delete and make the pipe
 rm -rf ~/pipe
