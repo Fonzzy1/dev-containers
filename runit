@@ -211,10 +211,6 @@ def run_setup(args):
         os.system(f"bash {script_location}/setup")
 
 
-def run_build(args):
-    os.system(f"bash -c 'cd  {script_location}; bash build'")
-
-
 def run_config(args):
     # Get the name of the current directory
     dir_name = script_location.split("/")[-1]
@@ -280,11 +276,6 @@ if __name__ == "__main__":
         "--init", help="Run the init flag", action="store_true"
     )
     setup_parser.set_defaults(func=run_setup)
-
-    build_parser = subparsers.add_parser(
-        "build", help="Build and push the vim container"
-    )
-    build_parser.set_defaults(func=run_build)
 
     config_parser = subparsers.add_parser(
         "config", help="Edit the runit files inplace"
