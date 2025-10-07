@@ -22,6 +22,7 @@ lua require("tags")
 lua require("custom_dashboard")
 lua require("telescope_config")
 lua require("run_config")
+lua require("overseer_templates")
 
 source  ~/.config/nvim/vimscript/maps.vim
 
