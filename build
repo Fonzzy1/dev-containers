@@ -1,8 +1,9 @@
 username="fonzzy1"
 
-# Build Docker Images
-docker build . -t "${username}/vim"
+docker buildx create --use
 
-if [ "$(git rev-parse --abbrev-ref HEAD)" = "master" ] && [ -z "$(git status --porcelain)" ]; then
+docker buildx build --platform linux/amd64,linux/arm64 . -t "${username}/vim" --push
+
+if [ "$(git rev-parse --abbrev-ref HEAD)" = "master" ] && [ "$(git status --porcelain)" = "" ]; then
   docker push "${username}/vim"
 fi

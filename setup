@@ -4,126 +4,179 @@ set -e
 if [ "$1" = "--init" ]; then
 
 
-  ## Load in the apps that I use for viewing media
-  sudo apt-get -y update
-  sudo apt-get -y upgrade
-  sudo apt-get -y install jq zathura feh vlc ranger gnome-tweaks xclip python3-pip kitty
+## Load in the apps that I use for viewing media
+sudo apt-get -y update
+sudo apt-get -y upgrade
+sudo apt-get -y install \
+    jq \
+    zathura \
+    feh \
+    mpv \
+    ranger \
+    gnome-tweaks \
+    xclip \
+    python3-pip \
+    pipx \
+    firefox \
+    kitty \
+    gdm3 \
+    gnome-shell \
+    gnome-session \
+    gnome-settings-daemon \
+    gnome-control-center \
+    mutter \
+    gvfs \
+    gvfs-backends \
+    git \
+    node-typescript \
+    make \
+    wget \
+    curl \
+    unzip \
+    just \
+    build-essential \
+    libxkbcommon-dev \
+    libxkbcommon-x11-0 \
+    gnome-shell-extensions
 
-  entry="LABEL=ALFIE /mnt/ALFIE auto nosuid,nodev,nofail,x-gvfs-show 0 0"
+## Docker install
+if ! command -v docker &> /dev/null; then
+    echo "Docker is not installed. Proceeding with installation."
+    curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
+    curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+    sudo apt-get update
+    sudo curl -fsSL https://get.docker.com -o install-docker.sh
+    sudo sh install-docker.sh
+    sudo rm install-docker.sh
+    sudo usermod -aG docker "$USER"
+    sudo apt-get install -y nvidia-container-toolkit
+    echo "Docker installation complete!"
+else
+    echo "Docker is already installed."
+fi
 
-  # Check if the entry already exists
-  if grep -q '^LABEL=ALFIE' /etc/fstab; then
-    # The entry exists, so replace the line
-    sudo sed -i "s|^LABEL=ALFIE.*|$entry|" /etc/fstab
-  else
-      # The entry does not exist, append it to the file
-  echo "$entry" | sudo tee -a /etc/fstab > /dev/null
-  fi
+if ! command -v rustc >/dev/null 2>&1; then
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+fi
 
-  # Install the gnome extensions
-  pip3 install --upgrade git+https://github.com/essembeh/gnome-extensions-cli
-  /home/fonzzy/.local/bin/gext install 545
-  /home/fonzzy/.local/bin/gext install 19
-  /home/fonzzy/.local/bin/gext install 1732
+sudo systemctl enable gdm3 
+sudo systemctl set-default graphical.target
 
-  gnome-extensions-app &&
+# Shell extntions
+mkdir -p ~/.shell-extensions 
+[ -d ~/.shell-extensions/pop-shell ] && git -C ~/.shell-extensions/pop-shell pull || git clone https://github.com/pop-os/shell.git ~/.shell-extensions/pop-shell 
+[ -d ~/.shell-extensions/launcher ] && git -C ~/.shell-extensions/launcher pull || git clone https://github.com/pop-os/launcher.git ~/.shell-extensions/launcher
 
-  # Load in catcuppin gnome theme
-  mkdir -p ~/.themes
-  wget https://github.com/catppuccin/gtk/releases/download/v0.7.1/Catppuccin-Macchiato-Standard-Lavender-Dark.zip -P ~
-  unzip ~/Catppuccin-Macchiato-Standard-Lavender-Dark.zip -d ~/.themes 
-  rm ~/Catppuccin-Macchiato-Standard-Lavender-Dark.zip
+# pop launcher
+cd ~/.shell-extensions/launcher
+just build-release
+just install
 
-  gsettings set org.gnome.desktop.interface gtk-theme "Catppuccin-Macchiato-Standard-Lavender-Dark"
-  gsettings set org.gnome.shell.extensions.user-theme name  "Catppuccin-Macchiato-Standard-Lavender-Dark" || true
+# pop shell
+cd ~/.shell-extensions/pop-shell 
+make local-install
 
-  # Turn off stacking and set color
-  dconf write /org/gnome/shell/extensions/pop-shell/stacking-with-mouse false
-  gsettings set org.gnome.desktop.interface enable-animations false
+# Install the gnome extensions from online
+pipx install git+https://github.com/essembeh/gnome-extensions-cli 
+~/.local/bin/gext install 545 
+~/.local/bin/gext install 19
+~/.local/bin/gext install 1732
+~/.local/bin/gext install 5177
 
-   echo '#!/bin/bash
-     HISTCONTROL=ignoreboth
-     shopt -s histappend
-     HISTSIZE=1000
-     HISTFILESIZE=2000
+# Load in catcuppin gnome theme
+mkdir -p ~/.themes 
+wget https://github.com/catppuccin/gtk/releases/download/v0.7.1/Catppuccin-Macchiato-Standard-Lavender-Dark.zip -P ~ 
+unzip ~/Catppuccin-Macchiato-Standard-Lavender-Dark.zip -d ~/.themes
+rm ~/Catppuccin-Macchiato-Standard-Lavender-Dark.zip
 
-     shopt -s checkwinsize
-
-     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-     alias ls="ls --color=auto"
-     alias grep="grep --color=auto"
-     alias fgrep="fgrep --color=auto"
-     alias egrep="egrep --color=auto"
-
-     # some more ls aliases
-     alias ll="ls -alF"
-     alias la="ls -A"
-     alias l="ls -CF"
-
-     # enable programmable completion features (you don'"'"'t need to enable
-     # this, if it'"'"'s already enabled in /etc/bash.bashrc and /etc/profile
-     # sources /etc/bash.bashrc).
-     if ! shopt -oq posix; then
-       if [ -f /usr/share/bash-completion/bash_completion ]; then
-         . /usr/share/bash-completion/bash_completion
-       elif [ -f /etc/bash_completion ]; then
-         . /etc/bash_completion
-       fi
-     fi
-
-     PS1="\[\e[0;32m\]\A \[\e[1;34m\]\u\[\e[0;37m\]@\[\e[0;34m\]\h \[\e[0;35m\]\w \[\e[0m\]|> "
-     ' > ~/.bashrc
-
-    cat ~/.bashrc > ~/.bash_profile
+gsettings set org.gnome.desktop.interface gtk-theme "Catppuccin-Macchiato-Standard-Lavender-Dark" 
+gsettings set org.gnome.shell.extensions.user-theme name "Catppuccin-Macchiato-Standard-Lavender-Dark" || true
+gsettings set org.gnome.desktop.interface enable-animations false
 
 
-  #NERDFONT
-  wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip \
-  && cd ~/.local/share/fonts \
-  && unzip JetBrainsMono.zip \
-  && rm JetBrainsMono.zip \
-  && fc-cache -fv
+echo '#!/bin/bash
+ HISTCONTROL=ignoreboth
+ shopt -s histappend
+ HISTSIZE=1000
+ HISTFILESIZE=2000
 
-  # Kitty theme
-  sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
-  mkdir -p "$HOME"/.config/kitty
-  curl https://raw.githubusercontent.com/catppuccin/kitty/refs/heads/main/themes/macchiato.conf -o ~/.config/kitty/kitty.conf
-  echo "font_family JetBrainsMonoNL Nerd Font Mono" >> ~/.config/kitty/kitty.conf
-  echo "enable_audio_bell no" >> ~/.config/kitty/kitty.conf
-  echo "hide_window_decorations yes" >> ~/.config/kitty/kitty.conf
-  echo "background_opacity 1" >> ~/.config/kitty/kitty.conf
+ shopt -s checkwinsize
+
+ test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+ alias ls="ls --color=auto"
+ alias grep="grep --color=auto"
+ alias fgrep="fgrep --color=auto"
+ alias egrep="egrep --color=auto"
+
+ # some more ls aliases
+ alias ll="ls -alF"
+ alias la="ls -A"
+ alias l="ls -CF"
+
+ # enable programmable completion features (you don'"'"'t need to enable
+ # this, if it'"'"'s already enabled in /etc/bash.bashrc and /etc/profile
+ # sources /etc/bash.bashrc).
+ if ! shopt -oq posix; then
+   if [ -f /usr/share/bash-completion/bash_completion ]; then
+     . /usr/share/bash-completion/bash_completion
+   elif [ -f /etc/bash_completion ]; then
+     . /etc/bash_completion
+   fi
+ fi
+
+ PS1="\[\e[0;32m\]\A \[\e[1;34m\]\u\[\e[0;37m\]@\[\e[0;34m\]\h \[\e[0;35m\]\w \[\e[0m\]|> "
+ ' > ~/.bashrc
+
+cat ~/.bashrc > ~/.bash_profile
 
 
-  # Zathura Theme
-  mkdir -p "$HOME"/.config/zathura
-  wget -O "$HOME"/.config/zathura/catppuccin-macchiato https://raw.githubusercontent.com/catppuccin/zathura/refs/heads/main/themes/catppuccin-macchiato
-  echo '
-    include catppuccin-macchiato
-    set recolor                     "true"
-    set recolor-reverse-video       "true"
-    set recolor-keephue             "true"
-    set selection-clipboard clipboard
-  ' > "$HOME"/.config/zathura/zathurarc
-  # Make zathura default for all pdf in xmim
-  xdg-mime default org.pwmt.zathura-pdf-poppler.desktop application/pdf
-  xdg-mime default org.pwmt.zathura-pdf-poppler.desktop application/x-pdf
-  
-  # Feh Theme
-  mkdir -p "$HOME"/.config/feh
-  wget -O "$HOME"/.config/feh/keys https://gist.githubusercontent.com/yudi-matsuzake/688a6273339cbb2d7a97a53d0d8ab6c7/raw/74193d26f849353eb578d9da30106170cf9927c9/keys
-  xdg-mime default feh.desktop image/jpeg
-  xdg-mime default feh.desktop image/png
-  xdg-mime default feh.desktop image/gif
-  xdg-mime default feh.desktop image/bmp
-  xdg-mime default feh.desktop image/svg
+#NERDFONT
+wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip \
+&& cd ~/.local/share/fonts \
+&& unzip JetBrainsMono.zip \
+&& rm JetBrainsMono.zip \
+&& fc-cache -fv
 
-  # Ranger
-  xdg-mime default ranger.desktop inode/directory
-  mkdir -p ~/.config/ranger
-  echo '# rifle.conf
-    # By default, use Vim for most files
-    mime ^text,  label editor = vim -- "$@"
-    has xdg-open, flag f = xdg-open "$1"' > "$HOME"/.config/ranger/rifle.conf
+# Kitty theme
+sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
+mkdir -p "$HOME"/.config/kitty
+curl https://raw.githubusercontent.com/catppuccin/kitty/refs/heads/main/themes/macchiato.conf -o ~/.config/kitty/kitty.conf
+echo "font_family JetBrainsMonoNL Nerd Font Mono" >> ~/.config/kitty/kitty.conf
+echo "enable_audio_bell no" >> ~/.config/kitty/kitty.conf
+echo "hide_window_decorations yes" >> ~/.config/kitty/kitty.conf
+echo "background_opacity 1" >> ~/.config/kitty/kitty.conf
+
+
+# Zathura Theme
+mkdir -p "$HOME"/.config/zathura
+wget -O "$HOME"/.config/zathura/catppuccin-macchiato https://raw.githubusercontent.com/catppuccin/zathura/refs/heads/main/themes/catppuccin-macchiato
+echo '
+include catppuccin-macchiato
+set recolor                     "true"
+set recolor-reverse-video       "true"
+set recolor-keephue             "true"
+set selection-clipboard clipboard
+' > "$HOME"/.config/zathura/zathurarc
+# Make zathura default for all pdf in xmim
+xdg-mime default org.pwmt.zathura-pdf-poppler.desktop application/pdf
+xdg-mime default org.pwmt.zathura-pdf-poppler.desktop application/x-pdf
+
+# Feh Theme
+mkdir -p "$HOME"/.config/feh
+wget -O "$HOME"/.config/feh/keys https://gist.githubusercontent.com/yudi-matsuzake/688a6273339cbb2d7a97a53d0d8ab6c7/raw/74193d26f849353eb578d9da30106170cf9927c9/keys
+xdg-mime default feh.desktop image/jpeg
+xdg-mime default feh.desktop image/png
+xdg-mime default feh.desktop image/gif
+xdg-mime default feh.desktop image/bmp
+xdg-mime default feh.desktop image/svg
+
+# Ranger
+xdg-mime default ranger.desktop inode/directory
+mkdir -p ~/.config/ranger
+echo '# rifle.conf
+# By default, use Vim for most files
+mime ^text,  label editor = vim -- "$@"
+has xdg-open, flag f = xdg-open "$1"' > "$HOME"/.config/ranger/rifle.conf
 
 # Firefox tiling
 # Define the Firefox profile directory for Linux
@@ -154,38 +207,6 @@ wget -O ~/.wallpaper http://web.archive.org/web/20230326122534if_/https://raw.gi
 gsettings set org.gnome.desktop.background picture-uri-dark file:///home/"$USER"/.wallpaper
 fi
 
-if ! command -v docker &> /dev/null
-then
-    echo "Docker is not installed. Proceeding with installation."
-
-    curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
-  && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
-    sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
-    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
-    
-    # Update package listings
-    sudo apt-get update
-
-    # Download installation script from Docker's official repository
-    sudo curl -fsSL https://get.docker.com -o install-docker.sh 
-
-    # Run the installation script
-    sudo sh install-docker.sh 
-
-    # Remove the installation script
-    sudo rm install-docker.sh
-
-    # Add the current user to the Docker group
-    sudo usermod -aG docker "$USER"
-
-    sudo apt-get install -y nvidia-container-toolkit
-    
-    echo "Docker installation complete!"
-else
-    echo "Docker is already installed."
-fi
-
-
 # Delete and make the pipe
 rm -rf ~/pipe
 mkfifo ~/pipe 
@@ -195,7 +216,7 @@ done' &
 
 xhost + local:root
 
-docker pull fonzzy1/vim 
+docker pull fonzzy1/vim
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 

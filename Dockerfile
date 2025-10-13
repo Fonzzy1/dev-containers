@@ -14,10 +14,8 @@ RUN apt-get update && \
     ranger \
     fzf \
     pkg-config \
-    texlive \
     r-base \
     pandoc \
-    texlive-latex-extra \
     pandoc-citeproc \
     libssl-dev \
     libxml2-dev \
@@ -89,21 +87,19 @@ RUN set -uex && \
     tee /etc/apt/sources.list.d/nodesource.list && \
     apt-get update && apt-get install nodejs -y;
 
+#Install rust
+RUN curl  --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
+
 # Install the python packages
-RUN pip install mdformat-black mdformat-config pipreqs pgcli awscli ipython ipykernel neovim-remote pynvim openai ddgr googlesearch-python requests feedparser aiohttp bibli_ls pillow mutagen codespell prisma  && \
-    pip install --no-cache-dir --force-reinstall git+https://github.com/sciunto-org/python-bibtexparser@main
+RUN pip3 install pipreqs pgcli awscli ipython ipykernel openai requests feedparser aiohttp bibli_ls pillow mutagen codespell prisma 
 
 # Install npm packages
 RUN npm install --save-dev --global prettier tree-sitter-cli bibtex-tidy prisma
 
-# Install ACT extension
-RUN mkdir -p /root/.local/share/gh/extensions/gh-act && \
-    curl -L -o /root/.local/share/gh/extensions/gh-act/gh-act \
-    "https://github.com/nektos/gh-act/releases/download/v0.2.57/linux-amd64" && \
-    chmod +x /root/.local/share/gh/extensions/gh-act/gh-act
 
 # Install R packages, tidyvverse is installed with apt
-RUN R -e "install.packages(c('rmarkdown', 'reticulate', 'readxl', 'knitr'), Ncpus = 6)"
+RUN R -e "install.packages(c('rmarkdown', 'reticulate', 'readxl', 'knitr','tinytex'), Ncpus = 6)"
 ## Install go 
 # Download and install Go
 COPY --from=golang:1.24-bullseye /usr/local/go/ /usr/local/go/
@@ -111,20 +107,23 @@ COPY --from=golang:1.24-bullseye /usr/local/go/ /usr/local/go/
 # Set up Go environment
 ENV PATH="/usr/local/go/bin:${PATH}"
 
-#Install rust
-RUN curl  --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-ENV PATH="/root/.cargo/bin:${PATH}"
 
 # Quarto
-RUN curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb && \
-    gdebi --non-interactive quarto-linux-amd64.deb && \
-    quarto install tinytex
+ARG TARGETPLATFORM
+RUN apt-get update && apt-get install -y curl gdebi-core && \
+    if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
+    ARCH=amd64; \
+    elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
+    ARCH=arm64; \
+    else \
+    echo "Unsupported architecture $TARGETPLATFORM"; exit 1; \
+    fi && \
+    curl -LO https://quarto.org/download/latest/quarto-linux-$ARCH.deb && \
+    gdebi --non-interactive quarto-linux-$ARCH.deb && \
+    rm -f quarto-linux-*.deb && \
+    R -e "tinytex::install_tinytex(force=TRUE)"
 
 
-# Chrome 
-RUN curl -L http://bit.ly/google-chrome-stable -o chrome.deb && \
-    apt-get -y install ./chrome.deb && \
-    rm chrome.deb
 
 RUN fc-cache -fv
 
@@ -133,10 +132,18 @@ COPY dotfiles /root
 COPY dotfiles/.bashrc /root/.bash_profile
 
 # Install nvim
-RUN wget https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz && \
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
+    wget https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz && \
     tar -xzf nvim-linux-x86_64.tar.gz && \
-    mv nvim-linux-x86_64 /usr/local/ && \
-    ln -s /usr/local/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim
+    mv nvim-linux-x86_64 /usr/local/; \
+    elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
+    wget https://github.com/neovim/neovim/releases/latest/download/nvim-linux-arm64.tar.gz && \
+    tar -xzf nvim-linux-arm64.tar.gz && \
+    mv nvim-linux-arm64 /usr/local/; \
+    else \
+    echo "Unsupported TARGET"; exit 1; \
+    fi && \
+    ln -s /usr/local/nvim-*/bin/nvim /usr/local/bin/nvim
 
 # Bring in the vim config
 COPY vim/vimscript/plugins.vim /root/.config/nvim/vimscript/plugins.vim
