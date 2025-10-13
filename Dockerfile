@@ -92,11 +92,10 @@ RUN curl  --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 ENV PATH="/root/.cargo/bin:${PATH}"
 
 # Install the python packages
-RUN pip3 install pipreqs pgcli awscli ipython ipykernel openai requests feedparser aiohttp bibli_ls pillow mutagen codespell prisma 
+RUN pip3 install pynvim pipreqs pgcli awscli ipython ipykernel openai requests feedparser aiohttp bibli_ls pillow mutagen codespell prisma 
 
 # Install npm packages
 RUN npm install --save-dev --global prettier tree-sitter-cli bibtex-tidy prisma
-
 
 # Install R packages, tidyvverse is installed with apt
 RUN R -e "install.packages(c('rmarkdown', 'reticulate', 'readxl', 'knitr','tinytex'), Ncpus = 6)"
