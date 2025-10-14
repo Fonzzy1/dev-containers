@@ -25,3 +25,16 @@ require("overseer").register_template({
         filetype = { "quarto" },
     },
 })
+
+require("overseer").register_template({
+    name = "Open Shell",
+    builder = function(_)
+        return {
+            cmd = { "bash" },
+            components = {
+                { "open_output", direction = "float", on_start = "always", focus = true },
+                "default"
+            }
+        }
+    end,
+})
