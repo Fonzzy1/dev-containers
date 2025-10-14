@@ -9,6 +9,7 @@ default_template = """---
 title: {name}
 author: Alfie Chadwick
 date: "{date}"
+---
 """
 
 
