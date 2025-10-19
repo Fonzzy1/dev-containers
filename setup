@@ -37,7 +37,8 @@ sudo apt-get -y install \
     build-essential \
     libxkbcommon-dev \
     libxkbcommon-x11-0 \
-    gnome-shell-extensions
+    gnome-shell-extensions \
+    xclip
 
 ## Docker install
 if ! command -v docker &> /dev/null; then
@@ -56,8 +57,9 @@ else
 fi
 
 if ! command -v rustc >/dev/null 2>&1; then
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 fi
+export PATH="$HOME/.cargo/bin:$PATH"
 
 sudo systemctl enable gdm3 
 sudo systemctl set-default graphical.target
@@ -74,6 +76,21 @@ just install
 
 # pop shell
 cd ~/.shell-extensions/pop-shell 
+version=$(gnome-shell --version | grep -oP '\d+' | head -1)
+if [[ $version =~ ^3[6-9]$|^4[0-1]$ ]]; then
+  branch="master_focal"
+elif [[ $version =~ ^4[2-4]$ ]]; then
+  branch="master_jammy"
+elif [[ $version == "45" ]]; then
+  branch="master_mantic"
+elif [[ $version -ge 46 ]]; then
+  branch="master_noble"
+else
+  echo "Unsupported GNOME version"
+  exit 1
+fi
+git fetch
+git switch "$branch"
 make local-install
 
 # Install the gnome extensions from online
