@@ -6,4 +6,4 @@ docker login -u $DOKER_USER -p $DOCKER_TOKEN
 
 docker buildx inspect builder || docker buildx create --use --name builder
 
-docker buildx build --platform linux/amd64,linux/arm64 . -t "$DOKER_USER/vim" --push
+docker buildx build --network=host --platform linux/amd64,linux/arm64 . -t "$DOKER_USER/vim" --push
