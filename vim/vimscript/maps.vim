@@ -29,7 +29,7 @@ nnoremap <silent> so :OverseerToggle<CR>
 nnoremap <silent> sg :LazyGit<CR>
 nnoremap <silent> sv :LazyGitFilterCurrentFile<CR>
 nnoremap sG :Octo 
-nnoremap <silent> sm :lua require('browse').open_bookmarks()<CR>
+nnoremap <silent> sm :lua require('browse').open_manual_bookmarks()<CR>
 nnoremap <silent> sM :lua browse_bookmarks()<CR>
 
 

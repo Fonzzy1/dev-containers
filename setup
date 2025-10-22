@@ -102,12 +102,12 @@ pipx install git+https://github.com/essembeh/gnome-extensions-cli
 
 # Load in catcuppin gnome theme
 mkdir -p ~/.themes 
-wget https://github.com/catppuccin/gtk/releases/download/v0.7.1/Catppuccin-Macchiato-Standard-Lavender-Dark.zip -P ~ 
-unzip ~/Catppuccin-Macchiato-Standard-Lavender-Dark.zip -d ~/.themes
-rm ~/Catppuccin-Macchiato-Standard-Lavender-Dark.zip
+wget https://github.com/catppuccin/gtk/releases/download/v0.7.1/Catppuccin-Mocha-Standard-Lavender-Dark.zip -P ~ 
+unzip ~/Catppuccin-Mocha-Standard-Lavender-Dark.zip -d ~/.themes
+rm ~/Catppuccin-Mocha-Standard-Lavender-Dark.zip
 
-gsettings set org.gnome.desktop.interface gtk-theme "Catppuccin-Macchiato-Standard-Lavender-Dark" 
-gsettings set org.gnome.shell.extensions.user-theme name "Catppuccin-Macchiato-Standard-Lavender-Dark" || true
+gsettings set org.gnome.desktop.interface gtk-theme "Catppuccin-Mocha-Standard-Lavender-Dark" 
+gsettings set org.gnome.shell.extensions.user-theme name "Catppuccin-Mocha-Standard-Lavender-Dark" || true
 gsettings set org.gnome.desktop.interface enable-animations false
 
 
@@ -157,7 +157,7 @@ wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/do
 # Kitty theme
 sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
 mkdir -p "$HOME"/.config/kitty
-curl https://raw.githubusercontent.com/catppuccin/kitty/refs/heads/main/themes/macchiato.conf -o ~/.config/kitty/kitty.conf
+curl https://raw.githubusercontent.com/catppuccin/kitty/refs/heads/main/themes/mocha.conf -o ~/.config/kitty/kitty.conf
 echo "font_family JetBrainsMonoNL Nerd Font Mono" >> ~/.config/kitty/kitty.conf
 echo "enable_audio_bell no" >> ~/.config/kitty/kitty.conf
 echo "hide_window_decorations yes" >> ~/.config/kitty/kitty.conf
@@ -166,9 +166,9 @@ echo "background_opacity 1" >> ~/.config/kitty/kitty.conf
 
 # Zathura Theme
 mkdir -p "$HOME"/.config/zathura
-wget -O "$HOME"/.config/zathura/catppuccin-macchiato https://raw.githubusercontent.com/catppuccin/zathura/refs/heads/main/themes/catppuccin-macchiato
+wget -O "$HOME"/.config/zathura/catppuccin-mocha https://raw.githubusercontent.com/catppuccin/zathura/refs/heads/main/themes/catppuccin-mocha
 echo '
-include catppuccin-macchiato
+include catppuccin-mocha
 set recolor                     "true"
 set recolor-reverse-video       "true"
 set recolor-keephue             "true"

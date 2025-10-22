@@ -4,7 +4,7 @@ let g:airline#extensions#wordcount#formatter#default#fmt_short = '%sW'
 let g:airline_section_y = '%{airline#extensions#wordcount#get()}'
 
 
-let g:airline#extensions#branch#enabled = 1
+let g:airline#extenssoons#branch#enabled = 1
 
 function! GetGitBranch()
   let l:branch = systemlist("git rev-parse --abbrev-ref HEAD")[0]
@@ -34,7 +34,7 @@ augroup END
 " Color stuff
 set t_Co=256
 set termguicolors
-silent! colorscheme catppuccin-macchiato
+silent! colorscheme catppuccin-mocha
 let g:rainbow_active = 1
 " Color for the terminal
 let g:terminal_ansi_colors = [

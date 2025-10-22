@@ -49,7 +49,7 @@ iron.setup {
             winfixwidth = false,
             winfixheight = false,
             -- any window-local configuration can be used here
-            number = true
+            number = false
         })
 
         -- repl_open_cmd can also be an array-style table so that multiple
