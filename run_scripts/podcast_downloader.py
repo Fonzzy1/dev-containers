@@ -15,7 +15,7 @@ from mutagen.id3 import (
     TRCK,
     TPE2,
     ID3NoHeaderError,
-    USLT
+    USLT,
 )
 import argparse
 import subprocess
@@ -29,7 +29,6 @@ OPML_FILE = "/root/.pods.opml"
 DEST_FOLDER = "./Podcasts"
 AUS_TZ = pytz.timezone("Australia/Sydney")
 TEMP_COVER = "_temp_cover.jpg"
-
 
 def parse_opml(file):
     feeds = []
@@ -135,9 +134,16 @@ def get_feed_image(feed):
     return img_url
 
 
-
 def embed_metadata(
-    mp3_path, artist, title, album, genre, track, total_tracks, cover_path, lyrics=None
+    mp3_path,
+    artist,
+    title,
+    album,
+    genre,
+    track,
+    total_tracks,
+    cover_path,
+    lyrics=None,
 ):
     try:
         id3 = ID3(mp3_path)
@@ -179,7 +185,6 @@ def embed_metadata(
         )
 
     id3.save(mp3_path, v2_version=3)
-
 
 
 def main():
@@ -290,7 +295,8 @@ def main():
                 track=track_idx,
                 total_tracks=len(v["episodes"]),
                 cover_path=cover_path,
-                lyrics=getattr(entry, "summary", "") or getattr(entry, "description", ""),
+                lyrics=getattr(entry, "summary", "")
+                or getattr(entry, "description", ""),
             )
     # Clean up
     if os.path.isfile(TEMP_COVER):

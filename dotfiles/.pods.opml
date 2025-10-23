@@ -329,11 +329,16 @@
                                     text="The Gargle"
                                 />
                             
-
                                 <outline
                                     xmlUrl="https://podcasts.files.bbci.co.uk/b006s5dp.rss"
                                     type="rss"
                                     text="Just a Minute"
+                                />
+
+                                <outline
+                                    xmlUrl="https://feeds.megaphone.fm/DYEAN7027366551"
+                                    type="rss"
+                                    text="Critical Roll"
                                 />
 
                             
