@@ -30,14 +30,18 @@ DEST_FOLDER = "./Podcasts"
 AUS_TZ = pytz.timezone("Australia/Sydney")
 TEMP_COVER = "_temp_cover.jpg"
 
+
 def parse_opml(file):
     feeds = []
     tree = ET.parse(file)
     for outline in tree.findall(".//outline"):
         url = outline.attrib.get("xmlUrl")
         title = outline.attrib.get("title", outline.attrib.get("text", url))
+        is_series = (
+            outline.attrib.get("isSeries", "0") == "1"
+        )  # Convert to boolean
         if url:
-            feeds.append({"url": url, "title": title})
+            feeds.append({"url": url, "title": title, "is_series": is_series})
     return feeds
 
 
@@ -222,17 +226,37 @@ def main():
         enumerate(feeds), total=len(feeds), desc="Fetching Episode Data"
     ):
         parsed = feedparser.parse(feed["url"])
+
         for entry in parsed.entries:
-            for k, v in windows.items():
-                if is_episode_in_window(entry, v["start"], v["end"]):
-                    windows[k]["episodes"].append(
-                        {
-                            "feed_pos": feed_idx,
-                            "feed_title": feed["title"],
-                            "feed": parsed.feed,
-                            "entry": entry,
-                        }
-                    )
+            feed_title = feed["title"]
+            is_series = feed["is_series"]
+
+            if is_series:
+                # Always download, assign to a dedicated series album
+                album_name = sanitize_filename(feed_title[:40])
+                windows.setdefault(
+                    album_name, {"episodes": [], "album_name": album_name}
+                )
+                windows[album_name]["episodes"].append(
+                    {
+                        "feed_pos": feed_idx,
+                        "feed_title": feed_title,
+                        "feed": parsed.feed,
+                        "entry": entry,
+                    }
+                )
+            else:
+                # Existing time window logic
+                for k, v in windows.items():
+                    if is_episode_in_window(entry, v["start"], v["end"]):
+                        windows[k]["episodes"].append(
+                            {
+                                "feed_pos": feed_idx,
+                                "feed_title": feed_title,
+                                "feed": parsed.feed,
+                                "entry": entry,
+                            }
+                        )
 
     all_tracks = []
     for date, v in windows.items():
