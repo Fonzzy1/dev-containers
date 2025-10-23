@@ -15,6 +15,7 @@ from mutagen.id3 import (
     TRCK,
     TPE2,
     ID3NoHeaderError,
+    USLT
 )
 import argparse
 import subprocess
@@ -134,8 +135,9 @@ def get_feed_image(feed):
     return img_url
 
 
+
 def embed_metadata(
-    mp3_path, artist, title, album, genre, track, total_tracks, cover_path
+    mp3_path, artist, title, album, genre, track, total_tracks, cover_path, lyrics=None
 ):
     try:
         id3 = ID3(mp3_path)
@@ -143,6 +145,7 @@ def embed_metadata(
         id3 = ID3()
 
     id3.delall("APIC")
+    id3.delall("USLT")
 
     id3.add(TIT2(encoding=3, text=str(title)))
     id3.add(TPE1(encoding=3, text=str(artist)))
@@ -151,33 +154,32 @@ def embed_metadata(
     id3.add(TRCK(encoding=3, text=f"{track}/{total_tracks}"))
     id3.add(TPE2(encoding=3, text="Various Podcasters"))
 
+    if lyrics:
+        id3.add(USLT(encoding=3, lang="eng", desc="Description", text=lyrics))
+
     if cover_path:
         ext = cover_path.lower().split(".")[-1]
         mime = "image/jpeg" if ext in ("jpg", "jpeg") else "image/png"
 
-        # Open and resize the image
         with Image.open(cover_path) as img:
-            img.thumbnail(
-                (600, 600), Image.LANCZOS
-            )  # Resize while maintaining aspect ratio
-            # Save to a buffer in the original format
+            img.thumbnail((600, 600), Image.LANCZOS)
             img_buffer = BytesIO()
             pil_format = "JPEG" if mime == "image/jpeg" else "PNG"
             img.save(img_buffer, format=pil_format)
             img_data = img_buffer.getvalue()
 
-        # Embed image
         id3.add(
             APIC(
                 encoding=3,
                 mime=mime,
-                type=3,  # front cover
+                type=3,
                 desc="Cover",
                 data=img_data,
             )
         )
 
     id3.save(mp3_path, v2_version=3)
+
 
 
 def main():
@@ -288,6 +290,7 @@ def main():
                 track=track_idx,
                 total_tracks=len(v["episodes"]),
                 cover_path=cover_path,
+                lyrics=getattr(entry, "summary", "") or getattr(entry, "description", ""),
             )
     # Clean up
     if os.path.isfile(TEMP_COVER):
