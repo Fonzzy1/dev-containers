@@ -92,6 +92,7 @@ fi
 git fetch
 git switch "$branch"
 make local-install
+sudo ln -s ~/.local/bin/pop-launcher /usr/local/bin/pop-launcher
 
 # Install the gnome extensions from online
 pipx install git+https://github.com/essembeh/gnome-extensions-cli 
@@ -186,6 +187,7 @@ xdg-mime default feh.desktop image/png
 xdg-mime default feh.desktop image/gif
 xdg-mime default feh.desktop image/bmp
 xdg-mime default feh.desktop image/svg
+xdg-mime default feh.desktop image/svg+xml
 
 # Ranger
 xdg-mime default ranger.desktop inode/directory
@@ -225,10 +227,9 @@ gsettings set org.gnome.desktop.background picture-uri-dark file:///home/"$USER"
 fi
 
 # Delete and make the pipe
-rm -rf ~/pipe
-mkfifo ~/pipe 
-nohup bash -c 'while true; do 
-    eval "$(cat ~/pipe)" &> ~/.pipe_logs.txt
+rm -rf ~/pipe mkfifo ~/pipe 
+nohup bash -c 'while true; do eval "$(cat ~/pipe)" 
+    &> ~/.pipe_logs.txt
 done' &
 
 xhost + local:root
@@ -237,7 +238,7 @@ docker pull fonzzy1/vim
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-mkdir -p ~/.local/bin
+mkdir -p ~/.local/bin 
 ln -sf "$SCRIPT_DIR"/runit ~/.local/bin/runit
 
 echo "Setup complete!"

@@ -73,10 +73,10 @@ RUN git config --global user.name "Fonzzy1" && \
     git config --global core.editor "nvim" && \
     git config --global --add safe.directory /src
 
-RUN LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*') && \
-    curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz" && \
-    tar xf lazygit.tar.gz lazygit && \
-    install lazygit -D -t /usr/local/bin/ 
+
+#Install rust
+RUN curl  --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
 
 # Install node
 RUN set -uex && \
@@ -96,6 +96,13 @@ RUN pip3 install pynvim pipreqs pgcli awscli ipython ipykernel openai requests f
 
 # Install npm packages
 RUN npm install --save-dev --global prettier tree-sitter-cli bibtex-tidy prisma
+
+
+# Install ACT extension
+RUN mkdir -p /root/.local/share/gh/extensions/gh-act && \
+    curl -L -o /root/.local/share/gh/extensions/gh-act/gh-act \
+    "https://github.com/nektos/gh-act/releases/download/v0.2.57/linux-amd64" && \
+    chmod +x /root/.local/share/gh/extensions/gh-act/gh-act
 
 # Install R packages, tidyvverse is installed with apt
 RUN R -e "install.packages(c('rmarkdown', 'reticulate', 'readxl', 'knitr','tinytex'), Ncpus = 6)"
@@ -122,7 +129,18 @@ RUN apt-get update && apt-get install -y curl gdebi-core && \
     rm -f quarto-linux-*.deb && \
     R -e "tinytex::install_tinytex(force=TRUE)"
 
-
+RUN LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": *"v\K[^"]*') && \
+    if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
+    ARCH=x86_64; \
+    elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
+    ARCH=arm64; \
+    else \
+    echo "Unsupported architecture $TARGETPLATFORM"; exit 1; \
+    fi && \
+    curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_${ARCH}.tar.gz" && \
+    tar xf lazygit.tar.gz lazygit && \
+    install lazygit -D -t /usr/local/bin/ && \
+    rm lazygit.tar.gz lazygit
 
 RUN fc-cache -fv
 
