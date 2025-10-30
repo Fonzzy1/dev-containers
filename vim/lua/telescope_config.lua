@@ -132,7 +132,7 @@ local bookmarks = {
         ["Student Email"] = "https://mail.google.com/mail/?authuser=alfie.chadwick1@monash.edu",
         ["MCCCRH Slack"] = "https://mcccrh.slack.com",
         ["Soda Labs Slack"] = "https://soda-labs.slack.com",
-        ["ADMS Slack"] = "https://adms-centre..slack.com/",
+        ["ADMS Slack"] = "https://adms-centre.slack.com/",
         ["Messenger"] = "https://www.messenger.com/",
         ["WhatsApp"] = "https://web.whatsapp.com/",
         ["Google Calendar"] = "https://calendar.google.com/calendar/u/1/r",
