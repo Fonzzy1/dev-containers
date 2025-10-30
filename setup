@@ -92,7 +92,7 @@ fi
 git fetch
 git switch "$branch"
 make local-install
-sudo ln -s ~/.local/bin/pop-launcher /usr/local/bin/pop-launcher
+sudo ln -sf ~/.local/bin/pop-launcher /usr/local/bin/pop-launcher
 
 # Install the gnome extensions from online
 pipx install git+https://github.com/essembeh/gnome-extensions-cli 
