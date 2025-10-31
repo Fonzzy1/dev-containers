@@ -127,7 +127,7 @@ def run_vim(
 
 
 def run_notes(args):
-    temp_dir = f"/tmp/code_mount/wiki"
+    temp_dir = f"~/Documents/wiki"
     if not os.path.isdir(temp_dir):
         os.makedirs(temp_dir)
         command = """gh repo clone wiki /wiki -- --recurse-submodules; git submodule foreach 'git switch main'; chown -R $HOST_UID:$HOST_GID /wiki ;nvim;"""
@@ -180,7 +180,7 @@ def run_gh(args):
     name = args.repo.replace("/", "-")
     repo = args.repo.split("/")[-1] if "/" in args.repo else args.repo
 
-    temp_dir = f"/tmp/code_mount/{name}"
+    temp_dir = f"~/Documents/{name}"
     if not os.path.isdir(temp_dir):
         os.makedirs(temp_dir)
         command = f"""\
