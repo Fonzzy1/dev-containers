@@ -229,9 +229,11 @@ fi
 # Delete and make the pipe
 rm -rf ~/pipe
 mkfifo ~/pipe 
-nohup bash -c 'while true; do eval "$(cat ~/pipe)" 
-    &> ~/.pipe_logs.txt
-done' &
+nohup bash -c '
+  while true; do
+    eval "$(cat ~/pipe)" &> ~/.pipe_logs.txt
+  done
+' > ~/nohup_main.log 2>&1 &
 
 xhost + local:root
 
