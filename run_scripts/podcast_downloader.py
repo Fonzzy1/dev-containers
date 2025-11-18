@@ -209,7 +209,7 @@ def main():
     today_9am = now.replace(hour=9, minute=0, second=0, microsecond=0)
     if now < today_9am:
         today_9am -= timedelta(days=1)
-    for i in range(0, 6):
+    for i in range(0, 3):
         date = today_9am - timedelta(days=i)
         windows[date.strftime("%Y-%m-%d")] = {
             "start": date - timedelta(days=1),
