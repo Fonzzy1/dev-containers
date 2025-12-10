@@ -399,9 +399,23 @@ vim.keymap.set('n', 'sj', function()
         'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+all:denial&start=0&max_results=50&sortBy=lastUpdatedDate&sortOrder=descending',
         -- Automated Australian Political Analysis
         'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+(all:Australia+AND+all:politics)&start=0&max_results=50&sortBy=lastUpdatedDate&sortOrder=descending',
+        -- Hansard AUs
+        'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+(all:Australia+AND+(all:politics+OR+all:"political+communication"+OR+all:"political+text"+OR+all:"parliamentary+speech"))&start=0&max_results=50&sortBy=lastUpdatedDate&sortOrder=descending',
         -- energy policy
         'https://rss.sciencedirect.com/publication/science/03014215',
         -- Energy and social science
-        'https://rss.sciencedirect.com/publication/science/22146296'
+        'https://rss.sciencedirect.com/publication/science/22146296',
+        -- Computational Social Science
+        'https://journal.computationalcommunication.org/gateway/plugin/WebFeedGatewayPlugin/rss2',
+        -- Enviromental Policits
+        "https://www.tandfonline.com/feed/rss/fenp20",
+        -- Policy Studies Journal
+        "https://www.tandfonline.com/feed/rss/cpos20",
+        -- EPJ Data Science
+        'https://feeds.feedburner.com/edp_epjds_news?format=xml',
+        --International Journal of Social Research Methodology
+        "https://www.tandfonline.com/feed/rss/tsrm20"
+
+
     })
 end)

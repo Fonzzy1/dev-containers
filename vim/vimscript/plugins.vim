@@ -62,7 +62,7 @@ Plug 'axkirillov/easypick.nvim'
 
 "Code Running
 Plug 'Vigemus/iron.nvim' 
-Plug 'stevearc/overseer.nvim', { 'tag': '1.5.0' }
+Plug 'stevearc/overseer.nvim', { 'tag': 'v1.5.0' }
 
 call plug#end()
 
