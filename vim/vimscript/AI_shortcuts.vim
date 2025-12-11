@@ -27,7 +27,7 @@ function! Summarise(file)
   " Check if the tempfile was successfully created and is readable
   if filereadable(l:tempfile)
     let l:filetext = join(readfile(l:tempfile), "\n")
-    let l:prompt = "Extract and list the main claims of the following journal article or text; present them in a single paragraph; separate each claim with a '.'; do not add explanations or introductory sentences."
+    let l:prompt = "Extract and list the main claims of the following journal article or text in a single paragraph. Present each claim as a standalone, explicit sentence, separated by a period ('.'). Do not include explanations, introductions, or references between sentences. Minimize pronouns by explicitly naming things and concepts; assume each sentence will be read in isolation."
     
     " Attempt to call AI service with appropriate error handling
     call vim_ai#AIRun(0,{"options": {'temperature':0.5}}, l:prompt . l:filetext)
