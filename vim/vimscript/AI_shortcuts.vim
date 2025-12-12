@@ -27,10 +27,17 @@ function! Summarise(file)
   " Check if the tempfile was successfully created and is readable
   if filereadable(l:tempfile)
     let l:filetext = join(readfile(l:tempfile), "\n")
-    let l:prompt = "Extract and list the main claims of the following journal article or text in a single paragraph. Present each claim as a standalone, explicit sentence, separated by a period ('.'). Do not include explanations, introductions, or references between sentences. Minimize pronouns by explicitly naming things and concepts; assume each sentence will be read in isolation."
-    
+    let l:prompt = ">>> system\n Extract and list the main claims of the following journal article or text in a single paragraph. Present each claim as a standalone, explicit sentence, separated by a full stop and then a newline. Do not include explanations, introductions, or references between sentences. Minimize pronouns by explicitly naming things and concepts; assume each sentence will be read in isolation; These claims should be the things that the article could be cited for; Do not start the sentences b by saying 'This artcile claims' or the like"
+
+    let l:config = {
+    \  "options": {
+    \    "model": "gpt-4.1",
+    \    "initial_prompt": l:prompt,
+    \    "temperature": 0.5,
+    \  },
+    \}
     " Attempt to call AI service with appropriate error handling
-    call vim_ai#AIRun(0,{"options": {'temperature':0.5}}, l:prompt . l:filetext)
+    call vim_ai#AIRun(0,l:config, l:filetext)
     
     call delete(l:tempfile)
   else
@@ -41,17 +48,4 @@ endfunction
 
 " Define the command to call the function
 command! -nargs=1 -complete=file Summarise call Summarise(<f-args>)
-
-function! RunPythonScriptInScratch(...)
-    let l:question = join(a:000, ' ')
-    let l:cmd = 'python3 /wiki/References/_ask_question.py ' . shellescape(l:question)
-    let l:result = system(l:cmd)
-    vnew
-    setlocal buftype=nofile
-    setlocal bufhidden=wipe
-    setlocal filetype=quarto
-    setlocal noswapfile
-    call setline(1, split(l:result, "\n"))
-endfunction
-
 
