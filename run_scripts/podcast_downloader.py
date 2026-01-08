@@ -301,27 +301,27 @@ def main():
                     print("Failed to download", audio_url)
                     continue
 
-            # Try episode image, then feed image, then fallback
-            img_url = get_episode_image(entry)
-            cover_path = download_cover_image(img_url)
-            if not cover_path:
-                feed_img_url = get_feed_image(feed)
-                cover_path = download_cover_image(feed_img_url)
-            if not cover_path:
-                # Use local fallback only if nothing else available
-                cover_path = None
-            embed_metadata(
-                outpath,
-                artist=feed_title,
-                title=entry.title,
-                album=v["album_name"],
-                genre="pods",
-                track=track_idx,
-                total_tracks=len(v["episodes"]),
-                cover_path=cover_path,
-                lyrics=getattr(entry, "summary", "")
-                or getattr(entry, "description", ""),
-            )
+                # Try episode image, then feed image, then fallback
+                img_url = get_episode_image(entry)
+                cover_path = download_cover_image(img_url)
+                if not cover_path:
+                    feed_img_url = get_feed_image(feed)
+                    cover_path = download_cover_image(feed_img_url)
+                if not cover_path:
+                    # Use local fallback only if nothing else available
+                    cover_path = None
+                embed_metadata(
+                    outpath,
+                    artist=feed_title,
+                    title=entry.title,
+                    album=v["album_name"],
+                    genre="pods",
+                    track=track_idx,
+                    total_tracks=len(v["episodes"]),
+                    cover_path=cover_path,
+                    lyrics=getattr(entry, "summary", "")
+                    or getattr(entry, "description", ""),
+                )
     # Clean up
     if os.path.isfile(TEMP_COVER):
         os.remove(TEMP_COVER)
