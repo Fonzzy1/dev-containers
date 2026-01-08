@@ -6,6 +6,7 @@ Plug 'madox2/vim-ai'
 Plug 'stevearc/aerial.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'kevinhwang91/rnvimr'
+Plug 'nvim-treesitter/nvim-treesitter', { 'branch': 'master' }
 
 " Visual
 Plug 'nvim-tree/nvim-web-devicons'
@@ -33,9 +34,6 @@ Plug 'whb/vim-gitbranch'
 
 " Markdown
 Plug 'OXY2DEV/markview.nvim'
-Plug 'nvim-treesitter/nvim-treesitter'
-Plug 'nvim-treesitter/playground'
-Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'bullets-vim/bullets.vim'
 
 " LSP

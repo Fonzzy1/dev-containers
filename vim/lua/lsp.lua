@@ -1,41 +1,21 @@
 require("mason").setup()
--- require("mason-lspconfig").setup {
---     ensure_installed = {},
---     automatic_installation = true,
--- }
 
-local lspconfig = require("lspconfig")
-local configs = require("lspconfig.configs")
+vim.lsp.config('bibli_ls', {
+    cmd = { "bibli_ls" },
+    filetypes = { "markdown", "quarto" },
+    root_markers = { ".bibli.toml" },
+    -- Optional: visit the URL of the citation with LSP DocumentImplementation
+    on_attach = function(client, bufnr)
+        vim.keymap.set({ "n" }, "<cr>", function()
+            vim.lsp.buf.implementation()
+        end)
+    end,
+})
 
-configs.bibli_ls = {
-    default_config = {
-        cmd = { "bibli_ls" },
-        filetypes = { "markdown", "quarto" },
-        root_dir = lspconfig.util.root_pattern(".bibli.toml"),
-        -- Optional: visit the URL of the citation with LSP DocumentImplementation
-        on_attach = function(client, bufnr)
-            vim.keymap.set({ "n" }, "<cr>", function()
-                vim.lsp.buf.implementation()
-            end)
-        end,
-    },
-}
+vim.lsp.enable('bibli_ls')
 
-lspconfig.bibli_ls.setup({})
 
-lspconfig.vimls.setup {}
-lspconfig.bibli_ls.setup({})
-lspconfig.dockerls.setup {}
-lspconfig.docker_compose_language_service.setup {}
-lspconfig.jsonls.setup {}
-lspconfig.nginx_language_server.setup {}
-lspconfig.pyright.setup {}
-lspconfig.air.setup {}
-lspconfig.ts_ls.setup {}
-lspconfig.yamlls.setup {}
-lspconfig.prismals.setup {}
-lspconfig.lua_ls.setup {}
-lspconfig.ltex.setup {
+vim.lsp.config('ltex', {
     cmd = { "ltex-ls", "--log-file=/root/ltex_log" },
     settings = {
         ltex = {
@@ -62,7 +42,21 @@ lspconfig.ltex.setup {
             }
         }
     }
-}
+})
+
+
+vim.lsp.enable('ltex')
+vim.lsp.enable('vimls')
+vim.lsp.enable('dockerls')
+vim.lsp.enable('docker_compose_language_service')
+vim.lsp.enable('jsonls')
+vim.lsp.enable('nginx_language_server')
+vim.lsp.enable('pyright')
+vim.lsp.enable('air')
+vim.lsp.enable('ts_ls')
+vim.lsp.enable('yamlls')
+vim.lsp.enable('prismals')
+vim.lsp.enable('lua_ls')
 
 
 
@@ -134,17 +128,6 @@ vim.api.nvim_create_autocmd({ "CursorHold" },
         end
     }
 )
-
-
-if not configs.bibli_ls then
-    configs.bibli_ls = {
-        default_config = {
-            cmd = { "bibli_ls" },
-            filetypes = { "quarto" },
-            root_dir = lspconfig.util.root_pattern(".bibli.toml"),
-        },
-    }
-end
 
 
 -- Always create the group first
