@@ -46,6 +46,11 @@
                                     type="rss"
                                     text="Politics Now"
                                 />
+                                <outline
+                                    xmlUrl="https://www.abc.net.au/feeds/2890652/podcast.xml"
+                                    type="rss"
+                                    text="Late Night Live"
+                                />
 <!-- Sports Podcasts -->
                                 <outline
                                     xmlUrl="https://anchor.fm/s/1876f9e0/podcast/rss"
@@ -174,10 +179,11 @@
                                     type="rss"
                                     text="Grattan Institute"
                                 />
+
                                 <outline
-                                    xmlUrl="https://www.spreaker.com/show/2731764/episodes/feed"
+                                    xmlUrl="https://latest-edition.feed.theworld.org/"
                                     type="rss"
-                                    text="New Politics: Australian Politics"
+                                    text="The World"
                                 />
                             
 <!-- Society and Technology Podcasts -->
@@ -335,6 +341,7 @@
                                     text="Just a Minute"
                                 />
 
+<!-- Series -->
                                 <outline
                                     xmlUrl="https://feeds.megaphone.fm/DYEAN7027366551"
                                     type="rss"
