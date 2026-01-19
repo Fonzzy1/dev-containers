@@ -69,11 +69,6 @@
                                     text="The Footy with Broden Kelly"
                                 />
                                 <outline
-                                    xmlUrl=" https://feeds.megaphone.fm/ESP2998756781 "
-                                    type="rss"
-                                    text="The Far Post"
-                                />
-                                <outline
                                     xmlUrl="https://anchor.fm/s/eb0beaf0/podcast/rss"
                                     type="rss"
                                     text="Round Ball Australia"
@@ -92,11 +87,6 @@
                                     xmlUrl="https://feeds.captivate.fm/runningchannel/"
                                     type="rss"
                                     text="The Running Channel Podcast"
-                                />
-                                <outline
-                                    xmlUrl="https://feeds.acast.com/public/shows/681ccc7c8b1f3232bc1e797e"
-                                    type="rss"
-                                    text="The Athletic FC Tactics Podcast"
                                 />
                                 <outline
                                     xmlUrl="https://feeds.megaphone.fm/GLT8847082992"
@@ -178,12 +168,6 @@
                                     xmlUrl="https://feeds.soundcloud.com/users/soundcloud:users:259067925/sounds.rss"
                                     type="rss"
                                     text="Grattan Institute"
-                                />
-
-                                <outline
-                                    xmlUrl="https://latest-edition.feed.theworld.org/"
-                                    type="rss"
-                                    text="The World"
                                 />
                             
 <!-- Society and Technology Podcasts -->
