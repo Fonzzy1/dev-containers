@@ -130,6 +130,8 @@ echo '#!/bin/bash
  alias ll="ls -alF"
  alias la="ls -A"
  alias l="ls -CF"
+alias ollama='docker exec ollama ollama'
+alias 'ollama serve'='docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama'
 
  # enable programmable completion features (you don'"'"'t need to enable
  # this, if it'"'"'s already enabled in /etc/bash.bashrc and /etc/profile

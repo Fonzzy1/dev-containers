@@ -23,6 +23,8 @@ alias egrep='egrep --color=auto'
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+alias ollama='docker exec ollama ollama'
+alias 'ollama serve'='docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama'
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -36,7 +38,7 @@ if ! shopt -oq posix; then
 fi
 
 alias vim='nvim'
-source $HOME/.cargo/env 
+source "$HOME"/.cargo/env 
 
 # Function to parse git branch
 function parse_git_branch() {
@@ -46,7 +48,7 @@ function parse_git_branch() {
 PS1="\[\e[0;32m\]\A \[\e[1;34m\]\u\[\e[0;37m\]@\[\e[0;34m\]\h \[\e[0;35m\]\w \[\e[0m\]|> "
 
 function gitdist() {
-    for branch in $(git branch -a --format='%(refname:short)'); do
+    for branch in "$(git branch -a --format='%(refname:short)')"; do
         behind=$(git rev-list --count "${branch}..origin/HEAD")
         ahead=$(git rev-list --count "origin/HEAD..${branch}")
 
@@ -64,4 +66,3 @@ function gitdist() {
         echo
     done
 }
-
