@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
 if [ "$1" = "--init" ]; then
 
 
@@ -111,42 +113,7 @@ gsettings set org.gnome.desktop.interface gtk-theme "Catppuccin-Mocha-Standard-L
 gsettings set org.gnome.shell.extensions.user-theme name "Catppuccin-Mocha-Standard-Lavender-Dark" || true
 gsettings set org.gnome.desktop.interface enable-animations false
 
-
-echo '#!/bin/bash
- HISTCONTROL=ignoreboth
- shopt -s histappend
- HISTSIZE=1000
- HISTFILESIZE=2000
-
- shopt -s checkwinsize
-
- test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
- alias ls="ls --color=auto"
- alias grep="grep --color=auto"
- alias fgrep="fgrep --color=auto"
- alias egrep="egrep --color=auto"
-
- # some more ls aliases
- alias ll="ls -alF"
- alias la="ls -A"
- alias l="ls -CF"
-alias ollama='docker exec ollama ollama'
-alias 'ollama serve'='docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama'
-
- # enable programmable completion features (you don'"'"'t need to enable
- # this, if it'"'"'s already enabled in /etc/bash.bashrc and /etc/profile
- # sources /etc/bash.bashrc).
- if ! shopt -oq posix; then
-   if [ -f /usr/share/bash-completion/bash_completion ]; then
-     . /usr/share/bash-completion/bash_completion
-   elif [ -f /etc/bash_completion ]; then
-     . /etc/bash_completion
-   fi
- fi
-
- PS1="\[\e[0;32m\]\A \[\e[1;34m\]\u\[\e[0;37m\]@\[\e[0;34m\]\h \[\e[0;35m\]\w \[\e[0m\]|> "
- ' > ~/.bashrc
-
+cp "$SCRIPT_DIR"/dotfiles/bashrc ~/.bashrc
 cat ~/.bashrc > ~/.bash_profile
 
 
@@ -241,7 +208,6 @@ xhost + local:root
 
 docker pull fonzzy1/vim
 
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 mkdir -p ~/.local/bin 
 ln -sf "$SCRIPT_DIR"/runit ~/.local/bin/runit
