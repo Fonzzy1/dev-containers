@@ -24,8 +24,12 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 alias ollama='docker exec ollama ollama'
-alias ollamaserve='docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama'
-alias gpurestart="sudo rmmod nvidia_uvm && sudo modprobe nvidia_uvm"
+
+function ollamaserve() {
+  docker rm -f ollama 2>/dev/null
+  sudo rmmod nvidia_uvm && sudo modprobe nvidia_uvm
+  docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
+}
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
