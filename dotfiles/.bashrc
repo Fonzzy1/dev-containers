@@ -23,7 +23,7 @@ alias egrep='egrep --color=auto'
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-alias ollama='docker exec ollama ollama'
+alias ollama='docker exec -it ollama ollama'
 
 function ollamaserve() {
   docker rm -f ollama 2>/dev/null
