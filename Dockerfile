@@ -49,7 +49,7 @@ RUN apt-get update && \
     jq \
     gdebi-core \
     wget \
-    luarocks \
+    libc6 \ 
     ripgrep && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*  && \

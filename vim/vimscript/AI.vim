@@ -16,7 +16,7 @@ let g:vim_ai_chat = {
             \    "max_completion_tokens": 0,
             \    "temperature": 1,
             \    "request_timeout": 20,
-            \    "stream": 0,
+            \    "stream": 1,
             \    "auth_type": "bearer",
             \    "token_file_path": "",
             \    "token_load_fn": "",
