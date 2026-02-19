@@ -36,6 +36,12 @@
                                     type="rss"
                                     text="7am"
                                 />
+
+                                <outline
+                                    xmlUrl="https://rss.acast.com/the-chaser-report"
+                                    type="rss"
+                                    text="The Chaser Report"
+                                />
                                 <outline
                                     xmlUrl="https://www.abc.net.au/feeds/6840588/podcast.xml"
                                     type="rss"
@@ -46,18 +52,12 @@
                                     type="rss"
                                     text="Politics Now"
                                 />
-                                <outline
-                                    xmlUrl="https://www.abc.net.au/feeds/2890652/podcast.xml"
-                                    type="rss"
-                                    text="Late Night Live"
-                                />
 <!-- Sports Podcasts -->
                                 <outline
                                     xmlUrl="https://anchor.fm/s/1876f9e0/podcast/rss"
                                     type="rss"
                                     text="The Shootaround"
                                 />
-
                                 <outline
                                     xmlUrl="https://anchor.fm/s/86b2b318/podcast/rss"
                                     type="rss"
@@ -79,9 +79,14 @@
                                     text="Cheeky Run Club"
                                 />
                                 <outline
-                                    xmlUrl="https://feed.podbean.com/HowTheyTrain/feed.xml"
+                                    xmlUrl="https://rss.buzzsprout.com/1922707.rss"
                                     type="rss"
-                                    text="The Triathlon Hour"
+                                    text="That Triathlon Life"
+                                />
+                                <outline
+                                    xmlUrl="http://feeds.podtrac.com/YdHIp7gcgnlh"
+                                    type="rss"
+                                    text="Oxygen Addict"
                                 />
                                 <outline
                                     xmlUrl="https://feeds.captivate.fm/runningchannel/"
@@ -99,6 +104,12 @@
                                     text="F1: Chequered Flag"
                                 />
 <!-- Weekly News Podcasts -->
+
+                                <outline
+                                    xmlUrl="https://www.omnycontent.com/d/playlist/1167fb74-5a4b-45cf-8e47-adde00712524/77db2317-8934-4cb8-9de8-adde007138a8/6b937445-0845-47b5-b63f-adde0071e8d0/podcast.rss"
+                                    type="rss"
+                                    text="Serious Danger"
+                                />
                                 <outline
                                     xmlUrl="https://feeds.megaphone.fm/GLT5336643697"
                                     type="rss"
@@ -108,11 +119,6 @@
                                     xmlUrl="https://feeds.acast.com/public/shows/6807036738088415694bc173"
                                     type="rss"
                                     text="Lamestream"
-                                />
-                                <outline
-                                    xmlUrl="https://www.omnycontent.com/d/playlist/d3d56d8d-11c9-411a-aade-af8f001be4a7/8525743e-7bef-4547-9c53-b17f0056512d/39a8dc14-1cc3-4f50-8364-b17f00636670/podcast.rss"
-                                    type="rss"
-                                    text="Punters Politics"
                                 />
                                 <outline
                                     xmlUrl="https://feeds.megaphone.fm/GLT9029505120"
@@ -133,16 +139,6 @@
                                     xmlUrl="https://feeds.megaphone.fm/EFRMF6053448231"
                                     type="rss"
                                     text="Fourth Estate"
-                                />
-                                <outline
-                                    xmlUrl="https://feeds.megaphone.fm/theezrakleinshow"
-                                    type="rss"
-                                    text="The Gray Area with Sean Illing"
-                                />
-                                <outline
-                                    xmlUrl="https://feeds.megaphone.fm/STHZE1133433304"
-                                    type="rss"
-                                    text="News Club"
                                 />
                                 <outline
                                     xmlUrl="https://feeds.megaphone.fm/GLT9190936013"
@@ -211,39 +207,18 @@
                                     type="rss"
                                     text="Team Human"
                                 />
-<!-- Cultrure Podcasts -->
-                                <outline
-                                    xmlUrl="https://feeds.buzzsprout.com/2040953.rss"
+                                 <outline
+                                                                    xmlUrl="https://feeds.simplecast.com/rZ0cYk12"
                                     type="rss"
-                                    text="If Books Could Kill"
-                                />
-                                <outline
-                                    xmlUrl="https://publicfeeds.net/f/5637/Dinner-SOS"
+                                    text="Your Undivided Attention"
+                                                                    />
+                                 <outline
+                                     xmlUrl="https://feeds.simplecast.com/l2i9YnTd"
                                     type="rss"
-                                    text="Bon Appétit"
-                                />
-                                <outline
-                                    xmlUrl="https://feeds.megaphone.fm/IMP6296096176"
-                                    type="rss"
-                                    text="One Song"
-                                />
-                                <outline
-                                    xmlUrl="https://feeds.megaphone.fm/switchedonpop"
-                                    type="rss"
-                                    text="Switched On Pop"
-                                    />
-                                <outline
-                                    xmlUrl="https://rss.art19.com/the-allusionist"
-                                    type="rss"
-                                    text="The Allusionist"
-                                    />
+                                    text="Hard Fork"
+                                     />
 
 <!-- Learning Podcasts -->
-                                <outline
-                                    xmlUrl="https://podcasts.files.bbci.co.uk/b006qykl.rss"
-                                    type="rss"
-                                    text="In Our Time"
-                                />
                                 <outline
                                     xmlUrl="https://podcasts.files.bbci.co.uk/p07mdbhg.rss"
                                     type="rss"
@@ -280,7 +255,6 @@
                                     text="The Infinite Monkey Cage"
                                 />
                             
-
                                 <outline
                                     xmlUrl="https://podcasts.files.bbci.co.uk/b07dx75g.rss"
                                     type="rss"
@@ -298,9 +272,9 @@
                                     text="The Bugle"
                                 />
                                 <outline
-                                    xmlUrl="https://citationpod.libsyn.com/rss"
+                                    xmlUrl="https://feeds.megaphone.fm/lateralcast"
                                     type="rss"
-                                    text="Citation Needed"
+                                    text="Lateral With Tom Scott"
                                 />
                                 <outline
                                     xmlUrl="https://feeds.megaphone.fm/JGP4299671666"
