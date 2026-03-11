@@ -71,3 +71,5 @@ function gitdist() {
         echo
     done
 }
+
+export PATH=/root/.opencode/bin:$PATH

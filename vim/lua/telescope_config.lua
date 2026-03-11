@@ -419,3 +419,32 @@ vim.keymap.set('n', 'sj', function()
 
     })
 end)
+
+vim.keymap.set('n', 'sp', function()
+    TelescopeRssPicker({
+        -- The Conversation
+        "https://theconversation.com/au/articles.atom",
+        -- The Conversation - Enviroment
+        "https://theconversation.com/au/environment/articles.atom",
+        -- Converation - Cimate
+        "https://theconversation.com/topics/climate-change-27/articles.atom",
+        -- Conversation -- Energy
+        "https://theconversation.com/topics/energy-662/articles.atom",
+        -- The Conversation - Politics
+        "https://theconversation.com/au/politics/articles.atom",
+        -- The Guardian AU
+        "https://www.theguardian.com/au/rss",
+        -- The Guardian AU - Enviroment
+        "https://www.theguardian.com/au/environment/rss",
+        -- The Guardian AU - Politics
+        "https://www.theguardian.com/au/politics/rss",
+        -- The Guardian AU - Opinion
+        "https://www.theguardian.com/au/opinion/rss",
+        -- ABC News
+        "https://www.abc.net.au/news/feed/10719986/rss.xml",
+        -- ABC News - Eniviroment
+        "https://www.abc.net.au/news/feed/1450/rss.xml",
+        -- Crikey
+        'https://www.crikey.com.au/environment/feed/',
+    })
+end)

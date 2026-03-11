@@ -1,6 +1,6 @@
 call plug#begin()
 " AI
-Plug 'madox2/vim-ai'
+Plug 'nickjvandyke/opencode.nvim'
 
 " Nav
 Plug 'stevearc/aerial.nvim'

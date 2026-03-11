@@ -3,7 +3,6 @@ set nocompatible
 " vimscript
 source  ~/.config/nvim/vimscript/vim.vim
 source  ~/.config/nvim/vimscript/plugins.vim
-source  ~/.config/nvim/vimscript/AI.vim
 source  ~/.config/nvim/vimscript/markdown.vim
 source  ~/.config/nvim/vimscript/nerdtree.vim
 source  ~/.config/nvim/vimscript/R.vim
@@ -23,7 +22,8 @@ lua require("custom_dashboard")
 lua require("telescope_config")
 lua require("run_config")
 lua require("overseer_templates")
+" opencode config in Vimscript
+source  ~/.config/nvim/vimscript/opencode.vim
 
 source  ~/.config/nvim/vimscript/maps.vim
-
 

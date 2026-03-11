@@ -50,6 +50,8 @@ RUN apt-get update && \
     gdebi-core \
     wget \
     libc6 \ 
+    librsvg2-bin \
+    curl gdebi-core \
     ripgrep && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*  && \
@@ -113,11 +115,13 @@ COPY --from=golang:1.24-bullseye /usr/local/go/ /usr/local/go/
 # Set up Go environment
 ENV PATH="/usr/local/go/bin:${PATH}"
 
+# OpenCode
+RUN curl -fsSL https://olpencode.ai/install | bash
+
 
 # Quarto
 ARG TARGETPLATFORM
-RUN apt-get update && apt-get install -y curl gdebi-core && \
-    if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
     ARCH=amd64; \
     elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
     ARCH=arm64; \
@@ -144,9 +148,6 @@ RUN LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygi
 
 RUN fc-cache -fv
 
-#Copy in the dotfiles
-COPY dotfiles /root
-COPY dotfiles/.bashrc /root/.bash_profile
 
 # Install nvim
 RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
@@ -176,10 +177,14 @@ RUN timeout 60s nvim -u /root/.config/nvim/vimscript/plugins.vim '+lua require("
 COPY vim/vimscript /root/.config/nvim/vimscript
 COPY vim/lua /root/.config/nvim/lua
 COPY vim/init.vim /root/.config/nvim/init.vim
+#Copy in the dotfiles
+COPY dotfiles /root
+COPY dotfiles/.bashrc /root/.bash_profile
 #Copy in the scripts
 COPY run_scripts /scripts
 # Overwrite default xsg-open call
 COPY run_scripts/open.py /usr/bin/xdg-open   
+
 
 # Set the editor
 ENV EDITOR='nvim'

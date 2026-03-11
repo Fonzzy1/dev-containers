@@ -1,0 +1,12 @@
+{
+    "$schema": "https://opencode.ai/config.json",
+    "theme": "catppuccin",
+    "provider": {
+        "zen": {
+            "models": {},
+            "options": {
+                "apiKey": "{env:ZEN_API_KEY}"
+            }
+        }
+    }
+}
