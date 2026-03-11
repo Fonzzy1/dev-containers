@@ -52,3 +52,9 @@ hi link LazyGitBorder TelescopeBorder
 
 
 autocmd FileType DressingInput startinsert
+set autoread
+autocmd FocusGained,BufEnter * checktime
+let g:opencode_opts = {}
+if has('nvim')
+  call timer_start(500, {-> execute('checktime')}, {'repeat': -1})
+endif                                               

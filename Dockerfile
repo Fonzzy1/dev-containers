@@ -116,7 +116,8 @@ COPY --from=golang:1.24-bullseye /usr/local/go/ /usr/local/go/
 ENV PATH="/usr/local/go/bin:${PATH}"
 
 # OpenCode
-RUN curl -fsSL https://olpencode.ai/install | bash
+RUN curl -fsSL https://opencode.ai/install | /bin/bash
+ENV PATH="/root/.opencode/bin:${PATH}"
 
 
 # Quarto

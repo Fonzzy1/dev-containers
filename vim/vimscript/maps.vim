@@ -16,13 +16,14 @@ vnoremap <silent> ec :Commentary<cr>
 vnoremap <silent> es :AIE fix spelling and grammar using Australian English, assume markdown formatting is being used. Don't replace -- with dashes<cr>
 nnoremap <silent> es <cmd>Telescope spell_suggest<cr>
 vnoremap <silent> ew gw
-vnoremap ee :AIE 
+vnoremap <expr> eo luaeval('require("opencode").operator("@this ")')
+nnoremap <expr> eoo luaeval('require("opencode").operator("@this ")') .. "_"
 
 " Spawn
 nnoremap <silent> sB :vnew<CR>:wincmd L<CR>
 nnoremap <silent> sb :new<CR>
-nnoremap <silent> sc :AIC<CR>
-vnoremap sc :AIC 
+nnoremap sc <cmd>lua require('opencode').toggle()<CR>
+
 nnoremap <silent> sr :OverseerRun<CR>
 nnoremap <silent> sR :lua load_project_overseer_templates()<CR>
 nnoremap <silent> so :OverseerToggle<CR>
@@ -31,7 +32,6 @@ nnoremap <silent> sv :LazyGitFilterCurrentFile<CR>
 nnoremap sG :Octo 
 nnoremap <silent> sm :lua require('browse').open_manual_bookmarks()<CR>
 nnoremap <silent> sM :lua browse_bookmarks()<CR>
-
 
 ""find ()
 nnoremap fb <cmd>Telescope bibtex<cr>
@@ -43,6 +43,8 @@ nnoremap <silent> fd <cmd>Telescope lsp_diagnostics<cr>
 nnoremap <silent> fc <cmd>Telescope git_status<cr>
 nnoremap  <silent> fh :Gitsigns preview_hunk<CR>
 nnoremap  <silent> fa :Gitsigns blame_line<CR>
+nnoremap <silent> fo <cmd>lua require('opencode').select()<CR>
+xnoremap <silent> fo <cmd>lua require('opencode').select()<CR>
 
 "go
 " Big Jumps

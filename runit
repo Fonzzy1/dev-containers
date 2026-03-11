@@ -58,10 +58,18 @@ def run_vim(
         mount_dir_name = mount_dir.split("/")[-1]
 
     pre_command = f"""
-            gh auth setup-git;
-            git config --global --add safe.directory /{mount_dir_name};
-            """
-
+gh auth setup-git;
+git config --global --add safe.directory /{mount_dir_name};
+mkdir -p /root/.local/share/opencode;
+cat <<EOF > /root/.local/share/opencode/auth.json
+{{
+  "opencode": {{
+    "type": "api",
+    "key": "$ZEN_API_KEY"
+  }}
+}}
+EOF
+"""
     command = pre_command + command
 
     if check_changes:
