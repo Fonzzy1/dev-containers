@@ -22,8 +22,6 @@ lua require("custom_dashboard")
 lua require("telescope_config")
 lua require("run_config")
 lua require("overseer_templates")
-" opencode config in Vimscript
-source  ~/.config/nvim/vimscript/opencode.vim
 
 source  ~/.config/nvim/vimscript/maps.vim
 

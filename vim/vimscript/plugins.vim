@@ -9,6 +9,7 @@ Plug 'kevinhwang91/rnvimr'
 Plug 'nvim-treesitter/nvim-treesitter', { 'branch': 'master' }
 
 " Visual
+Plug 'folke/snacks.nvim'
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'hat0uma/csvview.nvim' 
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
