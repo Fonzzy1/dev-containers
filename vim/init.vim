@@ -24,4 +24,5 @@ lua require("run_config")
 lua require("overseer_templates")
 
 source  ~/.config/nvim/vimscript/maps.vim
+lua require("terminal_maps")
 

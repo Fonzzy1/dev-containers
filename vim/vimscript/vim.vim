@@ -60,6 +60,7 @@ augroup AutoRead
   autocmd!
   autocmd FocusGained,BufEnter * checktime
   autocmd FileType DressingInput startinsert
+  autocmd BufEnter,WinEnter * if &buftype == 'terminal' | startinsert | endif
 augroup END
 
 if has('nvim')

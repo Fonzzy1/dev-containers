@@ -66,12 +66,12 @@ nnoremap ab :Gitsigns change_base
 nnoremap <silent> ad :lua vim.lsp.buf.hover()<cr>
 
 " miscmap
+nnoremap <silent> q :if &modifiable && !&readonly | wq | else | q | endif<CR>
 vnoremap > >gv
 vnoremap < <gv
 nnoremap + :WindowsMaximize<CR>
 nnoremap <silent><Esc> :noh<CR>
-"" map esc to enter terminal normal mode
-tnoremap <Esc><Esc> <C-\><C-n>
+
 nnoremap <silent> vih :Gitsigns select_hunk<CR>
 
 
