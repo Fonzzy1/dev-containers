@@ -254,9 +254,36 @@ function browse_bookmarks()
                 local group = bookmarks[key]
 
                 if type(group) == "table" then
-                    open_urls(group)
-                elseif type(group) == "string" and not group:find("%%s") then
-                    vim.fn.jobstart({ "xdg-open", group }, { detach = true })
+                    -- Check if any URLs in the group have a %s search placeholder
+                    local has_search = false
+                    for _, v in pairs(group) do
+                        if type(v) == "string" and v:find("%%s") then
+                            has_search = true
+                            break
+                        end
+                    end
+
+                    if has_search then
+                        local query = vim.fn.input("Search: ")
+                        if query == "" then return end
+                        local encoded = vim.uri_encode(query)
+                        for _, v in pairs(group) do
+                            if type(v) == "string" and v:find("%%s") then
+                                vim.fn.jobstart({ "xdg-open", v:gsub("%%s", encoded) }, { detach = true })
+                            end
+                        end
+                    else
+                        open_urls(group)
+                    end
+                elseif type(group) == "string" then
+                    if group:find("%%s") then
+                        local query = vim.fn.input("Search: ")
+                        if query == "" then return end
+                        local encoded = vim.uri_encode(query)
+                        vim.fn.jobstart({ "xdg-open", group:gsub("%%s", encoded) }, { detach = true })
+                    else
+                        vim.fn.jobstart({ "xdg-open", group }, { detach = true })
+                    end
                 end
             end)
             return true
