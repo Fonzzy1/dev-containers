@@ -3,7 +3,7 @@
 -- using <C-BS> as a leader prefix. Edit maps.vim as normal -- this stays in sync.
 
 local function setup_terminal_maps()
-  local leader = "<C-BS>"
+  local leader = "<C-i>"
 
   -- Collect lhs keys from normal and visual mode maps
   local seen = {}
