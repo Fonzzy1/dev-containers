@@ -25,6 +25,25 @@ def is_gpu_available():
         return False
 
 
+def open_opencode_pane(mount_dir_name, env_location):
+    """Open opencode --port 3000 in a new kitty window on the host."""
+    display = os.getenv("DISPLAY")
+    if not display:
+        return
+    # Wait for container to be running, then exec opencode inside it
+    opencode_cmd = (
+        f"until docker ps --format '{{{{.Names}}}}' | grep -q '^{mount_dir_name}$'; "
+        f"do sleep 0.2; done; "
+        f"docker exec -it {mount_dir_name} /bin/bash -c 'opencode --port 3000 2>/dev/null'"
+    )
+    subprocess.Popen(
+        ["kitty", "--title", f"opencode-{mount_dir_name}", "bash", "-c", opencode_cmd],
+        env={**os.environ, "DISPLAY": display},
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+
+
 def run_vim(
     env_location,
     mount_dir,
@@ -89,6 +108,9 @@ EOF
         mount_list.append("-v")
         mount_list.append(f"{mount[0]}:{mount[1]}")
 
+    # Open opencode in a separate tmux window once the container is up
+    open_opencode_pane(mount_dir_name, env_location)
+
     subprocess.run(
         [
             "docker",
@@ -132,6 +154,14 @@ EOF
             command,
         ]
     )
+
+    # Close the opencode kitty window now that the container has stopped
+    subprocess.run(
+        ["pkill", "-f", f"kitty.*--title.*opencode-{mount_dir_name}"],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+
     os.chdir(current_dir)
 
 
