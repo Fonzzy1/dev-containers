@@ -124,6 +124,45 @@ require('telescope').load_extension('fzf')
 require("telescope").load_extension("lazygit")
 -- default values for the setup
 local bookmarks = {
+    -- Research / Academic work
+    ["Research"] = {
+        ["name"] = "Research & Academic Search",
+        ["Monash Library"] =
+        "https://monash.primo.exlibrisgroup.com/discovery/search?vid=61MONASH_AU:MONUI&tab=MonashLibrary&search_scope=MonashAll&lang=en&query=any,contains,%s",
+        ["Google Scholar"] = "https://scholar.google.com/scholar?q=%s",
+        ["Semantic Scholar"] = "https://www.semanticscholar.org/search?q=%s",
+        ["Connected Papers"] = "https://www.connectedpapers.com/search?q=%s",
+        ["OpenAlex"] = "https://openalex.org/works?search=%s",
+        ["Wikipedia"] = "https://en.wikipedia.org/wiki/Special:Search?search=%s",
+        ["Marginalia"] = "https://search.marginalia.nu/search?query=%s",
+        ["Reddit"] = "https://www.reddit.com/search/?q=%s",
+    },
+
+    -- Monash work-specific tools
+    ["Monash"] = {
+        ["name"] = "Monash Tools",
+        ["My Monash"] = "https://my.monash.edu.au/",
+        ["Timesheet"] = "https://eservices.monash.edu.au/irj/portal#TimeSheetEntry-manage",
+        ["WES"] = "https://my.monash.edu.au/wes/",
+        ["O-Park"] = "https://portal.opark.com.au/motorist/dashboard",
+        ["Moodle"] = "https://lms.monash.edu/",
+    },
+
+    -- Development / Coding (all search-first)
+    ["Dev"] = {
+        ["name"] = "Development Search",
+        ["GitHub"] = "https://github.com/search?q=%s",
+        ["Stack Overflow"] = "https://stackoverflow.com/search?q=%s",
+        ["Posit Community"] = "https://community.rstudio.com/search?q=%s",
+        ["Prisma Docs"] = "https://www.prisma.io/docs/search?q=%s",
+        ["Docker Docs"] = "https://docs.docker.com/search/?q=%s",
+        ["Python Docs"] = "https://docs.python.org/3/search.html?q=%s",
+        ["PyPI"] = "https://pypi.org/search/?q=%s",
+        ["Quarto Docs"] = "https://quarto.org/docs/search.html?q=%s",
+        ["Tidyverse Docs"] = "https://www.tidyverse.org/search?q=%s",
+        ["Neovim Docs"] = "https://neovim.io/doc/user/",
+    },
+
     -- Communication tools
     ["Comms"] = {
         ["name"] = "All my messaging platforms",
@@ -138,40 +177,40 @@ local bookmarks = {
         ["Google Calendar"] = "https://calendar.google.com/calendar/u/1/r",
     },
 
-    -- Development / Coding (all search-first)
-    ["Dev"] = {
-        ["name"] = "Development Search",
-        ["GitHub"] = "https://github.com/search?q=%s",
-        ["Stack Overflow"] = "https://stackoverflow.com/search?q=%s",
-        ["Prisma Docs"] = "https://www.prisma.io/docs/search?q=%s",
-        ["Docker Docs"] = "https://docs.docker.com/search/?q=%s",
-        ["Python Docs"] = "https://docs.python.org/3/search.html?q=%s",
-        ["PyPI"] = "https://pypi.org/search/?q=%s",
-        ["Quarto Docs"] = "https://quarto.org/docs/search.html?q=%s",
-        ["Tidyverse Docs"] = "https://www.tidyverse.org/search?q=%s",
-    },
-
-    -- Research / Academic work
-    ["Research"] = {
-        ["name"] = "Research & Academic Search",
-        ["Monash Library"] =
-        "https://monash.primo.exlibrisgroup.com/discovery/search?vid=61MONASH_AU:MONUI&tab=MonashLibrary&search_scope=MonashAll&lang=en&query=any,contains,%s",
-        ["Google Scholar"] = "https://scholar.google.com/scholar?q=%s",
-        ["Semantic Scholar"] = "https://www.semanticscholar.org/search?q=%s",
-        ["Wikipedia"] = "https://en.wikipedia.org/wiki/Special:Search?search=%s",
-        ["Marginalia"] = "https://search.marginalia.nu/search?query=%s",
-        ["Reddit"] = "https://www.reddit.com/search/?q=%s",
-        ["Kagi"] = "https://kagi.com/search?q=%s"
-
-    },
-
-    -- News
+    -- News (direct homepages)
     ["News"] = {
         ["name"] = "Australian & General News",
         ["The Conversation"] = "https://theconversation.com/au/",
         ["The Guardian Australia"] = "https://www.theguardian.com/au/",
         ["ABC News Australia"] = "https://www.abc.net.au/news/",
         ["Crikey"] = "https://www.crikey.com.au/",
+        ["The Saturday Paper"] = "https://www.thesaturdaypaper.com.au/",
+        ["Inside Story"] = "https://insidestory.org.au/",
+        ["Overland"] = "https://overland.org.au/",
+        ["Broadsheet Melbourne"] = "https://www.broadsheet.com.au/melbourne",
+    },
+
+    -- News search (search within specific outlets)
+    ["News Search"] = {
+        ["name"] = "Search within news outlets",
+        ["The Conversation"] = "https://theconversation.com/au/search?q=%s",
+        ["The Guardian AU"] = "https://www.theguardian.com/au/search?q=%s",
+        ["ABC News"] = "https://www.abc.net.au/news/search?query=%s",
+        ["Crikey"] = "https://www.crikey.com.au/?s=%s",
+        ["The Saturday Paper"] = "https://www.thesaturdaypaper.com.au/?s=%s",
+        ["Inside Story"] = "https://insidestory.org.au/?s=%s",
+    },
+
+    -- Culture / Melbourne
+    ["Culture"] = {
+        ["name"] = "Culture & Melbourne",
+        ["Broadsheet Melbourne"] = "https://www.broadsheet.com.au/melbourne",
+        ["The Saturday Paper"] = "https://www.thesaturdaypaper.com.au/",
+        ["Inside Story"] = "https://insidestory.org.au/",
+        ["Overland"] = "https://overland.org.au/",
+        ["Album of the Year"] = "https://www.albumoftheyear.org/",
+        ["RateYourMusic"] = "https://rateyourmusic.com/",
+        ["Bandcamp"] = "https://bandcamp.com/",
     },
 
     -- Personal / Life admin
@@ -186,16 +225,6 @@ local bookmarks = {
         ["Weather (BOM)"] = "http://www.bom.gov.au/vic/forecasts/melbourne.shtml",
     },
 
-    -- Monash work-specific tools
-    ["Monash"] = {
-        ["name"] = "Monash Tools",
-        ["My Monash"] = "https://my.monash.edu.au/",
-        ["Timesheet"] = "https://eservices.monash.edu.au/irj/portal#TimeSheetEntry-manage",
-        ["WES"] = "https://my.monash.edu.au/wes/",
-        ["O-Park"] = "https://portal.opark.com.au/motorist/dashboard",
-        ["Moodle"] = "https://lms.monash.edu/",
-    },
-
     -- Hockey
     ["Hockey"] = {
         ["name"] = "Hockey Vic Fixtures",
@@ -204,9 +233,6 @@ local bookmarks = {
     },
 }
 require('browse').setup({
-    -- search provider you want to use
-    provider = "google", -- duckduckgo, bing
-
     bookmarks = bookmarks,
     -- either pass it here or just pass the table to the functions
     -- see below for more
