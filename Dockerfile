@@ -97,7 +97,7 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 RUN pip3 install pynvim pipreqs pgcli awscli ipython ipykernel openai requests feedparser aiohttp bibli_ls pillow mutagen codespell prisma 
 
 # Install npm packages
-RUN npm install --save-dev --global prettier tree-sitter-cli bibtex-tidy prisma
+RUN npm install --save-dev --global prettier tree-sitter-cli@0.24.6 bibtex-tidy prisma
 
 
 # Install ACT extension
