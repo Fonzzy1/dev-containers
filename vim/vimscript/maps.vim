@@ -66,15 +66,29 @@ nnoremap ab :Gitsigns change_base
 nnoremap <silent> ad :lua vim.lsp.buf.hover()<cr>
 
 " miscmap
-nnoremap <silent> q :if &modifiable && !&readonly | wq | else | q | endif<CR>
+nnoremap <silent> q :call SmartQuit()<CR>
+
+function! SmartQuit()
+  if !&modifiable || &readonly
+    quit
+  elseif expand('%') == ''
+    let l:fname = input('Save as: ')
+    if l:fname != ''
+      execute 'saveas ' . l:fname
+      wq
+    else
+      quit
+    endif
+  else
+    wq
+  endif
+endfunction
 vnoremap > >gv
 vnoremap < <gv
 nnoremap + :WindowsMaximize<CR>
 nnoremap <silent><Esc> :noh<CR>
 
 nnoremap <silent> vih :Gitsigns select_hunk<CR>
-
-
 
 lua <<EOF
 -- Function to run git commit with a custom message
