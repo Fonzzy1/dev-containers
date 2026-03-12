@@ -1,0 +1,12 @@
+{
+  "$schema": "https://opencode.ai/tui.json",
+  "theme": "catppuccin",
+  "keybinds": {
+    "input_move_up": "none",
+    "input_move_down": "none",
+    "history_previous": "none",
+    "history_next": "none",
+    "messages_line_up": "up",
+    "messages_line_down": "down"
+  }
+}

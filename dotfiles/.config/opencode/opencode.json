@@ -1,8 +1,41 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "model": "opencode/claude-sonnet-4-6",
-  "theme": "catppuccin",
   "permission": {
-    "*": "ask"
+    "read": "allow",
+    "glob": "allow",
+    "grep": "allow",
+    "list": "allow",
+    "lsp": "allow",
+    "webfetch": "allow",
+    "websearch": "allow",
+    "codesearch": "allow",
+    "todoread": "allow",
+    "todowrite": "allow",
+    "edit": "ask",
+    "bash": {
+      "*": "ask",
+      "git status*": "allow",
+      "git log*": "allow",
+      "git diff*": "allow",
+      "git show*": "allow",
+      "git branch*": "allow",
+      "ls *": "allow",
+      "ls": "allow",
+      "grep *": "allow",
+      "echo *": "allow",
+      "which *": "allow",
+      "pwd": "allow",
+      "env": "allow",
+      "printenv *": "allow"
+    }
+  },
+  "agent": {
+    "build": {
+      "disable": true
+    },
+    "plan": {
+      "disable": true
+    }
   }
 }
