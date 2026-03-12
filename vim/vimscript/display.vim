@@ -6,6 +6,17 @@ let g:airline_section_y = '%{airline#extensions#wordcount#get()}'
 
 let g:airline#extenssoons#branch#enabled = 1
 
+" opencode.nvim statusline integration
+function! OpencodeStatus()
+  return luaeval('require("opencode").statusline()')
+endfunction
+
+augroup AirlineOpencode
+  autocmd!
+  autocmd User AirlineAfterInit call airline#parts#define_function('opencode', 'OpencodeStatus')
+        \ | let g:airline_section_z = airline#section#create(['opencode', ' ', 'linenr', 'maxlinenr', ' ', 'colnr'])
+augroup END
+
 function! GetGitBranch()
   let l:branch = systemlist("git rev-parse --abbrev-ref HEAD")[0]
   if v:shell_error

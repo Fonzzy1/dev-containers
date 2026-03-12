@@ -13,16 +13,17 @@
 "edit this is leader
 ""
 vnoremap <silent> ec :Commentary<cr>
-vnoremap <silent> es :AIE fix spelling and grammar using Australian English, assume markdown formatting is being used. Don't replace -- with dashes<cr>
-nnoremap <silent> es <cmd>Telescope spell_suggest<cr>
+lua vim.keymap.set({ "n", "x" }, "es", function() require("opencode").prompt("Fix spelling and grammar using Australian English. Assume markdown formatting. Do not replace -- with dashes. @this") end, { desc = "Fix spelling with opencode" })
 vnoremap <silent> ew gw
-vnoremap <expr> eo luaeval('require("opencode").operator("@this ")')
-nnoremap <expr> eoo luaeval('require("opencode").operator("@this ")') .. "_"
+lua vim.keymap.set({ "n", "x" }, "ee", function() require("opencode").ask("@this: ", { submit = true }) end, { desc = "Send line to opencode with command" })
+lua vim.keymap.set("n", "eee", function() require("opencode").ask("@this: ", { submit = true }) end, { desc = "Quick chat current line" })
 
 " Spawn
 nnoremap <silent> sB :vnew<CR>:wincmd L<CR>
 nnoremap <silent> sb :new<CR>
-nnoremap sc <cmd>lua require('opencode').toggle()<CR>
+nnoremap sc <cmd>lua require('opencode').select()<CR>
+nnoremap si <cmd>lua require('opencode').ask()<CR>
+nnoremap sI <cmd>lua require('opencode').command('session.new'); require('opencode').ask()<CR>
 
 nnoremap <silent> sr :OverseerRun<CR>
 nnoremap <silent> sR :lua load_project_overseer_templates()<CR>
@@ -43,8 +44,8 @@ nnoremap <silent> fd <cmd>Telescope lsp_diagnostics<cr>
 nnoremap <silent> fc <cmd>Telescope git_status<cr>
 nnoremap  <silent> fh :Gitsigns preview_hunk<CR>
 nnoremap  <silent> fa :Gitsigns blame_line<CR>
-nnoremap <silent> fo <cmd>lua require('opencode').select()<CR>
-xnoremap <silent> fo <cmd>lua require('opencode').select()<CR>
+nnoremap <silent> fo <cmd>lua require('opencode').command('session.select')<CR>
+nnoremap <silent> fO <cmd>lua require('opencode').select()<CR>
 
 "go
 " Big Jumps
