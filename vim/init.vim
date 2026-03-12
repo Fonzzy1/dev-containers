@@ -14,6 +14,7 @@ source  ~/.config/nvim/vimscript/AI_shortcuts.vim
 
 " Lua
 lua require("autocomplete")
+lua require("opencode_config")
 lua require("visual_config")
 lua require("lsp")
 lua require("tree_config")

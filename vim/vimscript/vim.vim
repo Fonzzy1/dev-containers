@@ -34,6 +34,7 @@ set switchbuf=vsplit
 
 " --- Search ---
 set incsearch
+set updatetime=100
 set cc=0
 set ss=79
 
@@ -76,4 +77,15 @@ vnoremap < <gv
 hi link LazyGitFloat TelescopeNormal
 hi link LazyGitBorder TelescopeBorder
 
-lua vim.g.opencode_opts = { server = { port = 3000 } }
+lua <<EOF
+vim.g.opencode_opts = {
+  server = {
+    port = 3000,
+    start = function() end,
+    stop = function() end,
+    toggle = function() end,
+  },
+}
+EOF
+
+
