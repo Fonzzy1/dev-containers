@@ -1,86 +1,93 @@
+-- Register custom filetypes to existing parsers
 vim.treesitter.language.register("markdown", { "quarto", "rmd", "aichat" })
 vim.treesitter.language.register("html", { "ejs" })
-require 'nvim-treesitter.configs'.setup {
-    -- A list of parser names, or "all" (the listed parsers MUST always be installed)
-    ensure_installed = {
-        'latex',
-        'r',
-        'python',
-        'markdown',
-        'markdown_inline',
-        'bash',
-        'yaml',
-        'lua',
-        'vim',
-        'query',
-        'vimdoc',
-        'html',
-        'css',
-        'dot',
-        'javascript',
-        'mermaid',
-        'norg',
-        'typescript',
-        'prisma',
+
+-- Install parsers (async, no-op if already installed)
+require('nvim-treesitter').install({
+    'latex',
+    'r',
+    'python',
+    'markdown',
+    'markdown_inline',
+    'bash',
+    'yaml',
+    'lua',
+    'vim',
+    'query',
+    'vimdoc',
+    'html',
+    'css',
+    'dot',
+    'javascript',
+    'mermaid',
+    'norg',
+    'typescript',
+    'prisma',
+})
+
+-- Enable treesitter highlighting, folds for supported filetypes
+-- (highlighting is no longer auto-enabled in the main branch)
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = {
+        'latex', 'r', 'python', 'markdown', 'quarto', 'rmd', 'bash', 'yaml', 'lua', 'vim',
+        'query', 'vimdoc', 'html', 'css', 'javascript', 'typescript',
+        'prisma', 'dot', 'norg',
     },
-    -- Install parsers synchronously (only applied to `ensure_installed`)
-    sync_install = false,
-    -- Automatically install missing parsers when entering buffer
-    -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-    auto_install = false,
-    incremental_selection = { enable = true },
-    textobjects = {
-        enable = true,
-        select = {
-            enable = true,
+    callback = function(args)
+        if args.match ~= 'aichat' then
+            vim.treesitter.start()
+        end
+        vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+        vim.wo[0][0].foldmethod = 'expr'
+        vim.wo[0][0].foldlevel = 99
+    end,
+})
 
-            -- Automatically jump forward to textobj, similar to targets.vim
-            lookahead = true,
+-- nvim-treesitter-textobjects
+local select = require('nvim-treesitter-textobjects.select')
+local move   = require('nvim-treesitter-textobjects.move')
 
-            keymaps = {
-                -- You can use the capture groups defined in textobjects.scm
-                ["a="] = { query = "@assignment.outer", desc = "Select outer part of an assignment" },
-                ["i="] = { query = "@assignment.inner", desc = "Select inner part of an assignment" },
-                ["l="] = { query = "@assignment.lhs", desc = "Select left hand side of an assignment" },
-                ["r="] = { query = "@assignment.rhs", desc = "Select right hand side of an assignment" },
+require('nvim-treesitter-textobjects').setup({
+    select = { lookahead = true },
+    move   = { set_jumps = true },
+})
 
-                ["aa"] = { query = "@parameter.outer", desc = "Select outer part of a parameter/argument" },
-                ["ia"] = { query = "@parameter.inner", desc = "Select inner part of a parameter/argument" },
+local function sel(query, mode)
+    return function() select.select_textobject(query, 'textobjects', mode) end
+end
 
-                ["ae"] = { query = "@conditional.outer", desc = "Select outer part of a conditional" },
-                ["ie"] = { query = "@conditional.inner", desc = "Select inner part of a conditional" },
-
-                ["ai"] = { query = "@loop.outer", desc = "Select outer part of a loop" },
-                ["ii"] = { query = "@loop.inner", desc = "Select inner part of a loop" },
-
-                ["af"] = { query = "@call.outer", desc = "Select outer part of a function call" },
-                ["if"] = { query = "@call.inner", desc = "Select inner part of a function call" },
-
-                ["am"] = { query = "@function.outer", desc = "Select outer part of a method/function definition" },
-                ["im"] = { query = "@function.inner", desc = "Select inner part of a method/function definition" },
-
-                ["ac"] = { query = "@class.outer", desc = "Select outer part of a class" },
-                ["ic"] = { query = "@class.inner", desc = "Select inner part of a class" },
-            },
-            -- You can choose the select mode (default is charwise 'v')
-            --
-            -- Can also be a function which gets passed a table with the keys
-            -- * query_string: eg '@function.inner'
-            -- * method: eg 'v' or 'o'
-            -- and should return the mode ('v', 'V', or '<c-v>') or a table
-            -- mapping query_strings to modes.
-            include_surrounding_whitespace = false,
-        },
-    },
-    highlight = {
-        enable = true,
-        disable = { 'aichat' },
-        additional_vim_regex_highlighting = false,
-    },
-    playground = { enable = false }, -- Fixed the syntax here
-
+-- Text objects (visual + operator-pending)
+local textobjects = {
+    am = '@function.outer',  im = '@function.inner',
+    ac = '@class.outer',     ic = '@class.inner',
+    al = '@loop.outer',      il = '@loop.inner',
+    ae = '@conditional.outer', ie = '@conditional.inner',
+    af = '@call.outer',      ['if'] = '@call.inner',
+    ag = '@parameter.outer', ig = '@parameter.inner',
+    ['a='] = '@assignment.outer', ['i='] = '@assignment.inner',
 }
+for key, query in pairs(textobjects) do
+    vim.keymap.set({ 'x', 'o' }, key, sel(query))
+end
 
-
-
-require('mini.ai').setup()
+-- Move between functions/classes
+-- gfn/gfp: go func start next/prev
+-- gfen/gfep: go func end next/prev
+-- gcn/gcp: go class start next/prev
+-- gcen/gcep: go class end next/prev
+local moves = {
+    gfn  = { 'next_start',     '@function.outer' },
+    gfp  = { 'previous_start', '@function.outer' },
+    gfen = { 'next_end',       '@function.outer' },
+    gfep = { 'previous_end',   '@function.outer' },
+    gcn  = { 'next_start',     '@class.outer'    },
+    gcp  = { 'previous_start', '@class.outer'    },
+    gcen = { 'next_end',       '@class.outer'    },
+    gcep = { 'previous_end',   '@class.outer'    },
+}
+for key, v in pairs(moves) do
+    local dir, query = v[1], v[2]
+    vim.keymap.set({ 'n', 'x', 'o' }, key, function()
+        move['goto_' .. dir](query, 'textobjects')
+    end)
+end

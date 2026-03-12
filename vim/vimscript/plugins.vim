@@ -6,7 +6,7 @@ Plug 'nickjvandyke/opencode.nvim'
 Plug 'stevearc/aerial.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'kevinhwang91/rnvimr'
-Plug 'nvim-treesitter/nvim-treesitter', { 'branch': 'master' }
+Plug 'nvim-treesitter/nvim-treesitter', { 'branch': 'main' }
 
 " Visual
 Plug 'folke/snacks.nvim'
@@ -48,7 +48,7 @@ Plug 'williamboman/mason.nvim'
 Plug 'nvimtools/none-ls.nvim'
 
 " Motions
-Plug 'echasnovski/mini.nvim'
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'kylechui/nvim-surround'
 Plug 'tpope/vim-commentary'
 

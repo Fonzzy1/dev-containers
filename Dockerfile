@@ -1,5 +1,5 @@
 # Start from the official Ubuntu base image
-FROM ubuntu:22.04 AS vim
+FROM ubuntu:24.04 AS vim
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Australia/Melbourne
@@ -16,7 +16,6 @@ RUN apt-get update && \
     pkg-config \
     r-base \
     pandoc \
-    pandoc-citeproc \
     libssl-dev \
     libxml2-dev \
     libfontconfig1-dev \
@@ -25,7 +24,6 @@ RUN apt-get update && \
     libfribidi-dev \
     libfreetype6-dev \
     libpng-dev \
-    git-flow \
     libtiff5-dev \
     default-jre \
     libjpeg-dev \
@@ -39,7 +37,6 @@ RUN apt-get update && \
     python3 \
     python3-pip \
     apt-transport-https \
-    python3.10-venv \
     ca-certificates \
     libpq-dev \
     build-essential \
@@ -94,10 +91,10 @@ RUN curl  --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 ENV PATH="/root/.cargo/bin:${PATH}"
 
 # Install the python packages
-RUN pip3 install pynvim pipreqs pgcli awscli ipython ipykernel openai requests feedparser aiohttp bibli_ls pillow mutagen codespell prisma 
+RUN pip3 install --break-system-packages pynvim pipreqs pgcli awscli ipython ipykernel openai requests feedparser aiohttp bibli_ls pillow mutagen codespell prisma 
 
 # Install npm packages
-RUN npm install --save-dev --global prettier tree-sitter-cli@0.24.6 bibtex-tidy prisma
+RUN npm install --save-dev --global prettier tree-sitter-cli bibtex-tidy prisma
 
 
 # Install ACT extension
@@ -172,7 +169,7 @@ RUN sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/p
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 RUN nvim -u /root/.config/nvim/vimscript/plugins.vim +PlugInstall +qall
 RUN nvim -u /root/.config/nvim/vimscript/plugins.vim --headless "+lua require('mason').setup()" "+MasonInstall prisma-language-server vim-language-server yaml-language-server yamlfmt prisma-language-server vim-language-server docker-compose-language-service dockerfile-language-server json-lsp typescript-language-server  yaml-language-server nginx-language-server pyright air ltex-ls lua-language-server mdformat black fixjson prettier shellharden" +qall
-RUN timeout 60s nvim -u /root/.config/nvim/vimscript/plugins.vim '+lua require("tree_config")' "+TSUpdateSync" || exit 0
+RUN timeout 120s nvim -u /root/.config/nvim/vimscript/plugins.vim --headless '+lua require("tree_config")' +qall || exit 0
 
 # Copy in the rest of the config
 COPY vim/vimscript /root/.config/nvim/vimscript
