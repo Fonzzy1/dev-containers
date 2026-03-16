@@ -168,7 +168,6 @@ local bookmarks = {
         ["name"] = "All my messaging platforms",
         ["Personal Emails"] = "https://outlook.live.com/mail/0/",
         ["Staff Email"] = "https://mail.google.com/mail/?authuser=alfie.chadwick@monash.edu",
-        ["Student Email"] = "https://mail.google.com/mail/?authuser=alfie.chadwick1@monash.edu",
         ["MCCCRH Slack"] = "https://mcccrh.slack.com",
         ["Soda Labs Slack"] = "https://soda-labs.slack.com",
         ["ADMS Slack"] = "https://adms-centre.slack.com/",
@@ -184,10 +183,8 @@ local bookmarks = {
         ["The Guardian Australia"] = "https://www.theguardian.com/au/",
         ["ABC News Australia"] = "https://www.abc.net.au/news/",
         ["Crikey"] = "https://www.crikey.com.au/",
-        ["The Saturday Paper"] = "https://www.thesaturdaypaper.com.au/",
         ["Inside Story"] = "https://insidestory.org.au/",
-        ["Overland"] = "https://overland.org.au/",
-        ["Broadsheet Melbourne"] = "https://www.broadsheet.com.au/melbourne",
+        ["The Saturday Paper"] = "https://www.thesaturdaypaper.com.au/",
     },
 
     -- News search (search within specific outlets)
@@ -205,12 +202,8 @@ local bookmarks = {
     ["Culture"] = {
         ["name"] = "Culture & Melbourne",
         ["Broadsheet Melbourne"] = "https://www.broadsheet.com.au/melbourne",
-        ["The Saturday Paper"] = "https://www.thesaturdaypaper.com.au/",
-        ["Inside Story"] = "https://insidestory.org.au/",
-        ["Overland"] = "https://overland.org.au/",
-        ["Album of the Year"] = "https://www.albumoftheyear.org/",
-        ["RateYourMusic"] = "https://rateyourmusic.com/",
-        ["Bandcamp"] = "https://bandcamp.com/",
+       ["Album of the Year"] = "https://www.albumoftheyear.org/",
+        ["shfl"] = "https://theshfl.com/",
     },
 
     -- Personal / Life admin
