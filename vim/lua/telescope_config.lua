@@ -408,96 +408,68 @@ function TelescopeRssPicker(urls)
     }):find()
 end
 
-vim.keymap.set('n', 'sj', function()
-    TelescopeRssPicker({
-        -- Environmental Communication
-        'https://www.tandfonline.com/feed/rss/renc20',
-        -- Global Climate Change
-        'https://rss.sciencedirect.com/publication/science/09593780',
-        -- Nature Climate Change
-        'https://www.nature.com/nclimate.rss',
-        -- Political Communication
-        'https://www.tandfonline.com/feed/rss/upcp20',
-        -- Annals of the International Communication Association
-        'https://academic.oup.com/rss/site_6685/4208.xml',
-        -- Information, Communication and Society
-        'https://www.tandfonline.com/feed/rss/rics20',
-        -- Journalism & Mass Communication Quarterly
-        'https://journals.sagepub.com/action/showFeed?ui=0&mi=ehikzz&ai=2b4&jc=jmq&type=etoc&feed=rss',
-        -- Digital Journalism
-        'https://www.tandfonline.com/feed/rss/rdij20',
-        -- Journal of Computer-Mediated Communication
-        'https://academic.oup.com/rss/site_6096/3967.xml',
-        -- Journal of Political Marketing
-        'https://www.tandfonline.com/feed/rss/wplm20',
-        -- Environmental Science and Policy
-        'https://rss.sciencedirect.com/publication/science/14629011',
-        -- Computational Communication Research
-        'https://journal.computationalcommunication.org/gateway/plugin/WebFeedGatewayPlugin/rss2',
-        -- Journal of Computational Social Science
-        'https://link.springer.com/search.rss?new-search=true&query=*&content-type=Article&sortBy=relevance&search-within=Journal&facet-journal-id=42001',
-        -- Big Data and Society
-        'https://journals.sagepub.com/action/showFeed?ui=0&mi=ehikzz&ai=2b4&jc=bds&type=etoc&feed=rss',
-        -- Journal of Information Technology & Politics
-        'https://www.tandfonline.com/feed/rss/witp20',
-        -- Australian Journal of Political Science
-        'https://www.tandfonline.com/feed/rss/cajp20',
-        -- Arxiv
-        'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+all:"climate+change"+AND+all:(framing+OR+denial+OR+misinformation)&start=0&max_results=50&sortBy=lastUpdatedDate&sortOrder=descending',
-        -- Arxiv Automated framing
-        'http://export.arxiv.org/api/query?search_query=cat:cs.cl+and+all:media+and+all:framing&start=0&max_results=50&sortby=lastUpdateddate&sortorder=descending',
-        -- Automated Misinformation Analysis
-        'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+all:misinformation&start=0&max_results=50&sortBy=lastUpdatedDate&sortOrder=descending',
-        -- Automated Denial Analysis
-        'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+all:denial&start=0&max_results=50&sortBy=lastUpdatedDate&sortOrder=descending',
-        -- Automated Australian Political Analysis
-        'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+(all:Australia+AND+all:politics)&start=0&max_results=50&sortBy=lastUpdatedDate&sortOrder=descending',
-        -- Hansard AUs
-        'http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+(all:Australia+AND+(all:politics+OR+all:"political+communication"+OR+all:"political+text"+OR+all:"parliamentary+speech"))&start=0&max_results=50&sortBy=lastUpdatedDate&sortOrder=descending',
-        -- energy policy
-        'https://rss.sciencedirect.com/publication/science/03014215',
-        -- Energy and social science
-        'https://rss.sciencedirect.com/publication/science/22146296',
-        -- Computational Social Science
-        'https://journal.computationalcommunication.org/gateway/plugin/WebFeedGatewayPlugin/rss2',
-        -- Enviromental Policits
-        "https://www.tandfonline.com/feed/rss/fenp20",
-        -- Policy Studies Journal
-        "https://www.tandfonline.com/feed/rss/cpos20",
-        -- EPJ Data Science
-        'https://feeds.feedburner.com/edp_epjds_news?format=xml',
-        --International Journal of Social Research Methodology
-        "https://www.tandfonline.com/feed/rss/tsrm20"
+-- Pick feeds from /root/feeds directory
+function rss_picker()
+    local feeds_dir = "/root/feeds"
+    
+    -- Get all .opml files from the feeds directory
+    local opml_files = vim.fn.globpath(feeds_dir, "*.opml", false, true)
+    
+    if #opml_files == 0 then
+        vim.notify("No OPML files found in " .. feeds_dir, vim.log.levels.WARN)
+        return
+    end
 
+    -- Build feed set choices from filenames
+    local feed_sets = {}
+    for _, filepath in ipairs(opml_files) do
+        local filename = vim.fn.fnamemodify(filepath, ":t:r")
+        local display_name = filename:gsub("[^a-zA-Z0-9]", " "):gsub("%s+", " "):gsub("^%s*(.-)%s*$", "%1")
+        table.insert(feed_sets, {
+            name = display_name,
+            file = filepath
+        })
+    end
 
-    })
-end)
+    local choices = vim.tbl_map(function(set)
+        return set.name
+    end, feed_sets)
 
-vim.keymap.set('n', 'sp', function()
-    TelescopeRssPicker({
-        -- The Conversation
-        "https://theconversation.com/au/articles.atom",
-        -- The Conversation - Enviroment
-        "https://theconversation.com/au/environment/articles.atom",
-        -- Converation - Cimate
-        "https://theconversation.com/topics/climate-change-27/articles.atom",
-        -- Conversation -- Energy
-        "https://theconversation.com/topics/energy-662/articles.atom",
-        -- The Conversation - Politics
-        "https://theconversation.com/au/politics/articles.atom",
-        -- The Guardian AU
-        "https://www.theguardian.com/au/rss",
-        -- The Guardian AU - Enviroment
-        "https://www.theguardian.com/au/environment/rss",
-        -- The Guardian AU - Politics
-        "https://www.theguardian.com/au/politics/rss",
-        -- The Guardian AU - Opinion
-        "https://www.theguardian.com/au/opinion/rss",
-        -- ABC News
-        "https://www.abc.net.au/news/feed/10719986/rss.xml",
-        -- ABC News - Eniviroment
-        "https://www.abc.net.au/news/feed/1450/rss.xml",
-        -- Crikey
-        'https://www.crikey.com.au/environment/feed/',
-    })
-end)
+    vim.ui.select(choices, { prompt = "Select feed set:" }, function(choice)
+        if not choice then return end
+
+        local selected_set = nil
+        for _, set in ipairs(feed_sets) do
+            if set.name == choice then
+                selected_set = set
+                break
+            end
+        end
+
+        if selected_set then
+            -- Read the OPML file
+            local ok, lines = pcall(vim.fn.readfile, selected_set.file)
+            if not ok or not lines then
+                vim.notify("Could not read OPML file: " .. selected_set.file, vim.log.levels.ERROR)
+                return
+            end
+
+            -- Join lines into a single string for parsing
+            local xml = table.concat(lines, "\n")
+
+            -- Parse feeds from OPML
+            local feeds = {}
+            for url in xml:gmatch('xmlUrl="([^"]+)"') do
+                table.insert(feeds, url)
+            end
+
+            if #feeds == 0 then
+                vim.notify("No feeds found in OPML file", vim.log.levels.WARN)
+                return
+            end
+
+            -- Open the RSS picker with the feeds
+            TelescopeRssPicker(feeds)
+        end
+    end)
+end

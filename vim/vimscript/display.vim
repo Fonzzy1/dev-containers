@@ -1,31 +1,38 @@
-let g:airline_theme = 'catppuccin'
-let g:airline#extensions#wordcount#enabled=0
-let g:airline#extensions#wordcount#formatter#default#fmt_short = '%sW'
-let g:airline_section_y = '%{airline#extensions#wordcount#get()}'
-
-
-let g:airline#extenssoons#branch#enabled = 1
-
-" opencode.nvim statusline integration
-function! OpencodeStatus()
-  return luaeval('require("opencode").statusline()')
-endfunction
-
-augroup AirlineOpencode
-  autocmd!
-  autocmd User AirlineAfterInit call airline#parts#define_function('opencode', 'OpencodeStatus')
-        \ | let g:airline_section_z = airline#section#create(['opencode', ' ', 'linenr', 'maxlinenr', ' ', 'colnr'])
-augroup END
-
-function! GetGitBranch()
-  let l:branch = systemlist("git rev-parse --abbrev-ref HEAD")[0]
-  if v:shell_error
-    return ''
-  endif
-  return l:branch
-endfunction
-
-let g:airline#extensions#branch#custom_head = 'GetGitBranch'
+" Lualine config - similar to old airline config
+lua << EOF
+require('lualine').setup {
+  options = {
+    theme = "auto",
+    component_separators = { left = '', right = '' },
+    section_separators = { left = '', right = '' },
+  },
+  sections = {
+    lualine_a = { 'mode' },
+    lualine_b = { 'branch' },
+    lualine_c = { 'filename' },
+    lualine_x = {
+      { 'filetype', icon_enabled = true },
+      function()
+        local word_count = vim.fn.wordcount()
+        if word_count.visual_words then
+          return word_count.visual_words .. 'W'
+        end
+        return (word_count.words or 0) .. 'W'
+      end
+    },
+    lualine_y = { 'progress' },
+    lualine_z = { 'location' },
+  },
+  inactive_sections = {
+    lualine_a = { 'filename' },
+    lualine_b = { 'branch' },
+    lualine_c = {},
+    lualine_x = { 'filetype' },
+    lualine_y = { 'progress' },
+    lualine_z = { 'location' },
+  },
+}
+EOF
 
 
 
@@ -46,6 +53,7 @@ augroup END
 set t_Co=256
 set termguicolors
 silent! colorscheme catppuccin-mocha
+
 let g:rainbow_active = 1
 " Color for the terminal
 let g:terminal_ansi_colors = [
@@ -65,7 +73,7 @@ let g:terminal_ansi_colors = [
     \ "#F5C2E7",
     \ "#94E2D5",
     \ "#A6ADC8"
-\ ]
+ \]
 
 augroup CursorLine
     au!

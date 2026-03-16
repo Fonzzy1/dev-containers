@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<opml version="1.0">
+    <head>
+        <title>Academic / Research Feeds - Computational Communications, Climate, Politics</title>
+        <description>Peer-reviewed journals covering computational communication, climate change, environmental policy, and political communication</description>
+    </head>
+    <body>
+        <outline text="Environmental Communication">
+            <outline xmlUrl="https://www.tandfonline.com/feed/rss/renc20" type="rss" text="Environmental Communication" description="Routledge journal on environmental communication research"/>
+        </outline>
+        <outline text="Global Climate Change">
+            <outline xmlUrl="https://rss.sciencedirect.com/publication/science/09593780" type="rss" text="Global Climate Change" description="ScienceDirect journal on climate change research"/>
+        </outline>
+        <outline text="Nature Climate Change">
+            <outline xmlUrl="https://www.nature.com/nclimate.rss" type="rss" text="Nature Climate Change" description="Nature journal on climate change impacts and solutions"/>
+        </outline>
+        <outline text="Political Communication">
+            <outline xmlUrl="https://www.tandfonline.com/feed/rss/upcp20" type="rss" text="Political Communication" description="Routledge journal on political communication"/>
+        </outline>
+        <outline text="Annals of ICA">
+            <outline xmlUrl="https://academic.oup.com/rss/site_6685/4208.xml" type="rss" text="Annals of ICA" description="International Communication Association journal"/>
+        </outline>
+        <outline text="Information, Communication &amp; Society">
+            <outline xmlUrl="https://www.tandfonline.com/feed/rss/rics20" type="rss" text="Information, Communication &amp; Society" description="Routledge journal on ICT and society"/>
+        </outline>
+        <outline text="Journalism &amp; Mass Communication Quarterly">
+            <outline xmlUrl="https://journals.sagepub.com/action/showFeed?ui=0&mi=ehikzz&ai=2b4&jc=jmq&type=etoc&feed=rss" type="rss" text="Journalism &amp; Mass Communication Quarterly" description="SAGE journal on journalism research"/>
+        </outline>
+        <outline text="Digital Journalism">
+            <outline xmlUrl="https://www.tandfonline.com/feed/rss/rdij20" type="rss" text="Digital Journalism" description="Routledge journal on digital media and journalism"/>
+        </outline>
+        <outline text="Journal of Computer-Mediated Communication">
+            <outline xmlUrl="https://academic.oup.com/rss/site_6096/3967.xml" type="rss" text="JCMC" description="Oxford journal on computer-mediated communication"/>
+        </outline>
+        <outline text="Journal of Political Marketing">
+            <outline xmlUrl="https://www.tandfonline.com/feed/rss/wplm20" type="rss" text="Journal of Political Marketing" description="Routledge journal on political marketing"/>
+        </outline>
+        <outline text="Environmental Science &amp; Policy">
+            <outline xmlUrl="https://rss.sciencedirect.com/publication/science/14629011" type="rss" text="Environmental Science &amp; Policy" description="ScienceDirect journal on environmental policy"/>
+        </outline>
+        <outline text="Computational Communication Research">
+            <outline xmlUrl="https://journal.computationalcommunication.org/gateway/plugin/WebFeedGatewayPlugin/rss2" type="rss" text="Computational Communication Research" description="Open access journal on computational methods in communication"/>
+        </outline>
+        <outline text="Journal of Computational Social Science">
+            <outline xmlUrl="https://link.springer.com/search.rss?new-search=true&amp;query=*&amp;content-type=Article&amp;sortBy=relevance&amp;search-within=Journal&amp;facet-journal-id=42001" type="rss" text="Journal of Computational Social Science" description="Springer journal on computational social science"/>
+        </outline>
+        <outline text="Big Data and Society">
+            <outline xmlUrl="https://journals.sagepub.com/action/showFeed?ui=0&mi=ehikzz&amp;ai=2b4&amp;jc=bds&amp;type=etoc&amp;feed=rss" type="rss" text="Big Data and Society" description="SAGE journal on big data and societal impacts"/>
+        </outline>
+        <outline text="Journal of Information Technology &amp; Politics">
+            <outline xmlUrl="https://www.tandfonline.com/feed/rss/witp20" type="rss" text="Journal of Information Technology &amp; Politics" description="Routledge journal on IT and political processes"/>
+        </outline>
+        <outline text="Australian Journal of Political Science">
+            <outline xmlUrl="https://www.tandfonline.com/feed/rss/cajp20" type="rss" text="Australian Journal of Political Science" description="Routledge journal on Australian politics"/>
+        </outline>
+        <outline text="Energy Policy">
+            <outline xmlUrl="https://rss.sciencedirect.com/publication/science/03014215" type="rss" text="Energy Policy" description="ScienceDirect journal on energy policy research"/>
+        </outline>
+        <outline text="Energy and Social Science">
+            <outline xmlUrl="https://rss.sciencedirect.com/publication/science/22146296" type="rss" text="Energy and Social Science" description="ScienceDirect journal on energy and society"/>
+        </outline>
+        <outline text="Environmental Politics">
+            <outline xmlUrl="https://www.tandfonline.com/feed/rss/fenp20" type="rss" text="Environmental Politics" description="Routledge journal on environmental policy and politics"/>
+        </outline>
+        <outline text="Policy Studies Journal">
+            <outline xmlUrl="https://www.tandfonline.com/feed/rss/cpos20" type="rss" text="Policy Studies Journal" description="Wiley journal on policy studies"/>
+        </outline>
+        <outline text="EPJ Data Science">
+            <outline xmlUrl="https://feeds.feedburner.com/edp_epjds_news?format=xml" type="rss" text="EPJ Data Science" description="Springer journal on data science applications"/>
+        </outline>
+        <outline text="International Journal of Social Research Methodology">
+            <outline xmlUrl="https://www.tandfonline.com/feed/rss/tsrm20" type="rss" text="International Journal of Social Research Methodology" description="Routledge journal on research methods"/>
+        </outline>
+    </body>
+</opml>

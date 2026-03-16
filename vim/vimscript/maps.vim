@@ -46,6 +46,7 @@ nnoremap  <silent> fh :Gitsigns preview_hunk<CR>
 nnoremap  <silent> fa :Gitsigns blame_line<CR>
 nnoremap <silent> fo <cmd>lua require('opencode').command('session.select')<CR>
 nnoremap <silent> fO <cmd>lua require('opencode').select()<CR>
+nnoremap <silent> sf <cmd>lua rss_picker()<CR>
 
 "go
 " Big Jumps

@@ -86,6 +86,11 @@ RUN set -uex && \
     tee /etc/apt/sources.list.d/nodesource.list && \
     apt-get update && apt-get install nodejs -y;
 
+# Install bun for building opencode plugins
+RUN curl -fsSL https://bun.sh/install | bash
+ENV BUN_INSTALL="/root/.bun"
+ENV PATH="${BUN_INSTALL}/bin:${PATH}"
+
 #Install rust
 RUN curl  --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 ENV PATH="/root/.cargo/bin:${PATH}"

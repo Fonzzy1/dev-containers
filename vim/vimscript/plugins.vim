@@ -13,7 +13,7 @@ Plug 'folke/snacks.nvim'
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'hat0uma/csvview.nvim' 
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
-Plug 'vim-airline/vim-airline'
+Plug 'nvim-lualine/lualine.nvim'
 Plug 'nvimdev/dashboard-nvim'
 Plug 'xiyaowong/virtcolumn.nvim'
 Plug 'lukas-reineke/indent-blankline.nvim'

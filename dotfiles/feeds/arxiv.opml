@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<opml version="1.0">
+    <head>
+        <title>Arxiv Papers - Climate, Communication, Misinformation</title>
+        <description>Arxiv preprints on computational linguistics, climate change communication, misinformation, and political discourse</description>
+    </head>
+    <body>
+        <outline text="Climate Change">
+            <outline xmlUrl="http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+all:%22climate+change%22+AND+all:(framing+OR+denial+OR+misinformation)&amp;start=0&amp;max_results=50&amp;sortBy=lastUpdatedDate&amp;sortOrder=descending" type="rss" text="Climate Change Framing" description="Arxiv papers on climate change framing, denial, and misinformation"/>
+        </outline>
+        <outline text="Automated Framing">
+            <outline xmlUrl="http://export.arxiv.org/api/query?search_query=cat:cs.cl+and+all:media+and+all:framing&amp;start=0&amp;max_results=50&amp;sortby=lastUpdateddate&amp;sortorder=descending" type="rss" text="Automated Framing" description="Arxiv papers on automated media framing analysis"/>
+        </outline>
+        <outline text="Misinformation Analysis">
+            <outline xmlUrl="http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+all:misinformation&amp;start=0&amp;max_results=50&amp;sortBy=lastUpdatedDate&amp;sortOrder=descending" type="rss" text="Misinformation Analysis" description="Arxiv papers on misinformation detection and analysis"/>
+        </outline>
+        <outline text="Denial Analysis">
+            <outline xmlUrl="http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+all:denial&amp;start=0&amp;max_results=50&amp;sortBy=lastUpdatedDate&amp;sortOrder=descending" type="rss" text="Denial Analysis" description="Arxiv papers on denial discourse analysis"/>
+        </outline>
+        <outline text="Australian Politics">
+            <outline xmlUrl="http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+(all:Australia+AND+all:politics)&amp;start=0&amp;max_results=50&amp;sortBy=lastUpdatedDate&amp;sortOrder=descending" type="rss" text="Australian Politics" description="Arxiv papers on Australian political communication"/>
+        </outline>
+        <outline text="Hansard/Parliamentary">
+            <outline xmlUrl="http://export.arxiv.org/api/query?search_query=cat:cs.CL+AND+(all:Australia+AND+(all:politics+OR+all:%22political+communication%22+OR+all:%22political+text%22+OR+all:%22parliamentary+speech%22))&amp;start=0&amp;max_results=50&amp;sortBy=lastUpdatedDate&amp;sortOrder=descending" type="rss" text="Hansard/Parliamentary" description="Arxiv papers on parliamentary speech analysis"/>
+        </outline>
+    </body>
+</opml>
