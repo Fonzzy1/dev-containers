@@ -1,5 +1,10 @@
 import { tool } from "@opencode-ai/plugin"
 
+const FEEDS_DIR = "/root/feeds"
+
+// Cache for feed URLs keyed by collection name
+let feedCache: Map<string, string[]> = new Map()
+
 async function fetchFeed(url: string, limit: number): Promise<string> {
   try {
     const response = await fetch(url, {
@@ -26,131 +31,98 @@ async function fetchFeed(url: string, limit: number): Promise<string> {
   }
 }
 
-async function expandOPML(source: string): Promise<string[]> {
-  const expanded = source.replace(/^~/, process.env.HOME || "")
-  let text: string
-  if (source.startsWith("http")) {
-    const response = await fetch(source, {
-      headers: { "User-Agent": "OpenCode-RSS-Reader/1.0" }
+async function loadFeedsDir(): Promise<{ key: string; title: string; description: string; count: number }[]> {
+  const results: { key: string; title: string; description: string; count: number }[] = []
+  
+  const files = await Bun.$`ls ${FEEDS_DIR}/*.opml`.text()
+  const opmlFiles = files.split("\n").filter(f => f.endsWith(".opml"))
+  
+  for (const opmlFile of opmlFiles) {
+    if (!opmlFile.trim()) continue
+    
+    const key = opmlFile.trim().split("/").pop()?.replace(".opml", "") || ""
+    const content = await Bun.file(opmlFile.trim()).text()
+    const titleMatch = content.match(/<title>([^<]*)<\/title>/i)
+    const descMatch = content.match(/<description>([^<]*)<\/description>/i)
+    const feeds = parseOPML(content)
+    
+    feedCache.set(key, feeds.map(f => f.url))
+    
+    results.push({
+      key,
+      title: titleMatch ? titleMatch[1] : "Untitled",
+      description: descMatch ? descMatch[1] : "",
+      count: feeds.length
     })
-    text = await response.text()
-  } else {
-    text = await Bun.file(expanded).text()
   }
-  return parseOPML(text).map(f => f.url)
+  
+  return results
 }
 
-export const rss_read = tool({
-  description: "Fetch and read RSS/Atom feeds from URLs or OPML files",
-  args: {
-    source: tool.schema.string().describe("RSS/Atom feed URLs or OPML file paths (comma-separated)"),
-    limit: tool.schema.number().optional().describe("Maximum items per feed (default: 200)")
-  },
-  async execute(args, context) {
-    const limit = args.limit || 200
-    const sources = args.source.split(",").map(s => s.trim()).filter(s => s)
-
-    if (sources.length === 0) {
-      return "Error: No source provided"
-    }
-
-    // Resolve all sources — expand OPML files into their feed URLs
-    const feedUrls: string[] = []
-    for (const source of sources) {
-      const expanded = source.replace(/^~/, process.env.HOME || "")
-      const isOpml = source.endsWith(".opml") || (!source.startsWith("http") && expanded.endsWith(".opml"))
-      if (isOpml) {
-        try {
-          const urls = await expandOPML(source)
-          feedUrls.push(...urls)
-        } catch (error) {
-          return `Error expanding OPML ${source}: ${error instanceof Error ? error.message : "Unknown error"}`
-        }
-      } else if (source.startsWith("http")) {
-        // Peek: might be an OPML served over HTTP without .opml extension
-        try {
-          const response = await fetch(source, {
-            headers: { "User-Agent": "OpenCode-RSS-Reader/1.0" }
-          })
-          const text = await response.text()
-          if (text.includes("<opml")) {
-            const urls = parseOPML(text).map(f => f.url)
-            feedUrls.push(...urls)
-          } else {
-            feedUrls.push(source)
-          }
-        } catch {
-          feedUrls.push(source)
-        }
-      } else {
-        feedUrls.push(source)
-      }
-    }
-
-    // Fetch all feeds in parallel
-    const fetched = await Promise.all(feedUrls.map(url => fetchFeed(url, limit)))
-    return fetched.join("\n")
-  }
-})
-
 export const rss_list = tool({
-  description: "List available RSS feeds from OPML files with descriptions",
-  args: {
-    source: tool.schema.string().optional().describe("OPML file path (default: /root/feeds/)")
-  },
+  description: "List available RSS feed collections",
+  name: "RSS list",
+  args: {},
   async execute(args, context) {
-    const basePath = args.source?.replace(/^~/, process.env.HOME || "") 
-      || "/root/feeds"
-    
-    const results: string[] = []
-    
     try {
-      // Try to read as directory
-      const feedsDir = basePath
-      const dir = await Bun.file(feedsDir).exists()
+      const feeds = await loadFeedsDir()
       
-      if (dir) {
-        // It's a directory - list all OPML files
-        const files = await Bun.$`ls ${feedsDir}/*.opml`.text()
-        const opmlFiles = files.split("\n").filter(f => f.endsWith(".opml"))
-        
-        for (const opmlFile of opmlFiles) {
-          if (!opmlFile.trim()) continue
-          const content = await Bun.file(opmlFile.trim()).text()
-          const opmlTitle = content.match(/<title>([^<]*)<\/title>/i)?.[1] || "Untitled"
-          const feeds = parseOPML(content)
-          
-          results.push(`\n=== ${opmlTitle} (${opmlFile.trim().split("/").pop()}) ===`)
-          results.push(`${feeds.length} feeds:\n`)
-          for (const feed of feeds) {
-            results.push(`- ${feed.name}`)
-            if (feed.description) {
-              results.push(`  ${feed.description}`)
-            }
-            results.push(`  ${feed.url}`)
-          }
-        }
-      } else {
-        // It's a single file
-        const content = await Bun.file(basePath).text()
-        const opmlTitle = content.match(/<title>([^<]*)<\/title>/i)?.[1] || "Untitled"
-        const feeds = parseOPML(content)
-        
-        results.push(`=== ${opmlTitle} ===`)
-        results.push(`${feeds.length} feeds:\n`)
-        for (const feed of feeds) {
-          results.push(`- ${feed.name}`)
-          if (feed.description) {
-            results.push(`  ${feed.description}`)
-          }
-          results.push(`  ${feed.url}`)
-        }
+      if (feeds.length === 0) {
+        return "No feed collections found"
       }
+      
+      const lines: string[] = ["Available feed collections:\n"]
+      for (const feed of feeds) {
+        lines.push(`[${feed.key}]`)
+        lines.push(`  ${feed.title}`)
+        if (feed.description) {
+          lines.push(`  ${feed.description}`)
+        }
+        lines.push(`  ${feed.count} feeds`)
+        lines.push("")
+      }
+      
+      return lines.join("\n")
     } catch (error) {
       return `Error: ${error instanceof Error ? error.message : "Unknown error"}`
     }
+  }
+})
+
+export const rss_read = tool({
+  description: "Fetch and read an RSS feed collection by key",
+  name: "RSS read",
+  args: {
+    key: tool.schema.string().describe("Key of the feed collection to fetch (e.g., news, academic, arxiv, pods)"),
+    limit: tool.schema.number().optional().describe("Maximum items per feed (default: all)")
+  },
+  async execute(args, context) {
+    // Default to 9999 (essentially unlimited) instead of 10
+    const limit = args.limit || 9999
+    const key = args.key?.trim().toLowerCase()
     
-    return results.join("\n") || "No OPML files found"
+    if (!key) {
+      return "Error: No key provided. Run 'rss list' to see available collections."
+    }
+    
+    try {
+      // Load feeds if not cached
+      if (feedCache.size === 0) {
+        await loadFeedsDir()
+      }
+      
+      const urls = feedCache.get(key)
+      if (!urls) {
+        const available = Array.from(feedCache.keys()).join(", ")
+        return `Error: Unknown key '${key}'.\nAvailable keys: ${available}`
+      }
+      
+      // Fetch all feeds in parallel
+      const fetched = await Promise.all(urls.map(url => fetchFeed(url, limit)))
+      return fetched.join("\n")
+    } catch (error) {
+      return `Error: ${error instanceof Error ? error.message : "Unknown error"}`
+    }
   }
 })
 
