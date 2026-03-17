@@ -96,7 +96,7 @@ require("overseer").register_template({
     name = "Install Python Requirements",
     builder = function(_)
         return {
-            cmd = { "pip", "install", '-r', 'requirements.txt' },
+            cmd = { "pip", "install", "--break-system-packages", '-r', 'requirements.txt' },
         }
     end,
     condition = {
