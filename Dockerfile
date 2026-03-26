@@ -55,9 +55,10 @@ RUN apt-get update && \
     fc-cache -fv
 
 
-#Install Docker 
-RUN curl -fsSL https://get.docker.com -o install-docker.sh \
-    && sh install-docker.sh 
+#Install Docker CLI only (connects to Docker daemon on host via socket mount)
+# At runtime, mount: -v /var/run/docker.sock:/var/run/docker.sock
+# Note: Using Ubuntu's docker.io package due to network restrictions on Docker's repos
+RUN apt-get update && apt-get install -y docker.io && rm -rf /var/lib/apt/lists/*
 
 # Install GH CLI
 RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
