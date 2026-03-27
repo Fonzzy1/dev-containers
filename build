@@ -2,9 +2,26 @@
 
 set -e
 
-docker login -u "$DOKER_USER" -p "$DOCKER_TOKEN"
+cd "$(dirname "$0")"
 
-# docker buildx inspect builder || docker buildx create --use --name builder
+# Check if there are changes to files that affect the build
+CHANGES=$(git status --porcelain -- Dockerfile dotfiles/ vim/ run_scripts/ 2>/dev/null || true)
 
-# docker buildx build --network=host --platform linux/amd64,linux/arm64 . -t "$DOKER_USER/vim" --push
-docker build . -t "$DOKER_USER/vim" --push
+if [ -z "$CHANGES" ]; then
+    echo "No changes detected, skipping build."
+    exit 0
+fi
+
+echo "Changes detected, building..."
+echo "$CHANGES"
+
+if [ -n "$DOKER_USER" ] && [ -n "$DOCKER_TOKEN" ]; then
+    docker login -u "$DOKER_USER" -p "$DOCKER_TOKEN"
+fi
+
+docker build \
+    --network=host \
+    -t "${DOKER_USER}/vim:latest" \
+    .
+
+echo "Image ready: ${DOKER_USER}/vim:latest"

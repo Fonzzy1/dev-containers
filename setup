@@ -206,8 +206,9 @@ nohup bash -c '
 
 xhost + local:root
 
-docker pull fonzzy1/vim
-
+# Build the docker image if there have been changes
+cd "$SCRIPT_DIR"
+./build
 
 mkdir -p ~/.local/bin 
 ln -sf "$SCRIPT_DIR"/runit ~/.local/bin/runit

@@ -1,9 +1,11 @@
 import os
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
+import time
 import feedparser
 import shutil
 import pytz
+import json
 import requests
 from mutagen.id3 import (
     ID3,
@@ -22,14 +24,14 @@ import subprocess
 from PIL import Image
 from io import BytesIO
 from tqdm import tqdm
-from mutagen.id3 import ID3
+from mutagen.mp3 import MP3
 
 # Configuration
 OPML_FILE = "/root/feeds/pods.opml"
 DEST_FOLDER = "./Podcasts"
 AUS_TZ = pytz.timezone("Australia/Sydney")
 TEMP_COVER = "_temp_cover.jpg"
-
+TEMP_DIR = "./temp"
 
 def parse_opml(file):
     feeds = []
@@ -44,10 +46,8 @@ def parse_opml(file):
             feeds.append({"url": url, "title": title, "is_series": is_series})
     return feeds
 
-
 def sanitize_filename(name):
     return "".join(c for c in name if c.isalnum() or c in " ._-").rstrip()
-
 
 def is_episode_in_window(entry, window_start, window_end):
     dt = None
@@ -59,7 +59,49 @@ def is_episode_in_window(entry, window_start, window_end):
     return False
 
 
+def get_file_duration(path):
+    """Get the actual duration of an MP3 file in seconds."""
+    try:
+        audio = MP3(path)
+        return audio.info.length
+    except Exception:
+        return None
+
+
+def parse_duration(duration):
+    """Parse itunes_duration - can be seconds (int/str), HH:MM:SS, MM:SS, or H:MM:SS."""
+    if not duration:
+        return None
+    
+    if isinstance(duration, int):
+        return duration
+    
+    duration = str(duration)
+    parts = duration.split(':')
+    
+    if len(parts) == 1:
+        # Just seconds
+        try:
+            return int(parts[0])
+        except ValueError:
+            return None
+    elif len(parts) == 2:
+        # MM:SS
+        try:
+            return int(parts[0]) * 60 + int(parts[1])
+        except ValueError:
+            return None
+    elif len(parts) == 3:
+        # HH:MM:SS
+        try:
+            return int(parts[0]) * 3600 + int(parts[1]) * 60 + int(parts[2])
+        except ValueError:
+            return None
+    return None
+
+
 def download(url, outpath):
+    """Download with content-length header for size validation."""
     try:
         r = requests.get(
             url,
@@ -70,13 +112,23 @@ def download(url, outpath):
             timeout=30,
         )
         r.raise_for_status()
+        
+        expected_size = int(r.headers.get('content-length', 0))
+        
         with open(outpath, "wb") as f:
             for chunk in r.iter_content(1024 * 128):
                 f.write(chunk)
-        return True
+        
+        actual_size = os.path.getsize(outpath)
+        
+        return {
+            "success": True,
+            "expected_size": expected_size,
+            "actual_size": actual_size
+        }
     except requests.RequestException as e:
         print("Failed:", url, str(e))
-        return False
+        return {"success": False, "expected_size": 0, "actual_size": 0}
 
 
 def ensure_jpeg(img_bytes):
@@ -190,25 +242,46 @@ def embed_metadata(
 
     id3.save(mp3_path, v2_version=3)
 
+class DateTimeEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, datetime):
+            return {"__datetime__": True, "value": o.isoformat()}
+        if isinstance(o, timedelta):
+            return {"__timedelta__": True, "value": o.total_seconds()}
+        return super().default(o)
 
-def main():
-    parser = argparse.ArgumentParser(
-        description="Podcast downloader and tagger"
-    )
-    parser.add_argument(
-        "-m",
-        "--music",
-        action="store_true",
-        help="Sync /Music from computer to ./Music on this device",
-    )
-    args = parser.parse_args()
-    # Time window: 9AM YESTERDAY to 9AM TODAY (Sydney)
-    now = datetime.now(AUS_TZ)
 
+def datetime_parser(dct):
+    for key in ["start", "end"]:
+        if key in dct and isinstance(dct[key], dict):
+            if dct[key].get("__datetime__"):
+                dct[key] = datetime.fromisoformat(dct[key]["value"])
+            elif dct[key].get("__timedelta__"):
+                dct[key] = timedelta(seconds=dct[key]["value"])
+    return dct
+
+
+def make_or_load_windows(today_9am):
+    # See if there is a windows.json in TMP
+    path = os.path.join(TEMP_DIR, today_9am.strftime('%Y-%m-%d'))
+    if os.path.exists(path):
+        with open(path, 'r') as f:
+            return json.load(f, object_hook=datetime_parser)
+    else:
+        windows = make_windows(today_9am)
+        files = os.listdir(TEMP_DIR)
+        # Clean old ones
+        for file in files:
+            os.remove(os.path.join(TEMP_DIR, file))
+        # Create new one
+        with open(path, 'w') as f:
+            json.dump(windows, f, cls=DateTimeEncoder)
+        return windows
+
+
+
+def make_windows(today_9am):
     windows = {}
-    today_9am = now.replace(hour=9, minute=0, second=0, microsecond=0)
-    if now < today_9am:
-        today_9am -= timedelta(days=1)
     for i in range(0, 3):
         date = today_9am - timedelta(days=i)
         windows[date.strftime("%Y-%m-%d")] = {
@@ -219,7 +292,6 @@ def main():
         }
 
     feeds = parse_opml(OPML_FILE)
-    os.makedirs(DEST_FOLDER, exist_ok=True)
 
     # Collect episodes
     for feed_idx, feed in tqdm(
@@ -257,8 +329,62 @@ def main():
                                 "entry": entry,
                             }
                         )
+    return windows
 
+
+
+def delete_failed_downloads():
+    """Delete any incomplete or failed downloads from previous runs."""
+    if not os.path.exists(DEST_FOLDER):
+        return
+    
+    min_size = 1024  # 1KB - anything smaller is likely failed
+    deleted = 0
+    
+    for root, dirs, files in os.walk(DEST_FOLDER):
+        for f in files:
+            path = os.path.join(root, f)
+            try:
+                if os.path.getsize(path) < min_size:
+                    os.remove(path)
+                    print(f"Deleted failed download: {path}")
+                    deleted += 1
+            except OSError:
+                pass
+    
+    if deleted:
+        print(f"Cleaned up {deleted} failed download(s)")
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Podcast downloader and tagger"
+    )
+    parser.add_argument(
+        "-m",
+        "--music",
+        action="store_true",
+        help="Sync /Music from computer to ./Music on this device",
+    )
+    args = parser.parse_args()
+    
+    # Clean up any failed downloads from previous runs
+    delete_failed_downloads()
+    
+    # Time window: 9AM YESTERDAY to 9AM TODAY (Sydney)
+    now = datetime.now(AUS_TZ)
+
+
+    today_9am = now.replace(hour=9, minute=0, second=0, microsecond=0)
+    if now < today_9am:
+        today_9am -= timedelta(days=1)
+
+    windows = make_or_load_windows(today_9am)
+
+
+    os.makedirs(DEST_FOLDER, exist_ok=True)
     all_tracks = []
+
     for date, v in windows.items():
         os.makedirs(os.path.join(DEST_FOLDER, date), exist_ok=True)
         windows[date]["episodes"].sort(
@@ -296,9 +422,55 @@ def main():
             all_tracks.append(outpath)
 
             already_downloaded = os.path.exists(outpath)
-            if not already_downloaded:
-                if not download(audio_url, outpath):
-                    print("Failed to download", audio_url)
+            
+            # Check if existing file is valid (compare actual duration to expected)
+            valid = False
+            if already_downloaded:
+                # Try to get duration from file itself
+                file_duration = get_file_duration(outpath)
+                if file_duration:
+                    expected_duration = parse_duration(getattr(entry, 'itunes_duration', None))
+                    if expected_duration:
+                        # Allow 10% tolerance
+                        if file_duration >= expected_duration * 0.9:
+                            valid = True
+                        else:
+                            print(f"File duration {file_duration:.0f}s < expected {expected_duration}s, re-downloading...")
+                            os.remove(outpath)
+                            already_downloaded = False
+                    else:
+                        # No expected duration, but file is valid if we can read it
+                        valid = True
+                else:
+                    # Can't read file, likely corrupted - re-download
+                    print(f"Cannot read file duration, re-downloading...")
+                    os.remove(outpath)
+                    already_downloaded = False
+            
+            if not already_downloaded or not valid:
+                max_retries = 3
+                for attempt in range(max_retries):
+                    result = download(audio_url, outpath)
+                    if not result["success"]:
+                        print(f"Attempt {attempt + 1}/{max_retries} failed:", audio_url)
+                        if attempt < max_retries - 1:
+                            time.sleep(2)
+                        continue
+                    
+                    # Validate downloaded size against Content-Length
+                    if result["expected_size"] > 0:
+                        actual_size = os.path.getsize(outpath)
+                        if actual_size < result["expected_size"] * 0.9:
+                            print(f"Attempt {attempt + 1}/{max_retries}: size mismatch {actual_size} < {result['expected_size']}, re-downloading...")
+                            os.remove(outpath)
+                            if attempt < max_retries - 1:
+                                time.sleep(2)
+                            continue
+                    
+                    # Success
+                    break
+                else:
+                    print("All download attempts failed for", audio_url)
                     continue
 
                 # Try episode image, then feed image, then fallback

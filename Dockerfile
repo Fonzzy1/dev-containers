@@ -48,7 +48,6 @@ RUN apt-get update && \
     wget \
     libc6 \ 
     librsvg2-bin \
-    curl gdebi-core \
     ripgrep && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*  && \
