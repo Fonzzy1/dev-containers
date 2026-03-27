@@ -51,8 +51,8 @@ def sanitize_filename(name):
 
 def is_episode_in_window(entry, window_start, window_end):
     dt = None
-    if hasattr(entry, "published_parsed") and entry.published_parsed:
-        dt = datetime(*entry.published_parsed[:6])
+    if hasattr(entry, "published_parsed") and entry['published_parsed']:
+        dt = datetime(*entry['published_parsed'][:6])
     if dt:
         dt = pytz.utc.localize(dt).astimezone(AUS_TZ)
         return window_start <= dt < window_end
@@ -158,18 +158,18 @@ def get_episode_image(entry):
     # 1. Try entry-level image fields
     img_url = None
     if "image" in entry:
-        if isinstance(entry.image, dict):
-            img_url = entry.image.get("href")
-        elif isinstance(entry.image, str):
-            img_url = entry.image
+        if isinstance(entry['image'], dict):
+            img_url = entry['image'].get("href")
+        elif isinstance(entry['image'], str):
+            img_url = entry['image']
     if not img_url:
-        if "media_thumbnail" in entry and entry.media_thumbnail:
-            img_url = entry.media_thumbnail[0].get("url")
-        elif "media_content" in entry and entry.media_content:
-            img_url = entry.media_content[0].get("url")
+        if "media_thumbnail" in entry and entry['media_thumbnail']:
+            img_url = entry['media_thumbnail'][0].get("url")
+        elif "media_content" in entry and entry['media_content']:
+            img_url = entry['media_content'][0].get("url")
     # It is possible entry has itunes_image
     if not img_url and hasattr(entry, "itunes_image"):
-        img_url = entry.itunes_image
+        img_url = entry['itunes_image']
     return img_url
 
 
@@ -276,7 +276,8 @@ def make_or_load_windows(today_9am):
         # Create new one
         with open(path, 'w') as f:
             json.dump(windows, f, cls=DateTimeEncoder)
-        return windows
+        # Reload iso 
+        return make_or_load_windows(today_9am)
 
 
 
@@ -333,27 +334,6 @@ def make_windows(today_9am):
 
 
 
-def delete_failed_downloads():
-    """Delete any incomplete or failed downloads from previous runs."""
-    if not os.path.exists(DEST_FOLDER):
-        return
-    
-    min_size = 1024  # 1KB - anything smaller is likely failed
-    deleted = 0
-    
-    for root, dirs, files in os.walk(DEST_FOLDER):
-        for f in files:
-            path = os.path.join(root, f)
-            try:
-                if os.path.getsize(path) < min_size:
-                    os.remove(path)
-                    print(f"Deleted failed download: {path}")
-                    deleted += 1
-            except OSError:
-                pass
-    
-    if deleted:
-        print(f"Cleaned up {deleted} failed download(s)")
 
 
 def main():
@@ -369,7 +349,6 @@ def main():
     args = parser.parse_args()
     
     # Clean up any failed downloads from previous runs
-    delete_failed_downloads()
     
     # Time window: 9AM YESTERDAY to 9AM TODAY (Sydney)
     now = datetime.now(AUS_TZ)
@@ -404,18 +383,16 @@ def main():
 
             # File setup
             ext = "mp3"
-            if "enclosures" in entry and entry.enclosures:
-                audio_url = entry.enclosures[0].get("url")
-                if audio_url and "." in audio_url.split("?")[0]:
-                    ext = audio_url.split(".")[-1].split("?")[0]
+            if entry['links']:
+                audio_url = entry['links'][0].get("href")
             else:
-                print("No enclosure found for", entry.title)
+                print("No enclosure found for", entry['title'])
                 continue
 
             base = (
                 sanitize_filename(feed_title[:40])
                 + "_"
-                + sanitize_filename(entry.title[:50])
+                + sanitize_filename(entry['title'][:50])
             )
             filename = f"{base}.{ext}"
             outpath = os.path.join(DEST_FOLDER, date, filename)
@@ -485,7 +462,7 @@ def main():
                 embed_metadata(
                     outpath,
                     artist=feed_title,
-                    title=entry.title,
+                    title=entry['title'],
                     album=v["album_name"],
                     genre="pods",
                     track=track_idx,

@@ -7,7 +7,7 @@ cd "$(dirname "$0")"
 # Check if there are changes to files that affect the build
 CHANGES=$(git status --porcelain -- Dockerfile dotfiles/ vim/ run_scripts/ 2>/dev/null || true)
 
-if [ -z "$CHANGES" ]; then
+if [ "$CHANGES" = "" ]; then
     echo "No changes detected, skipping build."
     exit 0
 fi
@@ -15,13 +15,13 @@ fi
 echo "Changes detected, building..."
 echo "$CHANGES"
 
-if [ -n "$DOKER_USER" ] && [ -n "$DOCKER_TOKEN" ]; then
+if [ "$DOKER_USER" != "" ] && [ "$DOCKER_TOKEN" != "" ]; then
     docker login -u "$DOKER_USER" -p "$DOCKER_TOKEN"
 fi
 
 docker build \
     --network=host \
-    -t "${DOKER_USER}/vim:latest" \
+    -t "fonzzy1/vim:latest" \
     .
 
 echo "Image ready: ${DOKER_USER}/vim:latest"
