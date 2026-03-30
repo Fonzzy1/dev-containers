@@ -96,7 +96,7 @@ RUN curl  --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 ENV PATH="/root/.cargo/bin:${PATH}"
 
 # Install the python packages
-RUN pip3 install --break-system-packages pynvim pipreqs pgcli awscli ipython ipykernel openai requests feedparser aiohttp bibli_ls pillow mutagen codespell prisma 
+RUN pip3 install --break-system-packages --upgrade pynvim pipreqs pgcli awscli ipython ipykernel openai requests feedparser aiohttp bibli_ls pillow mutagen codespell prisma 
 
 # Install npm packages
 RUN npm install --save-dev --global prettier tree-sitter-cli bibtex-tidy prisma

@@ -33,28 +33,28 @@ nnoremap <silent> sv :LazyGitFilterCurrentFile<CR>
 nnoremap sG :Octo 
 nnoremap <silent> sm :lua require('browse').open_manual_bookmarks()<CR>
 nnoremap <silent> sM :lua browse_bookmarks()<CR>
+nnoremap <silent> sf <cmd>lua rss_picker()<CR>
 
 ""find ()
 nnoremap fb <cmd>Telescope bibtex<cr>
 nnoremap ff <cmd>Telescope find_files<cr>
 nnoremap fg <cmd>Telescope live_grep<cr>
 nnoremap <silent> fn :RnvimrToggle<CR>
-nnoremap <silent> fs <cmd>Telescope lsp_document_symbols<cr>
-nnoremap <silent> fd <cmd>Telescope lsp_diagnostics<cr>
+nnoremap <silent> fe <cmd>Telescope diagnostics<cr>
+nnoremap <silent> fd :lua vim.lsp.buf.hover()<cr>
 nnoremap <silent> fc <cmd>Telescope git_status<cr>
 nnoremap  <silent> fh :Gitsigns preview_hunk<CR>
 nnoremap  <silent> fa :Gitsigns blame_line<CR>
 nnoremap <silent> fo <cmd>lua require('opencode').command('session.select')<CR>
 nnoremap <silent> fO <cmd>lua require('opencode').select()<CR>
-nnoremap <silent> sf <cmd>lua rss_picker()<CR>
 
 "go
 " Big Jumps
 nnoremap gb <c-o>
 nnoremap gr <cmd>Telescope lsp_references<cr>
 nnoremap <silent> gd :lua vim.lsp.buf.definition()<cr>
-nnoremap <silent> gn :lua vim.diagnostic.goto_next()<CR>
-nnoremap <silent> gp :lua vim.diagnostic.goto_prev()<CR>
+nnoremap <silent> gn <cmd>lua vim.diagnostic.jump({ count = 1 })<cr>
+nnoremap <silent> gp <cmd>lua vim.diagnostic.jump({ count = -1 })<cr>
 nmap <silent> ghn :Gitsigns nav_hunk next<CR>
 nmap <silent> ghp :Gitsigns nav_hunk prev<CR>
 
@@ -65,7 +65,6 @@ vnoremap  <silent> aa :'<,'>Gitsigns stage_hunk<CR>
 vnoremap  <silent> ar :'<,'>Gitsigns reset_hunk<CR>
 nnoremap  <silent> ac :lua GitCommit()<CR>
 nnoremap ab :Gitsigns change_base
-nnoremap <silent> ad :lua vim.lsp.buf.hover()<cr>
 
 " miscmap
 nnoremap <silent> q :call SmartQuit()<CR>

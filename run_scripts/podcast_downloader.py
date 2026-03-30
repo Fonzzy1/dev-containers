@@ -8,7 +8,10 @@ import pytz
 import json
 import requests
 from mutagen.id3 import (
-    ID3,
+        ID3, 
+    ID3NoHeaderError)
+
+from mutagen.id3._frames import (
     APIC,
     TIT2,
     TPE1,
@@ -16,7 +19,6 @@ from mutagen.id3 import (
     TCON,
     TRCK,
     TPE2,
-    ID3NoHeaderError,
     USLT,
 )
 import argparse
@@ -51,7 +53,7 @@ def sanitize_filename(name):
 
 def is_episode_in_window(entry, window_start, window_end):
     dt = None
-    if hasattr(entry, "published_parsed") and entry['published_parsed']:
+    if entry['published_parsed']:
         dt = datetime(*entry['published_parsed'][:6])
     if dt:
         dt = pytz.utc.localize(dt).astimezone(AUS_TZ)
@@ -197,7 +199,6 @@ def embed_metadata(
     album,
     genre,
     track,
-    total_tracks,
     cover_path,
     lyrics=None,
 ):
@@ -213,7 +214,7 @@ def embed_metadata(
     id3.add(TPE1(encoding=3, text=str(artist)))
     id3.add(TALB(encoding=3, text=str(album)))
     id3.add(TCON(encoding=3, text=str(genre)))
-    id3.add(TRCK(encoding=3, text=f"{track}/{total_tracks}"))
+    id3.add(TRCK(encoding=3, text=str(track)))
     id3.add(TPE2(encoding=3, text="Various Podcasters"))
 
     if lyrics:
@@ -366,15 +367,15 @@ def main():
 
     for date, v in windows.items():
         os.makedirs(os.path.join(DEST_FOLDER, date), exist_ok=True)
-        windows[date]["episodes"].sort(
+        episodes = windows[date]["episodes"]
+        episodes.sort(
             key=lambda e: (
                 e["feed_pos"],
-                getattr(e["entry"], "published_parsed", (0, 0, 0, 0, 0, 0)),
-            )
+                e["entry"].get( "published_parsed", (0, 0, 0, 0, 0, 0)))
         )
         for track_idx, item in tqdm(
-            enumerate(v["episodes"], start=1),
-            total=len(v["episodes"]),
+            enumerate(episodes, start=1),
+            total=len(episodes),
             desc=f"Downloading Episodes for {date}",
         ):
             entry = item["entry"]
@@ -390,7 +391,9 @@ def main():
                 continue
 
             base = (
-                sanitize_filename(feed_title[:40])
+                str(track_idx).zfill(3)
+                + "_"
+                + sanitize_filename(feed_title[:40])
                 + "_"
                 + sanitize_filename(entry['title'][:50])
             )
@@ -406,7 +409,7 @@ def main():
                 # Try to get duration from file itself
                 file_duration = get_file_duration(outpath)
                 if file_duration:
-                    expected_duration = parse_duration(getattr(entry, 'itunes_duration', None))
+                    expected_duration = parse_duration(entry.get('itunes_duration'))
                     if expected_duration:
                         # Allow 10% tolerance
                         if file_duration >= expected_duration * 0.9:
@@ -466,10 +469,9 @@ def main():
                     album=v["album_name"],
                     genre="pods",
                     track=track_idx,
-                    total_tracks=len(v["episodes"]),
                     cover_path=cover_path,
-                    lyrics=getattr(entry, "summary", "")
-                    or getattr(entry, "description", ""),
+                    lyrics=entry.get("summary", "")
+                    or entry.get("description", ""),
                 )
     # Clean up
     if os.path.isfile(TEMP_COVER):

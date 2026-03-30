@@ -120,14 +120,6 @@ vim.diagnostic.config({
 })
 
 
-vim.api.nvim_create_autocmd({ "CursorHold" },
-    {
-        pattern = '*',
-        callback = function()
-            vim.diagnostic.open_float()
-        end
-    }
-)
 
 
 -- Always create the group first

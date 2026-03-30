@@ -4,8 +4,6 @@
 --         vim.g.shebang = line:match("^#!%s*(.*)") or "/usr/bin/bash"
 --     end
 -- })
---
---
 
 
 local iron = require("iron.core")
