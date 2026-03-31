@@ -44,8 +44,19 @@ def parse_opml(file):
         is_series = (
             outline.attrib.get("isSeries", "0") == "1"
         )  # Convert to boolean
-        if url:
+        start_idx = outline.attrib.get("startIndex")
+        end_idx = outline.attrib.get("endIndex")
+        if is_series:
+            feeds.append({
+                "url": url, 
+                "title": title, 
+                "is_series": is_series,
+                "start_index": int(start_idx) if start_idx else None,
+                "end_index": int(end_idx) if end_idx else None
+            })
+        else:   
             feeds.append({"url": url, "title": title, "is_series": is_series})
+
     return feeds
 
 def sanitize_filename(name):
@@ -306,19 +317,39 @@ def make_windows(today_9am):
             is_series = feed["is_series"]
 
             if is_series:
+                # Filter episodes by start/end index if specified
+                start_index = feed.get("start_index")
+                end_index = feed.get("end_index")
+                
+                # Build episode list with position info
+                all_episodes = []
+                for idx, entry in enumerate(parsed.entries):
+                    all_episodes.append({
+                        "feed_pos": feed_idx,
+                        "feed_title": feed_title,
+                        "feed": parsed.feed,
+                        "entry": entry,
+                        "episode_idx": idx,
+                    })
+                
+                # Apply index filtering
+                filtered_episodes = all_episodes
+                if start_index is not None or end_index is not None:
+                    filtered_episodes = []
+                    for ep in all_episodes:
+                        ep_idx = ep["episode_idx"]
+                        if start_index is not None and ep_idx < start_index:
+                            continue
+                        if end_index is not None and ep_idx >= end_index:
+                            continue
+                        filtered_episodes.append(ep)
+                
                 # Always download, assign to a dedicated series album
                 album_name = sanitize_filename(feed_title[:40])
                 windows.setdefault(
                     album_name, {"episodes": [], "album_name": album_name}
                 )
-                windows[album_name]["episodes"].append(
-                    {
-                        "feed_pos": feed_idx,
-                        "feed_title": feed_title,
-                        "feed": parsed.feed,
-                        "entry": entry,
-                    }
-                )
+                windows[album_name]["episodes"].extend(filtered_episodes)
             else:
                 # Existing time window logic
                 for k, v in windows.items():
