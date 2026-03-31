@@ -68,6 +68,10 @@ if has('nvim')
   call timer_start(500, {-> execute('checktime')}, {'repeat': -1})
 endif
 
+"-- diff
+set diffopt=internal,filler,closeoff,indent-heuristic,inline:char,linematch:40,vertical,algorithm:histogram
+"
+"
 " --- Quickfix navigation maps ---
 nnoremap ; :
 vnoremap > >gv
@@ -87,5 +91,6 @@ vim.g.opencode_opts = {
   },
 }
 EOF
+
 
 

@@ -39,6 +39,7 @@ nnoremap <silent> sf <cmd>lua rss_picker()<CR>
 nnoremap fb <cmd>Telescope bibtex<cr>
 nnoremap ff <cmd>Telescope find_files<cr>
 nnoremap fg <cmd>Telescope live_grep<cr>
+nnoremap fs <cmd>Telescope lsp_document_symbols<cr>
 nnoremap <silent> fn :RnvimrToggle<CR>
 nnoremap <silent> fe <cmd>Telescope diagnostics<cr>
 nnoremap <silent> fd :lua vim.lsp.buf.hover()<cr>

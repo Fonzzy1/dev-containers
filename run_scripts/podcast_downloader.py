@@ -385,7 +385,7 @@ def main():
             # File setup
             ext = "mp3"
             if entry['links']:
-                audio_url = entry['links'][0].get("href")
+                audio_url = [x for x in entry['links'] if 'audio' in x.get('type')][0].get('href')
             else:
                 print("No enclosure found for", entry['title'])
                 continue

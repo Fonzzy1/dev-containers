@@ -1,6 +1,8 @@
 # Start from the official Ubuntu base image
 FROM ubuntu:24.04 AS vim
 
+
+ARG TARGETPLATFORM
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Australia/Melbourne
 ENV TERM="tmux-256color"
@@ -58,6 +60,18 @@ RUN apt-get update && \
 # At runtime, mount: -v /var/run/docker.sock:/var/run/docker.sock
 # Note: Using Ubuntu's docker.io package due to network restrictions on Docker's repos
 RUN apt-get update && apt-get install -y docker.io && rm -rf /var/lib/apt/lists/*
+
+# Install docker compose plugin
+RUN mkdir -p /usr/local/lib/docker/cli-plugins && \
+    if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
+        ARCH=x86_64; \
+    elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
+        ARCH=aarch64; \
+    else \
+        echo "Unsupported architecture $TARGETPLATFORM"; exit 1; \
+    fi && \
+    curl -SL "https://github.com/docker/compose/releases/download/v2.24.0/docker-compose-linux-$ARCH" -o /usr/local/lib/docker/cli-plugins/docker-compose && \
+    chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 
 # Install GH CLI
 RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
@@ -123,7 +137,6 @@ ENV PATH="/root/.opencode/bin:${PATH}"
 
 
 # Quarto
-ARG TARGETPLATFORM
 RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
     ARCH=amd64; \
     elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then \

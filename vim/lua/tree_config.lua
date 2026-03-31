@@ -25,23 +25,6 @@ require('nvim-treesitter').install({
     'prisma',
 })
 
--- Enable treesitter highlighting, folds for supported filetypes
--- (highlighting is no longer auto-enabled in the main branch)
-vim.api.nvim_create_autocmd('FileType', {
-    pattern = {
-        'latex', 'r', 'python', 'markdown', 'quarto', 'rmd', 'bash', 'yaml', 'lua', 'vim',
-        'query', 'vimdoc', 'html', 'css', 'javascript', 'typescript',
-        'prisma', 'dot', 'norg',
-    },
-    callback = function(args)
-        if args.match ~= 'aichat' then
-            vim.treesitter.start()
-        end
-        vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-        vim.wo[0][0].foldmethod = 'expr'
-        vim.wo[0][0].foldlevel = 99
-    end,
-})
 
 -- nvim-treesitter-textobjects
 local select = require('nvim-treesitter-textobjects.select')
