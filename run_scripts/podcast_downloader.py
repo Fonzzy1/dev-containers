@@ -40,22 +40,23 @@ def parse_opml(file):
     tree = ET.parse(file)
     for outline in tree.findall(".//outline"):
         url = outline.attrib.get("xmlUrl")
-        title = outline.attrib.get("title", outline.attrib.get("text", url))
-        is_series = (
-            outline.attrib.get("isSeries", "0") == "1"
-        )  # Convert to boolean
-        start_idx = outline.attrib.get("startIndex")
-        end_idx = outline.attrib.get("endIndex")
-        if is_series:
-            feeds.append({
-                "url": url, 
-                "title": title, 
-                "is_series": is_series,
-                "start_index": int(start_idx) if start_idx else None,
-                "end_index": int(end_idx) if end_idx else None
-            })
-        else:   
-            feeds.append({"url": url, "title": title, "is_series": is_series})
+        if url:
+            title = outline.attrib.get("title", outline.attrib.get("text", url))
+            is_series = (
+                outline.attrib.get("isSeries", "0") == "1"
+            )  # Convert to boolean
+            start_idx = outline.attrib.get("startIndex")
+            end_idx = outline.attrib.get("endIndex")
+            if is_series:
+                feeds.append({
+                    "url": url, 
+                    "title": title, 
+                    "is_series": is_series,
+                    "start_index": int(start_idx) if start_idx else None,
+                    "end_index": int(end_idx) if end_idx else None
+                })
+            else:   
+                feeds.append({"url": url, "title": title, "is_series": is_series})
 
     return feeds
 
@@ -311,19 +312,22 @@ def make_windows(today_9am):
         enumerate(feeds), total=len(feeds), desc="Fetching Episode Data"
     ):
         parsed = feedparser.parse(feed["url"])
+        feed_title = feed["title"]
+        # One path for series
+        if feed['is_series']:
+            entries = parsed.entries
+            entries.sort(
+                key=lambda e: (
+                    e.get( "published_parsed", (0, 0, 0, 0, 0, 0)))
+            )
+            # Filter episodes by start/end index if specified
+            start_index = feed.get("start_index")
+            end_index = feed.get("end_index")
+            # Build episode list with position info
+            all_episodes = []
+            for idx, entry in enumerate(entries):
 
-        for entry in parsed.entries:
-            feed_title = feed["title"]
-            is_series = feed["is_series"]
-
-            if is_series:
-                # Filter episodes by start/end index if specified
-                start_index = feed.get("start_index")
-                end_index = feed.get("end_index")
-                
-                # Build episode list with position info
-                all_episodes = []
-                for idx, entry in enumerate(parsed.entries):
+                if start_index <= idx <= end_index:
                     all_episodes.append({
                         "feed_pos": feed_idx,
                         "feed_title": feed_title,
@@ -331,26 +335,17 @@ def make_windows(today_9am):
                         "entry": entry,
                         "episode_idx": idx,
                     })
-                
-                # Apply index filtering
-                filtered_episodes = all_episodes
-                if start_index is not None or end_index is not None:
-                    filtered_episodes = []
-                    for ep in all_episodes:
-                        ep_idx = ep["episode_idx"]
-                        if start_index is not None and ep_idx < start_index:
-                            continue
-                        if end_index is not None and ep_idx >= end_index:
-                            continue
-                        filtered_episodes.append(ep)
-                
+
                 # Always download, assign to a dedicated series album
                 album_name = sanitize_filename(feed_title[:40])
                 windows.setdefault(
                     album_name, {"episodes": [], "album_name": album_name}
                 )
-                windows[album_name]["episodes"].extend(filtered_episodes)
-            else:
+                windows[album_name]["episodes"] = all_episodes
+        # other path for general
+        else:
+            entries = parsed.entries
+            for entry in entries:
                 # Existing time window logic
                 for k, v in windows.items():
                     if is_episode_in_window(entry, v["start"], v["end"]):
