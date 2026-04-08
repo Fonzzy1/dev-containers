@@ -15,6 +15,7 @@ function! QuartoExtras()
     lua require'otter'.activate()
     syntax match Cite /\k\@<!@\k\+\>/
     highlight link Cite MarkviewPalette7Fg
+    set wrap
 endfunction
 
 augroup QuartoExtrasGroup

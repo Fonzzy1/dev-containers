@@ -19,7 +19,7 @@ Plug 'xiyaowong/virtcolumn.nvim'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'anuvyklack/windows.nvim'
 Plug 'anuvyklack/middleclass'
-Plug 'anuvyklack/animation.nvim'
+Plug 'shortcuts/no-neck-pain.nvim', { 'tag': '*' }
 Plug 'MunifTanjim/nui.nvim'
 Plug 'folke/noice.nvim'
 Plug 'rcarriga/nvim-notify'

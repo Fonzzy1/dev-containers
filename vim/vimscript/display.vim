@@ -2,6 +2,8 @@
 lua << EOF
 require('lualine').setup {
   options = {
+    disabled_filetypes = {
+        statusline = { "no-neck-pain" }},
     theme = "auto",
     component_separators = { left = '', right = '' },
     section_separators = { left = '', right = '' },
@@ -42,12 +44,12 @@ if !has('gui_running')
 endif
 set laststatus=2
 
-"Relative Numbers
-augroup numbertoggle
-  autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu | endif
-  autocmd BufLeave,FocusLost,InsertEnter,WinLeave * if &nu | set nornu | endif
-augroup END
+""Relative Numbers
+"augroup numbertoggle
+"  autocmd!
+"  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu | endif
+"  autocmd BufLeave,FocusLost,InsertEnter,WinLeave * if &nu | set nornu | endif
+"augroup END
 
 " Color stuff
 set t_Co=256

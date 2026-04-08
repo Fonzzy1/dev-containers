@@ -5,7 +5,6 @@ set belloff=all
 set number
 set signcolumn=yes
 set background=dark
-set linebreak
 set nowrap
 set fillchars+=vert:\▕
 set conceallevel=3
@@ -32,29 +31,11 @@ set autowrite
 set autoread
 set switchbuf=vsplit
 
-" --- Search ---
-set incsearch
-set updatetime=100
-set cc=0
-set ss=79
-
 " --- Environment ---
 set encoding=utf-8
 set shell=/bin/bash
 let $PATH = $PATH . ':/usr/bin'
 let g:python3_host_prog = '/usr/bin/python3'
-
-" --- Colorcolumn ---
-augroup ColorLine
-  autocmd!
-  autocmd FileType *              setlocal textwidth=80
-  autocmd FileType *              setlocal cc=81
-  autocmd FileType dashboard      setlocal cc=0
-  autocmd FileType lazygit        setlocal cc=0
-  autocmd FileType Telescope      setlocal cc=0
-  autocmd FileType TelescopePrompt setlocal cc=0
-  autocmd FileType rnvimr         setlocal cc=0
-augroup END
 
 " --- Autoread ---
 augroup AutoRead
