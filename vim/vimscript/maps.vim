@@ -25,9 +25,8 @@ nnoremap sc <cmd>lua require('opencode').select()<CR>
 nnoremap si <cmd>lua require('opencode').ask()<CR>
 nnoremap sI <cmd>lua require('opencode').command('session.new'); require('opencode').ask()<CR>
 
-nnoremap <silent> sr :OverseerRun<CR>
-nnoremap <silent> sR :lua load_project_overseer_templates()<CR>
-nnoremap <silent> so :OverseerToggle<CR>
+nnoremap <silent> so :lua require('telescope').extensions.toggletasks.select()<CR>
+nnoremap <silent> sr <cmd>Telescope toggletasks spawn<CR>
 nnoremap <silent> sg :LazyGit<CR>
 nnoremap <silent> sv :LazyGitFilterCurrentFile<CR>
 nnoremap sG :Octo 
@@ -108,15 +107,31 @@ function GitCommit()
 end
 EOF
 
-nnoremap <c-h> <c-w>h
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-l> <c-w>l
-tnoremap <c-h> <Cmd>wincmd h<CR>
-tnoremap <c-j> <Cmd>wincmd j<CR>
-tnoremap <c-k> <Cmd>wincmd k<CR>
-tnoremap <c-l> <Cmd>wincmd l<CR>
-inoremap <C-h> <Esc><C-w>h
-inoremap <C-j> <Esc><C-w>j
-inoremap <C-k> <Esc><C-w>k
-inoremap <C-l> <Esc><C-w>l
+
+nnoremap = :WindowsEqualize<CR>
+autocmd VimResized * WindowsEqualize
+" autocmd WinNew,BufNew * WindowsEqualize
+
+function! SmartMove(dir)
+  let l:target = winnr(a:dir)
+  let l:current = winnr()
+
+  " no window in that direction
+  if l:target == l:current
+    return
+  endif
+
+  let l:winid = win_getid(l:target)
+  let l:bufnr = winbufnr(l:target)
+  let l:ft = getbufvar(l:bufnr, '&filetype')
+
+  " only move if not a no-neck-pain window
+  if l:ft !=# 'no-neck-pain'
+    execute 'wincmd ' . a:dir
+  endif
+endfunction
+
+nnoremap <silent><C-h> :call SmartMove('h')<CR>
+nnoremap <silent><C-l> :call SmartMove('l')<CR>
+nnoremap <silent><C-j> :call SmartMove('j')<CR>
+nnoremap <silent><C-k> :call SmartMove('k')<CR>

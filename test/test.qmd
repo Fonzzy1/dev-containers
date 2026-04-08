@@ -21,8 +21,6 @@ as referenced by @cite, who said that [@cite]
 
 
 
-This is a test document to check the functionality of LSP, auto formatting, and
-other features.
 
 ## Code Chunk
 

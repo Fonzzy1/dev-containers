@@ -82,40 +82,41 @@ iron.setup {
     ignore_blank_lines = true, -- ignore blank lines when sending visual select lines
 }
 
-function load_project_overseer_templates()
-    local file = vim.fn.getcwd() .. "/.overseer.lua"
-    local ok, templates = pcall(dofile, file)
-    if ok and type(templates) == "table" then
-        for _, tpl in ipairs(templates) do
-            require("overseer").register_template(tpl)
-        end
-        print("[Overseer] Loaded project templates from .overseer.lua")
-    end
-end
-
--- iron also has a list of commands, see :h iron-commands for all available commands
-require('overseer').setup({
-    task_list = {
-        direction = 'left',
-        bindings = {
-            ["?"] = "ShowHelp",
-            ["g?"] = "ShowHelp",
-            ["<CR>"] = "OpenFloat",
-            ["S"] = "<CMD>OverseerQuickAction Save as template<CR>",
-            ["l"] = "IncreaseDetail",
-            ["h"] = "DecreaseDetail",
-            ["L"] = "IncreaseAllDetail",
-            ["H"] = "DecreaseAllDetail",
-            ["k"] = "PrevTask",
-            ["j"] = "NextTask",
-            ["q"] = "Close",
-            ["dd"] = "Dispose",
+-- ToggleTasks configuration
+require('toggletasks').setup({
+    debug = false,
+    silent = false,
+    short_paths = true,
+    search_paths = {
+        '.toggletasks',
+        'toggletasks',
+    },
+    scan = {
+        global_cwd = true,
+        tab_cwd = true,
+        win_cwd = true,
+        lsp_root = false,
+        dirs = { '/scripts' },
+        rtp = true,
+        rtp_ftplugin = true,
+    },
+    telescope = {
+        spawn = {
+            open_single = true,
+            show_running = true,
+            mappings = {
+                select_float = '<CR>',
+            },
+        },
+        select = {
+            mappings = {
+                select_float = '<CR>',
+                kill_smart = '<c-d>',
+                respawn_smart = '<c-r>',
+            },
         },
     },
-
-
 })
 
-vim.api.nvim_create_autocmd("VimEnter", {
-    callback = load_project_overseer_templates,
-})
+-- Load telescope extension
+require('telescope').load_extension('toggletasks')

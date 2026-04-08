@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import os
 import sys
+
 from urllib.parse import urlparse
 import argparse
 

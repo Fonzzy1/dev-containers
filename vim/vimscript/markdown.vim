@@ -16,6 +16,7 @@ function! QuartoExtras()
     syntax match Cite /\k\@<!@\k\+\>/
     highlight link Cite MarkviewPalette7Fg
     set wrap
+    set linebreak
 endfunction
 
 augroup QuartoExtrasGroup

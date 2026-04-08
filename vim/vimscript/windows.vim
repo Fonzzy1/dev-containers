@@ -10,6 +10,3 @@ tnoremap <c-j> <Cmd>wincmd j<CR>
 tnoremap <c-k> <Cmd>wincmd k<CR>
 tnoremap <c-l> <Cmd>wincmd l<CR>
 
-nnoremap = :horizontal wincmd =<CR>
-autocmd VimResized * wincmd =
-

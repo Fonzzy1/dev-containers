@@ -202,7 +202,7 @@ local bookmarks = {
     ["Culture"] = {
         ["name"] = "Culture & Melbourne",
         ["Broadsheet Melbourne"] = "https://www.broadsheet.com.au/melbourne",
-       ["Album of the Year"] = "https://www.albumoftheyear.org/",
+        ["Album of the Year"] = "https://www.albumoftheyear.org/",
         ["shfl"] = "https://theshfl.com/",
     },
 
@@ -404,10 +404,10 @@ end
 -- Pick feeds from /root/feeds directory
 function rss_picker()
     local feeds_dir = "/root/feeds"
-    
+
     -- Get all .opml files from the feeds directory
     local opml_files = vim.fn.globpath(feeds_dir, "*.opml", false, true)
-    
+
     if #opml_files == 0 then
         vim.notify("No OPML files found in " .. feeds_dir, vim.log.levels.WARN)
         return

@@ -61,7 +61,8 @@ Plug 'axkirillov/easypick.nvim'
 
 "Code Running
 Plug 'Vigemus/iron.nvim' 
-Plug 'stevearc/overseer.nvim', { 'tag': 'v1.5.0' }
+Plug 'akinsho/toggleterm.nvim'
+Plug 'jedrzejboczar/toggletasks.nvim', { 'do': ':LuaSupportSync' }
 
 call plug#end()
 

@@ -8,6 +8,7 @@ set background=dark
 set nowrap
 set fillchars+=vert:\▕
 set conceallevel=3
+set hidden
 highlight clear SignColumn
 syntax on
 
@@ -25,7 +26,6 @@ set splitright
 set splitbelow
 
 " --- Buffers ---
-set bufhidden=delete
 set nohidden
 set autowrite
 set autoread

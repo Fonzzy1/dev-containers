@@ -92,26 +92,6 @@ markview.setup({
 
 
 
-require("ibl").setup({
-    exclude = {
-        filetypes = {
-            'dashboard',
-            'lazygit',
-            'lspinfo',
-            'packer',
-            'checkhealth',
-            'help',
-            'man',
-            'gitcommit',
-            'TelescopePrompt',
-            'TelescopeResults',
-            '',
-            'terminal',
-            'rnvimr'
-        }
-    },
-})
-
 require("windows").setup({
     autowidth = {     --		       |windows.autowidth|
         enable = true,
@@ -128,6 +108,11 @@ require("windows").setup({
 require("no-neck-pain").setup({
     width = 88,
     minSideBufferWidth = 0,
+    buffers = {
+        wo = {
+            fillchars = "eob: ",
+        },
+    },
 })
 
 require("noice").setup({

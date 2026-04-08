@@ -1,0 +1,12 @@
+{
+    "tasks": [
+        {
+            "name": "Run build script",
+            "cmd": "sh ./build"
+        },
+        {
+            "name": "Login to Docker",
+            "cmd": "docker login -u fonzzy1"
+        }
+    ]
+}

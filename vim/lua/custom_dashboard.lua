@@ -99,9 +99,9 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
                 local buf = vim.api.nvim_win_get_buf(win)
                 if vim.bo[buf].filetype == "dashboard" then
                     vim.api.nvim_buf_delete(buf, { force = true })
+                    vim.cmd("NoNeckPain")
                 end
             end
-            -- vim.cmd("NoNeckPain")
         end
     end,
 })
