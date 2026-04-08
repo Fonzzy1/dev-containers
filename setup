@@ -39,7 +39,6 @@ sudo apt-get -y install \
     libxkbcommon-dev \
     libxkbcommon-x11-0 \
     gnome-shell-extensions \
-    xclip
 
 
 ## Kitty

@@ -146,6 +146,8 @@ EOF
             *gpu_flag,
             "--env",
             f"DISPLAY={display}",
+            "--env",
+            f"XAUTHORITY=/root/.Xauthority",
             "-v",
             "/home/fonzzy/pipe:/pipe",
             "--mount",
