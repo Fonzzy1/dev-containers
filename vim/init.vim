@@ -1,5 +1,5 @@
 set nocompatible
-
+                                                                                a
 " vimscript
 source  ~/.config/nvim/vimscript/vim.vim
 source  ~/.config/nvim/vimscript/plugins.vim
@@ -19,7 +19,6 @@ lua require("opencode_config")
 lua require("visual_config")
 lua require("lsp")
 lua require("tree_config")
-lua require("tags")
 lua require("custom_dashboard")
 lua require("telescope_config")
 lua require("run_config")
