@@ -91,8 +91,6 @@ markview.setup({
 })
 
 
-vim.g.virtcolumn_char = '▕' -- char to display the line
-vim.g.virtcolumn_priority = 10 -- priority of extmark
 
 require("ibl").setup({
     exclude = {
@@ -115,22 +113,21 @@ require("ibl").setup({
 })
 
 require("windows").setup({
-    autowidth = {      --		       |windows.autowidth|
+    autowidth = {     --		       |windows.autowidth|
         enable = true,
-        winwidth = 12, --		        |windows.winwidth|
-        filetype = {   --	      |windows.autowidth.filetype|
+        winwidth = 7, --		        |windows.winwidth|
+        filetype = {  --	      |windows.autowidth.filetype|
             help = 2,
         },
     },
     ignore = { --			  |windows.ignore|
-        filetype = { "dashboard", 'lazygit' }
+        filetype = { "dashboard", 'lazygit', 'no-neck-pain' }
     },
-    animation = {
-        enable = false,
-        duration = 300,
-        fps = 30,
-        easing = "in_out_sine"
-    }
+})
+
+require("no-neck-pain").setup({
+    width = 88,
+    minSideBufferWidth = 0,
 })
 
 require("noice").setup({
