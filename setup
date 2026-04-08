@@ -5,7 +5,6 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 if [ "$1" = "--init" ]; then
 
-
 ## Load in the apps that I use for viewing media
 sudo apt-get -y update
 sudo apt-get -y upgrade
@@ -41,6 +40,12 @@ sudo apt-get -y install \
     libxkbcommon-x11-0 \
     gnome-shell-extensions \
     xclip
+
+
+## Kitty
+curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin \
+    installer=nightly
+sudo ln -sf ~/.local/kitty.app/bin/kitty /usr/bin/kitty
 
 ## Docker install
 if ! command -v docker &> /dev/null; then
@@ -113,9 +118,8 @@ gsettings set org.gnome.desktop.interface gtk-theme "Catppuccin-Mocha-Standard-L
 gsettings set org.gnome.shell.extensions.user-theme name "Catppuccin-Mocha-Standard-Lavender-Dark" || true
 gsettings set org.gnome.desktop.interface enable-animations false
 
-cp "$SCRIPT_DIR"/dotfiles/bashrc ~/.bashrc
+cp "$SCRIPT_DIR"/dotfiles/.bashrc ~/.bashrc
 cat ~/.bashrc > ~/.bash_profile
-
 
 #NERDFONT
 wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip \
