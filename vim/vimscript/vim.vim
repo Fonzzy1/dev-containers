@@ -26,7 +26,6 @@ set splitright
 set splitbelow
 
 " --- Buffers ---
-set nohidden
 set autowrite
 set autoread
 set switchbuf=vsplit

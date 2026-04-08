@@ -100,21 +100,28 @@ require('toggletasks').setup({
         rtp = true,
         rtp_ftplugin = true,
     },
+    toggleterm = {
+        close_on_exit = false,
+        hidden = true,
+        direction = 'float',
+    },
     telescope = {
         spawn = {
             open_single = true,
             show_running = true,
             mappings = {
-                select_float = '<CR>',
+                select_float = '<C-b>',
+                spawn_smart = '<C-a>', -- all if no entries selected, else use multi-select
             },
         },
         select = {
             mappings = {
-                select_float = '<CR>',
-                kill_smart = '<c-d>',
-                respawn_smart = '<c-r>',
+                select_float = '<C-f>',
+                open_smart = '<C-a>',
+                kill_smart = '<C-d>',
+                respawn_smart = '<C-r>',
             },
-        },
+        }
     },
 })
 
