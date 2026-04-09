@@ -98,16 +98,18 @@ export const rss_read = tool({
                 return `Error: Unknown key '${key}'.\nAvailable keys: ${available}`
             }
 
-            // Pass all URLs to Python in one call
-            const cmd = sinceDate
-                ? Bun.$`python3 ${PYTHON_FEED_PARSER} --since ${sinceDate} ${...urls }`
-                : Bun.$`python3 ${ PYTHON_FEED_PARSER } ${ ...urls }`
-            
-            const result = await cmd.text()
+            if (urls.length === 0) {
+                return `Error: No feeds found for '${key}'`
+            }
+
+            const result = await (sinceDate
+                ? Bun.$`python3 ${PYTHON_FEED_PARSER} --since ${sinceDate} ${urls}`
+                : Bun.$`python3 ${PYTHON_FEED_PARSER} ${urls}`
+            ).text()
             return result
 
         } catch (error) {
-            return `Error: ${ error instanceof Error ? error.message : "Unknown error" }`
+            return `Error: ${error instanceof Error ? error.message : "Unknown error"}`
         }
     }
 })

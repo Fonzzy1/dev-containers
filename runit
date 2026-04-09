@@ -129,6 +129,8 @@ EOF
             f"SYS_DIR={mount_dir}",
             "-e",
             f"CONT_DIR=/{mount_dir_name}",
+            "-e",
+            f"NVIM={os.environ.get('NVIM', '')}",
             "--hostname",
             mount_dir_name,
             "--name",
