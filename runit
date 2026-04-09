@@ -5,8 +5,6 @@ import os
 import uuid
 import subprocess
 
-
-
 # Location for mounts
 script_location = os.path.dirname(os.path.realpath(__file__))
 env_location = os.path.dirname(script_location) + "/env"
@@ -38,7 +36,14 @@ def open_opencode_pane(mount_dir_name, env_location):
         f"docker exec -it {mount_dir_name} /bin/bash -c 'opencode --port 3000 2>/dev/null'"
     )
     subprocess.Popen(
-        ["kitty", "--title", f"opencode-{mount_dir_name}", "bash", "-c", opencode_cmd],
+        [
+            "kitty",
+            "--title",
+            f"opencode-{mount_dir_name}",
+            "bash",
+            "-c",
+            opencode_cmd,
+        ],
         env={**os.environ, "DISPLAY": display},
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
@@ -129,8 +134,6 @@ EOF
             f"SYS_DIR={mount_dir}",
             "-e",
             f"CONT_DIR=/{mount_dir_name}",
-            "-e",
-            f"NVIM={os.environ.get('NVIM', '')}",
             "--hostname",
             mount_dir_name,
             "--name",
@@ -176,9 +179,9 @@ def run_notes(args):
     temp_dir = os.path.expanduser(f"~/Documents/wiki")
     if not os.path.isdir(temp_dir):
         os.makedirs(temp_dir)
-        command = """gh repo clone wiki /wiki -- --recurse-submodules; git submodule foreach 'git switch main'; chown -R $HOST_UID:$HOST_GID /wiki ;nvim;"""
+        command = """gh repo clone wiki /wiki -- --recurse-submodules; git submodule foreach 'git switch main'; chown -R $HOST_UID:$HOST_GID /wiki ;nvim --listen /tmp/nvimsocket;"""
     else:
-        command = """git submodule foreach 'git switch main'; chown -R $HOST_UID:$HOST_GID /wiki; nvim;"""
+        command = """git submodule foreach 'git switch main'; chown -R $HOST_UID:$HOST_GID /wiki; nvim --listen /tmp/nvimsocket;"""
 
     run_vim(
         env_location,
@@ -209,7 +212,7 @@ def run_local(args):
         env_location,
         mount_dir=current_dir,
         mount_dir_name=dir_name,
-        command="nvim;",
+        command="nvim --listen /tmp/nvimsocket;",
         check_changes=False,
         open_kitty=getattr(args, "kitty", False),
     )
@@ -241,7 +244,7 @@ def run_gh(args):
     os.chdir(temp_dir)
 
     # Update submodules if any
-    command += "git submodule update --init; ln -s /root/.env .env;nvim;"
+    command += "git submodule update --init; ln -s /root/.env .env;nvim --listen /tmp/nvimsocket;"
 
     run_vim(
         env_location,
@@ -267,7 +270,7 @@ def run_config(args):
         env_location,
         mount_dir=script_location,
         mount_dir_name=dir_name,
-        command="nvim; ",
+        command="nvim --listen /tmp/nvimsocket; ",
         check_changes=True,
         open_kitty=getattr(args, "kitty", False),
     )
@@ -308,7 +311,10 @@ if __name__ == "__main__":
         "local", help="Run command for a container with local directory"
     )
     local_parser.add_argument(
-        "--kitty", "-k", action="store_true", help="Open opencode in separate kitty window"
+        "--kitty",
+        "-k",
+        action="store_true",
+        help="Open opencode in separate kitty window",
     )
     local_parser.set_defaults(func=run_local)
 
@@ -317,7 +323,10 @@ if __name__ == "__main__":
     )
     gh_parser.add_argument("repo", help="Specify the repository for cloning")
     gh_parser.add_argument(
-        "--kitty", "-k", action="store_true", help="Open opencode in separate kitty window"
+        "--kitty",
+        "-k",
+        action="store_true",
+        help="Open opencode in separate kitty window",
     )
     gh_parser.set_defaults(func=run_gh)
 
@@ -325,7 +334,10 @@ if __name__ == "__main__":
         "notes", help="Open GistNotes Browsing Tool"
     )
     gistnote_parser.add_argument(
-        "--kitty", "-k", action="store_true", help="Open opencode in separate kitty window"
+        "--kitty",
+        "-k",
+        action="store_true",
+        help="Open opencode in separate kitty window",
     )
     gistnote_parser.set_defaults(func=run_notes)
 
@@ -341,7 +353,10 @@ if __name__ == "__main__":
         "config", help="Edit the runit files inplace"
     )
     config_parser.add_argument(
-        "--kitty", "-k", action="store_true", help="Open opencode in separate kitty window"
+        "--kitty",
+        "-k",
+        action="store_true",
+        help="Open opencode in separate kitty window",
     )
     config_parser.set_defaults(func=run_config)
 
@@ -355,7 +370,10 @@ if __name__ == "__main__":
         help="If true, process as music as well",
     )
     podcast_parser.add_argument(
-        "--kitty", "-k", action="store_true", help="Open opencode in separate kitty window"
+        "--kitty",
+        "-k",
+        action="store_true",
+        help="Open opencode in separate kitty window",
     )
     podcast_parser.set_defaults(func=run_podcasts)
 

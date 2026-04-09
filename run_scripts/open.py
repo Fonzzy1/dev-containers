@@ -91,8 +91,6 @@ def is_text_file(path):
 
 
 def path_to_command(path, reader_flag):
-    nvim_addr = os.environ.get("NVIM")
-
     if is_url(path):
         if reader_flag:
             return f'xdg-open "about:reader?url={path}"'
@@ -100,8 +98,8 @@ def path_to_command(path, reader_flag):
             return f'xdg-open "{path}"'
 
     # If nvim is available and file is text, run nvr inside container
-    if nvim_addr and is_text_file(path):
-        return None, f'nvr --remote-send ":vsplit {path}<CR>"'
+    if is_text_file(path):
+        return None, f'nvr -c ":vsplit {path}"'
 
     sys_dir = os.environ["SYS_DIR"]
     cont_dir = os.environ["CONT_DIR"]
@@ -110,7 +108,6 @@ def path_to_command(path, reader_flag):
         return f'xdg-open "{sys_dir}"'
     elif path.startswith(cont_dir):
         path = path.replace(cont_dir, sys_dir)
-
 
         return f'xdg-open "{path}"', None
     else:
