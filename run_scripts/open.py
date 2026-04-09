@@ -50,6 +50,7 @@ def is_text_file(path):
         ".vim",
         ".r",
         ".scala",
+        ".bib",
         # Config
         ".vimrc",
         ".gitignore",
@@ -93,9 +94,9 @@ def is_text_file(path):
 def path_to_command(path, reader_flag):
     if is_url(path):
         if reader_flag:
-            return f'xdg-open "about:reader?url={path}"'
+            return f'xdg-open "about:reader?url={path}"', None
         else:
-            return f'xdg-open "{path}"'
+            return f'xdg-open "{path}"', None
 
     # If nvim is available and file is text, run nvr inside container
     if is_text_file(path):

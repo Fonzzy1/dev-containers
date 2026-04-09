@@ -4,7 +4,6 @@
 ! pip install feedparser aiohttp
 """
 
-
 import sys
 import asyncio
 import aiohttp
@@ -57,18 +56,12 @@ def parse_entry_date(entry):
     return None
 
 
-def clean_and_limit(s, n):
+def clean(s):
     if not isinstance(s, str):
         s = str(s)
     # Remove all line breaks and collapse whitespace
     s = re.sub(r"\s+", " ", s).strip()
-    if n is None or n < 0:
-        return s
-    if len(s) > n:
-        # Use ... and ensure total length is n
-        return s[: n - 3].rstrip() + "..."
-    else:
-        return s
+    return s
 
 
 def get_abstract(entry):
@@ -88,21 +81,22 @@ async def fetch_feed(session, url):
             content = await resp.read()
             feed = feedparser.parse(content)
             source_name = feed.feed.get("title", "<Unknown Source>")
-            source_name = clean_and_limit(source_name, 100)
+            source_name = clean(source_name)
             entries = []
             for entry in feed.entries:
                 dt = parse_entry_date(entry)
                 if not dt:
                     continue
-                title = clean_and_limit(entry.get("title", "<No Title>"), 400)
+                title = clean(entry.get("title", "<No Title>"))
                 entries.append(
                     {
                         "source": source_name,
                         "source_url": url,
                         "title": title,
                         "link": entry.get("link", ""),
+                        "doi": entry.get("doi"),
                         "date": to_melbourne_time(dt),
-                        "description": clean_and_limit(get_abstract(entry), -1),
+                        "description": clean(get_abstract(entry)),
                         "sort_dt": dt,
                     }
                 )
@@ -137,7 +131,12 @@ async def main(urls, since_date=None):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Fetch RSS/Atom feeds")
-    parser.add_argument("--since", type=str, default=None, help="Filter items published on or after this date (e.g., 2026-04-02)")
+    parser.add_argument(
+        "--since",
+        type=str,
+        default=None,
+        help="Filter items published on or after this date (e.g., 2026-04-02)",
+    )
     parser.add_argument("urls", nargs="+", help="Feed URLs to fetch")
     args = parser.parse_args()
 
