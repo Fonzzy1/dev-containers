@@ -1,7 +1,6 @@
 set nocompatible
 
 " Use system clipboard with y and p
-set clipboard=unnamedplus
 
 " vimscript
 source  ~/.config/nvim/vimscript/vim.vim

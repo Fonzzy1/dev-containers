@@ -9,8 +9,17 @@ function normalizeBibtexKey(bibtex: string): { key: string; bibtex: string } {
   const authorMatch = bibtex.match(/author\s*=\s*\{([^}]+)\}/)
   let author = ""
   if (authorMatch) {
-    const firstAuthor = authorMatch[1].split(" and ")[0]
-    author = firstAuthor.split(",")[0].split(" ")[0].toLowerCase().replace(/[^a-z]/g, "")
+    const firstAuthor = authorMatch[1].split(" and ")[0].trim()
+    
+    // Check if it's "LastName, FirstName" format (has comma)
+    if (firstAuthor.includes(",")) {
+      // "Hagar, Nick" -> take part before comma
+      author = firstAuthor.split(",")[0].trim().toLowerCase().replace(/[^a-z]/g, "")
+    } else {
+      // "Nick Hagar" -> take last word as last name
+      const parts = firstAuthor.split(" ")
+      author = parts[parts.length - 1].toLowerCase().replace(/[^a-z]/g, "")
+    }
   }
   
   // Extract year

@@ -11,6 +11,7 @@ import aiohttp
 import feedparser
 import json
 import re
+import argparse
 from html.parser import HTMLParser
 from datetime import datetime, timedelta, timezone
 from dateutil import parser as date_parser
@@ -111,7 +112,7 @@ async def fetch_feed(session, url):
         return []
 
 
-async def main(urls):
+async def main(urls, since_date=None):
     all_entries = []
     async with aiohttp.ClientSession() as session:
         tasks = [fetch_feed(session, url) for url in urls]
@@ -119,9 +120,13 @@ async def main(urls):
         for entries in results:
             all_entries.extend(entries)
 
-    # Only keep articles from the last month (31 days)
-    now = datetime.now(timezone.utc)
-    one_month_ago = now - timedelta(days=31)
+    # Filter by date if provided
+    if since_date:
+        since_dt = date_parser.parse(since_date)
+        if not since_dt.tzinfo:
+            since_dt = since_dt.replace(tzinfo=timezone.utc)
+        all_entries = [e for e in all_entries if e["sort_dt"] >= since_dt]
+
     all_entries.sort(key=lambda e: e["sort_dt"], reverse=True)
 
     for e in all_entries:
@@ -131,11 +136,11 @@ async def main(urls):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print(
-            f"Usage: {sys.argv[0]} <feed_url1> <feed_url2> ...", file=sys.stderr
-        )
-        sys.exit(1)
-    asyncio.run(main(sys.argv[1:]))
+    parser = argparse.ArgumentParser(description="Fetch RSS/Atom feeds")
+    parser.add_argument("--since", type=str, default=None, help="Filter items published on or after this date (e.g., 2026-04-02)")
+    parser.add_argument("urls", nargs="+", help="Feed URLs to fetch")
+    args = parser.parse_args()
+
+    asyncio.run(main(args.urls, args.since))
 
     url = "http://export.arxiv.org/api/query?search_query=cat:cs.cl+and+all:media+and+all:framing&start=0&max_results=50&sortby=submitteddate&sortorder=descending"
