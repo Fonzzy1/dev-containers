@@ -46,7 +46,7 @@ Prefer the repo scripts over ad‑hoc Docker commands; they encode non‑obvious
 These commands are usually run **on the host**, not inside the container, but they explain how this repo is meant to be used:
 
 - Default: mount the **current directory** into a `fonzzy1/vim` container and open Neovim:
-  - `python3 runit`  (or `python3 runit local`)
+  - `python3 runit` (or `python3 runit local`)
   - Optional: `--kitty` opens a separate Kitty window that runs `opencode --port 3000` inside the container.
 - Clone and work on a GitHub repo in a container:
   - `python3 runit gh owner/repo` (clones into `~/Documents/owner-repo` on the host, then runs Neovim + OpenCode inside the container).
