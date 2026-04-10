@@ -52,20 +52,20 @@ endif
 " -- diff
 set diffopt=internal,filler,closeoff,indent-heuristic,inline:char,linematch:40,vertical,algorithm:histogram
 
-" Diff-mode keymaps
-augroup DiffKeymaps
+" Apply these mappings only when a window is in diff mode
+augroup DiffMappings
   autocmd!
-  " Apply these mappings only when a window is in diff mode
-  autocmd VimEnter,WinEnter * if &diff
-        \ | setlocal nofoldenable foldcolumn=0
-        \ | nnoremap <silent> <buffer> gn ]c
-        \ | nnoremap <silent> <buffer> gp [c
-        \ | nnoremap <silent> <buffer> aa do          " accept hunk (diffget)
-        \ | nnoremap <silent> <buffer> ar dp          " reject hunk (diffput)
-        \ | nnoremap <silent> <buffer> da :%diffget<CR> " accept whole diff
-        \ | nnoremap <silent> <buffer> dr :%diffput<CR> " reject whole diff
-        \ | endif
+  autocmd VimEnter,WinEnter,WinNew,TabNew,TabEnter * call s:SetupDiffMaps()
 augroup END
+
+function! s:SetupDiffMaps() abort
+  if &diff
+    echo "Setting Diff Maps"
+    setlocal nofoldenable foldcolumn=0
+    nnoremap <silent> <buffer> gn ]c
+    nnoremap <silent> <buffer> gp [c
+  endif
+endfunction
 
 " --- Quickfix navigation maps ---
 nnoremap ; :
@@ -75,6 +75,5 @@ vnoremap < <gv
 " --- Plugin highlight links ---
 hi link LazyGitFloat TelescopeNormal
 hi link LazyGitBorder TelescopeBorder
-
 
 

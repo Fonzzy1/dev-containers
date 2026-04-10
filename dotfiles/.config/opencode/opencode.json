@@ -13,31 +13,23 @@
     "todoread": "allow",
     "todowrite": "allow",
     "question": "allow",
-    "edit": "ask",
+    "edit": {
+      "*": "ask",
+      "/tmp": "allow",
+      "/tmp/**": "allow"
+    },
     "bash": {
       "*": "ask",
-
-      // Non-destructive commands allowed anywhere
-      "git status*": "allow",
-      "git log*": "allow",
-      "git diff*": "allow",
-      "git show*": "allow",
-      "git branch*": "allow",
-      "ls *": "allow",
-      "ls": "allow",
-      "grep *": "allow",
-      "echo *": "allow",
-      "which *": "allow",
-      "pwd": "allow",
-      "env": "allow",
-      "printenv *": "allow",
-
       // Destructive commands auto-allowed only for /tmp scratch space
       "rm /tmp/*": "allow",
       "rm -r /tmp/*": "allow",
       "rm -rf /tmp/*": "allow",
       "mkdir /tmp/*": "allow",
       "mv /tmp/*": "allow"
+    },
+    "external_directory": {
+      "/tmp": "allow",
+      "/tmp/**": "allow"
     }
   },
   "agent": {

@@ -109,6 +109,10 @@ require("no-neck-pain").setup({
     width = 88,
     minSideBufferWidth = 0,
     buffers = {
+        colors = {
+            -- Catppuccin mocha mantle
+            background = "#181825",
+        },
         wo = {
             fillchars = "eob: ",
         },
