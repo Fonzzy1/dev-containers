@@ -23,7 +23,7 @@ nnoremap <silent> sb :vnew<CR>:wincmd L<CR>
 nnoremap <silent> sB :new<CR>
 nnoremap sC <cmd>lua require('opencode').select()<CR>
 vnoremap sC <cmd>lua require('opencode').select()<CR>
-nnoremap sc <cmd>lua require('opencode').ask()<CR>
+nnoremap sc <cmd>lua require('opencode').ask("", { submit = true })<CR>
 
 nnoremap <silent> so :lua require('telescope').extensions.toggletasks.select()<CR>
 nnoremap <silent> sr <cmd>Telescope toggletasks spawn<CR>
