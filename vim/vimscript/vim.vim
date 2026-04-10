@@ -62,16 +62,6 @@ vnoremap < <gv
 hi link LazyGitFloat TelescopeNormal
 hi link LazyGitBorder TelescopeBorder
 
-lua <<EOF
-vim.g.opencode_opts = {
-  server = {
-    port = 3000,
-    start = function() end,
-    stop = function() end,
-    toggle = function() end,
-  },
-}
-EOF
 
 
 

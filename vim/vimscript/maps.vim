@@ -19,11 +19,11 @@ lua vim.keymap.set({ "n", "x" }, "ee", function() require("opencode").ask("@this
 lua vim.keymap.set("n", "eee", function() require("opencode").ask("@this: ", { submit = true }) end, { desc = "Quick chat current line" })
 
 " Spawn
-nnoremap <silent> sB :vnew<CR>:wincmd L<CR>
-nnoremap <silent> sb :new<CR>
-nnoremap sc <cmd>lua require('opencode').select()<CR>
-nnoremap si <cmd>lua require('opencode').ask()<CR>
-nnoremap sI <cmd>lua require('opencode').command('session.new'); require('opencode').ask()<CR>
+nnoremap <silent> sb :vnew<CR>:wincmd L<CR>
+nnoremap <silent> sB :new<CR>
+nnoremap sC <cmd>lua require('opencode').select()<CR>
+vnoremap sC <cmd>lua require('opencode').select()<CR>
+nnoremap sc <cmd>lua require('opencode').ask()<CR>
 
 nnoremap <silent> so :lua require('telescope').extensions.toggletasks.select()<CR>
 nnoremap <silent> sr <cmd>Telescope toggletasks spawn<CR>
@@ -40,13 +40,11 @@ nnoremap ff <cmd>Telescope find_files<cr>
 nnoremap fg <cmd>Telescope live_grep<cr>
 nnoremap fs <cmd>Telescope lsp_document_symbols<cr>
 nnoremap <silent> fn :RnvimrToggle<CR>
-nnoremap <silent> fe <cmd>Telescope diagnostics<cr>
+nnoremap <silent> fe <cmd>Telescope diagnostics bufnr=0 <cr>
 nnoremap <silent> fd :lua vim.lsp.buf.hover()<cr>
 nnoremap <silent> fc <cmd>Telescope git_status<cr>
 nnoremap  <silent> fh :Gitsigns preview_hunk<CR>
 nnoremap  <silent> fa :Gitsigns blame_line<CR>
-nnoremap <silent> fo <cmd>lua require('opencode').command('session.select')<CR>
-nnoremap <silent> fO <cmd>lua require('opencode').select()<CR>
 
 "go
 " Big Jumps
