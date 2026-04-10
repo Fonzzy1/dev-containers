@@ -14,3 +14,24 @@ require("snacks").setup({
         },
     },
 })
+
+
+vim.g.opencode_opts = {
+    server = {
+        port = 3000,
+        start = function() end,
+        stop = function() end,
+        toggle = function() end,
+    },
+    events = {
+        enabled = true,
+        reload = true,
+        permissions = {
+            enabled = true,
+            idle_delay_ms = 1000,
+            edits = {
+                enabled = true,
+            }
+        }
+    }
+}

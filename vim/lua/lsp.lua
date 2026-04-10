@@ -121,6 +121,16 @@ vim.diagnostic.config({
 
 
 
+-- Show diagnostics in a floating window when hovering (cursor hold)
+local diag_hover_group = vim.api.nvim_create_augroup("LspDiagnosticsHover", { clear = true })
+vim.api.nvim_create_autocmd("CursorHold", {
+    group = diag_hover_group,
+    callback = function()
+        vim.diagnostic.open_float(nil, { focus = false })
+    end,
+})
+
+
 
 -- Always create the group first
 local augroup = vim.api.nvim_create_augroup("LspFormatting", { clear = true })
