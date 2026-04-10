@@ -16,6 +16,8 @@
     "edit": "ask",
     "bash": {
       "*": "ask",
+
+      // Non-destructive commands allowed anywhere
       "git status*": "allow",
       "git log*": "allow",
       "git diff*": "allow",
@@ -28,7 +30,14 @@
       "which *": "allow",
       "pwd": "allow",
       "env": "allow",
-      "printenv *": "allow"
+      "printenv *": "allow",
+
+      // Destructive commands auto-allowed only for /tmp scratch space
+      "rm /tmp/*": "allow",
+      "rm -r /tmp/*": "allow",
+      "rm -rf /tmp/*": "allow",
+      "mkdir /tmp/*": "allow",
+      "mv /tmp/*": "allow"
     }
   },
   "agent": {
