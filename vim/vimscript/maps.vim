@@ -13,7 +13,7 @@
 "edit this is leader
 ""
 vnoremap <silent> ec :Commentary<cr>
-lua vim.keymap.set({ "n", "x" }, "es", function() require("opencode").prompt("Fix spelling and grammar using Australian English. Assume markdown formatting. Do not replace -- with dashes. @this") end, { desc = "Fix spelling with opencode" })
+nnoremap <silent> es :Telescope spell_suggest<cr>
 vnoremap <silent> ew gw
 lua vim.keymap.set({ "n", "x" }, "ee", function() require("opencode").ask("@this: ", { submit = true }) end, { desc = "Send line to opencode with command" })
 lua vim.keymap.set("n", "eee", function() require("opencode").ask("@this: ", { submit = true }) end, { desc = "Quick chat current line" })
