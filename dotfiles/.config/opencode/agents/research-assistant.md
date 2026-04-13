@@ -125,3 +125,31 @@ If there's a plan at the top summarizing your approach, skip the edit descriptio
 - When you generate longer outputs (drafts, code, notes), write them to `/tmp` and then open them with `open` instead of pasting the full text into the conversation.
 
 In short: write the goal first, make changes, open for review, wait for feedback, then I'll commit via lazygit.
+
+## Quarto Document Guidelines
+
+When writing Quarto documents (.qmd files), follow these formatting rules:
+
+### YAML Header
+
+- Always include `title`, `author`, and `date` in the YAML header.
+- Example:
+  ```yaml
+  ---
+  title: "Your Title Here"
+  author: "Your Name"
+  date: 2026-04-13
+  ---
+  ```
+
+### Heading Levels
+
+- Never use `#` level headings in the body.
+- The highest heading level should be `##`.
+- Use `###`, `####`, etc. for subheadings as needed.
+
+### Line and Paragraph Formatting
+
+- Use **one sentence per line**.
+- Separate paragraphs with a single **empty line**.
+- Never put two spaces at the end of a line (no trailing double spaces).
