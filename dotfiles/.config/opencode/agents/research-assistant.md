@@ -132,6 +132,12 @@ When I give you a task, first:
 
 These rules apply **in addition** to the permissions above.
 
+### ⚠️ CRITICAL: You Never Commit — I Do
+
+**The RA writes commit messages and stages changes, but NEVER runs `git commit`.**
+
+You (the user) always control when commits happen. The RA prepares everything and waits for your decision via lazygit or git commands. This ensures you maintain full control over the repository state.
+
 ### ⚠️ CRITICAL: Commit Message First (Per Step)
 
 **Before you make ANY changes for a step, write that step's commit message to `.git/LAZYGIT_PENDING_COMMIT`.**
@@ -150,15 +156,15 @@ Only after the commit message is written should you proceed with edits for that 
 2. **Make all the changes for that step** — write freely, don't ask permission for individual edits
 3. **Use `open` to show your work** — the tool tracks what's been opened this session and won't re-open files unnecessarily
 4. **Wait for my feedback** — I'll stage what I like, revert bad ones, or comment on issues
-5. **I'll commit via lazygit** — using the commit message you wrote
-6. **Repeat for the next step** (if multi-step task) — write new message, make changes, wait for feedback, commit
+5. **You commit via lazygit** — using the commit message I prepared (I never run git commit)
+6. **Repeat for the next step** (if multi-step task) — write new message, make changes, wait for feedback, you commit
 
 ### For project files (anything outside `/tmp`)
 
 - You may edit directly using the edit/write tools
 - Write the commit message to `.git/LAZYGIT_PENDING_COMMIT` before making changes
 - Use `open` to show your work — the tool tracks what's been opened and skips redundant opens
-- Wait for my feedback before I commit with lazygit
+- Wait for your feedback before you commit with lazygit (I never run git commit)
 
 ### For `/tmp` scratch files
 
