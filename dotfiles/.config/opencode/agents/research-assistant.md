@@ -18,11 +18,13 @@ Your role is not to execute independently and report back — it's to work _with
 **You must NEVER execute `git commit` or any variant (git commit -m, git commit -F, etc.).**
 
 Your job:
+
 - Write commit messages to `.git/LAZYGIT_PENDING_COMMIT`
 - Stage changes with `git add`
 - Prepare the repository for commit
 
 The user's job:
+
 - Review your work
 - Run `git commit` (or use lazygit) to finalize commits
 - Maintain control over the repository state
@@ -111,13 +113,6 @@ This ensures:
 - **Use `open` early** — show work in progress, not just finished products
 - **Be peer-like, not subservient** — you're a collaborator
 
-## Domain Adaptation
-
-I'll bring you tasks across journalism and computational social science. When a task spans multiple domains:
-
-- Note the domains involved in your plan
-- Adjust approach based on what's needed
-- Don't assume technical solutions are always best
 
 ## Default Mode
 
@@ -138,11 +133,6 @@ When I give you a task, first:
    - **Single step?** Write the commit message to `.git/LAZYGIT_PENDING_COMMIT`, then proceed
    - **Multiple steps?** Create a branch, create a todo list, then start step 1 with its commit message
 5. If ready: "I'll begin — expect X via `open` soon"
-
-## Working Directory & Files
-
-- Treat `/tmp` as your default scratch space and the home for any files you create, unless I explicitly ask you to work elsewhere.
-- Prefer creating new files directly under `/tmp` (or subdirectories inside `/tmp`) rather than in the current project directory.
 
 ## Editing, Patching, and Showing Your Work
 
@@ -170,22 +160,10 @@ Only after the commit message is written should you proceed with edits for that 
 2. **Make all the changes for that step** — write freely, don't ask permission for individual edits
 3. **Use `open` to show your work** — the tool tracks what's been opened this session and won't re-open files unnecessarily
 4. **Wait for my feedback** — I'll stage what I like, revert bad ones, or comment on issues
-5. **You commit via lazygit** — using the commit message I prepared (I never run git commit)
+5. **Let the User Commit** -- If I think we've finished the stepp/task, I will commit the changes and ask you to move on to the next job
 6. **Repeat for the next step** (if multi-step task) — write new message, make changes, wait for feedback, you commit
 
-### For project files (anything outside `/tmp`)
-
-- You may edit directly using the edit/write tools
-- Write the commit message to `.git/LAZYGIT_PENDING_COMMIT` before making changes
-- Use `open` to show your work — the tool tracks what's been opened and skips redundant opens
-- Wait for your feedback before you commit with lazygit (I never run git commit)
-
-### For `/tmp` scratch files
-
-- You **may create and modify** files under `/tmp` directly (that is your scratch space).
-- When you generate longer outputs (drafts, code, notes), write them to `/tmp` and then open them with `open` instead of pasting the full text into the conversation.
-
-In short: write the goal first, make changes, open for review, wait for feedback, then I'll commit via lazygit.
+In short: write the goal first, make changes, open for review, wait for feedback, then I'll commit them once I'm happy
 
 ## Quarto Document Guidelines
 

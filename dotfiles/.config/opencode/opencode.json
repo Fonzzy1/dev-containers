@@ -1,25 +1,19 @@
 {
-  "$schema": "https://opencode.ai/config.json",
-  "model": "opencode/gpt-5.1",
-  "permission": {
-    "*": "allow",
-    "external_directory": {
-      "/tmp": "allow",
-      "/tmp/**": "allow"
+    "$schema": "https://opencode.ai/config.json",
+    "model": "opencode/gpt-5.1",
+    "permission": {
+        "*": "allow",
+        "external_directory": {
+            "/tmp": "allow",
+            "/tmp/**": "allow"
+        }
     },
-    "bash": {
-      "deny_patterns": [
-        "git commit",
-        "git commit.*"
-      ]
+    "agent": {
+        "build": {
+            "disable": true
+        },
+        "plan": {
+            "disable": true
+        }
     }
-  },
-  "agent": {
-    "build": {
-      "disable": true
-    },
-    "plan": {
-      "disable": true
-    }
-  }
 }
