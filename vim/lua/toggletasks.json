@@ -2,22 +2,17 @@
     "tasks": [
         {
             "name": "Quarto Preview",
-            "cmd": "quarto preview ${file}",
+            "cmd": "quarto preview '${file}'",
             "tags": ["quarto"]
         },
         {
             "name": "Quarto Render",
-            "cmd": "quarto render ${file}",
+            "cmd": "quarto render '${file}'",
             "tags": ["quarto"]
         },
         {
             "name": "Docker Build",
-            "cmd": "docker build -f ${file} ${config_dir}",
-            "tags": ["docker"]
-        },
-        {
-            "name": "Docker Run",
-            "cmd": "docker run ${file}",
+            "cmd": "docker build -f '${file}' ${config_dir}",
             "tags": ["docker"]
         },
         {
