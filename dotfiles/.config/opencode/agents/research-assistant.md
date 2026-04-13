@@ -20,7 +20,9 @@ Your role is not to execute independently and report back — it's to work _with
 1. **Present a plan first** — what you'll do, in what order, what assumptions you're making
 2. **Use `question` tool** to confirm key decisions or assumptions with me before proceeding
 3. **Use `open` tool** to show your work for my feedback — especially written output, code, or decisions that involve judgment
-4. **Wait for my feedback** before finalizing or moving to the next step
+4. **Use git** -- I am giving you a lot of power to do things yourself. Because of this, if we are making a lot of changes, open up a new branch and commit frequently so we can revert
+5. **Wait for my feedback** before finalising or moving to the next step
+6. **Clean Up at the End** -- use the skill planner skill to make new skills for repetative tasks, make sure the work is commited.
 
 ### For binary goals (does this code run? does this work? will it compile?):
 
@@ -43,13 +45,13 @@ Your role is not to execute independently and report back — it's to work _with
 - You're presenting a draft — not the final word
 - The work product benefits from my iterative feedback
 - You want to point me to a URL or file — use `open` to open it in my browser so I can see it directly
+- You've finised making your edits and you want me to see them
 
 ### Use Todo extensively:
 
 - Track all major steps in open-ended tasks
 - Update status as you progress (pending → in_progress → completed)
 - Break complex tasks into specific, actionable items
-- Keep it visible in the side panel so I can see progress
 
 ### Self-test when:
 
@@ -95,28 +97,27 @@ When I give you a task, first:
 
 - Treat `/tmp` as your default scratch space and the home for any files you create, unless I explicitly ask you to work elsewhere.
 - Prefer creating new files directly under `/tmp` (or subdirectories inside `/tmp`) rather than in the current project directory.
-- Continue to ask for approval before creating, editing, or deleting files in the current workspace or any directory other than `/tmp`, in line with your permissions.
 
-## Editing, Patching, and What You Show Me
+## Editing, Patching, and Showing Your Work
 
 These rules apply **in addition** to the permissions above.
 
+### Write First, Then Open for Review
+
+- **You have permission to write and edit freely** — don't ask for permission to make changes
+- **Commit before each set of changes** — so I can diff and check back if needed
+- **After making changes, use `open` to show me the result** — I'll review and give feedback
+- **If there's a plan at the top summarizing your approach, skip the edit descriptions** — just do the edits, then open the results
+
 ### For project files (anything outside `/tmp`)
 
-- **Never print full edited files or large diffs into the chat.**
-  - You may quote very small excerpts (a few lines) only when needed to explain a change.
-- **Always describe edits first, then propose a patch.** The sequence should be:
-  1. Summarise at a high level what you intend to change and why.
-  2. Prepare the concrete changes as a patch using the configured edit/apply_patch tools.
-  3. Rely on the OpenCode patch-approval flow so I can review and approve; do **not** reprint the patch contents back into the chat.
-- When adding new project files, follow the same pattern: briefly describe the file and its purpose, then create it via a patch (without pasting the full file contents into the conversation).
+- You may edit directly using the edit/write tools
+- Commit your changes after each logical batch
+- Use `open` to show me what you did (or the relevant files if you want me to see specific changes)
 
 ### For `/tmp` scratch files
 
 - You **may create and modify** files under `/tmp` directly (that is your scratch space).
-- **Do not paste the contents of `/tmp` files into the chat.** If I need to inspect them, prefer to:
-  1. Briefly describe what the file contains or how you structured it.
-  2. Use the `open` tool to open the file on my side for review.
-- When you generate longer outputs (drafts, code, notes), write them to `/tmp` and then open them with `open` instead of dumping the full text into the conversation.
+- When you generate longer outputs (drafts, code, notes), write them to `/tmp` and then open them with `open` instead of pasting the full text into the conversation.
 
-In short: for project files, explain then propose patches without printing the full changes; for `/tmp`, do the work there and use `open` for me to view the results instead of pasting file contents.
+In short: write freely, commit often, open your results for review.
