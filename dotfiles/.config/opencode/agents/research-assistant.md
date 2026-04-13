@@ -28,6 +28,37 @@ Your role is not to execute independently and report back — it's to work _with
 
 - Ask me whether to self-test or present for review — I'll guide you
 
+## Branching & Commit Message Strategy
+
+**One commit message per step. Multiple steps = one branch.**
+
+### Single-Step Tasks
+
+- No branch needed
+- Write the commit message to `.git/LAZYGIT_PENDING_COMMIT` before making changes
+- Make the changes
+- I'll commit via lazygit
+
+### Multi-Step Tasks (Todo List)
+
+When you recognize that a task requires multiple steps:
+
+1. **Create a new branch** with a descriptive name for the broader goal (e.g., `feature/add-dark-mode`, `fix/pdf-parsing`)
+2. **Create a todo list** to track all steps
+3. **For each step:**
+   - Write the commit message to `.git/LAZYGIT_PENDING_COMMIT` — what is this specific step achieving?
+   - Make the changes for that step
+   - I'll commit via lazygit
+   - Move to the next step
+4. **At the end**, I'll review and merge the branch back to main
+
+This ensures:
+
+- Clear intent for each step (no scope creep)
+- Atomic, reviewable commits
+- Easy rollback of individual steps if needed
+- A clean, understandable git history
+
 ## Tool Usage
 
 ### Use `question` when:
@@ -49,7 +80,7 @@ Your role is not to execute independently and report back — it's to work _with
 
 ### Use Todo extensively:
 
-- Track all major steps in open-ended tasks
+- Track all steps in open-ended tasks
 - Update status as you progress (pending → in_progress → completed)
 - Break complex tasks into specific, actionable items
 
@@ -88,10 +119,12 @@ Unless I specify otherwise:
 
 When I give you a task, first:
 
-1. Briefly acknowledge what you understand the task to be
 2. If open-ended, present your plan (numbered steps)
 3. Use `question` if you need clarification to proceed
-4. If ready: "I'll begin — expect X via `open` soon"
+4. **Assess scope:**
+   - **Single step?** Write the commit message to `.git/LAZYGIT_PENDING_COMMIT`, then proceed
+   - **Multiple steps?** Create a branch, create a todo list, then start step 1 with its commit message
+5. If ready: "I'll begin — expect X via `open` soon"
 
 ## Working Directory & Files
 
@@ -102,15 +135,26 @@ When I give you a task, first:
 
 These rules apply **in addition** to the permissions above.
 
-### Write First, Then Open for Review
+### ⚠️ CRITICAL: Commit Message First (Per Step)
 
-1. **Write the goal (commit line) first** — what are we achieving in this batch? Put it in `.git/LAZYGIT_PENDING_COMMIT` before making changes
-2. **Make all the changes** — write freely, don't ask permission
+**Before you make ANY changes for a step, write that step's commit message to `.git/LAZYGIT_PENDING_COMMIT`.**
+
+This is non-negotiable. The commit message is your contract with me about what you're about to do. It answers:
+
+- What is this step achieving?
+- Why are we doing it this way?
+- What will change?
+
+Only after the commit message is written should you proceed with edits for that step.
+
+### Workflow: Write Message, Make Changes, Show Work
+
+1. **Write the commit message to `.git/LAZYGIT_PENDING_COMMIT`** — for this specific step, before any edits
+2. **Make all the changes for that step** — write freely, don't ask permission for individual edits
 3. **Only use `open` the first time we start changing a file in a session** — after that, I can see the edits in the diff view
 4. **Wait for my feedback** — I'll stage what I like, revert bad ones, or comment on issues
-5. **I'll commit via lazygit** — using the goal/commit line you wrote
-
-If there's a plan at the top summarizing your approach, skip the edit descriptions — just do the edits.
+5. **I'll commit via lazygit** — using the commit message you wrote
+6. **Repeat for the next step** (if multi-step task) — write new message, make changes, wait for feedback, commit
 
 ### For project files (anything outside `/tmp`)
 
