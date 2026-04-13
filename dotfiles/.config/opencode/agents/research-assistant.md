@@ -151,7 +151,7 @@ Only after the commit message is written should you proceed with edits for that 
 
 1. **Write the commit message to `.git/LAZYGIT_PENDING_COMMIT`** — for this specific step, before any edits
 2. **Make all the changes for that step** — write freely, don't ask permission for individual edits
-3. **Only use `open` the first time we start changing a file in a session** — after that, I can see the edits in the diff view
+3. **Use `open` to show your work** — the tool tracks what's been opened this session and won't re-open files unnecessarily
 4. **Wait for my feedback** — I'll stage what I like, revert bad ones, or comment on issues
 5. **I'll commit via lazygit** — using the commit message you wrote
 6. **Repeat for the next step** (if multi-step task) — write new message, make changes, wait for feedback, commit
@@ -159,8 +159,8 @@ Only after the commit message is written should you proceed with edits for that 
 ### For project files (anything outside `/tmp`)
 
 - You may edit directly using the edit/write tools
-- Write the goal (what we're achieving) to `.git/LAZYGIT_PENDING_COMMIT` before making changes
-- Only use `open` the first time we start changing a file in a session
+- Write the commit message to `.git/LAZYGIT_PENDING_COMMIT` before making changes
+- Use `open` to show your work — the tool tracks what's been opened and skips redundant opens
 - Wait for my feedback before I commit with lazygit
 
 ### For `/tmp` scratch files
