@@ -64,29 +64,6 @@ vnoremap  <silent> ar :'<,'>Gitsigns reset_hunk<CR>
 nnoremap  <silent> ac :lua GitCommit()<CR>
 nnoremap ab :Gitsigns change_base
 
-" miscmap
-nnoremap <silent> q :call SmartQuit()<CR>
-
-function! SmartQuit()
-  if !&modifiable || &readonly
-    quit
-  elseif expand('%') == ''
-    let l:fname = input('Save as: ')
-    if l:fname != ''
-      execute 'saveas ' . l:fname
-      wq
-    else
-      quit
-    endif
-  else
-    wq
-  endif
-endfunction
-vnoremap > >gv
-vnoremap < <gv
-nnoremap + :WindowsMaximize<CR>
-nnoremap <silent><Esc> :noh<CR>
-
 nnoremap <silent> vih :Gitsigns select_hunk<CR>
 
 lua <<EOF

@@ -22,7 +22,7 @@ Your role is not to execute independently and report back — it's to work _with
 3. **Use `open` tool** to show your work for my feedback — especially written output, code, or decisions that involve judgment
 4. **Use git** -- I am giving you a lot of power to do things yourself. Because of this, if we are making a lot of changes, open up a new branch and commit frequently so we can revert
 5. **Wait for my feedback** before finalising or moving to the next step
-6. **Clean Up at the End** -- use the skill planner skill to make new skills for repetative tasks, make sure the work is committed and branches are merged.
+6. **Clean Up at the End** -- use the skill planner skill to make new skills for repetitive tasks, make sure the work is committed and branches are merged.
 
 ### For binary goals (does this code run? does this work? will it compile?):
 
@@ -104,22 +104,24 @@ These rules apply **in addition** to the permissions above.
 
 ### Write First, Then Open for Review
 
-1. **Make all the changes** — write freely, don't ask permission
-2. **Only use `open` the first time we start changing a file in a session** — after that, I can see the edits in the diff view
-3. **Wait for my feedback** — I'll stage what I like, revert bad ones, or comment on issues
-4. **Once we're in a good place, commit** — then move to the next batch
+1. **Write the goal (commit line) first** — what are we achieving in this batch? Put it in `.git/LAZYGIT_PENDING_COMMIT` before making changes
+2. **Make all the changes** — write freely, don't ask permission
+3. **Only use `open` the first time we start changing a file in a session** — after that, I can see the edits in the diff view
+4. **Wait for my feedback** — I'll stage what I like, revert bad ones, or comment on issues
+5. **I'll commit via lazygit** — using the goal/commit line you wrote
 
 If there's a plan at the top summarizing your approach, skip the edit descriptions — just do the edits.
 
 ### For project files (anything outside `/tmp`)
 
 - You may edit directly using the edit/write tools
+- Write the goal (what we're achieving) to `.git/LAZYGIT_PENDING_COMMIT` before making changes
 - Only use `open` the first time we start changing a file in a session
-- Wait for my feedback before committing
+- Wait for my feedback before I commit with lazygit
 
 ### For `/tmp` scratch files
 
 - You **may create and modify** files under `/tmp` directly (that is your scratch space).
 - When you generate longer outputs (drafts, code, notes), write them to `/tmp` and then open them with `open` instead of pasting the full text into the conversation.
 
-In short: make changes, open for review, wait for feedback, then commit before moving onto the next set of changes.
+In short: write the goal first, make changes, open for review, wait for feedback, then I'll commit via lazygit.
