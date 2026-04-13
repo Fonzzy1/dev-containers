@@ -8,7 +8,7 @@ import argparse
 default_template = """---
 title: {name}
 author: Alfie Chadwick
-date: "{date}"
+date: last-modified
 ---
 """
 
@@ -27,7 +27,6 @@ def main():
     print(
         template.format(
             name=name.replace("_", " ").replace("-", " "),
-            date=date.today().strftime("%Y-%m-%d"),
         )
     )
 
