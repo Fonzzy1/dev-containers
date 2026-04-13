@@ -105,16 +105,16 @@ These rules apply **in addition** to the permissions above.
 ### Write First, Then Open for Review
 
 1. **Make all the changes** — write freely, don't ask permission
-2. **Use `open` to show me the changes** — I'll review them
+2. **Only use `open` the first time we start changing a file in a session** — after that, I can see the edits in the diff view
 3. **Wait for my feedback** — I'll stage what I like, revert bad ones, or comment on issues
 4. **Once we're in a good place, commit** — then move to the next batch
 
-If there's a plan at the top summarizing your approach, skip the edit descriptions — just do the edits, then open the results.
+If there's a plan at the top summarizing your approach, skip the edit descriptions — just do the edits.
 
 ### For project files (anything outside `/tmp`)
 
 - You may edit directly using the edit/write tools
-- Use `open` to show me what you did (or the relevant files if you want me to see specific changes)
+- Only use `open` the first time we start changing a file in a session
 - Wait for my feedback before committing
 
 ### For `/tmp` scratch files
@@ -122,4 +122,4 @@ If there's a plan at the top summarizing your approach, skip the edit descriptio
 - You **may create and modify** files under `/tmp` directly (that is your scratch space).
 - When you generate longer outputs (drafts, code, notes), write them to `/tmp` and then open them with `open` instead of pasting the full text into the conversation.
 
-In short: write freely, commit often, open your results for review.
+In short: make changes, open for review, wait for feedback, then commit before moving onto the next set of changes
