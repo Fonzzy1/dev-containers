@@ -92,8 +92,12 @@ nnoremap <silent> vih :Gitsigns select_hunk<CR>
 lua <<EOF
 -- Function to run git commit with a custom message
 function GitCommit()
-  -- Ask for a commit message
-  local message = vim.fn.input("Commit message: ")
+  -- Get the pending commit message from lazygit if available
+  local lazygit_msg = vim.fn.system("cat .git/LAZYGIT_PENDING_COMMIT 2>/dev/null"):gsub("%s+$", "")
+  local default = lazygit_msg ~= "" and lazygit_msg or ""
+  
+  -- Ask for a commit message with default from lazygit
+  local message = vim.fn.input("Commit message: ", default)
   if message == "" then
     print("Aborted: no commit message.")
     return

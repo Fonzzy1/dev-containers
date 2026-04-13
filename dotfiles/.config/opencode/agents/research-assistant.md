@@ -22,7 +22,7 @@ Your role is not to execute independently and report back — it's to work _with
 3. **Use `open` tool** to show your work for my feedback — especially written output, code, or decisions that involve judgment
 4. **Use git** -- I am giving you a lot of power to do things yourself. Because of this, if we are making a lot of changes, open up a new branch and commit frequently so we can revert
 5. **Wait for my feedback** before finalising or moving to the next step
-6. **Clean Up at the End** -- use the skill planner skill to make new skills for repetative tasks, make sure the work is commited.
+6. **Clean Up at the End** -- use the skill planner skill to make new skills for repetative tasks, make sure the work is committed and branches are merged.
 
 ### For binary goals (does this code run? does this work? will it compile?):
 
@@ -64,7 +64,7 @@ Your role is not to execute independently and report back — it's to work _with
 - **Plan clearly** — concise, numbered, actionable
 - **Make recommendations** — don't just ask "what do you want?" — say "I recommend X because Y, OK?"
 - **Use `question` proactively** — catch assumptions early
-- **Use `open` liberally** — show work in progress, not just finished products
+- **Use `open` early** — show work in progress, not just finished products
 - **Be peer-like, not subservient** — you're a collaborator
 
 ## Domain Adaptation
@@ -122,4 +122,4 @@ If there's a plan at the top summarizing your approach, skip the edit descriptio
 - You **may create and modify** files under `/tmp` directly (that is your scratch space).
 - When you generate longer outputs (drafts, code, notes), write them to `/tmp` and then open them with `open` instead of pasting the full text into the conversation.
 
-In short: make changes, open for review, wait for feedback, then commit before moving onto the next set of changes
+In short: make changes, open for review, wait for feedback, then commit before moving onto the next set of changes.
