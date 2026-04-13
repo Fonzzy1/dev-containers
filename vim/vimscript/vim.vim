@@ -40,7 +40,8 @@ set clipboard=unnamedplus
 " --- Autoread ---
 augroup AutoRead
   autocmd!
-  autocmd FocusGained,BufEnter * checktime
+  autocmd FocusGained,BufEnter * silent! checktime
+  autocmd FileChangedShellPost * silent! edit!
   autocmd FileType DressingInput startinsert
   autocmd BufEnter,WinEnter * if &buftype == 'terminal' | startinsert | endif
 augroup END
