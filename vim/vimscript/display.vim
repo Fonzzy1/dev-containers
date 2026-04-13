@@ -2,8 +2,6 @@
 lua << EOF
 require('lualine').setup {
   options = {
-    disabled_filetypes = {
-        statusline = { "no-neck-pain" }},
     theme = "auto",
     component_separators = { left = '', right = '' },
     section_separators = { left = '', right = '' },

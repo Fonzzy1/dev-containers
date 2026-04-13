@@ -52,12 +52,9 @@ vim.api.nvim_create_autocmd("User", {
             local props = event.properties or {}
             local questions = props.questions or {}
             local first = questions[1] or {}
-
             local text = first.question or "<no question text>"
-            local label = first.header or first.label or "<no label>"
-
             vim.notify(
-                string.format("Question: %s\nLabel: %s", text, label),
+                string.format("OpenCode Question:\n %s", text),
                 vim.log.levels.INFO,
                 { title = "OpenCode Question" }
             )
