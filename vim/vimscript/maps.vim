@@ -110,26 +110,7 @@ nnoremap = :WindowsEqualize<CR>
 autocmd VimResized * WindowsEqualize
 " autocmd WinNew,BufNew * WindowsEqualize
 
-function! SmartMove(dir)
-  let l:target = winnr(a:dir)
-  let l:current = winnr()
-
-  " no window in that direction
-  if l:target == l:current
-    return
-  endif
-
-  let l:winid = win_getid(l:target)
-  let l:bufnr = winbufnr(l:target)
-  let l:ft = getbufvar(l:bufnr, '&filetype')
-
-  " only move if not a no-neck-pain window
-  if l:ft !=# 'no-neck-pain'
-    execute 'wincmd ' . a:dir
-  endif
-endfunction
-
-nnoremap <silent><C-h> :call SmartMove('h')<CR>
-nnoremap <silent><C-l> :call SmartMove('l')<CR>
-nnoremap <silent><C-j> :call SmartMove('j')<CR>
-nnoremap <silent><C-k> :call SmartMove('k')<CR>
+nnoremap <silent><C-h> :wincmd h<CR>
+nnoremap <silent><C-j> :wincmd j<CR>
+nnoremap <silent><C-k> :wincmd k<CR>
+nnoremap <silent><C-l> :wincmd l<CR>
