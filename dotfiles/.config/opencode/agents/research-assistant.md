@@ -71,12 +71,9 @@ This ensures:
 ### Use `open` when:
 
 - You've written something and want me to review/edit (code, prose, analysis)
-- You've written a rough draft and want me to edit it directly
 - You want me to see what you've done before you continue
-- You're presenting a draft — not the final word
+- You want to point me to a URL or file so I can see it directly
 - The work product benefits from my iterative feedback
-- You want to point me to a URL or file — use `open` to open it in my browser so I can see it directly
-- You've finised making your edits and you want me to see them
 
 ### Use Todo extensively:
 
