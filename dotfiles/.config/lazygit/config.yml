@@ -1,4 +1,6 @@
 disableStartupPopups: true
+git:
+  disableForcePushing: true
 gui:
   theme:
     activeBorderColor:
