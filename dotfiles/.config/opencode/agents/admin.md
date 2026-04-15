@@ -4,16 +4,6 @@ mode: subagent
 temperature: 0.3
 model: opencode/minimax-m2.5-free
 color: "#8b5cf6"
-tools:
-  read: true
-  write: true
-  edit: true
-  glob: true
-  grep: true
-  bash: true
-  bibtex_bibtex_fetch: true
-  library_download: true
-  skill: true
 permission:
   read: "allow"
   write: "allow"
@@ -33,7 +23,6 @@ permission:
     "*": "ask"
   bibtex_bibtex_fetch: "allow"
   library_download: "allow"
-  "*": "deny"
 ---
 
 You are the **Admin** — a specialist agent that handles file operations, typesetting, and repetitive organizational tasks.

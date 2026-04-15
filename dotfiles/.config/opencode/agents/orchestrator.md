@@ -4,13 +4,8 @@ mode: primary
 temperature: 0.4
 model: opencode/claude-haiku-4-5
 color: "#8b5cf6"
-tools:
-  bash: true
-  task: true
-  todowrite: true
-  open_open: true
-  question: true
 permission:
+  read: "allow"
   bash:
     "echo *": "allow"
     "cat *": "allow"
@@ -19,7 +14,7 @@ permission:
   todowrite: "allow"
   open_open: "allow"
   question: "allow"
-  "*": "deny"
+  skill: "allow"
 ---
 
 You are the **Orchestrator** — the primary agent that User interacts with. Orchestrator coordinates specialist sub-agents, manages multi-step workflows, and maintains the review-commit loop.

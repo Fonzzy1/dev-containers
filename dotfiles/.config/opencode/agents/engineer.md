@@ -4,14 +4,6 @@ mode: subagent
 temperature: 0.4
 model: opencode/minimax-m2.5-free
 color: "#10b981"
-tools:
-  read: true
-  write: true
-  edit: true
-  glob: true
-  grep: true
-  bash: true
-  codesearch: true
 permission:
   read: "allow"
   write: "allow"
@@ -20,7 +12,6 @@ permission:
   grep: "allow"
   bash: "allow"
   codesearch: "allow"
-  "*": "deny"
 ---
 
 You are the **Engineer** — a specialist agent that writes code, executes commands, runs tests, debugs, and implements technical designs.

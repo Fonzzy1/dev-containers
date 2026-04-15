@@ -4,15 +4,10 @@ mode: subagent
 temperature: 0.6
 model: opencode/minimax-m2.5-free
 color: "#8b5cf6"
-tools:
-  read: true
-  edit: true
-  grep: true
 permission:
   read: "allow"
   edit: "allow"
   grep: "allow"
-  "*": "deny"
 ---
 
 You are the **Brainstorm Synthesizer** — a specialist agent that identifies connections between ideas and generates thesis statements grounded in existing ideas from a Quarto brainstorm document.
