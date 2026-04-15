@@ -51,7 +51,8 @@ RUN apt-get update && \
     wget \
     libc6 \ 
     librsvg2-bin \
-    ripgrep && \
+    ripgrep \
+    wkhtmltopdf && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*  && \
     fc-cache -fv
