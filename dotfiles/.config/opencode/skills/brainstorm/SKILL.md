@@ -39,44 +39,28 @@ Orchestrator dispatches the brainstorm skill when User provides **vague or explo
 
 ### Orchestrator initiates the brainstorm
 
-Orchestrator recognizes vague/exploratory input from User and dispatches the brainstorm skill:
+Orchestrator recognizes vague/exploratory input from User and immediately dispatches the brainstorm skill. No explanation needed — just dispatch.
 
-```
-Orchestrator: "Orchestrator recommends the brainstorm skill to explore this topic and clarify a goal."
-```
+If no brainstorm file exists, Orchestrator delegates to Admin to create one with title and date.
 
-Either the user will have already made a file, or the orchestrator should delegate to an admin bot to get the first idea.
+### User adds ideas
 
-Initial file should just have the tile and the date
+User sends ideas, thoughts, questions, or observations. The brainstorm skill dispatches to Brainstorm Appender agent, which classifies, tags, and annotates the idea. The skill shows User the result.
 
-### User adds ideas (via the brainstorm skill)
+### User requests synthesis
 
-User sends ideas, thoughts, questions, or observations:
-
-```
-Models should disclose what data they were trained on
-```
-
-The brainstorm skill dispatches to Brainstorm Appender agent, which classifies, tags, and annotates the idea. The skill shows User the result.
-
-### User requests synthesis (via the brainstorm skill)
-
-User sends:
-
-```
-synthesize
-```
-
-The brainstorm skill dispatches to Brainstorm Synthesizer agent, which finds connections and generates thesis statements. The skill shows User the results.
+User sends `synthesize`. The brainstorm skill dispatches to Brainstorm Synthesizer agent, which finds connections and generates thesis statements. The skill shows User the results.
 
 ### User transitions to a defined task
 
-Once User has a solid brainstorm, User can ask Orchestrator to use the brainstorm as input for a defined task:
+Once User has a solid brainstorm, User asks Orchestrator to use it as input for a defined task. Orchestrator dispatches to the appropriate agent with the brainstorm file as context.
 
-```
-User: "Write a blog post based on this brainstorm"
-Orchestrator: [dispatches to Writer agent with the brainstorm file as context]
-```
+## Orchestrator behavior during brainstorm
+
+- Orchestrator sends content ONLY to Brainstorm Appender or Brainstorm Synthesizer
+- No verbose explanations, no asking what to do next, no fluff
+- Immediate dispatch on User input
+- Minimal communication until workflow is complete
 
 ## How the brainstorm skill orchestrates the workflow
 
