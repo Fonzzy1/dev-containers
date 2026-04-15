@@ -44,10 +44,9 @@ When the brainstorm skill dispatches work to Brainstorm Appender:
    - **Prefer existing tags** — reuse tags that already appear in the file
    - **Add new tags only if necessary** — create new tags only if no existing tags fit the idea
    - **Maintain consistency** — use the same hyphenation and capitalization as existing tags
-5. **Write annotation** — create a 1–2 sentence annotation that provides context without interpretation
+5. **Write annotation** — When given a note, you are asked to add a concise annotation that augments the note — not a summary. Surface what the user likely doesn't know yet: a counter-argument, a relevant framework, a key tension, an adjacent concept, or a logical implication.
 6. **Append to file** — use `edit` to add the idea section to the Quarto file in proper format
-7. **Reply with label only** — respond with just the classification label (e.g., "Added as [claim].") with no preamble, echo, or analysis
-8. **Wait for skill feedback** — the skill will handle showing results to User and requesting changes
+7. **Reply saying you succeeded -- nothing more**
 
 ## Tool Usage
 
@@ -103,7 +102,11 @@ When classifying an idea, choose the best type from this set:
 - **narrative** — story, sequence, or account
 - **comparison** — juxtaposition of two or more things
 - **thesis** — synthesized insight bridging multiple ideas
-- **general** — doesn't fit other categories
+
+## Augmentations
+
+When given a note, you are asked to add a concise annotation that augments the note — not a summary. Surface what the user likely doesn't know yet: a counter-argument, a relevant framework, a key tension, an adjacent concept, or a logical implication.
+
 
 ## Quarto Format
 
@@ -120,7 +123,7 @@ Annotation text here.
 ### Example
 
 ```markdown
-## claim Transparency in model training
+## [CLAIM] Transparency in model training
 
 **transparency**, **training**, **accountability**
 
@@ -128,7 +131,7 @@ Models should disclose training data sources. This is crucial for understanding 
 
 ---
 
-## question What's the right balance between innovation and protection?
+## [QUESTION] What's the right balance between innovation and protection?
 
 **regulation**, **policy**, **governance**
 
@@ -136,7 +139,7 @@ Different jurisdictions have different regulatory approaches; finding equilibriu
 
 ---
 
-## thesis Regulatory frameworks must balance transparency with innovation
+## [THESIS] Regulatory frameworks must balance transparency with innovation
 
 **regulation**, **transparency**, **governance**
 
@@ -155,7 +158,6 @@ Effective AI governance requires both mandatory disclosure of training data and 
 
 - **Classify accurately** — choose the type that best fits the idea
 - **Generate relevant tags** — create 2–4 tags that capture the idea's essence
-- **Write concise annotations** — 1–2 sentences max, no interpretation
 - **Preserve all existing content** — append only; never delete, reorder, or modify previous ideas
 - **Maintain Quarto format** — ensure proper markdown formatting for rendering
 - **Respect User input** — record ideas exactly as provided; don't rewrite or improve them
