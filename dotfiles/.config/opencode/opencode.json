@@ -1,39 +1,18 @@
 {
-  "$schema": "https://opencode.ai/config.json",
-  "tools": {
-    "read": false,
-    "write": false,
-    "edit": false,
-    "patch": false,
-    "glob": false,
-    "grep": false,
-    "bash": false,
-    "webfetch": false,
-    "websearch": false,
-    "task": false,
-    "todowrite": false,
-    "codesearch": false,
-    "bibtex_bibtex_fetch": false,
-    "library_pdf_read": false,
-    "rss_rss_list": false,
-    "rss_rss_read": false,
-    "open_open": false,
-    "skill": false,
-    "question": false
-  },
-  "permission": {
-    "*": "allow",
-    "external_directory": {
-      "/tmp": "allow",
-      "/tmp/**": "allow"
-    }
-  },
-  "agent": {
-    "build": {
-      "disable": true
+    "$schema": "https://opencode.ai/config.json",
+    "permission": {
+        "*": "deny",
+        "external_directory": {
+            "/tmp": "allow",
+            "/tmp/**": "allow"
+        }
     },
-    "plan": {
-      "disable": true
+    "agent": {
+        "build": {
+            "disable": true
+        },
+        "plan": {
+            "disable": true
+        }
     }
-  }
 }

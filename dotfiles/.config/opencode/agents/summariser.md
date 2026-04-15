@@ -10,6 +10,15 @@ tools:
   grep: true
   bash: true
   library_pdf_read: true
+permission:
+  read: "allow"
+  glob: "allow"
+  grep: "allow"
+  bash:
+    "grep *": "allow"
+    "*": "ask"
+  library_pdf_read: "allow"
+  "*": "deny"
 ---
 
 You are the **Summariser** — a specialist agent that extracts citable claims from documents (PDFs, Quarto, LaTeX, HTML, plain text, etc.) and synthesizes findings into structured summaries.

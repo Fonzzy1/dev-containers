@@ -27,7 +27,7 @@ export const pdf_read = tool({
 })
 
 // === TOOL: library_download ===
-export const library_download = tool({
+export const download = tool({
     description: "Download a file and save to the library (converts HTML to PDF, keeps other formats as-is)",
     name: "Library Download",
     args: {
@@ -65,15 +65,15 @@ export const library_download = tool({
             // Determine content type by checking file headers
             const buffer = await tempFile.arrayBuffer()
             const bytes = new Uint8Array(buffer)
-            
+
             // Check for HTML content (look for HTML markers in first 1KB)
             const headerText = new TextDecoder().decode(bytes.slice(0, 1024)).toLowerCase()
-            const isHtml = headerText.includes('<!doctype html') || 
-                          headerText.includes('<html') || 
-                          headerText.includes('content-type: text/html')
+            const isHtml = headerText.includes('<!doctype html') ||
+                headerText.includes('<html') ||
+                headerText.includes('content-type: text/html')
 
             let finalPath: string
-            
+
             if (isHtml) {
                 // Convert HTML to PDF
                 finalPath = `${dir}/${filename}.pdf`
@@ -85,7 +85,7 @@ export const library_download = tool({
             } else {
                 // Keep original format - determine extension from URL or content
                 let extension = "bin" // default
-                
+
                 // Try to get extension from URL
                 const urlPath = new URL(url).pathname
                 const urlExt = urlPath.split('.').pop()?.toLowerCase()
@@ -100,7 +100,7 @@ export const library_download = tool({
                     else if (bytes[0] === 0x7B) extension = "json" // starts with {
                     else if (bytes[0] === 0x3C) extension = "xml" // starts with <
                 }
-                
+
                 finalPath = `${dir}/${filename}.${extension}`
             }
 

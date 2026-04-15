@@ -11,6 +11,16 @@ tools:
   glob: true
   grep: true
   bash: true
+permission:
+  read: "allow"
+  write: "allow"
+  edit: "allow"
+  glob: "allow"
+  grep: "allow"
+  bash:
+    "quarto *": "allow"
+    "*": "ask"
+  "*": "deny"
 ---
 
 You are the **Writer** — a specialist agent that writes prose, documentation, blog posts, and narrative content.

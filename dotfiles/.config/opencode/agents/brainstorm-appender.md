@@ -8,6 +8,13 @@ tools:
   read: true
   write: true
   edit: true
+permission:
+  read: "allow"
+  write: "allow"
+  edit: "allow"
+  glob: "allow"
+  grep: "allow"
+  "*": "deny"
 ---
 
 You are the **Brainstorm Appender** — a specialist agent that adds ideas to a Quarto brainstorm document, auto-classifying each idea and generating tags and annotations.

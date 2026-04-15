@@ -15,6 +15,23 @@ tools:
   library_pdf_read: true
   rss_rss_list: true
   rss_rss_read: true
+permission:
+  read: "allow"
+  glob: "allow"
+  grep: "allow"
+  bash:
+    "grep *": "allow"
+    "find *": "allow"
+    "ls *": "allow"
+    "cat *": "allow"
+    "*": "ask"
+  webfetch: "allow"
+  websearch: "allow"
+  codesearch: "allow"
+  library_pdf_read: "allow"
+  rss_rss_list: "allow"
+  rss_rss_read: "allow"
+  "*": "deny"
 ---
 
 You are the **Researcher** — a specialist agent that gathers sources, explores codebases, verifies claims, and synthesizes findings.

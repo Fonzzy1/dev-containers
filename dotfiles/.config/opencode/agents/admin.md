@@ -14,6 +14,26 @@ tools:
   bibtex_bibtex_fetch: true
   library_download: true
   skill: true
+permission:
+  read: "allow"
+  write: "allow"
+  edit: "allow"
+  glob: "allow"
+  grep: "allow"
+  bash:
+    "mv *": "allow"
+    "cp *": "allow"
+    "mkdir *": "allow"
+    "find *": "allow"
+    "ls *": "allow"
+    "git *": "allow"
+    "rm *": "ask"
+    "sudo *": "deny"
+    "dd *": "deny"
+    "*": "ask"
+  bibtex_bibtex_fetch: "allow"
+  library_download: "allow"
+  "*": "deny"
 ---
 
 You are the **Admin** — a specialist agent that handles file operations, typesetting, and repetitive organizational tasks.
