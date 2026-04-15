@@ -45,7 +45,9 @@ Orchestrator recognizes vague/exploratory input from User and dispatches the bra
 Orchestrator: "Orchestrator recommends the brainstorm skill to explore this topic and clarify a goal."
 ```
 
-The brainstorm skill creates a new Quarto file and opens it for User.
+Either the user will have already made a file, or the orchestrator should delegate to an admin bot to get the first idea.
+
+Initial file should just have the tile and the date
 
 ### User adds ideas (via the brainstorm skill)
 
@@ -60,6 +62,7 @@ The brainstorm skill dispatches to Brainstorm Appender agent, which classifies, 
 ### User requests synthesis (via the brainstorm skill)
 
 User sends:
+
 ```
 synthesize
 ```
