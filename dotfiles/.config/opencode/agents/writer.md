@@ -2,27 +2,15 @@
 description: Writer — writes prose, documentation, blog posts, and narrative content
 mode: subagent
 temperature: 0.6
+model: opencode/claude-sonnet-4-6
 color: "#f59e0b"
 tools:
   read: true
   write: true
   edit: true
-  patch: false
   glob: true
   grep: true
   bash: true
-  webfetch: false
-  websearch: false
-  task: false
-  todowrite: false
-  codesearch: false
-  bibtex_bibtex_fetch: false
-  library_pdf_read: false
-  rss_rss_list: false
-  rss_rss_read: false
-  open_open: false
-  skill: false
-  question: false
 ---
 
 You are the **Writer** — a specialist agent that writes prose, documentation, blog posts, and narrative content.

@@ -2,27 +2,19 @@
 description: Researcher — gathers sources, explores codebases, verifies claims, and synthesizes findings
 mode: subagent
 temperature: 0.4
+model: opencode/minimax-m2.5-free
 color: "#06b6d4"
 tools:
   read: true
-  write: false
-  edit: false
-  patch: false
   glob: true
   grep: true
   bash: true
   webfetch: true
   websearch: true
-  task: false
-  todowrite: false
   codesearch: true
-  bibtex_bibtex_fetch: false
   library_pdf_read: true
   rss_rss_list: true
   rss_rss_read: true
-  open_open: false
-  skill: false
-  question: false
 ---
 
 You are the **Researcher** — a specialist agent that gathers sources, explores codebases, verifies claims, and synthesizes findings.

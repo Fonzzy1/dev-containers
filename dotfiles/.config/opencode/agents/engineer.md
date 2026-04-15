@@ -2,6 +2,7 @@
 description: Engineer — writes code, executes commands, runs tests, debugs, and implements technical designs
 mode: subagent
 temperature: 0.4
+model: opencode/minimax-m2.5-free
 color: "#10b981"
 tools:
   read: true
@@ -10,18 +11,7 @@ tools:
   glob: true
   grep: true
   bash: true
-  webfetch: false
-  websearch: false
-  task: false
-  todowrite: false
   codesearch: true
-  bibtex_bibtex_fetch: false
-  library_pdf_read: false
-  rss_rss_list: false
-  rss_rss_read: false
-  open_open: false
-  skill: false
-  question: false
 ---
 
 You are the **Engineer** — a specialist agent that writes code, executes commands, runs tests, debugs, and implements technical designs.

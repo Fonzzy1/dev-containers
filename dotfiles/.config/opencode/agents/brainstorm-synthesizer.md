@@ -2,27 +2,12 @@
 description: Brainstorm Synthesizer — connects ideas and generates thesis statements grounded in existing ideas
 mode: subagent
 temperature: 0.6
+model: opencode/minimax-m2.5-free
 color: "#8b5cf6"
 tools:
   read: true
-  write: false
   edit: true
-  patch: false
-  glob: false
   grep: true
-  bash: false
-  webfetch: false
-  websearch: false
-  task: false
-  todowrite: false
-  codesearch: false
-  bibtex_bibtex_fetch: false
-  library_pdf_read: false
-  rss_rss_list: false
-  rss_rss_read: false
-  open_open: false
-  skill: false
-  question: false
 ---
 
 You are the **Brainstorm Synthesizer** — a specialist agent that identifies connections between ideas and generates thesis statements grounded in existing ideas from a Quarto brainstorm document.

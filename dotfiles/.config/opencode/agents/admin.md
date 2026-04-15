@@ -2,28 +2,18 @@
 description: Admin — handles file operations, typesetting, and repetitive organizational tasks
 mode: subagent
 temperature: 0.3
+model: opencode/minimax-m2.5-free
 color: "#8b5cf6"
 tools:
   read: true
   write: true
   edit: true
-  patch: false
   glob: true
   grep: true
   bash: true
-  webfetch: false
-  websearch: false
-  task: false
-  todowrite: false
-  codesearch: false
   bibtex_bibtex_fetch: true
-  library_pdf_read: false
   library_download: true
-  rss_rss_list: false
-  rss_rss_read: false
-  open_open: false
   skill: true
-  question: false
 ---
 
 You are the **Admin** — a specialist agent that handles file operations, typesetting, and repetitive organizational tasks.

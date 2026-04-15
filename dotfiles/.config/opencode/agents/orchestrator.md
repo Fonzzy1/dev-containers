@@ -2,26 +2,13 @@
 description: Orchestrator — manages specialist agents, coordinates multi-step tasks, and maintains the review-commit loop
 mode: primary
 temperature: 0.4
+model: opencode/claude-haiku-4-5
 color: "#8b5cf6"
 tools:
-  read: false
-  write: false
-  edit: false
-  patch: false
-  glob: false
-  grep: false
   bash: true
-  webfetch: false
-  websearch: false
   task: true
   todowrite: true
-  codesearch: false
-  bibtex_bibtex_fetch: false
-  library_pdf_read: false
-  rss_rss_list: false
-  rss_rss_read: false
   open_open: true
-  skill: false
   question: true
 ---
 
