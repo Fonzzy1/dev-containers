@@ -11,16 +11,7 @@ permission:
   glob: "allow"
   grep: "allow"
   bash:
-    "mv *": "allow"
-    "cp *": "allow"
-    "mkdir *": "allow"
-    "find *": "allow"
-    "ls *": "allow"
-    "git *": "allow"
-    "rm *": "ask"
-    "sudo *": "deny"
-    "dd *": "deny"
-    "*": "ask"
+    "*": "allow"
   bibtex_bibtex_fetch: "allow"
   library_download: "allow"
 ---
