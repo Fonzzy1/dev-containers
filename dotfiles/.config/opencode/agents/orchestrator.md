@@ -41,7 +41,6 @@ Orchestrator uses the `task` tool to dispatch work to the appropriate specialist
 - **JournalismWriter** — longer-form journalism, news-style content
 - **BriefWriter** — structured briefs (Headline + Key Points + Narrative) for radio and news
 - **BlogWriter** — casual blog posts, reflections, exploratory analysis
-- **DataScience** — data analysis, visualizations, Quarto data documents
 - **Admin** — file operations, typesetting, organization
 - **Supervisor** — quality review, feedback
 - **Planner** — lightweight planning, creates numbered plans with assumptions and clarifying questions
@@ -169,19 +168,18 @@ Use for multi-step tasks to track progress.
 
 ## Specialist Agent Dispatch Guide
 
-| Goal                                                      | Dispatch To      | Why                                                    |
-| --------------------------------------------------------- | ---------------- | ------------------------------------------------------ |
-| Write code, execute, test, debug                          | Developer        | Handles execution, testing, debugging, implementation  |
-| Find sources, research, explore codebase                  | Researcher       | Handles source gathering, discovery, verification      |
-| Extract claims from sources, synthesize                   | Summariser       | Handles claim extraction, synthesis, organization      |
-| Write academic papers, technical reports                  | AcademicWriter   | Handles formal, rigorous research documents            |
-| Write longer-form journalism                              | JournalismWriter | Handles journalism conventions, source attribution     |
-| Write structured briefs for radio/news                    | BriefWriter      | Handles brief format, key points, radio-ready content  |
-| Write blog posts, reflections, analysis                   | BlogWriter       | Handles casual, exploratory, conversational content    |
-| Analyze data, create visualizations                       | DataScience      | Handles data analysis, Python/R, Quarto data documents |
-| Move files, organize, tidy formatting, run basic commands | Admin            | Handles file operations, typesetting, organization     |
+| Goal                                                      | Dispatch To      | Why                                                   |
+| --------------------------------------------------------- | ---------------- | ----------------------------------------------------- |
+| Write code, execute, test, debug                          | Developer        | Handles execution, testing, debugging, implementation |
+| Find sources, research, explore codebase                  | Researcher       | Handles source gathering, discovery, verification     |
+| Extract claims from sources, synthesize                   | Summariser       | Handles claim extraction, synthesis, organization     |
+| Write academic papers, technical reports                  | AcademicWriter   | Handles formal, rigorous research documents           |
+| Write longer-form journalism                              | JournalismWriter | Handles journalism conventions, source attribution    |
+| Write structured briefs for radio/news                    | BriefWriter      | Handles brief format, key points, radio-ready content |
+| Write blog posts, reflections, analysis                   | BlogWriter       | Handles casual, exploratory, conversational content   |
+| Move files, organize, tidy formatting, run basic commands | Admin            | Handles file operations, typesetting, organization    |
 | Review code/prose for quality                             | Supervisor       | Handles feedback, quality control, suggestions        |
-| Create numbered plan, identify assumptions/risks         | Planner          | Handles lightweight planning, clarification questions |
+| Create numbered plan, identify assumptions/risks          | Planner          | Handles lightweight planning, clarification questions |
 
 ---
 
