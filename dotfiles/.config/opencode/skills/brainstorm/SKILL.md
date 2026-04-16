@@ -45,11 +45,31 @@ If no brainstorm file exists, Orchestrator delegates to Admin to create one with
 
 ### User adds ideas
 
-User sends ideas, thoughts, questions, or observations. The brainstorm skill dispatches to Brainstorm Appender agent, which classifies, tags, and annotates the idea. The skill shows User the result.
+User sends ideas, thoughts, questions, or observations. The brainstorm skill dispatches to Brainstorm Appender agent.
+The Orchestrator only needs to send the exact words sent from the user to the agent and the location of the file.
+
+EG.
+
+```
+task(
+  description="Add Idea"
+  prompt="Add Idea: 'climate change is bad',  to the file /tmp/brainstorm.qmd",
+  subagent_type="brainstorm-appender"
+)
+```
 
 ### User requests synthesis
 
-User sends `synthesize`. The brainstorm skill dispatches to Brainstorm Synthesizer agent, which finds connections and generates thesis statements. The skill shows User the results.
+User sends `synthesize`. The brainstorm skill dispatches to Brainstorm Synthesizer agent, which finds connections and generates thesis statements.
+.
+
+```
+task(
+  description="Synthesis"
+  prompt="Create synthesis in /tmp/brainstorm.qmd",
+  subagent_type="brainstorm-synthesizer"
+)
+```
 
 ### User transitions to a defined task
 
@@ -60,7 +80,7 @@ Once User has a solid brainstorm, User asks Orchestrator to use it as input for 
 - Orchestrator sends content ONLY to Brainstorm Appender or Brainstorm Synthesizer
 - No verbose explanations, no asking what to do next, no fluff
 - Immediate dispatch on User input
-- Minimal communication until workflow is complete
+- Dont say anything after the task call is complete, just wait for next imput
 
 ## How the brainstorm skill orchestrates the workflow
 
