@@ -1,5 +1,61 @@
 import { tool } from "@opencode-ai/plugin"
+import * as fs from "fs"
+import * as path from "path"
 
+const DEFAULT_BIB_PATH = "References/_references.bib"
+
+// === TOOL: bibtex_add ===
+export const bibtex_add = tool({
+    description: "Append a BibTeX entry to a .bib file and run bibtex-tidy for formatting",
+    name: "BibTeX add",
+    args: {
+        entry: tool.schema.string().describe("The BibTeX entry to append (e.g., @article{key, title={...}, ...})"),
+        bibpath: tool.schema.string().optional().describe("Path to the .bib file. Defaults to 'References/_references.bib' if not provided")
+    },
+    async execute(args, context) {
+        const entry = args.entry?.trim()
+        let bibpath = args.bibpath?.trim()
+
+        if (!entry) {
+            return "Error: No BibTeX entry provided. Please provide a BibTeX entry to add."
+        }
+
+        // Use default path if not provided
+        if (!bibpath) {
+            bibpath = DEFAULT_BIB_PATH
+        }
+
+        // Ensure path is relative to worktree if not absolute
+        const fullPath = path.isAbsolute(bibpath) 
+            ? bibpath 
+            : path.join(context.worktree, bibpath)
+
+        try {
+            // Ensure the directory exists
+            const dir = path.dirname(fullPath)
+            await Bun.$`mkdir -p ${dir}`.quiet()
+
+            // Append the entry to the .bib file
+            const entryWithNewline = entry.startsWith("\n") ? entry : "\n" + entry
+            if (fs.existsSync(fullPath)) {
+                fs.appendFileSync(fullPath, entryWithNewline)
+            } else {
+                // Create new file with entry
+                fs.writeFileSync(fullPath, entryWithNewline)
+            }
+
+
+            // Run bibtex-tidy with the specified options
+            const result = await Bun.$`bibtex-tidy -m --curly --numeric --align=13 --duplicates=key --no-escape --sort-fields --remove-empty-fields --no-remove-dupe-fields --sort=-year,key ${fullPath}`.text()
+
+            return `Successfully added BibTeX entry to ${bibpath} and formatted with bibtex-tidy.\n\n${result}`
+        } catch (error) {
+            return `Error: ${error instanceof Error ? error.message : "Unknown error"}`
+        }
+    }
+})
+
+// === TOOL: bibtex_fetch ===
 export const bibtex_fetch = tool({
     description: "Fetch BibTeX entry from DOI or arXiv ID. Accepts DOI URLs (https://doi.org/...), arXiv URLs (https://arxiv.org/abs/...), or bare arXiv IDs (e.g., 2401.12345)",
     name: "BibTeX fetch",
