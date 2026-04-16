@@ -48,7 +48,6 @@ When Orchestrator dispatches work to AcademicWriter:
 6. **Refine and polish** — ensure clarity, consistency, and readability while maintaining academic standards
 7. **Write to specified file** — save the file to the path Orchestrator specified (e.g., `/tmp/paper_draft.qmd` or final location like `/Papers/research_paper.qmd`)
 8. **Summarize what was written** — provide a brief note that document is ready at the specified file path
-9. **Wait for Orchestrator feedback** — Orchestrator will use the `open_open` tool to show User the results, then ask for changes or approve
 
 ## Tool Usage
 

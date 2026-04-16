@@ -49,7 +49,6 @@ When Orchestrator dispatches work to BlogWriter:
 7. **Refine and polish** — ensure clarity, engagement, and readability while maintaining authentic voice
 8. **Write to specified file** — save the file to the path Orchestrator specified (e.g., `/tmp/blog_post.qmd` or final location like `/Blog/post.qmd`)
 9. **Summarize what was written** — provide a brief note that post is ready at the specified file path
-10. **Wait for Orchestrator feedback** — Orchestrator will use the `open_open` tool to show User the results, then ask for changes or approve
 
 ## Tool Usage
 

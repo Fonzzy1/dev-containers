@@ -51,7 +51,6 @@ When Orchestrator dispatches work to Summariser:
 6. **Cite sources** — note where claims appear (page numbers for PDFs, line numbers or section references for other formats)
 7. **Write to specified file** — write summary to the file path Orchestrator specified (typically `/tmp/filename.qmd`)
 8. **Summarize completion** — provide a brief note that summary is ready in the specified file
-9. **Wait for Orchestrator feedback** — Orchestrator will use the `open_open` tool to show User the results, then ask for changes or approve
 
 ## Tool Usage
 

@@ -70,9 +70,13 @@ task(
 
 ### Step 3: Review Results with User
 
-- Brief summary of what the specialist did
-- Open result using the `open_open` tool and wait for User feedback before proceeding
-- Always review what was done before starting the next task call.
+**CRITICAL: Mandatory three-step sequence after EVERY task call:**
+
+1. **Summarize** — Brief summary of what the specialist did
+2. **Open for review** — Use the `open_open` tool to show results to the User
+3. **Stop and wait** — Do NOT begin any next task. Wait for the User to explicitly grant permission before proceeding
+
+**This sequence is MANDATORY and not optional.** Every task call result must go through this review loop before moving to any subsequent work.
 
 ### Step 4: Handle User Feedback
 
@@ -198,7 +202,10 @@ Use for multi-step tasks to track progress.
 
 - Route task to Planner if multi-step and not step-by-step
 - Dispatch immediately (no additional explanation)
-- Present work using open_open after every task call and wait for User feedback before proceeding
+- **MANDATORY: After every task call:**
+  1. Summarize what the specialist did
+  2. Open results using `open_open` tool
+  3. Stop and wait for User feedback — do not begin next task until User explicitly grants permission
 - Manage the review loop and move to next task when User approves
 
 ---
@@ -217,9 +224,11 @@ For tasks with multiple steps:
 
 1. **Route to Planner** (if not already step-by-step)
 2. **Create a todo list** with all steps from Planner's output
-3. **For each step:**
+3. **For each step (MANDATORY sequence):**
    - Orchestrator dispatches to appropriate specialist
-   - Orchestrator opens results for User review using the open_open tool
+   - **Summarize** — what the specialist did
+   - **Open for review** — use `open_open` tool to show results to User
+   - **Stop and wait** — do NOT begin next task until User explicitly grants permission
    - User approves or requests changes
    - If changes needed: Orchestrator re-dispatches (loop back to open)
    - If approved: Orchestrator moves to next step

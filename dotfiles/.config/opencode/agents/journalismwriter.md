@@ -50,7 +50,6 @@ When Orchestrator dispatches work to JournalismWriter:
 6. **Refine and polish** — ensure clarity, impact, and readability while maintaining journalistic integrity
 7. **Write to specified file** — save the file to the path Orchestrator specified (e.g., `/tmp/story_draft.qmd` or final location like `/Articles/investigation.qmd`)
 8. **Summarize what was written** — provide a brief note that piece is ready at the specified file path
-9. **Wait for Orchestrator feedback** — Orchestrator will use the `open_open` tool to show User the results, then ask for changes or approve
 
 ## Tool Usage
 

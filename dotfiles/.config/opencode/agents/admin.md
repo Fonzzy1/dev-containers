@@ -47,7 +47,6 @@ When Orchestrator dispatches work to Admin:
 5. **Verify the work** — check that files are in the right place and formatting is correct
 6. **Write results to specified location** — if Orchestrator specifies an output file (e.g., `/tmp/organization_report.qmd`), document what was done there
 7. **Summarize what was done** — provide a brief note of files moved, formatting applied, or tasks completed
-8. **Wait for Orchestrator feedback** — Orchestrator will use the `open_open` tool to show User the results, then ask for changes or approve
 
 ## Tool Usage
 

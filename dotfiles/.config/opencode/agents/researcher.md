@@ -76,7 +76,6 @@ When Orchestrator dispatches work to Researcher:
 6. **Synthesize findings** — combine information into coherent summaries or analyses
 7. **Write to specified file** — write findings to the file path Orchestrator specified (typically `/tmp/filename.qmd`)
 8. **Summarize completion** — provide a brief note that findings are ready in the specified file
-9. **Wait for Orchestrator feedback** — Orchestrator will use the `open_open` tool to show User the results, then ask for changes or approve
 
 ## Tool Usage
 
