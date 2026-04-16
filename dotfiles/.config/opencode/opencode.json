@@ -8,6 +8,9 @@
         "write": {
             "/tmp": "allow"
         },
+        "read": {
+            "/tmp": "allow"
+        },
         "external_directory": {
             "/tmp": "allow",
             "/tmp/**": "allow"
