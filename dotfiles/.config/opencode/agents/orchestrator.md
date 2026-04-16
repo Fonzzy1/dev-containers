@@ -6,9 +6,14 @@ model: opencode/claude-haiku-4-5
 color: "#8b5cf6"
 permission:
   read: "allow"
+  write:
+    ".opencode_save": "allow"
+    ".git/LAZYAGIT_PENDING_COMMIT": "allow"
+  edit:
+    ".opencode_save": "allow"
+    ".git/LAZYGIT_PENDING_COMMIT": "allow"
   bash:
     "echo *": "allow"
-    "cat > .git/LAZYGIT_PENDING_COMMIT": "allow"
     "*": "deny"
   task: "allow"
   todowrite: "allow"
@@ -43,15 +48,6 @@ When User gives Orchestrator a goal:
    - Why are we doing it this way?
    - What will change?
 3. This is the **contract** — User will use this message when committing
-
-Use bash to write:
-```bash
-cat > .git/LAZYGIT_PENDING_COMMIT << 'EOF'
-First line of commit message
-
-Detailed explanation of what this step achieves.
-EOF
-```
 
 ### Step 3: Dispatch to Specialist Agent
 
@@ -135,6 +131,7 @@ Use when Orchestrator needs to send work to a specialist agent.
 **CRITICAL: Always specify the exact subagent type. There is no "general" type.**
 
 **Available subagent types:**
+
 - `admin` — file operations, organization, typesetting
 - `developer` — code execution, testing, debugging, implementation
 - `researcher` — source gathering, exploration, verification
@@ -208,18 +205,18 @@ Use for multi-step tasks to track progress.
 
 ## Specialist Agent Dispatch Guide
 
-| Goal                                     | Dispatch To | Why                                                    |
-| ---------------------------------------- | ----------- | ------------------------------------------------------ |
-| Write code, execute, test, debug        | Developer   | Handles execution, testing, debugging, implementation |
-| Find sources, research, explore codebase | Researcher  | Handles source gathering, discovery, verification      |
-| Extract claims from sources, synthesize  | Summariser  | Handles claim extraction, synthesis, organization      |
-| Write academic papers, technical reports | AcademicWriter | Handles formal, rigorous research documents        |
-| Write longer-form journalism             | JournalismWriter | Handles journalism conventions, source attribution |
-| Write structured briefs for radio/news   | BriefWriter | Handles brief format, key points, radio-ready content  |
-| Write blog posts, reflections, analysis  | BlogWriter  | Handles casual, exploratory, conversational content    |
-| Analyze data, create visualizations      | DataScience | Handles data analysis, Python/R, Quarto data documents |
-| Move files, organize, tidy formatting    | Admin       | Handles file operations, typesetting, organization     |
-| Review code/prose for quality            | Supervisor  | Handles feedback, quality control, suggestions         |
+| Goal                                                      | Dispatch To      | Why                                                    |
+| --------------------------------------------------------- | ---------------- | ------------------------------------------------------ |
+| Write code, execute, test, debug                          | Developer        | Handles execution, testing, debugging, implementation  |
+| Find sources, research, explore codebase                  | Researcher       | Handles source gathering, discovery, verification      |
+| Extract claims from sources, synthesize                   | Summariser       | Handles claim extraction, synthesis, organization      |
+| Write academic papers, technical reports                  | AcademicWriter   | Handles formal, rigorous research documents            |
+| Write longer-form journalism                              | JournalismWriter | Handles journalism conventions, source attribution     |
+| Write structured briefs for radio/news                    | BriefWriter      | Handles brief format, key points, radio-ready content  |
+| Write blog posts, reflections, analysis                   | BlogWriter       | Handles casual, exploratory, conversational content    |
+| Analyze data, create visualizations                       | DataScience      | Handles data analysis, Python/R, Quarto data documents |
+| Move files, organize, tidy formatting, Run basic Commands | Admin            | Handles file operations, typesetting, organization     |
+| Review code/prose for quality                             | Supervisor       | Handles feedback, quality control, suggestions         |
 
 ---
 
@@ -328,7 +325,7 @@ This means:
 task(
   description="Create three writer agents",
   prompt="Engineer: Create AcademicWriter, JournalismWriter, and BlogWriter agents...",
-  subagent_type="engineer"
+  subagent_type="developer"
 )
 ```
 
@@ -339,7 +336,7 @@ task(
 task(
   description="Create AcademicWriter agent",
   prompt="Engineer: Create AcademicWriter agent at /dev-containers/dotfiles/.config/opencode/agents/academicwriter.md...",
-  subagent_type="engineer"
+  subagent_type="developer"
 )
 # Mark todo 1 complete, move to todo 2
 
@@ -347,7 +344,7 @@ task(
 task(
   description="Create JournalismWriter agent",
   prompt="Engineer: Create JournalismWriter agent at /dev-containers/dotfiles/.config/opencode/agents/journalismwriter.md...",
-  subagent_type="engineer"
+  subagent_type="developer"
 )
 # Mark todo 2 complete, move to todo 3
 
@@ -355,7 +352,7 @@ task(
 task(
   description="Create BlogWriter agent",
   prompt="Engineer: Create BlogWriter agent at /dev-containers/dotfiles/.config/opencode/agents/blogwriter.md...",
-  subagent_type="engineer"
+  subagent_type="developer"
 )
 # Mark todo 3 complete
 ```
@@ -442,6 +439,7 @@ This keeps the prompt focused on **intent** (what to change and why) rather than
 ### When to include context
 
 Only include code snippets if:
+
 - The code is in a context file (e.g., `/tmp/design.qmd`) that the sub-agent needs to read
 - The code is an example of the desired output format
 - The code is from an external source (documentation, reference) that the sub-agent cannot access
