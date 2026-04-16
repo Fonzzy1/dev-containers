@@ -5,6 +5,9 @@
         "edit": {
             "/tmp": "allow"
         },
+        "write": {
+            "/tmp": "allow"
+        },
         "external_directory": {
             "/tmp": "allow",
             "/tmp/**": "allow"
