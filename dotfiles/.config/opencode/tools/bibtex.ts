@@ -26,8 +26,8 @@ export const bibtex_add = tool({
         }
 
         // Ensure path is relative to worktree if not absolute
-        const fullPath = path.isAbsolute(bibpath) 
-            ? bibpath 
+        const fullPath = path.isAbsolute(bibpath)
+            ? bibpath
             : path.join(context.worktree, bibpath)
 
         try {
