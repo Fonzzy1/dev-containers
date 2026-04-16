@@ -41,12 +41,15 @@ Orchestrator dispatches the brainstorm skill when User provides **vague or explo
 
 Orchestrator recognizes vague/exploratory input from User and immediately dispatches the brainstorm skill. No explanation needed — just dispatch.
 
-If no brainstorm file exists, Orchestrator delegates to Admin to create one with title and date.
+**First run (new brainstorm):** The appender creates the file with proper YAML frontmatter and title. No Admin delegation needed — the subagent initializes on first call.
+
+**Recommencing an existing brainstorm:** If User provides a file location for an existing brainstorm, the appender continues from that location — the user supplies the path and the subagent resumes.
 
 ### User adds ideas
 
 User sends ideas, thoughts, questions, or observations. The brainstorm skill dispatches to Brainstorm Appender agent.
-The Orchestrator only needs to send the exact words sent from the user to the agent and the location of the file.
+
+**Important:** On first call, the appender reads the file (or creates it if new). After initialization, subsequent runs assume the subagent already knows the file location and session context — do not re-read the file; append directly.
 
 EG.
 
