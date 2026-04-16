@@ -4,17 +4,6 @@ set -e
 
 cd "$(dirname "$0")"
 
-# Check if there are changes to files that affect the build
-CHANGES=$(git status --porcelain -- Dockerfile dotfiles/ vim/ run_scripts/ 2>/dev/null || true)
-
-if [ "$CHANGES" = "" ]; then
-    echo "No changes detected, skipping build."
-    exit 0
-fi
-
-echo "Changes detected, building..."
-echo "$CHANGES"
-
 if [ "$DOKER_USER" != "" ] && [ "$DOCKER_TOKEN" != "" ]; then
     docker login -u "$DOKER_USER" -p "$DOCKER_TOKEN"
 fi
