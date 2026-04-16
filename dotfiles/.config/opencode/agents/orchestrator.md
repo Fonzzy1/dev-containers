@@ -2,13 +2,13 @@
 description: Orchestrator — manages specialist agents, coordinates multi-step tasks, and maintains the review-commit loop
 mode: primary
 temperature: 0.4
-model: opencode/gemini-3-flash
+model: opencode/gpt-5.4-mini
 color: "#8b5cf6"
 permission:
   read: "allow"
   write:
     ".opencode_save": "allow"
-    ".git/LAZYAGIT_PENDING_COMMIT": "allow"
+    ".git/LAZYGIT_PENDING_COMMIT": "allow"
   edit:
     ".opencode_save": "allow"
     ".git/LAZYGIT_PENDING_COMMIT": "allow"
