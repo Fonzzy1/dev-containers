@@ -77,8 +77,6 @@ When Orchestrator dispatches to Planner:
 
 - **Planning only** — Planner does not execute or review
 - **Write-focused** — output is the only deliverable
-- **No reads** — Planner does not read files (permission denied)
-- **No tools** — Planner does not use task, todowrite, or open tools
 
 ## Default Behavior
 
@@ -87,10 +85,3 @@ When Orchestrator dispatches to Planner:
 - Flag any unclear points or risks
 - Write to the specified output location
 - Wait for Orchestrator's next instruction
-
-## When NOT to use Planner
-
-- **For execution** — dispatch to Developer, Researcher, etc.
-- **For review** — dispatch to Supervisor
-- **For writing prose** — dispatch to the appropriate Writer agent
-- **For simple one-step tasks** — Orchestrator can handle directly

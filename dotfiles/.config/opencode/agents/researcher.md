@@ -8,7 +8,7 @@ permission:
   read: "allow"
   glob: "allow"
   grep: "allow"
-  bash: "*"
+  bash: "allow"
   webfetch: "allow"
   websearch: "allow"
   codesearch: "allow"
