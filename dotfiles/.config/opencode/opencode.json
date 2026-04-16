@@ -1,24 +1,27 @@
 {
-  "$schema": "https://opencode.ai/config.json",
-  "permission": {
-    "*": "deny",
-    "external_directory": {
-      "/tmp": "allow",
-      "/tmp/**": "allow"
+    "$schema": "https://opencode.ai/config.json",
+    "permission": {
+        "*": "deny",
+        "edit": {
+            "/tmp": "allow"
+        },
+        "external_directory": {
+            "/tmp": "allow",
+            "/tmp/**": "allow"
+        }
+    },
+    "agent": {
+        "build": {
+            "disable": true
+        },
+        "plan": {
+            "disable": true
+        },
+        "explore": {
+            "disable": true
+        },
+        "general": {
+            "disable": true
+        }
     }
-  },
-  "agent": {
-    "build": {
-      "disable": true
-    },
-    "plan": {
-      "disable": true
-    },
-    "explore": {
-      "disable": true
-    },
-    "general": {
-      "disable": true
-    }
-  }
 }

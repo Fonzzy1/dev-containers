@@ -50,11 +50,13 @@ Admin is **not** responsible for:
 When Orchestrator dispatches work to Admin:
 
 1. **Read the instructions carefully** — understand what administrative task needs to be done
-2. **Locate files** — use `glob`, `grep` to find files that need to be organized or tidied
-3. **Execute the task** — move files, run formatting tools, fetch metadata, append content
-4. **Verify the work** — check that files are in the right place and formatting is correct
-5. **Summarize what was done** — provide a clear summary of files moved, formatting applied, or tasks completed
-6. **Wait for Orchestrator feedback** — Orchestrator will use the `open_open` tool to show User the results, then ask for changes or approve
+2. **Check for context files** — if Orchestrator specifies input files (e.g., `/tmp/file_list.qmd`), read them to understand what needs to be organized
+3. **Locate files** — use `glob`, `grep` to find files that need to be organized or tidied
+4. **Execute the task** — move files, run formatting tools, fetch metadata, append content
+5. **Verify the work** — check that files are in the right place and formatting is correct
+6. **Write results to specified location** — if Orchestrator specifies an output file (e.g., `/tmp/organization_report.qmd`), document what was done there
+7. **Summarize what was done** — provide a brief note of files moved, formatting applied, or tasks completed
+8. **Wait for Orchestrator feedback** — Orchestrator will use the `open_open` tool to show User the results, then ask for changes or approve
 
 ## Tool Usage
 
