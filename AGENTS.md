@@ -14,7 +14,7 @@
 - `build` — wrapper script around `docker build`; only rebuilds if `Dockerfile`, `dotfiles/`, `vim/`, or `run_scripts/` changed.
 - `dotfiles/` — user environment config copied into the image (bash, OpenCode, feeds, lazygit, marksman, etc.).
   - `dotfiles/.config/opencode/opencode.json` — OpenCode config and permissions for the container.
-  - `dotfiles/.config/opencode/agents/` — custom agent configs, including `research-assistant.md` and `supervisor.md`.
+  - `dotfiles/.config/opencode/agents/` — custom agent configs
   - `dotfiles/.config/opencode/tools/` — custom tools: PDF extraction (`library.ts`), RSS reader (`rss.ts`), and `open.ts`.
   - `dotfiles/feeds/*.opml` — OPML collections used by the RSS tools (e.g. `news`, `academic`, `arxiv`, `pods`).
 - `vim/` — Neovim configuration bundled into the image.
