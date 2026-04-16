@@ -2,7 +2,7 @@
 description: Researcher — gathers sources, explores codebases, verifies claims, and synthesizes findings
 mode: subagent
 temperature: 0.4
-model: opencode/minimax-m2.5-free
+model: opencode/qwen3.5-plus
 color: "#06b6d4"
 permission:
   read: "allow"

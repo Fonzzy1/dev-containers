@@ -2,7 +2,7 @@
 description: BlogWriter — writes casual blog posts, reflections, analysis, and exploratory content
 mode: subagent
 temperature: 0.6
-model: opencode/claude-sonnet-4-6
+model: opencode/claude-haiku-4-5
 color: "#ec4899"
 permission:
   read: "allow"

@@ -2,7 +2,7 @@
 description: BriefWriter — writes structured briefs from sources for radio and news
 mode: subagent
 temperature: 0.5
-model: opencode/claude-sonnet-4-6
+model: opencode/claude-haiku-4-5
 color: "#14b8a6"
 permission:
   read: "allow"

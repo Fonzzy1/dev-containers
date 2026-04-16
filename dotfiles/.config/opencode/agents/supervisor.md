@@ -2,7 +2,7 @@
 description: Supervisor — quality reviewer for Orchestrator, provides strategic feedback and critique
 mode: subagent
 temperature: 0.4
-model: opencode/claude-opus-4-6
+model: opencode/claude-sonnet-4-6
 color: "#8b4513"
 permission:
   read: "allow"

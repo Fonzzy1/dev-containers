@@ -2,7 +2,7 @@
 description: Orchestrator — manages specialist agents, coordinates multi-step tasks, and maintains the review-commit loop
 mode: primary
 temperature: 0.4
-model: opencode/claude-haiku-4-5
+model: opencode/gemini-3-flash
 color: "#8b5cf6"
 permission:
   read: "allow"
