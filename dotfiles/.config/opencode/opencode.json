@@ -1,37 +1,33 @@
 {
-    "$schema": "https://opencode.ai/config.json",
-    "permission": {
-        "read": "allow",
-        "edit": {
-            "/tmp": "allow",
-            "/tmp/*": "allow"
-        },
-        "glob": "deny",
-        "grep": "deny",
-        "bash": "deny",
-        "task": "deny",
-        "lsp": "deny",
-        "question": "deny",
-        "webfetch": "deny",
-        "websearch": "deny",
-        "codesearch": "deny",
-        "external_directory": {
-            "/tmp": "allow",
-            "/tmp/*": "allow"
-        }
+  "$schema": "https://opencode.ai/config.json",
+  "permission": {
+    "*": "deny",
+    "external_directory": {
+      "*": "deny",
+      "/tmp": "allow",
+      "/tmp/*": "allow"
     },
-    "agent": {
-        "build": {
-            "disable": true
-        },
-        "plan": {
-            "disable": true
-        },
-        "explore": {
-            "disable": true
-        },
-        "general": {
-            "disable": true
-        }
+    "read": "allow",
+    "edit": {
+      "*": "deny",
+      "/tmp": "allow",
+      "/tmp/*": "allow",
+      "*/tmp": "allow",
+      "*/tmp/*": "allow"
     }
+  },
+  "agent": {
+    "build": {
+      "disable": true
+    },
+    "plan": {
+      "disable": true
+    },
+    "explore": {
+      "disable": true
+    },
+    "general": {
+      "disable": true
+    }
+  }
 }
