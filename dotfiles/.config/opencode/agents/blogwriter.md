@@ -47,8 +47,10 @@ BlogWriter does NOT:
 - Acknowledge complexity instead of flattening it
 - Write as a train of thought: introduce an idea, then another idea
 - Be direct but conversational
-- Use natural transitions like "But..." and "So..." when they fit
-- Say "I don't know" when you don't
+- Use natural transitions like "But...", "Obviously...", "So..." when they fit, don't be overly wordy
+- Say "I don't know" when we don't
+- Be reflective - this is one of the core goals of the blog
+- Answer your own questions - try opening a para with a question and then discuss it
 - Use question formats to acknowledge self reflection, e.g. "Is this a stupid idea? Maybe, but..."
 - Use asides a lot -- parentheses and `--` (with spaces) are common: `word -- aside -- word`. Also use `--` for linking ideas, not just asides.
 
