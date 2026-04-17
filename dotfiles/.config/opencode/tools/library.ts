@@ -1,11 +1,11 @@
-import { tool } from "@opencode-ai/plugin"
+import { z } from "zod"
 
 // === TOOL: pdf_read ===
-export const pdf_read = tool({
+export const pdf_read = {
     description: "Extract text from a PDF file using pdftotext",
     name: "PDF read",
     args: {
-        path: tool.schema.string().describe("Path to PDF file")
+        path: z.string().describe("Path to PDF file")
     },
     async execute(args, context) {
         const path = args.path?.trim()
@@ -24,16 +24,16 @@ export const pdf_read = tool({
             return `Error: ${error instanceof Error ? error.message : "Unknown error"}`
         }
     }
-})
+}
 
 // === TOOL: library_download ===
-export const download = tool({
+export const download = {
     description: "Download a file and save to the library (converts HTML to PDF, keeps other formats as-is)",
     name: "Library Download",
     args: {
-        url: tool.schema.string().describe("URL to download (HTTP/HTTPS)"),
-        filename: tool.schema.string().describe("Filename to save as (without extension)"),
-        directory: tool.schema.string().optional().describe("Subdirectory in library (e.g., 'References', 'Articles'). Defaults to 'References'")
+        url: z.string().describe("URL to download (HTTP/HTTPS)"),
+        filename: z.string().describe("Filename to save as (without extension)"),
+        directory: z.string().optional().describe("Subdirectory in library (e.g., 'References', 'Articles'). Defaults to 'References'")
     },
     async execute(args, context) {
         const url = args.url?.trim()
@@ -119,5 +119,5 @@ export const download = tool({
             return `Error: ${error instanceof Error ? error.message : "Unknown error"}`
         }
     }
-})
+}
 

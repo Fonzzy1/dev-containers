@@ -1,16 +1,16 @@
-import { tool } from "@opencode-ai/plugin"
+import { z } from "zod"
 import * as fs from "fs"
 import * as path from "path"
 
 const DEFAULT_BIB_PATH = "References/_references.bib"
 
 // === TOOL: bibtex_add ===
-export const bibtex_add = tool({
+export const bibtex_add = {
     description: "Append a BibTeX entry to a .bib file and run bibtex-tidy for formatting",
     name: "BibTeX add",
     args: {
-        entry: tool.schema.string().describe("The BibTeX entry to append (e.g., @article{key, title={...}, ...})"),
-        bibpath: tool.schema.string().optional().describe("Path to the .bib file. Defaults to 'References/_references.bib' if not provided")
+        entry: z.string().describe("The BibTeX entry to append (e.g., @article{key, title={...}, ...})"),
+        bibpath: z.string().optional().describe("Path to the .bib file. Defaults to 'References/_references.bib' if not provided")
     },
     async execute(args, context) {
         const entry = args.entry?.trim()
@@ -53,14 +53,14 @@ export const bibtex_add = tool({
             return `Error: ${error instanceof Error ? error.message : "Unknown error"}`
         }
     }
-})
+}
 
 // === TOOL: bibtex_fetch ===
-export const bibtex_fetch = tool({
+export const bibtex_fetch = {
     description: "Fetch BibTeX entry from DOI or arXiv ID. Accepts DOI URLs (https://doi.org/...), arXiv URLs (https://arxiv.org/abs/...), or bare arXiv IDs (e.g., 2401.12345)",
     name: "BibTeX fetch",
     args: {
-        identifier: tool.schema.string().describe("DOI or arXiv identifier to fetch BibTeX for")
+        identifier: z.string().describe("DOI or arXiv identifier to fetch BibTeX for")
     },
     async execute(args, context) {
         const id = args.identifier?.trim()
@@ -139,4 +139,4 @@ export const bibtex_fetch = tool({
             return `Error: ${error instanceof Error ? error.message : "Unknown error"}\nURL attempted: ${url}`
         }
     }
-})
+}

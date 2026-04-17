@@ -1,4 +1,5 @@
-import { tool } from "@opencode-ai/plugin"
+import { z } from "zod"
+
 
 const FEEDS_DIR = "/root/feeds"
 const PYTHON_FEED_PARSER = "/scripts/feed_parser.py"
@@ -41,7 +42,7 @@ async function loadFeedsDir(): Promise<{ key: string; title: string; description
     return results
 }
 
-export const rss_list = tool({
+export const rss_list = {
     description: "List available RSS feed collections",
     name: "RSS list",
     args: {},
@@ -69,14 +70,14 @@ export const rss_list = tool({
             return `Error: ${error instanceof Error ? error.message : "Unknown error"}`
         }
     }
-})
+}
 
-export const rss_read = tool({
+export const rss_read = {
     description: "Fetch and read an RSS feed collection by key",
     name: "RSS read",
     args: {
-        key: tool.schema.string().describe("Key of the feed collection to fetch (e.g., news, academic, arxiv, pods)"),
-        since: tool.schema.string().optional().describe("Only return items published on or after this date (ISO format, e.g., 2024-01-01)")
+        key: z.string().describe("Key of the feed collection to fetch (e.g., news, academic, arxiv, pods)"),
+        since: z.string().optional().describe("Only return items published on or after this date (ISO format, e.g., 2024-01-01)")
     },
     async execute(args, context) {
         const sinceDate = args.since || null
@@ -112,4 +113,4 @@ export const rss_read = tool({
             return `Error: ${error instanceof Error ? error.message : "Unknown error"}`
         }
     }
-})
+}
