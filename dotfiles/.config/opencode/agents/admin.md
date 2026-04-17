@@ -5,8 +5,6 @@ temperature: 0.3
 model: opencode/minimax-m2.5-free
 color: "#8b5cf6"
 permission:
-  read: "allow"
-  write: "allow"
   edit: "allow"
   glob: "allow"
   grep: "allow"

@@ -5,8 +5,6 @@ temperature: 0.6
 model: opencode/claude-haiku-4-5
 color: "#ec4899"
 permission:
-  read: "allow"
-  write: "allow"
   edit: "allow"
   glob: "allow"
   grep: "allow"

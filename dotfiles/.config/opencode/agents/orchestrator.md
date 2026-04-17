@@ -5,9 +5,6 @@ temperature: 0.4
 model: opencode/gpt-5.4-mini
 color: "#8b5cf6"
 permission:
-  read: "allow"
-  write:
-    ".opencode_save": "allow"
   edit:
     ".opencode_save": "allow"
   bash:
@@ -130,13 +127,13 @@ Use ONLY when User explicitly states multiple steps.
 | --------------------------------------------------------- | ---------------- | ----------------------------------------------------- |
 | Write code, execute, test, debug                          | Developer        | Handles execution, testing, debugging, implementation |
 | Find sources, research, explore codebase                  | Researcher       | Handles source gathering, discovery, verification     |
-| Extract claims from sources, synthesize                   | Summariser       | Handles claim extraction, synthesis, organization       |
+| Extract claims from sources, synthesize                   | Summariser       | Handles claim extraction, synthesis, organization     |
 | Write academic papers, technical reports                  | AcademicWriter   | Handles formal, rigorous research documents           |
 | Write longer-form journalism                              | JournalismWriter | Handles journalism conventions, source attribution    |
 | Write structured briefs for radio/news                    | BriefWriter      | Handles brief format, key points, radio-ready content |
-| Write blog posts, reflections, analysis                    | BlogWriter       | Handles casual, exploratory, conversational content     |
+| Write blog posts, reflections, analysis                   | BlogWriter       | Handles casual, exploratory, conversational content   |
 | Move files, organize, tidy formatting, run basic commands | Admin            | Handles file operations, typesetting, organization    |
-| Review code/prose for quality                              | Supervisor       | Handles feedback, quality control, suggestions         |
+| Review code/prose for quality                             | Supervisor       | Handles feedback, quality control, suggestions        |
 
 ---
 

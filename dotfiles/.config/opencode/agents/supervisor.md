@@ -5,7 +5,6 @@ temperature: 0.4
 model: opencode/claude-sonnet-4-6
 color: "#8b4513"
 permission:
-  read: "allow"
   glob: "allow"
   grep: "allow"
 ---

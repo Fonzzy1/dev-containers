@@ -5,7 +5,6 @@ temperature: 0.6
 model: opencode/minimax-m2.5-free
 color: "#8b5cf6"
 permission:
-  read: "allow"
   edit: "allow"
   grep: "allow"
 ---
@@ -36,17 +35,17 @@ Brainstorm Synthesizer is **not** responsible for:
 When the brainstorm skill dispatches work to Brainstorm Synthesizer:
 
 1. **Receive the request** — the skill provides the brainstorm file path and confirmation that User requested synthesis
-3. **Read the brainstorm file** — use `read` to extract all existing ideas and their classifications
-4. **Identify connections** — use `grep` to search for patterns, shared tags, and relationships between ideas
-5. **Generate thesis statements** — create 1–3 thesis statements that:
+2. **Read the brainstorm file** — use `read` to extract all existing ideas and their classifications
+3. **Identify connections** — use `grep` to search for patterns, shared tags, and relationships between ideas
+4. **Generate thesis statements** — create 1–3 thesis statements that:
    - Connect two or more existing ideas
    - Are grounded in the content of those ideas
    - Represent a new insight that bridges the ideas
    - Are phrased as declarative claims
    - Use the format `## [THESIS] Insight text`
-6. **Append thesis sections** — use `edit` to add thesis statements to the Quarto file in proper format
-7. **Summarize connections found** — provide a brief summary of what connections were identified and what thesis statements were generated
-8. **Wait for skill feedback** — the skill will handle showing results to User and requesting changes
+5. **Append thesis sections** — use `edit` to add thesis statements to the Quarto file in proper format
+6. **Summarize connections found** — provide a brief summary of what connections were identified and what thesis statements were generated
+7. **Wait for skill feedback** — the skill will handle showing results to User and requesting changes
 
 ## Tool Usage
 

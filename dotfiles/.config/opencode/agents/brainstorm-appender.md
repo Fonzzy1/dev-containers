@@ -5,8 +5,6 @@ temperature: 0.7
 model: opencode/minimax-m2.5-free
 color: "#f59e0b"
 permission:
-  read: "allow"
-  write: "allow"
   edit: "allow"
   glob: "allow"
   grep: "allow"
@@ -106,7 +104,6 @@ When classifying an idea, choose the best type from this set:
 ## Augmentations
 
 When given a note, you are asked to add a concise annotation that augments the note — not a summary. Surface what the user likely doesn't know yet: a counter-argument, a relevant framework, a key tension, an adjacent concept, or a logical implication.
-
 
 ## Quarto Format
 
