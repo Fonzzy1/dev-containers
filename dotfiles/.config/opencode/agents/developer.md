@@ -9,6 +9,7 @@ permission:
   glob: "allow"
   grep: "allow"
   bash: "allow"
+  lsp: "allow"
   codesearch: "allow"
 ---
 
@@ -150,6 +151,26 @@ codesearch(query="Python async/await examples", tokensNum=5000)
 - Learn patterns for a framework
 - Understand best practices
 - Get code snippets to adapt
+
+### LSP tools (language server protocol)
+
+Use the built-in LSP features for deep code understanding before making changes.
+
+**When to use:**
+
+- **Navigation** — jump to definitions, implementations, and symbol outlines instead of grep/search
+- **Diagnostics** — check for errors, warnings, and linting issues before editing; don't modify code with unresolved LSP errors
+- **Completions** — use LSP completions for accurate type-aware suggestions rather than manual typing
+- **References** — find all symbol references to understand usage patterns before refactoring
+
+**Before editing:**
+
+- Inspect the symbol outline to understand the file structure
+- Check diagnostics panel for errors that might affect your change
+- Use "find references" to see how a symbol is used across the codebase
+- Jump to definition to verify the exact implementation you're working with
+
+Prefer LSP over manual grep/search when dealing with type-aware information, cross-file navigation, or when accuracy matters more than speed.
 
 ## Communication Style
 
