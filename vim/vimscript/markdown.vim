@@ -11,12 +11,20 @@ highlight link @punctuation.special.markdown Comment
 highlight link MarkviewLink MarkviewPalette7Fg
 
 
+"" Default Note
+function! NoteDefault()
+execute 'silent 0r !/scripts/note_default.py ' . shellescape(expand('%:p'))
+    normal! gg
+endfunction
+autocmd BufNewFile *.qmd :call NoteDefault()
+autocmd BufRead *.qmd if getfsize(expand('%'))==0|call NoteDefault()|endif
+
 function! QuartoExtras()
     lua require'otter'.activate()
     syntax match Cite /\k\@<!@\k\+\>/
     highlight link Cite MarkviewPalette7Fg
-    set wrap
-    set linebreak
+    setlocal wrap
+    setlocal linebreak
 endfunction
 
 augroup QuartoExtrasGroup

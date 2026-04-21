@@ -26,7 +26,8 @@ iron.setup {
         repl_definition = {
             quarto = { command = '/bin/bash' },
             text = { command = '/bin/bash' },
-            aichat = { command = '/bin/bash' },
+            sh = { command = '/bin/bash' },
+            bash = { command = '/bin/bash' },
             python = {
                 command = { "ipython", "--no-autoindent" }, -- or { "ipython", "--no-autoindent" }
                 format = common.bracketed_paste_python,
@@ -43,7 +44,11 @@ iron.setup {
         end,
         -- How the repl window will be displayed
         -- See below for more information
-        repl_open_cmd = "botright 10 split | wincmd J | set nowrap | set nonumber | set norelativenumber"
+        repl_open_cmd = view.split.vertical.rightbelow(84, {
+            winfixwidth = false,
+            number = false,
+            relativenumber = false
+        })
 
         -- repl_open_cmd = view.split.vertical.rightbelow(80, {
         --     winfixwidth = true,

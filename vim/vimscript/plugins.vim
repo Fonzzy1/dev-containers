@@ -15,8 +15,6 @@ Plug 'hat0uma/csvview.nvim'
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'nvimdev/dashboard-nvim'
-Plug 'xiyaowong/virtcolumn.nvim'
-Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'anuvyklack/windows.nvim'
 Plug 'anuvyklack/middleclass'
 Plug 'MunifTanjim/nui.nvim'
@@ -48,7 +46,6 @@ Plug 'nvimtools/none-ls.nvim'
 
 " Motions
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-Plug 'kylechui/nvim-surround'
 Plug 'tpope/vim-commentary'
 
 " Telescope 

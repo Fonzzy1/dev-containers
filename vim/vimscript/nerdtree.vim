@@ -20,7 +20,7 @@ let g:rnvimr_border_attr = {'fg': 4, 'bg': -1}
 let g:rnvimr_enable_bw = 1
 
 " Add a shadow window, value is equal to 100 will disable shadow
-let g:rnvimr_shadow_winblend = 100
+let g:rnvimr_shadow_winblend = 70
 
 " Draw border with both
 let g:rnvimr_ranger_cmd = ['ranger', '--cmd=set draw_borders both']
@@ -39,7 +39,7 @@ tnoremap <silent> <M-y> <C-\><C-n>:RnvimrResize 6<CR>
 
 " Map Rnvimr action
 let g:rnvimr_action = {
-            \ '<cr>': 'NvimEdit vsplit',
+            \ '<cr>': 'NvimEdit SmartVsplit',
             \ }
 
 

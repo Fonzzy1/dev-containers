@@ -21,6 +21,7 @@ lua vim.keymap.set("n", "eee", function() require("opencode").ask("@this: ", { s
 " Spawn
 nnoremap <silent> sb :vnew<CR>:wincmd L<CR>
 nnoremap <silent> sB :new<CR>
+nnoremap <silent> sV :SmartVsplit 
 nnoremap sC <cmd>lua require('opencode').select()<CR>
 vnoremap sC <cmd>lua require('opencode').select()<CR>
 nnoremap sc <cmd>lua require('opencode').ask("", { submit = true })<CR>
@@ -49,8 +50,8 @@ nnoremap  <silent> fa :Gitsigns blame_line<CR>
 "go
 " Big Jumps
 nnoremap gb <c-o>
-nnoremap gr <cmd>Telescope lsp_references<cr>
-nnoremap <silent> gd :lua vim.lsp.buf.definition()<cr>
+nnoremap <silent> gr <cmd>lua require('telescope.builtin').lsp_references({ reuse_win = 1, jump_type = "never" })<CR>
+nnoremap <silent> gd <cmd>lua require('telescope.builtin').lsp_definitions({ reuse_win = 1, jump_type = "never" })<CR>
 nnoremap <silent> gn <cmd>lua vim.diagnostic.jump({ count = 1 })<cr>
 nnoremap <silent> gp <cmd>lua vim.diagnostic.jump({ count = -1 })<cr>
 nmap <silent> ghn :Gitsigns nav_hunk next<CR>
@@ -95,3 +96,7 @@ nnoremap <silent><C-h> :wincmd h<CR>
 nnoremap <silent><C-j> :wincmd j<CR>
 nnoremap <silent><C-k> :wincmd k<CR>
 nnoremap <silent><C-l> :wincmd l<CR>
+tnoremap <c-h> <Cmd>wincmd h<CR>
+tnoremap <c-j> <Cmd>wincmd j<CR>
+tnoremap <c-k> <Cmd>wincmd k<CR>
+tnoremap <c-l> <Cmd>wincmd l<CR>

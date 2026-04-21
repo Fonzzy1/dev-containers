@@ -99,8 +99,9 @@ def path_to_command(path, reader_flag):
             return f'xdg-open "{path}"', None
 
     # If nvim is available and file is text, run nvr inside container
+    # Use SmartVsplit to jump to existing buffer if already open, otherwise open in vertical split
     if is_text_file(path):
-        return None, f'nvr -c ":vsplit {path}"'
+        return None, f'nvr -c ":SmartVsplit {path}"'
 
     sys_dir = os.environ["SYS_DIR"]
     cont_dir = os.environ["CONT_DIR"]

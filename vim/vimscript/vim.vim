@@ -8,7 +8,7 @@ set background=dark
 set nowrap
 set fillchars+=vert:\▕
 set conceallevel=3
-set hidden
+set nohidden
 highlight clear SignColumn
 syntax on
 
@@ -44,6 +44,7 @@ augroup AutoRead
   autocmd FileChangedShellPost * silent! edit!
   autocmd FileType DressingInput startinsert
   autocmd BufEnter,WinEnter * if &buftype == 'terminal' | startinsert | endif
+  autocmd BufEnter,WinEnter * if &buftype == 'terminal' | setlocal hidden | endif
 augroup END
 
 if has('nvim')

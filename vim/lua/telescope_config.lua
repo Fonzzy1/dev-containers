@@ -22,27 +22,49 @@ local function xdg_open_selected_file(prompt_bufnr)
     end
 end
 
+-- SmartVsplit: jump to existing buffer or open in vertical split
+-- Pass the full entry to SmartVsplit so it can extract line/col info if available
+-- Falls back to default selection for non-file pickers (e.g., highlights, autocommands)
+local function smart_vsplit_selected_file(prompt_bufnr)
+    local entry = action_state.get_selected_entry()
+    if not entry then
+        print("No valid entry to open.")
+        return
+    end
+
+    -- Check if entry looks like a file-open (has path, filename, uri, or value with path info)
+    local has_path = entry.path or entry.filename or entry.uri or
+        (entry.value and (type(entry.value) == "string" or entry.value.path or entry.value.filename))
+
+    if has_path then
+        _G.SmartVsplit(entry)
+    else
+        -- Not a file entry - fall back to Telescope's default selection
+        actions.select_default(prompt_bufnr)
+    end
+end
+
 
 require 'telescope'.setup {
-    pickers = {
-        git_status = {
-            mappings = {
-                i = {
-                    ["<CR>"] = actions.select_vertical,
-                },
-                n = {
-                    ["<CR>"] = actions.select_vertical,
-                },
+    -- Apply SmartVsplit to ALL pickers by default - scales to future pickers
+    defaults = {
+        mappings = {
+            i = {
+                ["<CR>"] = smart_vsplit_selected_file,
+            },
+            n = {
+                ["<CR>"] = smart_vsplit_selected_file,
             },
         },
+    },
+    pickers = {
+        -- Specialized behaviors that override defaults (e.g., xdg-open on <C-o>)
         find_files = {
             mappings = {
                 i = {
-                    ["<CR>"] = actions.select_vertical,
                     ["<C-o>"] = xdg_open_selected_file,
                 },
                 n = {
-                    ["<CR>"] = actions.select_vertical,
                     ["<C-o>"] = xdg_open_selected_file,
                 },
             },
@@ -50,11 +72,9 @@ require 'telescope'.setup {
         live_grep = {
             mappings = {
                 i = {
-                    ["<CR>"] = actions.select_vertical,
                     ["<C-o>"] = xdg_open_selected_file,
                 },
                 n = {
-                    ["<CR>"] = actions.select_vertical,
                     ["<C-o>"] = xdg_open_selected_file,
                 },
             },
