@@ -144,12 +144,12 @@ Or for myth-busting briefs:
 
 ```
 **KEY POINTS**
-- Point 1
+- Point 1 (must be the entrypoint: what is happening / why we're talking about this)
 - Point 2
 - Point 3
 ```
 
-3-5 bullet points that capture the main findings or developments.
+3-5 bullet points that capture the main findings or developments. **The first key point is the entrypoint** — it must answer "what is going on?" or "why are we talking about this right now?" This is the hook that grabs attention and sets up the entire brief. Everything else builds on this foundation.
 
 ### Narrative
 
@@ -160,22 +160,41 @@ Follow the key points with conversational paragraphs that:
 - Provide context and background
 - Lead to a clear takeaway or conclusion
 
+### Hooks: Why Every Story Needs One
+
+**Every brief must have a hook — an opening angle that makes the story immediately interesting.**
+
+A hook is what grabs attention in the first 3-5 seconds. It answers:
+
+- "Why should I care right now?"
+- "What makes this novel, surprising, or urgent?"
+- "What's the one thing listeners should know?"
+
+The hook lives in two places:
+
+1. **First key point** — the entrypoint that states what is happening
+2. **Opening paragraph** — the narrative hook that pulls the listener in
+
+Without a hook, the brief loses the listener before it begins. Make it easy to care from the first sentence.
+
 ### Example Structure
 
 ```
 ## NEWS: [Headline]
 
 **KEY POINTS**
-- Point 1
-- Point 2
-- Point 3
+- [Entrypoint: what is happening / why this matters right now]
+- [Supporting point: data, context, or development]
+- [Supporting point: implications or next steps]
 
-[Opening paragraph: hook or context]
+[Opening paragraph: hook — make it immediately interesting and relevant]
 
 [Body paragraphs: explore the topic, include examples, data, quotes]
 
 [Closing paragraph: takeaway or forward-looking statement]
 ```
+
+**The first key point is the entrypoint** — it answers "what is happening?" and gives the reader a reason to care. The opening paragraph is the narrative hook that pulls the listener in immediately.
 
 ## Quarto Document Guidelines
 
