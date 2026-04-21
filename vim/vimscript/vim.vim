@@ -43,8 +43,8 @@ augroup AutoRead
   autocmd FocusGained,BufEnter * silent! checktime
   autocmd FileChangedShellPost * silent! edit!
   autocmd FileType DressingInput startinsert
-  autocmd BufEnter,WinEnter * if &buftype == 'terminal' | startinsert | endif
-  autocmd BufEnter,WinEnter * if &buftype == 'terminal' | setlocal hidden | endif
+  autocmd WinEnter * if &buftype == 'terminal' | startinsert | endif
+  autocmd WinEnter * if &buftype == 'terminal' | setlocal hidden | endif
 augroup END
 
 if has('nvim')
