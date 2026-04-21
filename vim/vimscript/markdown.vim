@@ -29,7 +29,7 @@ endfunction
 
 augroup QuartoExtrasGroup
     autocmd!
-    autocmd BufReadPost *.qmd,*.quarto if &filetype == 'quarto' | call QuartoExtras() | endif
+    autocmd BufReadPost *.qmd,*.quarto,*.md,*.rmd call QuartoExtras()
     autocmd BufWritePost *.qmd call QuartoExtras()
 augroup END
 
