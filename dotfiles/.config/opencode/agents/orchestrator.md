@@ -7,11 +7,11 @@ color: "#8b5cf6"
 permission:
   read:
     "*": deny
-    "README.md": allow
+    "*README*": allow
     ".opencode_save": "allow"
   edit:
     ".opencode_save": "allow"
-    "README.md": allow
+    "*README*": allow
   bash:
     "echo *": "allow"
     "*": "deny"
@@ -249,7 +249,8 @@ question(
 - General Context of what the project is
 - The task goal
 - Explicit instructions
-- Relevant file paths (if a handover file exists, tell the subagent to read it)
+- All relevant handover files (previous research reports, summaries or plans that might be remotely useful)
+- Relevant file paths (if a handover file exists, tell the subagent to read it), plus information about where to look for additional information
 - Any constraints, expectations, or requirements
 - Any background the subagent needs to understand the work
 
