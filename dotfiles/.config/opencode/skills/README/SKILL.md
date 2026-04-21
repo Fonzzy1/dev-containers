@@ -1,5 +1,5 @@
 ---
-name: init
+name: README
 description: Discover a repository, ask clarifying questions, and produce or improve a README.md for that repo
 license: MIT
 compatibility: opencode
