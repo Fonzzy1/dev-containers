@@ -46,36 +46,66 @@ end
 
 
 require 'telescope'.setup {
-    -- Apply SmartVsplit to ALL pickers by default - scales to future pickers
     defaults = {
-        mappings = {
-            i = {
-                ["<CR>"] = smart_vsplit_selected_file,
-            },
-            n = {
-                ["<CR>"] = smart_vsplit_selected_file,
-            },
-        },
+        -- No global <CR> mapping - each picker defines its own behavior
     },
     pickers = {
-        -- Specialized behaviors that override defaults (e.g., xdg-open on <C-o>)
+        -- find_files: SmartVsplit on <CR>, xdg-open on <C-o>
         find_files = {
             mappings = {
                 i = {
+                    ["<CR>"] = smart_vsplit_selected_file,
                     ["<C-o>"] = xdg_open_selected_file,
                 },
                 n = {
+                    ["<CR>"] = smart_vsplit_selected_file,
                     ["<C-o>"] = xdg_open_selected_file,
                 },
             },
         },
+        -- live_grep: SmartVsplit on <CR>, xdg-open on <C-o>
         live_grep = {
             mappings = {
                 i = {
+                    ["<CR>"] = smart_vsplit_selected_file,
                     ["<C-o>"] = xdg_open_selected_file,
                 },
                 n = {
+                    ["<CR>"] = smart_vsplit_selected_file,
                     ["<C-o>"] = xdg_open_selected_file,
+                },
+            },
+        },
+        -- lsp_document_symbols: SmartVsplit on <CR>
+        lsp_document_symbols = {
+            mappings = {
+                i = {
+                    ["<CR>"] = smart_vsplit_selected_file,
+                },
+                n = {
+                    ["<CR>"] = smart_vsplit_selected_file,
+                },
+            },
+        },
+        -- lsp_references: SmartVsplit on <CR>
+        lsp_references = {
+            mappings = {
+                i = {
+                    ["<CR>"] = smart_vsplit_selected_file,
+                },
+                n = {
+                    ["<CR>"] = smart_vsplit_selected_file,
+                },
+            },
+        },
+        -- lsp_definitions: SmartVsplit on <CR>
+        lsp_definitions = {
+            mappings = {
+                i = {
+                    ["<CR>"] = smart_vsplit_selected_file,
+                },
+                n = {
+                    ["<CR>"] = smart_vsplit_selected_file,
                 },
             },
         },
