@@ -127,9 +127,10 @@ Execute each todo sequentially. **Each todo chooses its own subagent** based on 
 **Step 4: Execute loop:**
 
 - Dispatch Todo 1 to Researcher. Output: /tmp/login_bug_research.qmd
-- **Chain:** Pass /tmp/login_bug_research.qmd to Todo 2's subagent
-- After User approval, dispatch Todo 2 to Developer. Tell Developer to read /tmp/login_bug_research.qmd for context.
-- After User approval, done.
+- Open /tmp/login_bug_research.qmd for the user to check and approve
+- Wait for user to approve / ask for changes to the plan / research
+- **Chain:** Tell the second sub agent to read /tmp/login_bug_research.qmd to understand the required change, and ask it to implement the change
+- After User approval and check, done.
 
 ---
 
@@ -160,7 +161,8 @@ question(
 **Step 4: Execute loop:**
 
 - Dispatch Todo 1 to Researcher. Output: /tmp/trend_data.qmd
-- **Chain:** Pass /tmp/trend_data.qmd to Todo 2's subagent
+- Open /tmp/trend_data.qmd for the user to check and approve
+- Wait for user to approve / ask for changes to the plan / research
 - After User approval, dispatch Todo 2 to AcademicWriter. Tell AcademicWriter to read /tmp/trend_data.qmd for context.
 - After User approval, done.
 
