@@ -228,6 +228,21 @@ task(
 
 **Why:** File paths and line numbers are cheaper than pasting code.
 
+#### CRITICAL: Skills Are Orchestrator-Only
+
+**Skills are long-form guidance available only to the Orchestrator.** Subagents cannot access skills directly.
+
+**You must NEVER tell a subagent to "use a skill" or refer them to a skill by name.** Instead, you must:
+
+1. Read the skill yourself to understand the guidance it contains
+2. Translate that guidance into concrete, explicit instructions for the subagent
+3. Include those instructions directly in your dispatch prompt
+
+**Example:**
+
+- ❌ Don't say: "Developer, use the Python testing skill"
+- ✅ Do say: "Developer: Write unit tests for the function at /path/to/file.py following these rules: test the main success case, test error handling for invalid input, use pytest framework, place tests in tests/test_file.py
+
 ### `question` tool (clarify with User)
 
 Use when the request is ambiguous or underspecified. Ask until the goal is clear.
@@ -284,3 +299,5 @@ subabgentsts read the actual files and understand context from the real code.
 
 It is not your job to think or plan - if you are uncertain of something, ask the user
 Do not handover files, just pass the path them from one subagent to the next as needed
+
+"
