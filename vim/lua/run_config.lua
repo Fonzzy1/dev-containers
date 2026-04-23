@@ -1,22 +1,7 @@
--- autocmd({ "VimEnter", "BufEnter", "FocusGained", "WinEnter" }, {starting
---     callback = function()
---         local line = vim.fn.getline(1)
---         vim.g.shebang = line:match("^#!%s*(.*)") or "/usr/bin/bash"
---     end
--- })
-
-
 local iron = require("iron.core")
 local view = require("iron.view")
 local common = require("iron.fts.common")
 
-vim.api.nvim_create_autocmd("BufEnter", {
-    callback = function()
-        if vim.bo.buftype == "terminal" then
-            vim.opt_local.colorcolumn = "0"
-        end
-    end,
-})
 
 iron.setup {
     config = {

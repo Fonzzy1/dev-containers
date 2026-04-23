@@ -52,29 +52,28 @@ set laststatus=2
 " Color stuff
 set t_Co=256
 set termguicolors
-silent! colorscheme catppuccin-mocha
+silent! colorscheme catppuccin-latte
 
 let g:rainbow_active = 1
 " Color for the terminal
 let g:terminal_ansi_colors = [
-    \ "#45475A",
-    \ "#F38BA8",
-    \ "#A6E3A1",
-    \ "#F9E2AF",
-    \ "#89B4FA",
-    \ "#F5C2E7",
-    \ "#94E2D5",
-    \ "#BAC2DE",
-    \ "#585B70",
-    \ "#F38BA8",
-    \ "#A6E3A1",
-    \ "#F9E2AF",
-    \ "#89B4FA",
-    \ "#F5C2E7",
-    \ "#94E2D5",
-    \ "#A6ADC8"
- \]
-
+    \ "#5c5f77",
+    \ "#d20f39",
+    \ "#40a02b",
+    \ "#df8e1d",
+    \ "#1e66f5",
+    \ "#ea76cb",
+    \ "#179299",
+    \ "#acb0be",
+    \ "#6c6f85",
+    \ "#d20f39",
+    \ "#40a02b",
+    \ "#df8e1d",
+    \ "#1e66f5",
+    \ "#ea76cb",
+    \ "#179299",
+    \ "#4c4f69"
+\]
 augroup CursorLine
     au!
     au VimEnter * setlocal cursorline

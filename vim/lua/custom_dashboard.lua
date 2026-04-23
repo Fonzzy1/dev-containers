@@ -10,20 +10,19 @@ local ascii_heatmap = require('git-dashboard-nvim').setup {
     centered = false,
     empty_square = '.',
     colors = {
-        days_and_months_labels = '#8fbcbb',
-        empty_square_highlight = '#3b4252',
+        days_and_months_labels = '#6c6f85', -- subtext0
+        empty_square_highlight = '#bcc0cc', -- surface1
         filled_square_highlights = {
-            '#88c0d0',
-            '#a5adcb',
-            '#8aadf4',
-            '#8bd5ca',
-            '#a6da95',
-            '#eed49f'
+            '#1e66f5',                      -- blue
+            '#7287fd',                      -- lavender
+            '#04a5e5',                      -- sky
+            '#179299',                      -- teal
+            '#40a02b',                      -- green
+            '#df8e1d'                       -- yellow
         },
-        branch_highlight = '#88c0d0',
-        dashboard_title = '#88c0d0',
-    },
-    filled_squares = fill
+        branch_highlight = '#209fb5',       -- sapphire
+        dashboard_title = '#1e66f5',        -- blue
+    }, filled_squares = fill
 }
 
 local function in_git_repo()

@@ -29,6 +29,11 @@ set splitbelow
 set autowrite
 set autoread
 set switchbuf=vsplit
+augroup AutoRead
+  autocmd!
+  autocmd FocusGained,BufEnter * silent! checktime
+  autocmd FileChangedShellPost * silent! edit!
+augroup END
 
 " --- Environment ---
 set encoding=utf-8
@@ -37,15 +42,9 @@ let $PATH = $PATH . ':/usr/bin'
 let g:python3_host_prog = '/usr/bin/python3'
 set clipboard=unnamedplus
 
+autocmd WinEnter,BufEnter * if &buftype == 'terminal' | setlocal hidden | endif
+
 " --- Autoread ---
-augroup AutoRead
-  autocmd!
-  autocmd FocusGained,BufEnter * silent! checktime
-  autocmd FileChangedShellPost * silent! edit!
-  autocmd FileType DressingInput startinsert
-  autocmd FileType snacks_input startinsert
-  autocmd WinEnter,BufEnter * if &buftype == 'terminal' | setlocal hidden | endif
-augroup END
 
 if has('nvim')
   call timer_start(500, {-> execute('checktime')}, {'repeat': -1})

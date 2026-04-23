@@ -21,7 +21,7 @@ autocmd BufRead *.qmd if getfsize(expand('%'))==0|call NoteDefault()|endif
 
 function! QuartoExtras()
     lua require'otter'.activate()
-    syntax match Cite /\k\@<!@\k\+\>/
+    syntax match Cite /\%(\k\)\@<!@[A-Za-z0-9:_-]\+\%(\>\|[^A-Za-z0-9:_-]\)/
     highlight link Cite MarkviewPalette7Fg
     setlocal wrap
     setlocal linebreak

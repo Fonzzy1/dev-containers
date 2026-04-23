@@ -32,16 +32,25 @@ local function smart_vsplit_selected_file(prompt_bufnr)
         return
     end
 
-    -- Check if entry looks like a file-open (has path, filename, uri, or value with path info)
-    local has_path = entry.path or entry.filename or entry.uri or
-        (entry.value and (type(entry.value) == "string" or entry.value.path or entry.value.filename))
+    local has_path = entry.path or entry.filename or entry.uri
+        or (entry.value and type(entry.value) == "table" and (entry.value.path or entry.value.filename))
 
-    if has_path then
-        _G.SmartVsplit(entry)
-    else
-        -- Not a file entry - fall back to Telescope's default selection
+    if not has_path then
         actions.select_default(prompt_bufnr)
+        return
     end
+
+    -- IMPORTANT: close telescope FIRST
+    actions.close(prompt_bufnr)
+
+    -- defer actual opening until UI fully exits telescope context
+    vim.schedule(function()
+        -- now safe to open split
+        _G.SmartVsplit(entry)
+
+        -- force normal mode (fix insert-mode carryover)
+        vim.cmd("stopinsert")
+    end)
 end
 
 

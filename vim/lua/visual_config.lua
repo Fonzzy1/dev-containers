@@ -160,89 +160,89 @@ require('gitsigns').setup {
 
 -- Smart Vsplit: If file is already open in any window, jump to that buffer; otherwise open in vertical split
 -- Accepts either a filename string or a Telescope-style entry table (with path/filename/uri/value and optional lnum/col)
--- Usage: :SmartVsplit 
+-- Usage: :SmartVsplit
 --        :SmartVsplit { entry with path, lnum, col fields }
 _G.SmartVsplit = function(filename_or_entry)
-  local filename, target_lnum, target_col
+    local filename, target_lnum, target_col
 
-  -- Determine if input is a string or table, extract file path and optional line/col
-  if type(filename_or_entry) == "string" then
-    -- Plain filename string - preserve existing behavior
-    filename = filename_or_entry
-  elseif type(filename_or_entry) == "table" then
-    -- Telescope-style entry table - derive path from common fields
-    local entry = filename_or_entry
+    -- Determine if input is a string or table, extract file path and optional line/col
+    if type(filename_or_entry) == "string" then
+        -- Plain filename string - preserve existing behavior
+        filename = filename_or_entry
+    elseif type(filename_or_entry) == "table" then
+        -- Telescope-style entry table - derive path from common fields
+        local entry = filename_or_entry
 
-    -- Extract file path from common Telescope fields (priority: path > filename > uri > value)
-    filename = entry.path or entry.filename
-    if not filename and entry.uri then
-      -- Strip file:// prefix if present
-      filename = entry.uri:gsub("^file://", "")
+        -- Extract file path from common Telescope fields (priority: path > filename > uri > value)
+        filename = entry.path or entry.filename
+        if not filename and entry.uri then
+            -- Strip file:// prefix if present
+            filename = entry.uri:gsub("^file://", "")
+        end
+        if not filename and entry.value then
+            -- value might be a string path or a table with path field
+            if type(entry.value) == "string" then
+                filename = entry.value
+            elseif type(entry.value) == "table" then
+                filename = entry.value.path or entry.value.filename
+            end
+        end
+
+        -- Extract line number (common fields: lnum, line, start_line)
+        target_lnum = entry.lnum or entry.line or entry.start_line
+        -- Extract column number (common fields: col, column, start_col)
+        target_col = entry.col or entry.column or entry.start_col
+    else
+        print("SmartVsplit: invalid input - expected string or table")
+        return
     end
-    if not filename and entry.value then
-      -- value might be a string path or a table with path field
-      if type(entry.value) == "string" then
-        filename = entry.value
-      elseif type(entry.value) == "table" then
-        filename = entry.value.path or entry.value.filename
-      end
+
+    if not filename or filename == "" then
+        print("SmartVsplit: no valid file path found")
+        return
     end
 
-    -- Extract line number (common fields: lnum, line, start_line)
-    target_lnum = entry.lnum or entry.line or entry.start_line
-    -- Extract column number (common fields: col, column, start_col)
-    target_col = entry.col or entry.column or entry.start_col
-  else
-    print("SmartVsplit: invalid input - expected string or table")
-    return
-  end
+    local target_file = vim.fn.fnamemodify(filename, ":p")
+    local target_basename = vim.fn.fnamemodify(filename, ":t")
 
-  if not filename or filename == "" then
-    print("SmartVsplit: no valid file path found")
-    return
-  end
+    -- Search for the buffer in all windows
+    local found_bufnr = nil
+    local found_winid = nil
 
-  local target_file = vim.fn.fnamemodify(filename, ":p")
-  local target_basename = vim.fn.fnamemodify(filename, ":t")
+    for _, winid in ipairs(vim.api.nvim_list_wins()) do
+        local bufnr = vim.api.nvim_win_get_buf(winid)
+        local bufname = vim.api.nvim_buf_get_name(bufnr)
+        local full_path = vim.fn.fnamemodify(bufname, ":p")
+        local basename = vim.fn.fnamemodify(bufname, ":t")
 
-  -- Search for the buffer in all windows
-  local found_bufnr = nil
-  local found_winid = nil
-
-  for _, winid in ipairs(vim.api.nvim_list_wins()) do
-    local bufnr = vim.api.nvim_win_get_buf(winid)
-    local bufname = vim.api.nvim_buf_get_name(bufnr)
-    local full_path = vim.fn.fnamemodify(bufname, ":p")
-    local basename = vim.fn.fnamemodify(bufname, ":t")
-
-    if full_path == target_file or basename == target_basename then
-      found_bufnr = bufnr
-      found_winid = winid
-      break
+        if full_path == target_file or basename == target_basename then
+            found_bufnr = bufnr
+            found_winid = winid
+            break
+        end
     end
-  end
 
-  if found_bufnr then
-    -- Jump to existing buffer
-    vim.api.nvim_set_current_win(found_winid)
-    print("Jumped to existing buffer: " .. target_basename)
-  else
-    -- Open in vertical split
-    vim.cmd("vsplit " .. vim.fn.fnameescape(filename))
-    print("Opened in vertical split: " .. target_basename)
-  end
+    if found_bufnr then
+        -- Jump to existing buffer
+        vim.api.nvim_set_current_win(found_winid)
+        print("Jumped to existing buffer: " .. target_basename)
+    else
+        -- Open in vertical split
+        vim.cmd("vsplit " .. vim.fn.fnameescape(filename))
+        print("Opened in vertical split: " .. target_basename)
+    end
 
-  -- Jump to specific line/column if provided
-  if target_lnum and target_lnum > 0 then
-    vim.api.nvim_win_set_cursor(0, { target_lnum, (target_col or 1) - 1 })
-  end
+    -- Jump to specific line/column if provided
+    if target_lnum and target_lnum > 0 then
+        vim.api.nvim_win_set_cursor(0, { target_lnum, (target_col or 1) - 1 })
+    end
 end
 
 -- Vim command wrapper for the smart vsplit
 vim.api.nvim_create_user_command("SmartVsplit", function(opts)
-  _G.SmartVsplit(opts.args)
+    _G.SmartVsplit(opts.args)
 end, {
-  nargs = 1,
-  complete = "file",
-  desc = "Smart vsplit: jump to existing buffer or open in vertical split"
+    nargs = 1,
+    complete = "file",
+    desc = "Smart vsplit: jump to existing buffer or open in vertical split"
 })
