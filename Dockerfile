@@ -197,6 +197,10 @@ COPY vim/lua /root/.config/nvim/lua
 COPY vim/init.vim /root/.config/nvim/init.vim
 #Copy in the dotfiles
 COPY dotfiles /root
+#DOWLOAD_OPENCODE_THEME
+RUN mkdir -p /root/.config/opencode/themes && \
+    curl -fsSL -o /root/.config/opencode/themes/catppuccin-latte-yellow.json \
+    https://github.com/catppuccin/opencode/raw/refs/heads/main/themes/latte/catppuccin-latte-yellow.json
 COPY dotfiles/.bashrc /root/.bash_profile
 #Copy in the scripts
 COPY run_scripts /scripts
