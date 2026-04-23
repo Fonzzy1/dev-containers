@@ -1,27 +1,41 @@
 disableStartupPopups: true
+
+# Normal editor - opens files with xdg-open
+edit: xdg-open {{filename}}
+
+# Git editor - opens in vertical split with nvim and waits
+gitEditor:
+  editAtLineAndWait: nvim -c "vsplit" +{{.LineNumber}} {{filename}}
+
 git:
   disableForcePushing: true
 gui:
   theme:
     activeBorderColor:
-      - "#8aadf4"
+      - "#df8e1d"
       - bold
     inactiveBorderColor:
-      - "#a5adcb"
-    optionsTextColor:
-      - "#8aadf4"
-    selectedLineBgColor:
-      - "#363a4f"
-    cherryPickedCommitBgColor:
-      - "#494d64"
-    cherryPickedCommitFgColor:
-      - "#8aadf4"
-    unstagedChangesColor:
-      - "#ed8796"
-    defaultFgColor:
-      - "#cad3f5"
+      - "#6c6f85"
     searchingActiveBorderColor:
-      - "#eed49f"
+      - "#df8e1d"
+    optionsTextColor:
+      - "#1e66f5"
+    selectedLineBgColor:
+      - "#ccd0da"
+    inactiveViewSelectedLineBgColor:
+      - "#9ca0b0"
+    cherryPickedCommitFgColor:
+      - "#df8e1d"
+    cherryPickedCommitBgColor:
+      - "#bcc0cc"
+    markedBaseCommitFgColor:
+      - "#1e66f5"
+    markedBaseCommitBgColor:
+      - "#df8e1d"
+    unstagedChangesColor:
+      - "#d20f39"
+    defaultFgColor:
+      - "#4c4f69"
 
   authorColors:
-    "*": "#b7bdf8"
+    "*": "#7287fd"
