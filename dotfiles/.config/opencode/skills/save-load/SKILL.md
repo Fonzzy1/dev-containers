@@ -8,7 +8,7 @@ metadata:
   workflow: task-persistence
 ---
 
-## What the save-load skill does
+## Context
 
 The save-load skill allows Orchestrator to persist task state to a `.opencode_save` file and resume from that state later. This is useful for:
 
@@ -18,6 +18,7 @@ The save-load skill allows Orchestrator to persist task state to a `.opencode_sa
 - Maintaining a clear audit trail of what was done
 
 The skill captures:
+
 - Current todo list (task names, status, priority)
 - Commit messages written so far
 - Specialist dispatch history (who did what, when)
@@ -25,35 +26,15 @@ The skill captures:
 - File changes and git status
 - Timestamps for each action
 
-## When Orchestrator uses the save-load skill
+## Spec
 
 Orchestrator uses the save-load skill in two scenarios:
 
-### 1. Saving task state (mid-task)
+**1. Saving task state (mid-task):** When a task is long-running or complex, Orchestrator saves the current state to capture everything needed to resume exactly where work left off.
 
-When a task is long-running or complex, Orchestrator can save the current state:
+**2. Loading task state (resuming):** When returning to a saved task, Orchestrator loads the state and restores the todo list, reads git changes since last save, identifies what work remains, and continues from the next pending task.
 
-```
-Orchestrator: "Saving task state to .opencode_save for later resumption."
-```
-
-This captures everything needed to resume exactly where work left off.
-
-### 2. Loading task state (resuming)
-
-When returning to a saved task, Orchestrator loads the state:
-
-```
-Orchestrator: "Loading task state from .opencode_save..."
-```
-
-Orchestrator then:
-- Restores the todo list with current status
-- Reads git changes since last save
-- Identifies what work remains
-- Continues from the next pending task
-
-## Workflow: Save and Load
+## Plan
 
 ### Saving Task State
 
@@ -65,12 +46,12 @@ Orchestrator: [dispatches to save-load skill with save action]
 ```
 
 The skill:
+
 1. Reads the current todo list (from todowrite context)
-2. Reads pending commit message (from `.git/LAZYGIT_PENDING_COMMIT`)
-3. Reads git status and recent commits
-4. Captures all task metadata
-5. Writes everything to `.opencode_save` as JSON
-6. Shows User the saved state
+2. Reads git status and recent commits
+3. Captures all task metadata
+4. Writes everything to `.opencode_save` as JSON
+5. Shows User the saved state
 
 ### Loading Task State
 
@@ -82,6 +63,7 @@ Orchestrator: [dispatches to save-load skill with load action]
 ```
 
 The skill:
+
 1. Reads `.opencode_save` file
 2. Extracts todo list, commit messages, dispatch history
 3. Checks git status for changes since save
@@ -104,14 +86,6 @@ The `.opencode_save` file is a JSON file with this structure:
       "content": "Task name",
       "status": "pending|in_progress|completed|cancelled",
       "priority": "high|medium|low"
-    }
-  ],
-  "commit_messages": [
-    {
-      "step": 1,
-      "message": "Commit message text",
-      "status": "written|committed",
-      "timestamp": "2026-04-15T12:00:00Z"
     }
   ],
   "dispatch_history": [

@@ -80,8 +80,8 @@ Use only if the brainstorm skill indicates that a new file needs to be created.
 
 **When to use:**
 
-- Create a new Quarto brainstorm file with proper YAML frontmatter
-- Initialize the file with a title and structure
+- Create a new Quarto brainstorm file with proper YAML frontmatter only
+- On initialization: add front matter, then stop. Do NOT scaffold content, do NOT create an outline, do NOT invent starter ideas. Wait for User to provide the first idea.
 
 ## Classification Types
 
