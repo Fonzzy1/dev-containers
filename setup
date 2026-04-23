@@ -109,12 +109,12 @@ pipx install git+https://github.com/essembeh/gnome-extensions-cli
 
 # Load in catcuppin gnome theme
 mkdir -p ~/.themes 
-wget https://github.com/catppuccin/gtk/releases/download/v0.7.1/Catppuccin-Mocha-Standard-Lavender-Dark.zip -P ~ 
-unzip ~/Catppuccin-Mocha-Standard-Lavender-Dark.zip -d ~/.themes
-rm ~/Catppuccin-Mocha-Standard-Lavender-Dark.zip
+wget https://github.com/catppuccin/gtk/releases/download/v0.7.1/Catppuccin-Latte-Standard-Yellow-Light.zip -P ~ 
+unzip ~/Catppuccin-Latte-Standard-Yellow-Light.zip -d ~/.themes
+rm ~/Catppuccin-Latte-Standard-Yellow-Light.zip
 
-gsettings set org.gnome.desktop.interface gtk-theme "Catppuccin-Mocha-Standard-Lavender-Dark" 
-gsettings set org.gnome.shell.extensions.user-theme name "Catppuccin-Mocha-Standard-Lavender-Dark" || true
+gsettings set org.gnome.desktop.interface gtk-theme "Catppuccin-Latte-Standard-Yellow-Light" 
+gsettings set org.gnome.shell.extensions.user-theme name "Catppuccin-Latte-Standard-Yellow-Light" || true
 gsettings set org.gnome.desktop.interface enable-animations false
 
 cp "$SCRIPT_DIR"/dotfiles/.bashrc ~/.bashrc
@@ -130,8 +130,8 @@ wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/do
 # Kitty theme
 sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
 mkdir -p "$HOME"/.config/kitty
-curl https://raw.githubusercontent.com/catppuccin/kitty/refs/heads/main/themes/mocha.conf -o ~/.config/kitty/kitty.conf
-echo "font_family JetBrainsMonoNL Nerd Font Mono" >> ~/.config/kitty/kitty.conf
+curl https://raw.githubusercontent.com/catppuccin/kitty/refs/heads/main/themes/latte.conf -o ~/.config/kitty/kitty.conf
+echo "font_family JetBrainsMonoNL Nerd Font Mono Bold" >> ~/.config/kitty/kitty.conf
 echo "enable_audio_bell no" >> ~/.config/kitty/kitty.conf
 echo "hide_window_decorations yes" >> ~/.config/kitty/kitty.conf
 echo "background_opacity 1" >> ~/.config/kitty/kitty.conf
@@ -139,12 +139,9 @@ echo "background_opacity 1" >> ~/.config/kitty/kitty.conf
 
 # Zathura Theme
 mkdir -p "$HOME"/.config/zathura
-wget -O "$HOME"/.config/zathura/catppuccin-mocha https://raw.githubusercontent.com/catppuccin/zathura/refs/heads/main/themes/catppuccin-mocha
+wget -O "$HOME"/.config/zathura/catppuccin-latte https://raw.githubusercontent.com/catppuccin/zathura/refs/heads/main/themes/catppuccin-latte
 echo '
-include catppuccin-mocha
-set recolor                     "true"
-set recolor-reverse-video       "true"
-set recolor-keephue             "true"
+include catppuccin-latte
 set selection-clipboard clipboard
 ' > "$HOME"/.config/zathura/zathurarc
 # Make zathura default for all pdf in xmim
@@ -192,10 +189,11 @@ echo "Remember to set full-screen-api.ignore-widgets to True in about:config"
 
 
 # Wallpaper
-# Fetch the image from the url using wget and save it into the specific directory
-wget -O ~/.wallpaper http://web.archive.org/web/20230326122534if_/https://raw.githubusercontent.com/catppuccin/wallpapers/main/misc/spooky_spill.jpg
-# Set it as your wallpaper
+# # Fetch the image from the url using wget and save it into the specific directory
+cp "$SCRIPT_DIR"/dotfiles/.wallpaper ~/.wallpaper
 gsettings set org.gnome.desktop.background picture-uri-dark file:///home/"$USER"/.wallpaper
+gsettings set org.gnome.desktop.background picture-uri file:///home/"$USER"/.wallpaper
+#
 fi
 
 # Delete and make the pipe
