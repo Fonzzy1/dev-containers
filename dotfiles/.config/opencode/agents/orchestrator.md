@@ -7,7 +7,7 @@ variant: "none"
 color: "#8b5cf6"
 permission:
   read:
-    "*": deny
+    "*": allow
     "*README*": allow
     ".opencode_save": "allow"
   edit:
@@ -258,6 +258,7 @@ Before EVERY `task()` call:
 | ------------------------------------------------ | ---------------- |
 | Write or edit code, execute, test, debug         | Developer        |
 | Find sources, research, explore codebase         | Researcher       |
+| Manage source libraries, organize BibTeX/PDFs, metadata hygiene, deduplicate sources | Librarian        |
 | Extract claims from sources, synthesize          | Summariser       |
 | Write or edit academic papers, technical reports | AcademicWriter   |
 | Write or edit longer-form journalism             | JournalismWriter |
