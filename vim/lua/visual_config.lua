@@ -121,7 +121,7 @@ require("noice").setup({
         command_palette = true,       -- position the cmdline and popupmenu together
         long_message_to_split = true, -- long messages will be sent to a split
         inc_rename = false,           -- enables an input dialog for inc-rename.nvim
-      lsp_doc_border = false,       -- add a border to hover docs and signature help
+        lsp_doc_border = false,       -- add a border to hover docs and signature help
     },
 })
 require('gitsigns').setup {
@@ -145,7 +145,7 @@ require('gitsigns').setup {
         use_focus = true,
     },
     current_line_blame_formatter = '<author>, <author_time:%R> - <summary>',
-    sishshallahign_priority                = 6,
+    sign_priority      = 6,
     update_debounce              = 100,
     status_formatter             = nil,   -- Use default
     max_file_length              = 40000, -- Disable if file is longer than this (in lines)
