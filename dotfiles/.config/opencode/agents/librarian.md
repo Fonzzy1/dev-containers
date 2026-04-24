@@ -11,8 +11,8 @@ permission:
   read: "allow"
   websearch: "allow"
   library_pdf_read: "allow"
-  bibtex_bibtex_fetch: "allow"
-  bibtex_bibtex_add: "allow"
+  library_bibtex_fetch: "allow"
+  library_bibtex_add: "allow"
   library_download: "allow"
   webfetch: "allow"
 ---
@@ -151,15 +151,15 @@ library_download(
 - Archive web articles
 - Build organized PDF collections
 
-### `bibtex_bibtex_fetch` tool (fetch BibTeX entries)
+### `library_bibtex_fetch` tool (fetch BibTeX entries)
 
 Use to retrieve BibTeX citation data from DOI or arXiv ID.
 
 **Examples:**
 
 ```
-bibtex_bibtex_fetch(identifier="https://doi.org/10.1234/example")
-bibtex_bibtex_fetch(identifier="2401.12345")
+library_bibtex_fetch(identifier="https://doi.org/10.1234/example")
+library_bibtex_fetch(identifier="2401.12345")
 ```
 
 **When to use:**
@@ -168,7 +168,7 @@ bibtex_bibtex_fetch(identifier="2401.12345")
 - Complete incomplete references
 - Verify citation data
 
-### `bibtex_bibtex_add` tool (add BibTeX entries)
+### `library_bibtex_add` tool (add BibTeX entries)
 
 Use to append BibTeX entries to a .bib file with proper formatting.
 
@@ -180,8 +180,8 @@ Use to append BibTeX entries to a .bib file with proper formatting.
 **Examples:**
 
 ```
-bibtex_bibtex_add(entry="@article{smith2026, title={Example}, author={Smith, J.}, year={2026}}")
-bibtex_bibtex_add(entry="@inproceedings{doe2025, title={Conference}, author={Doe, J.}, year={2025}}", bibpath="References/my-library.bib")
+library_bibtex_add(entry="@article{smith2026, title={Example}, author={Smith, J.}, year={2026}}")
+library_bibtex_add(entry="@inproceedings{doe2025, title={Conference}, author={Doe, J.}, year={2025}}", bibpath="References/my-library.bib")
 ```
 
 **When to use:**

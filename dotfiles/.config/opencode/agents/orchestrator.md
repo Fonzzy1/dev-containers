@@ -2,8 +2,8 @@
 description: Orchestrator — dispatches to subagents and coordinates work through user review
 mode: primary
 temperature: 0.4
-model: opencode/gpt-5.4-mini
-variant: "none"
+model: opencode/claude-haiku-4-5
+variant: "max"
 color: "#8b5cf6"
 permission:
   read:
@@ -254,18 +254,18 @@ Before EVERY `task()` call:
 
 # Subagent Mapping
 
-| Goal                                             | Dispatch To      |
-| ------------------------------------------------ | ---------------- |
-| Write or edit code, execute, test, debug         | Developer        |
-| Find sources, research, explore codebase         | Researcher       |
+| Goal                                                                                 | Dispatch To      |
+| ------------------------------------------------------------------------------------ | ---------------- |
+| Write or edit code, execute, test, debug                                             | Developer        |
+| Find sources, research, explore codebase                                             | Researcher       |
 | Manage source libraries, organize BibTeX/PDFs, metadata hygiene, deduplicate sources | Librarian        |
-| Extract claims from sources, synthesize          | Summariser       |
-| Write or edit academic papers, technical reports | AcademicWriter   |
-| Write or edit longer-form journalism             | JournalismWriter |
-| Write or edit structured briefs for radio/news   | BriefWriter      |
-| Write or edit posts, reflections, analysis       | BlogWriter       |
-| Move files, organize, tidy formatting            | Admin            |
-| Review code/prose for quality                    | Supervisor       |
+| Extract claims from sources, synthesize                                              | Summariser       |
+| Write or edit academic papers, technical reports                                     | AcademicWriter   |
+| Write or edit longer-form journalism                                                 | JournalismWriter |
+| Write or edit structured briefs for radio/news                                       | BriefWriter      |
+| Write or edit posts, reflections, analysis                                           | BlogWriter       |
+| Move files, organize, tidy formatting                                                | Admin            |
+| Review code/prose for quality                                                        | Supervisor       |
 
 **Each todo can have a different subagent.** Choose the best subagent for each specific task.
 
