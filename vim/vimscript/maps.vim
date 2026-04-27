@@ -16,7 +16,7 @@ vnoremap <silent> ec :Commentary<cr>
 vnoremap <silent> es :AIE fix spelling and grammar using Australian English, assume markdown formatting is being used. Don't replace -- with dashes<cr>
 nnoremap <silent> es <cmd>Telescope spell_suggest<cr>
 vnoremap ee :AIE 
-nnoremap <silent> eb <cmd>GetBib
+nnoremap <silent> eb <cmd>GetBib<cr>
 
 
 " Spawn
