@@ -10,6 +10,7 @@ iron.setup {
         -- Your repl definitions come here
         repl_definition = {
             quarto = { command = '/bin/bash' },
+            aichat = { command = '/bin/bash' },
             text = { command = '/bin/bash' },
             sh = { command = '/bin/bash' },
             bash = { command = '/bin/bash' },
