@@ -13,19 +13,16 @@
 "edit this is leader
 ""
 vnoremap <silent> ec :Commentary<cr>
-nnoremap <silent> es :Telescope spell_suggest<cr>
-vnoremap <silent> ew gw
-lua vim.keymap.set({ "n", "x" }, "ee", function() require("opencode").ask("@this: ", { submit = true }) end, { desc = "Send line to opencode with command" })
-lua vim.keymap.set("n", "eee", function() require("opencode").ask("@this: ", { submit = true }) end, { desc = "Quick chat current line" })
+vnoremap <silent> es :AIE fix spelling and grammar using Australian English, assume markdown formatting is being used. Don't replace -- with dashes<cr>
+nnoremap <silent> es <cmd>Telescope spell_suggest<cr>
+vnoremap ee :AIE 
 
 " Spawn
 nnoremap <silent> sb :vnew<CR>:wincmd L<CR>
 nnoremap <silent> sB :new<CR>
 nnoremap <silent> sV :SmartVsplit 
-nnoremap sC <cmd>lua require('opencode').select()<CR>
-vnoremap sC <cmd>lua require('opencode').select()<CR>
-nnoremap sc <cmd>lua require('opencode').ask("", { submit = true })<CR>
-
+nnoremap <silent> sc :AIC<cr>i
+vnoremap sc :AIC 
 nnoremap <silent> so :lua require('telescope').extensions.toggletasks.select()<CR>
 nnoremap <silent> sr <cmd>Telescope toggletasks spawn<CR>
 nnoremap <silent> sg :LazyGit<CR>
@@ -68,20 +65,28 @@ nnoremap ab :Gitsigns change_base
 nnoremap <silent> vih :Gitsigns select_hunk<CR>
 
 lua <<EOF
--- Function to run git commit with a custom message
+-- Function to run git commit with a generated message
 function GitCommit()
-  -- Get the pending commit message from lazygit if available
-  local lazygit_msg = vim.fn.system("cat .git/LAZYGIT_PENDING_COMMIT 2>/dev/null"):gsub("%s+$", "")
-  local default = lazygit_msg ~= "" and lazygit_msg or ""
-  
-  -- Ask for a commit message with default from lazygit
-  local message = vim.fn.input("Commit message: ", default)
+
+  -- Call Python script to generate commit message
+  local generated = vim.fn.system({
+    "python3",
+    "/scripts/git_commit_message.py",
+    vim.g.instruct_model
+  })
+
+  -- Clean up output (remove trailing newline/spaces)
+  generated = vim.trim(generated)
+
+  -- Ask for confirmation / edit, prefilled with generated message
+  local message = vim.fn.input("Commit message: ", generated)
+
   if message == "" then
     print("Aborted: no commit message.")
     return
   end
 
-  -- Run git commit in a shell
+  -- Run git commit
   local cmd = "git commit -m " .. vim.fn.shellescape(message)
   vim.cmd("!" .. cmd)
 end
