@@ -89,10 +89,6 @@ RUN git config --global user.name "Fonzzy1" && \
     git config --global --add safe.directory /src
 
 
-#Install rust
-RUN curl  --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-ENV PATH="/root/.cargo/bin:${PATH}"
-
 # Install node
 RUN set -uex && \
     mkdir -p /etc/apt/keyrings && \
@@ -102,19 +98,27 @@ RUN set -uex && \
     tee /etc/apt/sources.list.d/nodesource.list && \
     apt-get update && apt-get install nodejs -y;
 
-# Install bun for building opencode plugins
-RUN curl -fsSL https://bun.sh/install | bash
-ENV BUN_INSTALL="/root/.bun"
-ENV PATH="${BUN_INSTALL}/bin:${PATH}"
 
 #Install rust
 RUN curl  --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 ENV PATH="/root/.cargo/bin:${PATH}"
 
-# Install the python packages
-RUN pip3 install --break-system-packages --upgrade pynvim neovim-remote pipreqs pgcli awscli ipython ipykernel openai requests feedparser aiohttp pillow mutagen codespell prisma 
-# Fix for bibli
-RUN pip3 install --break-system-packages -U bibli_ls
+RUN pip3 install --break-system-packages --no-cache-dir \
+    pynvim==0.6.0 \
+    neovim-remote==2.5.1 \
+    pipreqs \
+    pgcli==4.4.0 \
+    ipython==9.13.0 \
+    ipykernel==7.2.0 \
+    openai==2.28.0 \
+    requests==2.33.1 \
+    feedparser==6.0.12 \
+    aiohttp==3.13.5 \
+    pillow==12.2.0 \
+    mutagen==1.47.0 \
+    prisma==0.15.0 \
+    prisma-client==0.2.1 \
+    bibli-ls==0.1.7.2
 
 # Install npm packages
 RUN npm install --save-dev --global prettier tree-sitter-cli bibtex-tidy prisma
