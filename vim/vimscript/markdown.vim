@@ -44,3 +44,5 @@ let g:bullets_enabled_file_types = [
     \]
 
 let g:bullets_outline_levels = ['ROM', 'ABC', 'num', 'abc', 'rom', 'std-',]
+
+
