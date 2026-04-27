@@ -24,39 +24,12 @@ def is_gpu_available():
         return False
 
 
-def open_opencode_pane(mount_dir_name, env_location):
-    """Open opencode --port 3000 in a new kitty window on the host."""
-    display = os.getenv("DISPLAY")
-    if not display:
-        return
-    # Wait for container to be running, then exec opencode inside it
-    opencode_cmd = (
-        f"until docker ps --format '{{{{.Names}}}}' | grep -q '^{mount_dir_name}$'; "
-        f"do sleep 0.2; done; "
-        f"docker exec -it {mount_dir_name} /bin/bash -c 'opencode --port 3000 2>/dev/null'"
-    )
-    subprocess.Popen(
-        [
-            "kitty",
-            "--title",
-            f"opencode-{mount_dir_name}",
-            "bash",
-            "-c",
-            opencode_cmd,
-        ],
-        env={**os.environ, "DISPLAY": display},
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-    )
-
-
 def run_vim(
     env_location,
     mount_dir,
     mount_dir_name=None,
     command="bash;",
     check_changes=True,
-    open_kitty=False,
     additional_mounts=[
         (env_location, "/root/.env"),
         (mount_location, "/root/mount"),
@@ -115,10 +88,6 @@ EOF
         mount_list.append("-v")
         mount_list.append(f"{mount[0]}:{mount[1]}")
 
-    # Open opencode in a separate kitty window once the container is up
-    if open_kitty:
-        open_opencode_pane(mount_dir_name, env_location)
-
     subprocess.run(
         [
             "docker",
@@ -165,13 +134,6 @@ EOF
         ]
     )
 
-    # Close the opencode kitty window now that the container has stopped
-    subprocess.run(
-        ["pkill", "-f", f"kitty.*--title.*opencode-{mount_dir_name}"],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-    )
-
     os.chdir(current_dir)
 
 
@@ -189,7 +151,6 @@ def run_notes(args):
         mount_dir_name="wiki",
         command=command,
         check_changes=True,
-        open_kitty=getattr(args, "kitty", False),
     )
 
 
@@ -214,7 +175,6 @@ def run_local(args):
         mount_dir_name=dir_name,
         command="nvim --listen /tmp/nvimsocket;",
         check_changes=False,
-        open_kitty=getattr(args, "kitty", False),
     )
 
 
@@ -252,7 +212,6 @@ def run_gh(args):
         mount_dir_name=repo,
         command=command,
         check_changes=True,
-        open_kitty=getattr(args, "kitty", False),
     )
 
 
@@ -272,7 +231,6 @@ def run_config(args):
         mount_dir_name=dir_name,
         command="nvim --listen /tmp/nvimsocket; ",
         check_changes=True,
-        open_kitty=getattr(args, "kitty", False),
     )
 
 
@@ -292,7 +250,6 @@ def run_podcasts(args):
         mount_dir_name=dir_name,
         command=command,
         check_changes=False,
-        open_kitty=getattr(args, "kitty", False),
         additional_mounts=[
             (env_location, "/root/.env"),
             (mount_location, "/root/mount"),
@@ -310,35 +267,18 @@ if __name__ == "__main__":
     local_parser = subparsers.add_parser(
         "local", help="Run command for a container with local directory"
     )
-    local_parser.add_argument(
-        "--kitty",
-        "-k",
-        action="store_true",
-        help="Open opencode in separate kitty window",
-    )
     local_parser.set_defaults(func=run_local)
 
     gh_parser = subparsers.add_parser(
         "gh", help="Run command for cloning a repo"
     )
     gh_parser.add_argument("repo", help="Specify the repository for cloning")
-    gh_parser.add_argument(
-        "--kitty",
-        "-k",
-        action="store_true",
-        help="Open opencode in separate kitty window",
-    )
     gh_parser.set_defaults(func=run_gh)
 
     gistnote_parser = subparsers.add_parser(
         "notes", help="Open GistNotes Browsing Tool"
     )
-    gistnote_parser.add_argument(
-        "--kitty",
-        "-k",
-        action="store_true",
-        help="Open opencode in separate kitty window",
-    )
+
     gistnote_parser.set_defaults(func=run_notes)
 
     setup_parser = subparsers.add_parser(
@@ -352,12 +292,7 @@ if __name__ == "__main__":
     config_parser = subparsers.add_parser(
         "config", help="Edit the runit files inplace"
     )
-    config_parser.add_argument(
-        "--kitty",
-        "-k",
-        action="store_true",
-        help="Open opencode in separate kitty window",
-    )
+
     config_parser.set_defaults(func=run_config)
 
     podcast_parser = subparsers.add_parser(
@@ -369,12 +304,7 @@ if __name__ == "__main__":
         action="store_true",
         help="If true, process as music as well",
     )
-    podcast_parser.add_argument(
-        "--kitty",
-        "-k",
-        action="store_true",
-        help="Open opencode in separate kitty window",
-    )
+
     podcast_parser.set_defaults(func=run_podcasts)
 
     args = parser.parse_args()
