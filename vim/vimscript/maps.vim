@@ -25,6 +25,8 @@ nnoremap <silent> sB :new<CR>
 nnoremap <silent> sV :SmartVsplit 
 nnoremap <silent> sc :AIC<cr>i
 vnoremap sc :AIC 
+nnoremap sC <Cmd>AIRoles<cr>
+
 nnoremap <silent> so :lua require('telescope').extensions.toggletasks.select()<CR>
 nnoremap <silent> sr <cmd>Telescope toggletasks spawn<CR>
 nnoremap <silent> sg :LazyGit<CR>
