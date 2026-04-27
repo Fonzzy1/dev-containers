@@ -10,13 +10,13 @@ source  ~/.config/nvim/vimscript/nerdtree.vim
 source  ~/.config/nvim/vimscript/R.vim
 source  ~/.config/nvim/vimscript/display.vim
 source  ~/.config/nvim/vimscript/wiki.vim
+source ~/.config/nvim/vimscript/AI.vim
 source  ~/.config/nvim/vimscript/AI_shortcuts.vim
 
 
 " Lua
 lua require("catppuccin_config")
 lua require("autocomplete")
-lua require("opencode_config")
 lua require("visual_config")
 lua require("lsp")
 lua require("tree_config")
