@@ -1,19 +1,18 @@
-let g:model = 'gpt-5.5'
+let g:model = 'gpt-5.4'
 let g:vim_ai_debug = 1
 let g:instruct_model = "gpt-5.4-mini"
 let g:vim_ai_role = ''
 let g:vim_ai_chat_markdown = 0
 let g:vim_ai_async_chat = 1
+let g:vim_ai_roles_config_file = ".roles.ini"
+
 
 
 let g:vim_ai_chat = {
             \  "provider": "openai",
-            \  "prompt": "",
             \  "options": {
             \    "model": g:model,
-            \    "endpoint_url": "https://api.openai.com/v1/chat/completions",
             \    "stream": 1,
-            \    "auth_type": "bearer",
             \    "selection_boundary": "```",
             \  },
             \  "ui": {
@@ -23,21 +22,23 @@ let g:vim_ai_chat = {
 
 " map  enter to :AIChat when filetype is aichat
 function! SetupAIChat()
-  function! AIIncludeAllBuffers()
-    let l:lines = ['', '>>> include', '']
+    function! AIIncludeAllWindows()
+      let l:lines = ['', '>>> include', '']
 
-    for buf in getbufinfo({'buflisted': 1})
-      if buf.loaded && buf.name != '' && filereadable(buf.name)
-        call add(l:lines, buf.name)
-      endif
-  endfor
+      for win in getwininfo()
+        let l:buf = winbufnr(win.winid)
+        let l:name = bufname(l:buf)
+        if l:name != '' && filereadable(l:name)
+          call add(l:lines, l:name)
+        endif
+    endfor
 
-    call append(line('.'), l:lines + [''])
-  endfunction
+      call append(line('.'), l:lines + [''])
+    endfunction
   " Set up insert mode mapping for <CR>
   inoremap <buffer> \! <Esc>o<CR>>>> exec<CR><CR>
   inoremap <buffer> \// <Esc>o<CR>>>> include<CR><CR>
-  inoremap <buffer> \/a <Esc>:call AIIncludeAllBuffers()<CR>
+  inoremap <buffer> \/a <Esc>:call AIIncludeAllWindows()<CR>
   inoremap <buffer> <silent> <CR> <Esc>:AIC<CR>
   call QuartoExtras()
 

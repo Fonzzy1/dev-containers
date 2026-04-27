@@ -2,6 +2,7 @@
 au BufRead,BufNewFile *.md  set filetype=quarto
 au BufRead,BufNewFile *.rmd  set filetype=quarto
 au BufRead,BufNewFile *.qmd  set filetype=quarto
+au BufRead,BufNewFile *.brainstorm  set filetype=quarto
 filetype plugin on
 
 highlight link MarkviewPalette7Fg Keyword

@@ -16,6 +16,8 @@ vnoremap <silent> ec :Commentary<cr>
 vnoremap <silent> es :AIE fix spelling and grammar using Australian English, assume markdown formatting is being used. Don't replace -- with dashes<cr>
 nnoremap <silent> es <cmd>Telescope spell_suggest<cr>
 vnoremap ee :AIE 
+nnoremap <silent> eb <cmd>GetBib
+
 
 " Spawn
 nnoremap <silent> sb :vnew<CR>:wincmd L<CR>
@@ -31,6 +33,9 @@ nnoremap sG :Octo
 nnoremap <silent> sm :lua require('browse').open_manual_bookmarks()<CR>
 nnoremap <silent> sM :lua browse_bookmarks()<CR>
 nnoremap <silent> sf <cmd>lua rss_picker()<CR>
+nnoremap <silent> si :call BrainstormAppend(0)<CR>
+xnoremap <silent> si :<C-u>call BrainstormAppendVisual()<CR>
+nnoremap <silent> sI :call BrainstormAppend(1)<CR>
 
 ""find ()
 nnoremap fb <cmd>Telescope bibtex<cr>
