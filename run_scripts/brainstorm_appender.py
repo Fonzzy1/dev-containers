@@ -91,7 +91,7 @@ def extract_existing_tags(content: str) -> List[str]:
 def extract_idea_headers(content: str) -> List[str]:
     headers = []
     for line in content.splitlines():
-        if line.startswith("## ") and "[THESIS]" not in line:
+        if line.startswith("## "):
             headers.append(line[3:].strip())
     return headers
 
@@ -125,21 +125,19 @@ def clean_tag(tag: str) -> str:
 
 def format_brainstorm_block(data: Dict[str, Any]) -> str:
     title = normalize_ws(data["title"])
-    idea_type = normalize_ws(data["ideaType"])
+    idea_type = normalize_ws(data["ideaType"]).upper()
     enrichment = data["enrichment"].strip()
 
     raw_tags = data.get("tags", [])
     tags = [clean_tag(t) for t in raw_tags if clean_tag(t)]
 
-    parts = [f"## {title}", ""]
+    parts = [f"## [{idea_type}] {title}", ""]
 
     if tags:
         parts.append(", ".join(f"**{t}**" for t in tags))
         parts.append("")
 
     parts.append(enrichment)
-    parts.append("")
-    parts.append(f"**Type:** {idea_type}")
     parts.append("")
     parts.append("---")
 
@@ -175,6 +173,21 @@ Field requirements:
 - "tags": 0 to 5 short tags
 - "enrichment": a short paragraph expanding the idea
 
+Special rule for BibTeX input:
+- If the user input is a BibTeX entry, extract its citation key.
+- For BibTeX, set:
+  - "title" to "@key" where key is the exact BibTeX key
+  - "ideaType" to "reference"
+- Preserve the BibTeX key exactly.
+- Use the BibTeX abstract if present to inform the enrichment.
+- If there is no abstract, use only the supported metadata from the BibTeX entry.
+- Do not invent claims not supported by the BibTeX.
+
+Formatting target after parsing:
+- The final entry will be rendered as: ## [TYPE] title
+- ideaType should be suitable for uppercase display in brackets
+- Do not include brackets in ideaType
+
 Rules:
 - Keep enrichment concise.
 - Do not rewrite existing brainstorm content.
@@ -184,6 +197,9 @@ Rules:
 
 Existing tags:
 {tags_text}
+
+Existing idea headers:
+{headers_text}
 
 User idea:
 {idea}
