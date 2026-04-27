@@ -45,4 +45,9 @@ function! Summarise(file)
   endif
 endfunction
 
+" Define the command to call the function
 command! -nargs=1 -complete=file Summarise call Summarise(<f-args>)
+
+
+
+
