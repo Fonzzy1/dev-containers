@@ -118,7 +118,8 @@ RUN pip3 install --break-system-packages --no-cache-dir \
     mutagen==1.47.0 \
     prisma==0.15.0 \
     prisma-client==0.2.1 \
-    bibli-ls==0.1.7.2
+    bibli-ls==0.1.7.2 \
+    pyyaml
 
 # Install npm packages
 RUN npm install --save-dev --global prettier tree-sitter-cli bibtex-tidy prisma
@@ -194,8 +195,9 @@ COPY vim/lua/tree_config.lua /root/.config/nvim/lua/tree_config.lua
 RUN sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 RUN nvim -u /root/.config/nvim/vimscript/plugins.vim +PlugInstall +qall
-RUN nvim -u /root/.config/nvim/vimscript/plugins.vim --headless "+lua require('mason').setup()" "+MasonInstall prisma-language-server vim-language-server yaml-language-server yamlfmt prisma-language-server vim-language-server docker-compose-language-service dockerfile-language-server json-lsp typescript-language-server  yaml-language-server nginx-language-server r-languageserver pyright air ltex-ls lua-language-server mdformat black fixjson prettier shellharden" +qall
-RUN timeout 120s nvim -u /root/.config/nvim/vimscript/plugins.vim --headless '+lua require("tree_config")' +qall || exit 0
+RUN nvim -u /root/.config/nvim/vimscript/plugins.vim --headless "+lua require('mason').setup()" "+MasonInstall prisma-language-server vim-language-server yaml-language-server yamlfmt prisma-language-server vim-language-server docker-compose-language-service dockerfile-language-server json-lsp typescript-language-server  yaml-language-server nginx-language-server  pyright air ltex-ls lua-language-server mdformat black fixjson prettier shellharden" +qall
+RUN timeout 45 nvim -u /root/.config/nvim/vimscript/plugins.vim --headless \
+    -c "TSInstall latex r python markdown markdown_inline bash yaml lua vim query vimdoc html css dot javascript mermaid typescript prisma" || true
 
 # Copy in the rest of the config
 COPY vim/vimscript /root/.config/nvim/vimscript
@@ -203,10 +205,6 @@ COPY vim/lua /root/.config/nvim/lua
 COPY vim/init.vim /root/.config/nvim/init.vim
 #Copy in the dotfiles
 COPY dotfiles /root
-#DOWLOAD_OPENCODE_THEME
-RUN mkdir -p /root/.config/opencode/themes && \
-    curl -fsSL -o /root/.config/opencode/themes/catppuccin-latte-yellow.json \
-    https://github.com/catppuccin/opencode/raw/refs/heads/main/themes/latte/catppuccin-latte-yellow.json
 COPY dotfiles/.bashrc /root/.bash_profile
 #Copy in the scripts
 COPY run_scripts /scripts
