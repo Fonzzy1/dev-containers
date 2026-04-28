@@ -20,6 +20,7 @@ sudo apt-get -y update
 sudo apt-get -y upgrade
 sudo apt-get -y install --no-install-recommends \
     i3 \
+    i3status \
     xorg \
     xinit \
     dbus-x11 \
@@ -57,7 +58,7 @@ sudo ubuntu-drivers install
 
 
 #font
-wget -O Mononoki.zip "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Mononoki.zip" && rm -rf Mononoki && unzip -o Mononoki.zip -d Mononoki && mkdir -p ~/.local/share/fonts && cp -rf Mononoki/* ~/.local/share/fonts/ && fc-cache -fv
+wget -O JetBrainsMono.zip "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip" && rm -rf JetBrainsMono && unzip -o JetBrainsMono.zip -d JetBrainsMono && mkdir -p ~/.local/share/fonts && cp -rf JetBrainsMono/* ~/.local/share/fonts/ && fc-cache -fv
 
 ## Kitty
 curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin \
@@ -83,31 +84,25 @@ fi
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 export PATH="$HOME/.cargo/bin:$PATH"
 
-if ! command -v tuigreet >/dev/null 2>&1; then
-    cargo install tuigreet
-fi
 
 cp "$SCRIPT_DIR"/dotfiles/.bashrc ~/.bashrc
 
 echo '
-if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
+if [ -z "$DISPLAY" ]; then
   exec startx
 fi
 ' > ~/.bash_profile
 
 
-
 # i3 theme
-mkdir -p ~/.config
-mkdir -p ~/.config/i3
-curl -o ~/.config/i3/catppuccin-latte https://github.com/catppuccin/i3/raw/refs/heads/main/themes/catppuccin-latte
+mkdir -p "$HOME/.config/i3" && curl -L -o "$HOME/.config/i3/config" https://github.com/catppuccin/i3/raw/refs/heads/main/themes/catppuccin-latte
 
-cat <<'EOF' > "$HOME/.config/i3/config"
+
+cat <<'EOF' >> "$HOME/.config/i3/config"
 set $mod Mod4
 floating_modifier $mod
-include ~/.config/i3/catppuccin-latte
 
-font pango:Mononoki Nerd Font 8
+font pango:JetBrainsMono Nerd Font 11
 
 for_window [class=".*"] floating enable, resize set 900 600, move position center, move down 20 px, move right 20 px
 
@@ -122,8 +117,7 @@ set $refresh_i3status killall -SIGUSR1 i3status
 bindsym $mod+Return exec kitty
 bindsym $mod+q kill
 
-bindsym $mod+slash exec dmenu_run -nf '$text' -nb '$base' -sf '$base' -sb '$mauve' -of '$text' -ob '$mauve' -i
-
+bindsym $mod+slash exec "dmenu_run -p 'Run:' -nf '$text' -nb '$base' -sf '$base' -sb '$yellow'"
 bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
@@ -156,7 +150,7 @@ bindsym $mod+r mode "resize"
 default_border pixel 2
 default_floating_border pixel 2
 
-client.focused           $lavender $base $text  $rosewater $lavender
+client.focused           $yellow $base $text  $rosewater $yellow
 client.focused_inactive  $overlay0 $base $text  $rosewater $overlay0
 client.unfocused         $overlay0 $base $text  $rosewater $overlay0
 client.urgent            $peach    $base $peach $overlay0  $peach
@@ -164,17 +158,73 @@ client.placeholder       $overlay0 $base $text  $overlay0  $overlay0
 client.background        $base
 
 bar {
-  colors {
-    background         $base
-    statusline         $text
-    focused_statusline $text
-    focused_separator  $base
+    font pango:JetBrainsMono Nerd Font 11
+    position top
+    status_command i3status
+    workspace_buttons no
+    binding_mode_indicator no
 
-    focused_workspace  $base  $mauve    $crust
-    active_workspace   $base  $surface2 $text
-    inactive_workspace $base  $base     $text
-    urgent_workspace   $base  $red      $crust
-  }
+    colors {
+        background         $mantle
+        statusline         $text
+        focused_statusline $text
+        separator          $surface2
+        focused_separator  $surface2
+
+        focused_workspace  $base  $yellow    $crust
+        active_workspace   $base  $surface2 $text
+        inactive_workspace $base  $base     $text
+        urgent_workspace   $base  $red      $crust
+    }
+}
+
+EOF
+
+mkdir -p "$HOME/.config/i3status"
+cat <<'EOF' > "$HOME/.config/i3status/config"
+general {
+    colors = true
+    interval = 5
+    color_good = "#40a02b"
+    color_degraded = "#df8e1d"
+    color_bad = "#d20f39"
+}
+
+order += "wireless _first_"
+order += "ethernet _first_"
+order += "battery all"
+order += "disk /"
+order += "memory"
+order += "cpu_usage"
+order += "tztime local"
+
+wireless _first_ {
+    format_up = "wifi: %essid %quality %ip"
+    format_down = "wifi: down"
+}
+
+ethernet _first_ {
+    format_up = "eth: %ip"
+    format_down = "eth: down"
+}
+
+
+disk "/" {
+    format = "disk: %avail"
+}
+
+memory {
+    format = "mem: %used / %total"
+    threshold_degraded = "80%"
+    format_degraded = "mem: %used / %total"
+}
+
+cpu_usage {
+    format = "cpu: %usage"
+}
+
+tztime local {
+    format = "%Y-%m-%d %H:%M"
 }
 EOF
 
@@ -182,10 +232,9 @@ EOF
 # Kitty theme
 mkdir -p "$HOME"/.config/kitty
 curl https://raw.githubusercontent.com/catppuccin/kitty/refs/heads/main/themes/latte.conf -o ~/.config/kitty/kitty.conf
-echo "font_family Mononoki Nerd Font" >> ~/.config/kitty/kitty.conf
 echo "enable_audio_bell no" >> ~/.config/kitty/kitty.conf
-echo "hide_window_decorations yes" >> ~/.config/kitty/kitty.conf
-echo "background_opacity 1" >> ~/.config/kitty/kitty.conf
+echo "hide_window_decorations no" >> ~/.config/kitty/kitty.conf
+echo "font_family JetBrainsMono Nerd Font" >> ~/.config/kitty/kitty.conf
 
 
 # Zathura Theme
@@ -217,31 +266,31 @@ echo '# rifle.conf
 mime ^text,  label editor = vim -- "$@"
 has xdg-open, flag f = xdg-open "$1"' > "$HOME"/.config/ranger/rifle.conf
 
-# Firefox tiling
-# Define the Firefox profile directory for Linux
-#firefox_profile_path="$HOME/.mozilla/firefox"
-# Check if the Firefox profile directory exists
-#if [[ ! -d "$firefox_profile_path" ]]; then
-#    echo "Firefox profile directory not found."
-#    exit 1 || true
-#fi
-# Locate the default profile folder
-#profile_folder=$(find "$firefox_profile_path" -maxdepth 1 -name '*.default*' | head -n 1)
-# Verify if we found a profile folder
-#if [[ -z "$profile_folder" ]]; then
-#    echo "No default profile found."
-#    exit 1
-#fi
-# Create or append the user.js file with the desired configuration
-#user_js_path="$profile_folder/user.js"
-#echo 'user_pref("full-screen-api.ignore-widgets", true);' >> "$user_js_path"
-#echo "Configuration was added to $user_js_path"
-#echo "Remember to set full-screen-api.ignore-widgets to True in about:config"
-
-
 # Wallpaper
 # # Fetch the image from the url using wget and save it into the specific directory
 cp "$SCRIPT_DIR"/dotfiles/.wallpaper ~/.wallpaper
+
+# Firefox tiling
+# Define the Firefox profile directory for Linux
+firefox_profile_path="$HOME/.mozilla/firefox"
+#Check if the Firefox profile directory exists
+if [[ ! -d "$firefox_profile_path" ]]; then
+    echo "Firefox profile directory not found."
+    exit 1 || true
+fi
+#Locate the default profile folder
+profile_folder=$(find "$firefox_profile_path" -maxdepth 1 -name '*.default*' | head -n 1)
+#Verify if we found a profile folder
+if [[ -z "$profile_folder" ]]; then
+    echo "No default profile found."
+    exit 1
+fi
+#Create or append the user.js file with the desired configuration
+user_js_path="$profile_folder/user.js"
+echo 'user_pref("full-screen-api.ignore-widgets", true);' >> "$user_js_path"
+echo "Configuration was added to $user_js_path"
+echo "Remember to set full-screen-api.ignore-widgets to True in about:config"
+
 #
 #
 fi
@@ -255,7 +304,7 @@ nohup bash -c '
   done
 ' > ~/nohup_main.log 2>&1 &
 
-xhost + local:root
+#xhost + local:root
 
 # Build the docker image if there have been changes
 cd "$SCRIPT_DIR"
