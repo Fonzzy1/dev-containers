@@ -57,33 +57,27 @@ local textobjects = {
     ['i='] = '@assignment.inner',
     ab = '@block.outer',
     ib = '@block.inner',
-    az = '@section.outer',
-    iz = '@section.outer',
 }
 for key, query in pairs(textobjects) do
     vim.keymap.set({ 'x', 'o' }, key, sel(query))
 end
 
 local moves = {
-    gnf  = { 'previous_start', '@function.outer' },
-    gpf  = { 'next_start', '@function.outer' },
-    gnef = { 'previous_end', '@function.outer' },
-    gpef = { 'next_end', '@function.outer' },
+    gpm  = { 'previous_start', '@function.outer' },
+    gnm  = { 'next_start', '@function.outer' },
+    gpem = { 'previous_end', '@function.outer' },
+    gnem = { 'next_end', '@function.outer' },
 
-    gnc  = { 'previous_start', '@class.outer' },
-    gpc  = { 'next_start', '@class.outer' },
-    gnec = { 'previous_end', '@class.outer' },
-    gpec = { 'next_end', '@class.outer' },
+    gpc  = { 'previous_start', '@class.outer' },
+    gnc  = { 'next_start', '@class.outer' },
+    gpec = { 'previous_end', '@class.outer' },
+    gnec = { 'next_end', '@class.outer' },
 
-    gnb  = { 'previous_start', '@block.outer' },
-    gpb  = { 'next_start', '@block.outer' },
-    gneb = { 'previous_end', '@block.outer' },
-    gpeb = { 'next_end', '@block.outer' },
+    gpb  = { 'previous_start', '@block.outer' },
+    gnb  = { 'next_start', '@block.outer' },
+    gpeb = { 'previous_end', '@block.outer' },
+    gneb = { 'next_end', '@block.outer' },
 
-    gnz  = { 'next_start', '@section.outer' },
-    gpz  = { 'previous_start', '@section.outer' },
-    gnez = { 'next_end', '@section.outer' },
-    gpez = { 'previous_end', '@section.outer' },
 }
 for key, v in pairs(moves) do
     local dir, query = v[1], v[2]
