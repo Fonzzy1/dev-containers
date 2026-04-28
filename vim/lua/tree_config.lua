@@ -3,27 +3,6 @@ vim.treesitter.language.register("markdown", { "quarto", "rmd", "aichat" })
 vim.treesitter.language.register("html", { "ejs" })
 
 -- Install parsers (async, no-op if already installed)
-require('nvim-treesitter').install({
-    'latex',
-    'r',
-    'python',
-    'markdown',
-    'markdown_inline',
-    'bash',
-    'yaml',
-    'lua',
-    'vim',
-    'query',
-    'vimdoc',
-    'html',
-    'css',
-    'dot',
-    'javascript',
-    'mermaid',
-    'norg',
-    'typescript',
-    'prisma',
-})
 
 
 -- nvim-treesitter-textobjects

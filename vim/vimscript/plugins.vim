@@ -33,6 +33,7 @@ Plug 'whb/vim-gitbranch'
 " Markdown
 Plug 'OXY2DEV/markview.nvim'
 Plug 'bullets-vim/bullets.vim'
+Plug 'AntonVanAssche/md-headers.nvim'
 
 " LSP
 Plug 'jmbuhr/otter.nvim'

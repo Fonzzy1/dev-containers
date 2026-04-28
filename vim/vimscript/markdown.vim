@@ -28,6 +28,7 @@ function! QuartoExtras()
     setlocal wrap
     setlocal linebreak
     inoremap <buffer> ``` ```{}<CR><CR>```<Esc>kA
+    nnoremap <silent> <buffer> fs <cmd>lua require('md-headers').markdown_headers(true)<CR>
 endfunction
 
 augroup QuartoExtrasGroup
@@ -48,4 +49,4 @@ let g:bullets_enabled_file_types = [
 
 let g:bullets_outline_levels = ['ROM', 'ABC', 'num', 'abc', 'rom', 'std-',]
 
-
+lua  require('md-headers').setup()
