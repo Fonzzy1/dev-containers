@@ -4,10 +4,6 @@ set -e
 
 cd "$(dirname "$0")"
 
-if [ "$DOKER_USER" != "" ] && [ "$DOCKER_TOKEN" != "" ]; then
-    docker login -u "$DOKER_USER" -p "$DOCKER_TOKEN"
-fi
-
 docker build \
     --network=host \
     -t "fonzzy1/vim:latest" \
