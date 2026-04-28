@@ -9,37 +9,41 @@ if [ "$1" = "--init" ]; then
 sudo apt-get -y update
 sudo apt-get -y upgrade
 sudo apt-get -y install \
+    i3 \
+    xorg \
+    xinit \
+    dbus-x11 \
+    xterm \
     jq \
+    git \
+    curl \
+    wget \
+    unzip \
+    make \
+    build-essential \
+    python3-pip \
+    pipx \
+    xclip \
+    libxkbcommon-dev \
+    libxkbcommon-x11-0 \
+    just \
     zathura \
     feh \
     mpv \
     ranger \
-    gnome-tweaks \
-    xclip \
-    python3-pip \
-    pipx \
     firefox \
-    kitty \
-    gdm3 \
-    gnome-shell \
-    gnome-session \
-    gnome-settings-daemon \
-    gnome-control-center \
-    mutter \
-    gvfs \
-    gvfs-backends \
-    git \
-    node-typescript \
-    make \
-    wget \
-    curl \
-    unzip \
-    just \
-    build-essential \
-    libxkbcommon-dev \
-    libxkbcommon-x11-0 \
-    gnome-shell-extensions \
+    greetd tuigreet \
+    dex \
+    xss-lock \
+    i3lock \
+    dmenu \
+    network-manager
 
+mkdir -p ~/.config
+mkdir -p ~/.config/i3
+curl -o ~/.config/i3/catppuccin-latte https://github.com/catppuccin/i3/raw/refs/heads/main/themes/catppuccin-latte
+
+wget -O Mononoki.zip "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Mononoki.zip" && rm -rf Mononoki && unzip -o Mononoki.zip -d Mononoki && mkdir -p ~/.local/share/fonts && cp -rf Mononoki/* ~/.local/share/fonts/ && fc-cache -fv
 
 ## Kitty
 curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin \
@@ -67,71 +71,111 @@ if ! command -v rustc >/dev/null 2>&1; then
 fi
 export PATH="$HOME/.cargo/bin:$PATH"
 
-sudo systemctl enable gdm3 
+sudo apt-get -y install greetd tuigreet dbus-user-session
+
+sudo mkdir -p /etc/greetd
+
+sudo tee /etc/greetd/config.toml > /dev/null << 'EOF'
+[terminal]
+vt = 1
+
+[default_session]
+command = "tuigreet --cmd 'dbus-run-session i3'"
+user = "greeter"
+EOF
+
+sudo systemctl disable gdm3 2>/dev/null || true
+sudo systemctl stop gdm3 2>/dev/null || true
+sudo systemctl enable greetd
 sudo systemctl set-default graphical.target
-
-# Shell extntions
-mkdir -p ~/.shell-extensions 
-[ -d ~/.shell-extensions/pop-shell ] && git -C ~/.shell-extensions/pop-shell pull || git clone https://github.com/pop-os/shell.git ~/.shell-extensions/pop-shell 
-[ -d ~/.shell-extensions/launcher ] && git -C ~/.shell-extensions/launcher pull || git clone https://github.com/pop-os/launcher.git ~/.shell-extensions/launcher
-
-# pop launcher
-cd ~/.shell-extensions/launcher
-just build-release
-just install
-
-# pop shell
-cd ~/.shell-extensions/pop-shell 
-version=$(gnome-shell --version | grep -oP '\d+' | head -1)
-if [[ $version =~ ^3[6-9]$|^4[0-1]$ ]]; then
-  branch="master_focal"
-elif [[ $version =~ ^4[2-4]$ ]]; then
-  branch="master_jammy"
-elif [[ $version == "45" ]]; then
-  branch="master_mantic"
-elif [[ $version -ge 46 ]]; then
-  branch="master_noble"
-else
-  echo "Unsupported GNOME version"
-  exit 1
-fi
-git fetch
-git switch "$branch"
-make local-install
-sudo ln -sf ~/.local/bin/pop-launcher /usr/local/bin/pop-launcher
-
-# Install the gnome extensions from online
-pipx install git+https://github.com/essembeh/gnome-extensions-cli 
-~/.local/bin/gext install 545 
-~/.local/bin/gext install 19
-~/.local/bin/gext install 1732
-~/.local/bin/gext install 5177
-
-# Load in catcuppin gnome theme
-mkdir -p ~/.themes 
-wget https://github.com/catppuccin/gtk/releases/download/v0.7.1/Catppuccin-Latte-Standard-Yellow-Light.zip -P ~ 
-unzip ~/Catppuccin-Latte-Standard-Yellow-Light.zip -d ~/.themes
-rm ~/Catppuccin-Latte-Standard-Yellow-Light.zip
-
-gsettings set org.gnome.desktop.interface gtk-theme "Catppuccin-Latte-Standard-Yellow-Light" 
-gsettings set org.gnome.shell.extensions.user-theme name "Catppuccin-Latte-Standard-Yellow-Light" || true
-gsettings set org.gnome.desktop.interface enable-animations false
 
 cp "$SCRIPT_DIR"/dotfiles/.bashrc ~/.bashrc
 cat ~/.bashrc > ~/.bash_profile
 
-#NERDFONT
-wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip \
-&& cd ~/.local/share/fonts \
-&& unzip JetBrainsMono.zip \
-&& rm JetBrainsMono.zip \
-&& fc-cache -fv
+
+#i3
+echo '
+set $mod Mod4
+floating_modifier $mod
+
+font pango:Mononoki Nerd Font 8
+
+for_window [class=".*"] floating enable, resize set 900 600, move position center, move down 20 px, move right 20 px
+
+for_window [class="kitty"] floating disable
+
+exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id feh --bg-scale .wallpaper
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+
+# Use pactl to adjust volume in PulseAudio.
+set $refresh_i3status killall -SIGUSR1 i3status
+
+bindsym $mod+Return exec kitty
+
+bindsym $mod+q kill
+
+bindsym $mod+slash exec --no-startup-id dmenu_run -b
+
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+bindsym $mod+f fullscreen toggle
+
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+
+bindsym $mod+Shift+r restart
+mode "resize" {
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize grow height 10 px or 10 ppt
+        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# target                 title     bg    text   indicator  border
+client.focused           $lavender $base $text  $rosewater $lavender
+client.focused_inactive  $overlay0 $base $text  $rosewater $overlay0
+client.unfocused         $overlay0 $base $text  $rosewater $overlay0
+client.urgent            $peach    $base $peach $overlay0  $peach
+client.placeholder       $overlay0 $base $text  $overlay0  $overlay0
+client.background        $base
+
+# bar
+bar {
+  colors {
+    background         $base
+    statusline         $text
+    focused_statusline $text
+    focused_separator  $base
+
+    # target           border bg        text
+    focused_workspace  $base  $mauve    $crust
+    active_workspace   $base  $surface2 $text
+    inactive_workspace $base  $base     $text
+    urgent_workspace   $base  $red      $crust
+  }
+}
+'> "$HOME"/.config/i3/config
+
 
 # Kitty theme
 sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
 mkdir -p "$HOME"/.config/kitty
 curl https://raw.githubusercontent.com/catppuccin/kitty/refs/heads/main/themes/latte.conf -o ~/.config/kitty/kitty.conf
-echo "font_family JetBrainsMonoNL Nerd Font Mono Bold" >> ~/.config/kitty/kitty.conf
+echo "font_family Mononoki Nerd Font" >> ~/.config/kitty/kitty.conf
 echo "enable_audio_bell no" >> ~/.config/kitty/kitty.conf
 echo "hide_window_decorations yes" >> ~/.config/kitty/kitty.conf
 echo "background_opacity 1" >> ~/.config/kitty/kitty.conf
@@ -172,7 +216,7 @@ firefox_profile_path="$HOME/.mozilla/firefox"
 # Check if the Firefox profile directory exists
 if [[ ! -d "$firefox_profile_path" ]]; then
     echo "Firefox profile directory not found."
-    exit 1
+    exit 1 || true
 fi
 # Locate the default profile folder
 profile_folder=$(find "$firefox_profile_path" -maxdepth 1 -name '*.default*' | head -n 1)
@@ -191,8 +235,6 @@ echo "Remember to set full-screen-api.ignore-widgets to True in about:config"
 # Wallpaper
 # # Fetch the image from the url using wget and save it into the specific directory
 cp "$SCRIPT_DIR"/dotfiles/.wallpaper ~/.wallpaper
-gsettings set org.gnome.desktop.background picture-uri-dark file:///home/"$USER"/.wallpaper
-gsettings set org.gnome.desktop.background picture-uri file:///home/"$USER"/.wallpaper
 #
 fi
 
