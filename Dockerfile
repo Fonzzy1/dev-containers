@@ -131,7 +131,7 @@ RUN mkdir -p /root/.local/share/gh/extensions/gh-act && \
     chmod +x /root/.local/share/gh/extensions/gh-act/gh-act
 
 # Install R packages, tidyvverse is installed with apt
-RUN R -e "install.packages(c('rmarkdown', 'reticulate', 'readxl', 'knitr','tinytex'), Ncpus = 6)"
+RUN R -e "install.packages(c('rmarkdown', 'reticulate', 'readxl', 'knitr', 'tinytex', 'languageserver'), Ncpus = 6)"
 ## Install go 
 # Download and install Go
 COPY --from=golang:1.24-bullseye /usr/local/go/ /usr/local/go/
@@ -194,7 +194,7 @@ COPY vim/lua/tree_config.lua /root/.config/nvim/lua/tree_config.lua
 RUN sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 RUN nvim -u /root/.config/nvim/vimscript/plugins.vim +PlugInstall +qall
-RUN nvim -u /root/.config/nvim/vimscript/plugins.vim --headless "+lua require('mason').setup()" "+MasonInstall prisma-language-server vim-language-server yaml-language-server yamlfmt prisma-language-server vim-language-server docker-compose-language-service dockerfile-language-server json-lsp typescript-language-server  yaml-language-server nginx-language-server pyright air ltex-ls lua-language-server mdformat black fixjson prettier shellharden" +qall
+RUN nvim -u /root/.config/nvim/vimscript/plugins.vim --headless "+lua require('mason').setup()" "+MasonInstall prisma-language-server vim-language-server yaml-language-server yamlfmt prisma-language-server vim-language-server docker-compose-language-service dockerfile-language-server json-lsp typescript-language-server  yaml-language-server nginx-language-server r-languageserver pyright air ltex-ls lua-language-server mdformat black fixjson prettier shellharden" +qall
 RUN timeout 120s nvim -u /root/.config/nvim/vimscript/plugins.vim --headless '+lua require("tree_config")' +qall || exit 0
 
 # Copy in the rest of the config

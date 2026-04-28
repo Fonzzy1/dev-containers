@@ -57,6 +57,7 @@ vim.lsp.enable('ts_ls')
 vim.lsp.enable('yamlls')
 vim.lsp.enable('prismals')
 vim.lsp.enable('lua_ls')
+vim.lsp.enable('r_language_server')
 
 
 
