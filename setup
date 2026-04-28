@@ -5,10 +5,20 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 if [ "$1" = "--init" ]; then
 
+
+## This should be re-runnable from any ubuntu-server os
+# Add firefox repo
+sudo add-apt-repository ppa:mozillateam/ppa
+echo '
+Package: *
+Pin: release o=LP-PPA-mozillateam
+Pin-Priority: 1001
+' | sudo tee /etc/apt/preferences.d/mozilla-firefox
+
 ## Load in the apps that I use for viewing media
 sudo apt-get -y update
 sudo apt-get -y upgrade
-sudo apt-get -y install \
+sudo apt-get -y install --no-install-recommends \
     i3 \
     xorg \
     xinit \
@@ -31,18 +41,22 @@ sudo apt-get -y install \
     feh \
     mpv \
     ranger \
-    firefox \
-    greetd tuigreet \
+    greetd \
     dex \
     xss-lock \
     i3lock \
     dmenu \
-    network-manager
+    network-manager \
+    ubuntu-drivers-common \
+    firefox
 
-mkdir -p ~/.config
-mkdir -p ~/.config/i3
-curl -o ~/.config/i3/catppuccin-latte https://github.com/catppuccin/i3/raw/refs/heads/main/themes/catppuccin-latte
+# Drivers
+sudo ubuntu-drivers install
 
+
+
+
+#font
 wget -O Mononoki.zip "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Mononoki.zip" && rm -rf Mononoki && unzip -o Mononoki.zip -d Mononoki && mkdir -p ~/.local/share/fonts && cp -rf Mononoki/* ~/.local/share/fonts/ && fc-cache -fv
 
 ## Kitty
@@ -66,37 +80,32 @@ else
     echo "Docker is already installed."
 fi
 
-if ! command -v rustc >/dev/null 2>&1; then
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-fi
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 export PATH="$HOME/.cargo/bin:$PATH"
 
-sudo apt-get -y install greetd tuigreet dbus-user-session
-
-sudo mkdir -p /etc/greetd
-
-sudo tee /etc/greetd/config.toml > /dev/null << 'EOF'
-[terminal]
-vt = 1
-
-[default_session]
-command = "tuigreet --cmd 'dbus-run-session i3'"
-user = "greeter"
-EOF
-
-sudo systemctl disable gdm3 2>/dev/null || true
-sudo systemctl stop gdm3 2>/dev/null || true
-sudo systemctl enable greetd
-sudo systemctl set-default graphical.target
+if ! command -v tuigreet >/dev/null 2>&1; then
+    cargo install tuigreet
+fi
 
 cp "$SCRIPT_DIR"/dotfiles/.bashrc ~/.bashrc
-cat ~/.bashrc > ~/.bash_profile
 
-
-#i3
 echo '
+if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
+  exec startx
+fi
+' > ~/.bash_profile
+
+
+
+# i3 theme
+mkdir -p ~/.config
+mkdir -p ~/.config/i3
+curl -o ~/.config/i3/catppuccin-latte https://github.com/catppuccin/i3/raw/refs/heads/main/themes/catppuccin-latte
+
+cat <<'EOF' > "$HOME/.config/i3/config"
 set $mod Mod4
 floating_modifier $mod
+include ~/.config/i3/catppuccin-latte
 
 font pango:Mononoki Nerd Font 8
 
@@ -108,14 +117,12 @@ exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id feh --bg-scale .wallpaper
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
-# Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 
 bindsym $mod+Return exec kitty
-
 bindsym $mod+q kill
 
-bindsym $mod+slash exec --no-startup-id dmenu_run -b
+bindsym $mod+slash exec dmenu_run -nf '$text' -nb '$base' -sf '$base' -sb '$mauve' -of '$text' -ob '$mauve' -i
 
 bindsym $mod+h focus left
 bindsym $mod+j focus down
@@ -133,19 +140,22 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 
 bindsym $mod+Shift+r restart
+
 mode "resize" {
-        bindsym h resize shrink width 10 px or 10 ppt
-        bindsym j resize grow height 10 px or 10 ppt
-        bindsym k resize shrink height 10 px or 10 ppt
-        bindsym l resize grow width 10 px or 10 ppt
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-        bindsym $mod+r mode "default"
+    bindsym h resize shrink width 10 px or 10 ppt
+    bindsym j resize grow height 10 px or 10 ppt
+    bindsym k resize shrink height 10 px or 10 ppt
+    bindsym l resize grow width 10 px or 10 ppt
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
 }
 
 bindsym $mod+r mode "resize"
 
-# target                 title     bg    text   indicator  border
+default_border pixel 2
+default_floating_border pixel 2
+
 client.focused           $lavender $base $text  $rosewater $lavender
 client.focused_inactive  $overlay0 $base $text  $rosewater $overlay0
 client.unfocused         $overlay0 $base $text  $rosewater $overlay0
@@ -153,7 +163,6 @@ client.urgent            $peach    $base $peach $overlay0  $peach
 client.placeholder       $overlay0 $base $text  $overlay0  $overlay0
 client.background        $base
 
-# bar
 bar {
   colors {
     background         $base
@@ -161,18 +170,16 @@ bar {
     focused_statusline $text
     focused_separator  $base
 
-    # target           border bg        text
     focused_workspace  $base  $mauve    $crust
     active_workspace   $base  $surface2 $text
     inactive_workspace $base  $base     $text
     urgent_workspace   $base  $red      $crust
   }
 }
-'> "$HOME"/.config/i3/config
+EOF
 
 
 # Kitty theme
-sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
 mkdir -p "$HOME"/.config/kitty
 curl https://raw.githubusercontent.com/catppuccin/kitty/refs/heads/main/themes/latte.conf -o ~/.config/kitty/kitty.conf
 echo "font_family Mononoki Nerd Font" >> ~/.config/kitty/kitty.conf
@@ -212,29 +219,30 @@ has xdg-open, flag f = xdg-open "$1"' > "$HOME"/.config/ranger/rifle.conf
 
 # Firefox tiling
 # Define the Firefox profile directory for Linux
-firefox_profile_path="$HOME/.mozilla/firefox"
+#firefox_profile_path="$HOME/.mozilla/firefox"
 # Check if the Firefox profile directory exists
-if [[ ! -d "$firefox_profile_path" ]]; then
-    echo "Firefox profile directory not found."
-    exit 1 || true
-fi
+#if [[ ! -d "$firefox_profile_path" ]]; then
+#    echo "Firefox profile directory not found."
+#    exit 1 || true
+#fi
 # Locate the default profile folder
-profile_folder=$(find "$firefox_profile_path" -maxdepth 1 -name '*.default*' | head -n 1)
+#profile_folder=$(find "$firefox_profile_path" -maxdepth 1 -name '*.default*' | head -n 1)
 # Verify if we found a profile folder
-if [[ -z "$profile_folder" ]]; then
-    echo "No default profile found."
-    exit 1
-fi
+#if [[ -z "$profile_folder" ]]; then
+#    echo "No default profile found."
+#    exit 1
+#fi
 # Create or append the user.js file with the desired configuration
-user_js_path="$profile_folder/user.js"
-echo 'user_pref("full-screen-api.ignore-widgets", true);' >> "$user_js_path"
-echo "Configuration was added to $user_js_path"
-echo "Remember to set full-screen-api.ignore-widgets to True in about:config"
+#user_js_path="$profile_folder/user.js"
+#echo 'user_pref("full-screen-api.ignore-widgets", true);' >> "$user_js_path"
+#echo "Configuration was added to $user_js_path"
+#echo "Remember to set full-screen-api.ignore-widgets to True in about:config"
 
 
 # Wallpaper
 # # Fetch the image from the url using wget and save it into the specific directory
 cp "$SCRIPT_DIR"/dotfiles/.wallpaper ~/.wallpaper
+#
 #
 fi
 
