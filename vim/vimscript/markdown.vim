@@ -21,16 +21,18 @@ autocmd BufNewFile *.qmd :call NoteDefault()
 autocmd BufRead *.qmd if getfsize(expand('%'))==0|call NoteDefault()|endif
 
 function! QuartoExtras()
+    echo "Quarto Extras Set up"
     lua require'otter'.activate()
     syntax match Cite /\%(\k\)\@<!@[A-Za-z0-9:_-]\+\%(\>\|[^A-Za-z0-9:_-]\)/
     highlight link Cite MarkviewPalette7Fg
     setlocal wrap
     setlocal linebreak
+    inoremap <buffer> ``` ```{}<CR><CR>```<Esc>kA
 endfunction
 
 augroup QuartoExtrasGroup
     autocmd!
-    autocmd BufReadPost *.qmd,*.quarto,*.md,*.rmd call QuartoExtras()
+    autocmd BufReadPost *.qmd,*.quarto,*.md,*.rmd,*.brainstorm call QuartoExtras()
     autocmd BufWritePost *.qmd call QuartoExtras()
 augroup END
 
