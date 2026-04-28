@@ -41,32 +41,49 @@ end
 
 -- Text objects (visual + operator-pending)
 local textobjects = {
-    am = '@function.outer',  im = '@function.inner',
-    ac = '@class.outer',     ic = '@class.inner',
-    al = '@loop.outer',      il = '@loop.inner',
-    ae = '@conditional.outer', ie = '@conditional.inner',
-    af = '@call.outer',      ['if'] = '@call.inner',
-    ag = '@parameter.outer', ig = '@parameter.inner',
-    ['a='] = '@assignment.outer', ['i='] = '@assignment.inner',
+    am = '@function.outer',
+    im = '@function.inner',
+    ac = '@class.outer',
+    ic = '@class.inner',
+    al = '@loop.outer',
+    il = '@loop.inner',
+    ae = '@conditional.outer',
+    ie = '@conditional.inner',
+    af = '@call.outer',
+    ['if'] = '@call.inner',
+    ag = '@parameter.outer',
+    ig = '@parameter.inner',
+    ['a='] = '@assignment.outer',
+    ['i='] = '@assignment.inner',
+    ab = '@block.outer',
+    ib = '@block.inner',
+    az = '@section.outer',
+    iz = '@section.outer',
 }
 for key, query in pairs(textobjects) do
     vim.keymap.set({ 'x', 'o' }, key, sel(query))
 end
 
--- Move between functions/classes
--- gfn/gfp: go func start next/prev
--- gfen/gfep: go func end next/prev
--- gcn/gcp: go class start next/prev
--- gcen/gcep: go class end next/prev
 local moves = {
-    gfn  = { 'next_start',     '@function.outer' },
-    gfp  = { 'previous_start', '@function.outer' },
-    gfen = { 'next_end',       '@function.outer' },
-    gfep = { 'previous_end',   '@function.outer' },
-    gcn  = { 'next_start',     '@class.outer'    },
-    gcp  = { 'previous_start', '@class.outer'    },
-    gcen = { 'next_end',       '@class.outer'    },
-    gcep = { 'previous_end',   '@class.outer'    },
+    gnf  = { 'previous_start', '@function.outer' },
+    gpf  = { 'next_start', '@function.outer' },
+    gnef = { 'previous_end', '@function.outer' },
+    gpef = { 'next_end', '@function.outer' },
+
+    gnc  = { 'previous_start', '@class.outer' },
+    gpc  = { 'next_start', '@class.outer' },
+    gnec = { 'previous_end', '@class.outer' },
+    gpec = { 'next_end', '@class.outer' },
+
+    gnb  = { 'previous_start', '@block.outer' },
+    gpb  = { 'next_start', '@block.outer' },
+    gneb = { 'previous_end', '@block.outer' },
+    gpeb = { 'next_end', '@block.outer' },
+
+    gnz  = { 'next_start', '@section.outer' },
+    gpz  = { 'previous_start', '@section.outer' },
+    gnez = { 'next_end', '@section.outer' },
+    gpez = { 'previous_end', '@section.outer' },
 }
 for key, v in pairs(moves) do
     local dir, query = v[1], v[2]
