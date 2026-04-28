@@ -117,7 +117,7 @@ set $refresh_i3status killall -SIGUSR1 i3status
 bindsym $mod+Return exec kitty
 bindsym $mod+q kill
 
-bindsym $mod+slash exec "dmenu_run -b -fn 'JetBrainsMono Nerd Font-11' -p 'Run:' -nf '$text' -nb '$mantle' -sf '$crust' -sb '$yellow'"
+bindsym $mod+slash exec "dmenu_run -fn 'JetBrainsMono Nerd Font-11' -p 'Run:' -nf '$text' -nb '$mantle' -sf '$crust' -sb '$yellow'"
 bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
