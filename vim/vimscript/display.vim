@@ -52,7 +52,7 @@ set laststatus=2
 " Color stuff
 set t_Co=256
 set termguicolors
-silent! colorscheme catppuccin-latte
+silent! colorscheme catppuccin-macchiato
 
 let g:rainbow_active = 1
 " Color for the terminal

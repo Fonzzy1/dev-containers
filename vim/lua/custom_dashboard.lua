@@ -10,18 +10,18 @@ local ascii_heatmap = require('git-dashboard-nvim').setup {
     centered = false,
     empty_square = '.',
     colors = {
-        days_and_months_labels = '#6c6f85', -- subtext0
-        empty_square_highlight = '#bcc0cc', -- surface1
+        days_and_months_labels = '#7c7f93', -- subtext0
+        empty_square_highlight = '#5b6078', -- surface1
         filled_square_highlights = {
-            '#1e66f5',                      -- blue
-            '#7287fd',                      -- lavender
-            '#04a5e5',                      -- sky
-            '#179299',                      -- teal
-            '#40a02b',                      -- green
-            '#df8e1d'                       -- yellow
+            '#8caaee',                      -- blue
+            '#babbf1',                      -- lavender
+            '#99d1db',                      -- sky
+            '#81c8be',                      -- teal
+            '#a6d189',                      -- green
+            '#e5c890'                       -- yellow
         },
-        branch_highlight = '#209fb5',       -- sapphire
-        dashboard_title = '#1e66f5',        -- blue
+        branch_highlight = '#85c1dc',       -- sapphire
+        dashboard_title = '#8caaee',        -- blue
     }, filled_squares = fill
 }
 

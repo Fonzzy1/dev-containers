@@ -57,8 +57,6 @@ systemctl --user enable --now pipewire.service
 systemctl --user enable --now pipewire-pulse.service
 systemctl --user enable --now wireplumber.service
 
-
-
 # Snaps
 sudo snap install nordpass
 sudo snap connect nordpass:password-manager-service
@@ -102,7 +100,7 @@ fi' > ~/.bash_profile
 
 
 # i3 theme
-mkdir -p "$HOME/.config/i3" && curl -L -o "$HOME/.config/i3/config" https://github.com/catppuccin/i3/raw/refs/heads/main/themes/catppuccin-latte
+mkdir -p "$HOME/.config/i3" && curl -L -o "$HOME/.config/i3/config" https://github.com/catppuccin/i3/raw/refs/heads/main/themes/catppuccin-macchiato
 
 cat <<'EOF' >> "$HOME/.config/i3/config"
 set $mod Mod4
@@ -121,6 +119,11 @@ bindsym $mod+f exec kitty -e ranger
 bindsym $mod+b exec qutebrowser
 bindsym $mod+n exec nordpass
 bindsym $mod+q kill
+
+
+bindsym $mod+v split v
+bindsym $mod+Shift+v split h
+
 
 bindsym $mod+slash exec "dmenu_run -fn 'JetBrainsMono Nerd Font-11' -p 'Run:' -nf '$text' -nb '$mantle' -sf '$crust' -sb '$yellow'"
 bindsym $mod+h focus left
@@ -186,13 +189,14 @@ bar {
 EOF
 
 mkdir -p "$HOME/.config/i3status"
+
 cat <<'EOF' > "$HOME/.config/i3status/config"
 general {
     colors = true
     interval = 5
-    color_good = "#40a02b"
-    color_degraded = "#df8e1d"
-    color_bad = "#d20f39"
+    color_good = "#a6da95"
+    color_degraded = "#eed49f"
+    color_bad = "#ed8796"
 }
 
 order += "wireless _first_"
@@ -233,10 +237,9 @@ tztime local {
 }
 EOF
 
-
 # Kitty theme
 mkdir -p "$HOME"/.config/kitty
-curl https://raw.githubusercontent.com/catppuccin/kitty/refs/heads/main/themes/latte.conf -o ~/.config/kitty/kitty.conf
+curl https://raw.githubusercontent.com/catppuccin/kitty/refs/heads/main/themes/macchiato.conf -o ~/.config/kitty/kitty.conf
 echo "enable_audio_bell no" >> ~/.config/kitty/kitty.conf
 echo "hide_window_decorations no" >> ~/.config/kitty/kitty.conf
 echo "font_family JetBrainsMono Nerd Font" >> ~/.config/kitty/kitty.conf
@@ -244,9 +247,9 @@ echo "font_family JetBrainsMono Nerd Font" >> ~/.config/kitty/kitty.conf
 
 # Zathura Theme
 mkdir -p "$HOME"/.config/zathura
-wget -O "$HOME"/.config/zathura/catppuccin-latte https://raw.githubusercontent.com/catppuccin/zathura/refs/heads/main/themes/catppuccin-latte
+wget -O "$HOME"/.config/zathura/catppuccin-macchiato https://raw.githubusercontent.com/catppuccin/zathura/refs/heads/main/themes/catppuccin-macchiato
 echo '
-include catppuccin-latte
+include catppuccin-macchiato
 set selection-clipboard clipboard
 ' > "$HOME"/.config/zathura/zathurarc
 # Make zathura default for all pdf in xmim
@@ -262,6 +265,18 @@ xdg-mime default feh.desktop image/gif
 xdg-mime default feh.desktop image/bmp
 xdg-mime default feh.desktop image/svg
 xdg-mime default feh.desktop image/svg+xml
+
+# mvp
+xdg-mime default mpv.desktop video/mp4
+xdg-mime default mpv.desktop video/x-matroska
+xdg-mime default mpv.desktop video/webm
+xdg-mime default mpv.desktop video/avi
+xdg-mime default mpv.desktop video/mpeg
+xdg-mime default mpv.desktop video/quicktime
+xdg-mime default mpv.desktop audio/mpeg
+xdg-mime default mpv.desktop audio/mp4
+xdg-mime default mpv.desktop audio/ogg
+xdg-mime default mpv.desktop audio/wav
 
 # Ranger
 xdg-mime default ranger.desktop inode/directory
@@ -295,7 +310,9 @@ c.tabs.tabs_are_windows = True
 # Hide the tab bar
 c.tabs.show = 'never'
 c.statusbar.position = 'top'
-c.statusbar.show = 'in-use'
+c.statusbar.show = 'in-mode'
+
+c.colors.webpage.darkmode.enabled = True
 
 # Default search engine: Google
 c.url.searchengines = {
@@ -310,7 +327,7 @@ if not os.path.exists(config.configdir / "theme.py"):
 
 if os.path.exists(config.configdir / "theme.py"):
     import theme
-    theme.setup(c, 'latte', True)
+    theme.setup(c, 'macchiato', True)
 EOF
 
 
