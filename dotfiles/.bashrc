@@ -71,3 +71,6 @@ function gitdist() {
         echo
     done
 }
+
+#PATH
+export PATH="$HOME/.local/bin:$PATH"
