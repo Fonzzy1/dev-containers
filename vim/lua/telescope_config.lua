@@ -205,7 +205,7 @@ local bookmarks = {
         ["Timesheet"] = "https://eservices.monash.edu.au/irj/portal#TimeSheetEntry-manage",
         ["WES"] = "https://my.monash.edu.au/wes/",
         ["O-Park"] = "https://portal.opark.com.au/motorist/dashboard",
-        ["Moodle"] = "https://lms.monash.edu/",
+        ["Printing"] = "https://myprint.monash.edu/app"
     },
 
     -- Development / Coding (all search-first)
