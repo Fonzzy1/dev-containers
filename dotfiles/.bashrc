@@ -26,12 +26,18 @@ alias l='ls -CF'
 alias ollama='docker exec -it ollama ollama'
 
 mpall() {
-  for dev in /dev/sd*[0-9] /dev/nvme*n*p*; do
+
+  for dev in /dev/sd*[0-9]; do
     [ -e "$dev" ] || continue
-    if ! mountpoint -q "$dev"; then
-      pmount --exec --fmask 000 "$dev" && echo "$dev"
-    fi
+    pmount --exec --fmask 000 "$dev" >/dev/null 2>&1
   done
+
+if [ "$1" = "--setup" ]; then
+    mp=$(findmnt -no TARGET -S LABEL=ALFIE 2>/dev/null)
+    [ "$mp" != "" ] && "$mp/dev-containers/setup" "$mp"
+    return
+fi
+
 }
 
 function ollamaserve() {
