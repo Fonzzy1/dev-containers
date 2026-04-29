@@ -5,15 +5,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 if [ "$1" = "--init" ]; then
 
-
 ## This should be re-runnable from any ubuntu-server os
-# Add firefox repo
-sudo add-apt-repository ppa:mozillateam/ppa
-echo '
-Package: *
-Pin: release o=LP-PPA-mozillateam
-Pin-Priority: 1001
-' | sudo tee /etc/apt/preferences.d/mozilla-firefox
 
 ## Load in the apps that I use for viewing media
 sudo apt-get -y update
@@ -42,20 +34,28 @@ sudo apt-get -y install --no-install-recommends \
     feh \
     mpv \
     ranger \
-    greetd \
     dex \
     xss-lock \
     i3lock \
     dmenu \
     network-manager \
     ubuntu-drivers-common \
-    firefox
+    qutebrowser \
+    gnome-keyring \
+    libsecret-1-dev \
+    udisks2 \
+    udiskie \
+    ntfs-3g \
+    exfatprogs \
+    policykit-1 \
+    lxpolkit
+
+# Snaps
+sudo snap install nordpass
+sudo snap connect nordpass:password-manager-service
 
 # Drivers
 sudo ubuntu-drivers install
-
-
-
 
 #font
 wget -O JetBrainsMono.zip "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip" && rm -rf JetBrainsMono && unzip -o JetBrainsMono.zip -d JetBrainsMono && mkdir -p ~/.local/share/fonts && cp -rf JetBrainsMono/* ~/.local/share/fonts/ && fc-cache -fv
@@ -87,11 +87,11 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 cp "$SCRIPT_DIR"/dotfiles/.bashrc ~/.bashrc
 
-echo '
-if [ -z "$DISPLAY" ]; then
+
+echo 'if [ -z "$DISPLAY" ]; then
   exec startx
-fi
-' > ~/.bash_profile
+fi' > ~/.bash_profile
+
 
 
 # i3 theme
@@ -104,10 +104,9 @@ floating_modifier $mod
 
 font pango:JetBrainsMono Nerd Font 11
 
-for_window [class=".*"] floating enable, resize set 900 600, move position center, move down 20 px, move right 20 px
 
-for_window [class="kitty"] floating disable
-
+exec --no-startup-id lxpolkit
+exec --no-startup-id udiskie --no-tray
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id feh --bg-scale .wallpaper
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
@@ -115,6 +114,8 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 set $refresh_i3status killall -SIGUSR1 i3status
 
 bindsym $mod+Return exec kitty
+bindsym $mod+f exec kitty -e ranger
+bindsym $mod+b exec qutebrowser
 bindsym $mod+q kill
 
 bindsym $mod+slash exec "dmenu_run -fn 'JetBrainsMono Nerd Font-11' -p 'Run:' -nf '$text' -nb '$mantle' -sf '$crust' -sb '$yellow'"
@@ -270,29 +271,45 @@ has xdg-open, flag f = xdg-open "$1"' > "$HOME"/.config/ranger/rifle.conf
 # # Fetch the image from the url using wget and save it into the specific directory
 cp "$SCRIPT_DIR"/dotfiles/.wallpaper ~/.wallpaper
 
-# Firefox tiling
-# Define the Firefox profile directory for Linux
-firefox_profile_path="$HOME/.mozilla/firefox"
-#Check if the Firefox profile directory exists
-if [[ ! -d "$firefox_profile_path" ]]; then
-    echo "Firefox profile directory not found."
-    exit 1 || true
-fi
-#Locate the default profile folder
-profile_folder=$(find "$firefox_profile_path" -maxdepth 1 -name '*.default*' | head -n 1)
-#Verify if we found a profile folder
-if [[ -z "$profile_folder" ]]; then
-    echo "No default profile found."
-    exit 1
-fi
-#Create or append the user.js file with the desired configuration
-user_js_path="$profile_folder/user.js"
-echo 'user_pref("full-screen-api.ignore-widgets", true);' >> "$user_js_path"
-echo "Configuration was added to $user_js_path"
-echo "Remember to set full-screen-api.ignore-widgets to True in about:config"
 
-#
-#
+CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/qutebrowser"
+CONFIG_FILE="$CONFIG_DIR/config.py"
+
+mkdir -p "$CONFIG_DIR"
+
+cat >> "$CONFIG_FILE" <<'EOF'
+# QUTE BROWSER
+##
+import os
+from urllib.request import urlopen
+
+config.load_autoconfig()
+
+# Always use windows instead of tabs where possible
+#c.tabs.tabs_are_windows = True
+
+# Hide the tab bar
+#c.tabs.show = 'never'
+c.statusbar.position = 'top'
+
+# Default search engine: Google
+#c.url.searchengines = {
+    'DEFAULT': 'https://www.google.com/search?q={}',
+}
+
+if not os.path.exists(config.configdir / "theme.py"):
+    theme = "https://raw.githubusercontent.com/catppuccin/qutebrowser/main/setup.py"
+    with urlopen(theme) as themehtml:
+        with open(config.configdir / "theme.py", "w") as file:
+            file.write(themehtml.read().decode("utf-8"))
+
+if os.path.exists(config.configdir / "theme.py"):
+    import theme
+    theme.setup(c, 'latte', True)
+EOF
+
+
+
 fi
 
 # Delete and make the pipe
