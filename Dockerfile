@@ -86,7 +86,8 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | d
 RUN git config --global user.name "Fonzzy1" && \
     git config --global user.email "alfiechadwick@hotmail.com" && \
     git config --global core.editor "nvim" && \
-    git config --global --add safe.directory /src
+    git config --global --add safe.directory /src && \
+    git config --global pull.rebase true
 
 
 # Install node

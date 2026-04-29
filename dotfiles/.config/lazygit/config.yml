@@ -1,12 +1,6 @@
 disableStartupPopups: true
-
-# Normal editor - opens files with xdg-open
-edit: xdg-open {{filename}}
-
-# Git editor - opens in vertical split with nvim and waits
-gitEditor:
-  editAtLineAndWait: nvim -c "vsplit" +{{.LineNumber}} {{filename}}
-
+os:
+  edit: xdg-open {{filename}}
 git:
   disableForcePushing: true
 gui:

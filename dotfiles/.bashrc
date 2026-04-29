@@ -25,6 +25,15 @@ alias la='ls -A'
 alias l='ls -CF'
 alias ollama='docker exec -it ollama ollama'
 
+mpall() {
+  for dev in /dev/sd*[0-9] /dev/nvme*n*p*; do
+    [ -e "$dev" ] || continue
+    if ! mountpoint -q "$dev"; then
+      pmount --exec --fmask 000 "$dev" && echo "$dev"
+    fi
+  done
+}
+
 function ollamaserve() {
   docker rm -f ollama 2>/dev/null
   sudo rmmod nvidia_uvm && sudo modprobe nvidia_uvm

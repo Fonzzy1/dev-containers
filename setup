@@ -7,6 +7,8 @@ if [ "$1" = "--init" ]; then
 
 ## This should be re-runnable from any ubuntu-server os
 
+sudo timedatectl set-timezone Australia/Melbourne
+
 ## Load in the apps that I use for viewing media
 sudo apt-get -y update
 sudo apt-get -y upgrade
@@ -43,12 +45,19 @@ sudo apt-get -y install --no-install-recommends \
     qutebrowser \
     gnome-keyring \
     libsecret-1-dev \
-    udisks2 \
-    udiskie \
-    ntfs-3g \
-    exfatprogs \
-    policykit-1 \
-    lxpolkit
+    alsa-utils \
+    pipewire \
+    wireplumber \
+    pipewire-pulse \
+    pmount
+
+#Audio    
+systemctl --user daemon-reload
+systemctl --user enable --now pipewire.service
+systemctl --user enable --now pipewire-pulse.service
+systemctl --user enable --now wireplumber.service
+
+
 
 # Snaps
 sudo snap install nordpass
@@ -85,9 +94,6 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 export PATH="$HOME/.cargo/bin:$PATH"
 
 
-cp "$SCRIPT_DIR"/dotfiles/.bashrc ~/.bashrc
-
-
 echo 'if [ -z "$DISPLAY" ]; then
   exec startx
 fi' > ~/.bash_profile
@@ -97,16 +103,12 @@ fi' > ~/.bash_profile
 # i3 theme
 mkdir -p "$HOME/.config/i3" && curl -L -o "$HOME/.config/i3/config" https://github.com/catppuccin/i3/raw/refs/heads/main/themes/catppuccin-latte
 
-
 cat <<'EOF' >> "$HOME/.config/i3/config"
 set $mod Mod4
 floating_modifier $mod
 
 font pango:JetBrainsMono Nerd Font 11
 
-
-exec --no-startup-id lxpolkit
-exec --no-startup-id udiskie --no-tray
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id feh --bg-scale .wallpaper
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
@@ -116,6 +118,7 @@ set $refresh_i3status killall -SIGUSR1 i3status
 bindsym $mod+Return exec kitty
 bindsym $mod+f exec kitty -e ranger
 bindsym $mod+b exec qutebrowser
+bindsym $mod+n exec nordpass
 bindsym $mod+q kill
 
 bindsym $mod+slash exec "dmenu_run -fn 'JetBrainsMono Nerd Font-11' -p 'Run:' -nf '$text' -nb '$mantle' -sf '$crust' -sb '$yellow'"
@@ -129,7 +132,7 @@ bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
-bindsym $mod+f fullscreen toggle
+bindsym $mod+m fullscreen toggle
 
 bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
@@ -277,7 +280,7 @@ CONFIG_FILE="$CONFIG_DIR/config.py"
 
 mkdir -p "$CONFIG_DIR"
 
-cat >> "$CONFIG_FILE" <<'EOF'
+cat > "$CONFIG_FILE" <<'EOF'
 # QUTE BROWSER
 ##
 import os
@@ -286,14 +289,15 @@ from urllib.request import urlopen
 config.load_autoconfig()
 
 # Always use windows instead of tabs where possible
-#c.tabs.tabs_are_windows = True
+c.tabs.tabs_are_windows = True
 
 # Hide the tab bar
-#c.tabs.show = 'never'
+c.tabs.show = 'never'
 c.statusbar.position = 'top'
+c.statusbar.show = 'in-use'
 
 # Default search engine: Google
-#c.url.searchengines = {
+c.url.searchengines = {
     'DEFAULT': 'https://www.google.com/search?q={}',
 }
 
@@ -312,6 +316,9 @@ EOF
 
 fi
 
+mkdir -p ~/.local/bin 
+ln -sf "$SCRIPT_DIR"/runit ~/.local/bin/runit
+
 # Delete and make the pipe
 rm -rf ~/pipe
 mkfifo ~/pipe 
@@ -321,13 +328,11 @@ nohup bash -c '
   done
 ' > ~/nohup_main.log 2>&1 &
 
-#xhost + local:root
+xhost + local:
 
 # Build the docker image if there have been changes
 cd "$SCRIPT_DIR"
 ./build
 
-mkdir -p ~/.local/bin 
-ln -sf "$SCRIPT_DIR"/runit ~/.local/bin/runit
 
 echo "Setup complete!"
