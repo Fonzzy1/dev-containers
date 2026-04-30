@@ -89,7 +89,6 @@ function gitdist() {
 export PATH="$HOME/.local/bin:$PATH"
 
 
-# Docker image commands
 docker_image_cmds() {
   command -v docker >/dev/null 2>&1 || return 0
 
@@ -110,6 +109,7 @@ ${func_name}() {
   fi
 
   docker run -it --rm \
+      --user \"\$(id -u):\$(id -g)\" \
     \"\${env_args[@]}\" \
     -v \"\$PWD:/work\" \
     -w /work \
