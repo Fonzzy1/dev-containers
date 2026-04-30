@@ -8,6 +8,9 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'kevinhwang91/rnvimr'
 Plug 'nvim-treesitter/nvim-treesitter', { 'branch': 'main' }
 
+" RSS
+Plug 'p-tupe/nvim-rss'
+
 " Visual
 Plug 'folke/snacks.nvim'
 Plug 'nvim-tree/nvim-web-devicons'
