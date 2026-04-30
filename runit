@@ -2,7 +2,6 @@
 import subprocess
 import argparse
 import os
-import uuid
 import subprocess
 
 # Location for mounts

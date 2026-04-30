@@ -3,11 +3,22 @@ set -e
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
+mkdir -p ~/.local/bin 
+ln -sf "$SCRIPT_DIR"/runit ~/.local/bin/runit
+
+mkdir -p ~/.local/share
+ln -sfn "$SCRIPT_DIR" ~/.local/share/dev-containers
+
+ENV_SOURCE="$(dirname "$SCRIPT_DIR")/env"
+mkdir -p "$HOME/.config"
+ln -sfn "$ENV_SOURCE" "$HOME/.config/env"
+
 if [ "$1" = "--init" ]; then
 
 ## This should be re-runnable from any ubuntu-server os
 
 sudo timedatectl set-timezone Australia/Melbourne
+
 
 ## Load in the apps that I use for viewing media
 sudo apt-get -y update
@@ -61,6 +72,9 @@ systemctl --user enable --now wireplumber.service
 sudo snap install nordpass
 sudo snap connect nordpass:password-manager-service
 
+# Partition
+sudo lvextend -l +100%FREE -r /dev/ubuntu-vg/ubuntu-lv
+
 # Drivers
 sudo ubuntu-drivers install
 
@@ -88,8 +102,6 @@ else
     echo "Docker is already installed."
 fi
 
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-export PATH="$HOME/.cargo/bin:$PATH"
 
 cp "$SCRIPT_DIR"/dotfiles/.bashrc "$HOME"/.bashrc
 
@@ -267,6 +279,9 @@ xdg-mime default feh.desktop image/svg
 xdg-mime default feh.desktop image/svg+xml
 
 # mvp
+#
+mkdir -p "$HOME"/.config/mpv
+echo 'autocreate-playlist=filter'> "$HOME"/.config/mpv/mpv.conf
 xdg-mime default mpv.desktop video/mp4
 xdg-mime default mpv.desktop video/x-matroska
 xdg-mime default mpv.desktop video/webm
@@ -331,11 +346,28 @@ if os.path.exists(config.configdir / "theme.py"):
 EOF
 
 
+# Dockerfiles
+DOCKERFILES_DIR="$SCRIPT_DIR/Dockerfiles"
+
+if [ -d "$DOCKERFILES_DIR" ]; then
+    for dockerfile in "$DOCKERFILES_DIR"/Dockerfile.*; do
+        [ -e "$dockerfile" ] || continue
+
+        name="$(basename "$dockerfile")"
+        name="${name#Dockerfile.}"
+        image="local/${name}:latest"
+
+        echo "Building $image from $dockerfile"
+        docker build \
+            --network=host \
+            -f "$dockerfile" \
+            -t "$image" \
+            "$SCRIPT_DIR"
+    done
+fi
 
 fi
 
-mkdir -p ~/.local/bin 
-ln -sf "$SCRIPT_DIR"/runit ~/.local/bin/runit
 
 # Delete and make the pipe
 rm -rf ~/pipe
@@ -349,8 +381,10 @@ nohup bash -c '
 xhost + local:
 
 # Build the docker image if there have been changes
-cd "$SCRIPT_DIR"
-./build
+docker build \
+    --network=host \
+    -t "fonzzy1/vim:latest" \
+    "$SCRIPT_DIR"
 
 
 echo "Setup complete!"
