@@ -51,3 +51,30 @@ command! -nargs=1 -complete=file Summarise call Summarise(<f-args>)
 
 
 
+
+lua <<EOF
+function GitCommit()
+
+  -- Call Python script to generate commit message
+  local generated = vim.fn.system({
+    "python3",
+    "/scripts/git_commit_message.py",
+    vim.g.instruct_model
+  })
+
+  -- Clean up output (remove trailing newline/spaces)
+  generated = vim.trim(generated)
+
+  -- Ask for confirmation / edit, prefilled with generated message
+  local message = vim.fn.input("Commit message: ", generated)
+
+  if message == "" then
+    print("Aborted: no commit message.")
+    return
+  end
+
+  -- Run git commit
+  local cmd = "git commit -m " .. vim.fn.shellescape(message)
+  vim.cmd("!" .. cmd)
+end
+EOF
