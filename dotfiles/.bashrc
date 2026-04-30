@@ -57,8 +57,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-alias vim='nvim'
-source "$HOME"/.cargo/env 
 
 # Function to parse git branch
 function parse_git_branch() {
@@ -89,3 +87,38 @@ function gitdist() {
 
 #PATH
 export PATH="$HOME/.local/bin:$PATH"
+
+
+# Docker image commands
+docker_image_cmds() {
+  command -v docker >/dev/null 2>&1 || return 0
+
+  while read -r repo tag; do
+    [ "$tag" = "latest" ] || continue
+
+    case "$repo" in
+      local/*)
+        raw_name="${repo#local/}"
+        func_name="$(printf '%s' "$raw_name" | tr '[:upper:]' '[:lower:]' | tr -c 'a-z0-9_' '_')"
+
+        eval "
+${func_name}() {
+  local env_args=()
+
+  if [ -f \"\$HOME/.config/env\" ]; then
+    env_args=(--env-file \"\$HOME/.config/env\")
+  fi
+
+  docker run -it --rm \
+    \"\${env_args[@]}\" \
+    -v \"\$PWD:/work\" \
+    -w /work \
+    ${repo}:${tag} \"\$@\"
+}
+"
+        ;;
+    esac
+  done < <(docker images --format '{{.Repository}} {{.Tag}}')
+}
+
+docker_image_cmds
