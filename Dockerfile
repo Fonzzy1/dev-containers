@@ -141,9 +141,9 @@ COPY --from=golang:1.24-bullseye /usr/local/go/ /usr/local/go/
 # Set up Go environment
 ENV PATH="/usr/local/go/bin:${PATH}"
 
-# OpenCode
-RUN curl -fsSL https://opencode.ai/install | bash -s -- --no-modify-path
-ENV PATH="/root/.opencode/bin:${PATH}"
+# rsyny
+RUN curl https://laktak.github.io/rsyncy.sh|bash
+
 
 
 # Quarto
@@ -211,6 +211,7 @@ COPY dotfiles/.bashrc /root/.bash_profile
 COPY run_scripts /scripts
 # Overwrite default xsg-open call
 COPY run_scripts/open.py /usr/bin/xdg-open   
+
 
 
 # Set the editor
