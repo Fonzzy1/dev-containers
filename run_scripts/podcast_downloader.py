@@ -7,9 +7,7 @@ import shutil
 import pytz
 import json
 import requests
-from mutagen.id3 import (
-        ID3, 
-    ID3NoHeaderError)
+from mutagen.id3 import ID3, ID3NoHeaderError
 
 from mutagen.id3._frames import (
     APIC,
@@ -35,6 +33,7 @@ AUS_TZ = pytz.timezone("Australia/Sydney")
 TEMP_COVER = "_temp_cover.jpg"
 TEMP_DIR = "./temp"
 
+
 def parse_opml(file):
     feeds = []
     tree = ET.parse(file)
@@ -48,25 +47,31 @@ def parse_opml(file):
             start_idx = outline.attrib.get("startIndex")
             end_idx = outline.attrib.get("endIndex")
             if is_series:
-                feeds.append({
-                    "url": url, 
-                    "title": title, 
-                    "is_series": is_series,
-                    "start_index": int(start_idx) if start_idx else None,
-                    "end_index": int(end_idx) if end_idx else None
-                })
-            else:   
-                feeds.append({"url": url, "title": title, "is_series": is_series})
+                feeds.append(
+                    {
+                        "url": url,
+                        "title": title,
+                        "is_series": is_series,
+                        "start_index": int(start_idx) if start_idx else None,
+                        "end_index": int(end_idx) if end_idx else None,
+                    }
+                )
+            else:
+                feeds.append(
+                    {"url": url, "title": title, "is_series": is_series}
+                )
 
     return feeds
+
 
 def sanitize_filename(name):
     return "".join(c for c in name if c.isalnum() or c in " ._-").rstrip()
 
+
 def is_episode_in_window(entry, window_start, window_end):
     dt = None
-    if entry['published_parsed']:
-        dt = datetime(*entry['published_parsed'][:6])
+    if entry["published_parsed"]:
+        dt = datetime(*entry["published_parsed"][:6])
     if dt:
         dt = pytz.utc.localize(dt).astimezone(AUS_TZ)
         return window_start <= dt < window_end
@@ -86,13 +91,13 @@ def parse_duration(duration):
     """Parse itunes_duration - can be seconds (int/str), HH:MM:SS, MM:SS, or H:MM:SS."""
     if not duration:
         return None
-    
+
     if isinstance(duration, int):
         return duration
-    
+
     duration = str(duration)
-    parts = duration.split(':')
-    
+    parts = duration.split(":")
+
     if len(parts) == 1:
         # Just seconds
         try:
@@ -126,19 +131,19 @@ def download(url, outpath):
             timeout=30,
         )
         r.raise_for_status()
-        
-        expected_size = int(r.headers.get('content-length', 0))
-        
+
+        expected_size = int(r.headers.get("content-length", 0))
+
         with open(outpath, "wb") as f:
             for chunk in r.iter_content(1024 * 128):
                 f.write(chunk)
-        
+
         actual_size = os.path.getsize(outpath)
-        
+
         return {
             "success": True,
             "expected_size": expected_size,
-            "actual_size": actual_size
+            "actual_size": actual_size,
         }
     except requests.RequestException as e:
         print("Failed:", url, str(e))
@@ -172,18 +177,18 @@ def get_episode_image(entry):
     # 1. Try entry-level image fields
     img_url = None
     if "image" in entry:
-        if isinstance(entry['image'], dict):
-            img_url = entry['image'].get("href")
-        elif isinstance(entry['image'], str):
-            img_url = entry['image']
+        if isinstance(entry["image"], dict):
+            img_url = entry["image"].get("href")
+        elif isinstance(entry["image"], str):
+            img_url = entry["image"]
     if not img_url:
-        if "media_thumbnail" in entry and entry['media_thumbnail']:
-            img_url = entry['media_thumbnail'][0].get("url")
-        elif "media_content" in entry and entry['media_content']:
-            img_url = entry['media_content'][0].get("url")
+        if "media_thumbnail" in entry and entry["media_thumbnail"]:
+            img_url = entry["media_thumbnail"][0].get("url")
+        elif "media_content" in entry and entry["media_content"]:
+            img_url = entry["media_content"][0].get("url")
     # It is possible entry has itunes_image
     if not img_url and hasattr(entry, "itunes_image"):
-        img_url = entry['itunes_image']
+        img_url = entry["itunes_image"]
     return img_url
 
 
@@ -255,6 +260,7 @@ def embed_metadata(
 
     id3.save(mp3_path, v2_version=3)
 
+
 class DateTimeEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, datetime):
@@ -276,9 +282,9 @@ def datetime_parser(dct):
 
 def make_or_load_windows(today_9am):
     # See if there is a windows.json in TMP
-    path = os.path.join(TEMP_DIR, today_9am.strftime('%Y-%m-%d'))
+    path = os.path.join(TEMP_DIR, today_9am.strftime("%Y-%m-%d"))
     if os.path.exists(path):
-        with open(path, 'r') as f:
+        with open(path, "r") as f:
             return json.load(f, object_hook=datetime_parser)
     else:
         windows = make_windows(today_9am)
@@ -287,11 +293,10 @@ def make_or_load_windows(today_9am):
         for file in files:
             os.remove(os.path.join(TEMP_DIR, file))
         # Create new one
-        with open(path, 'w') as f:
+        with open(path, "w") as f:
             json.dump(windows, f, cls=DateTimeEncoder)
-        # Reload iso 
+        # Reload iso
         return make_or_load_windows(today_9am)
-
 
 
 def make_windows(today_9am):
@@ -314,11 +319,10 @@ def make_windows(today_9am):
         parsed = feedparser.parse(feed["url"])
         feed_title = feed["title"]
         # One path for series
-        if feed['is_series']:
+        if feed["is_series"]:
             entries = parsed.entries
             entries.sort(
-                key=lambda e: (
-                    e.get( "published_parsed", (0, 0, 0, 0, 0, 0)))
+                key=lambda e: (e.get("published_parsed", (0, 0, 0, 0, 0, 0)))
             )
             # Filter episodes by start/end index if specified
             start_index = feed.get("start_index")
@@ -328,13 +332,15 @@ def make_windows(today_9am):
             for idx, entry in enumerate(entries):
 
                 if start_index <= idx <= end_index:
-                    all_episodes.append({
-                        "feed_pos": feed_idx,
-                        "feed_title": feed_title,
-                        "feed": parsed.feed,
-                        "entry": entry,
-                        "episode_idx": idx,
-                    })
+                    all_episodes.append(
+                        {
+                            "feed_pos": feed_idx,
+                            "feed_title": feed_title,
+                            "feed": parsed.feed,
+                            "entry": entry,
+                            "episode_idx": idx,
+                        }
+                    )
 
                 # Always download, assign to a dedicated series album
                 album_name = sanitize_filename(feed_title[:40])
@@ -360,9 +366,6 @@ def make_windows(today_9am):
     return windows
 
 
-
-
-
 def main():
     parser = argparse.ArgumentParser(
         description="Podcast downloader and tagger"
@@ -374,19 +377,17 @@ def main():
         help="Sync /Music from computer to ./Music on this device",
     )
     args = parser.parse_args()
-    
+
     # Clean up any failed downloads from previous runs
-    
+
     # Time window: 9AM YESTERDAY to 9AM TODAY (Sydney)
     now = datetime.now(AUS_TZ)
-
 
     today_9am = now.replace(hour=9, minute=0, second=0, microsecond=0)
     if now < today_9am:
         today_9am -= timedelta(days=1)
 
     windows = make_or_load_windows(today_9am)
-
 
     os.makedirs(DEST_FOLDER, exist_ok=True)
     all_tracks = []
@@ -397,7 +398,8 @@ def main():
         episodes.sort(
             key=lambda e: (
                 e["feed_pos"],
-                e["entry"].get( "published_parsed", (0, 0, 0, 0, 0, 0)))
+                e["entry"].get("published_parsed", (0, 0, 0, 0, 0, 0)),
+            )
         )
         for track_idx, item in tqdm(
             enumerate(episodes, start=1),
@@ -410,10 +412,12 @@ def main():
 
             # File setup
             ext = "mp3"
-            if entry['links']:
-                audio_url = [x for x in entry['links'] if 'audio' in x.get('type')][0].get('href')
+            if entry["links"]:
+                audio_url = [
+                    x for x in entry["links"] if "audio" in x.get("type")
+                ][0].get("href")
             else:
-                print("No enclosure found for", entry['title'])
+                print("No enclosure found for", entry["title"])
                 continue
 
             base = (
@@ -421,27 +425,31 @@ def main():
                 + "_"
                 + sanitize_filename(feed_title[:40])
                 + "_"
-                + sanitize_filename(entry['title'][:50])
+                + sanitize_filename(entry["title"][:50])
             )
             filename = f"{base}.{ext}"
             outpath = os.path.join(DEST_FOLDER, date, filename)
             all_tracks.append(outpath)
 
             already_downloaded = os.path.exists(outpath)
-            
+
             # Check if existing file is valid (compare actual duration to expected)
             valid = False
             if already_downloaded:
                 # Try to get duration from file itself
                 file_duration = get_file_duration(outpath)
                 if file_duration:
-                    expected_duration = parse_duration(entry.get('itunes_duration'))
+                    expected_duration = parse_duration(
+                        entry.get("itunes_duration")
+                    )
                     if expected_duration:
                         # Allow 10% tolerance
                         if file_duration >= expected_duration * 0.9:
                             valid = True
                         else:
-                            print(f"File duration {file_duration:.0f}s < expected {expected_duration}s, re-downloading...")
+                            print(
+                                f"File duration {file_duration:.0f}s < expected {expected_duration}s, re-downloading..."
+                            )
                             os.remove(outpath)
                             already_downloaded = False
                     else:
@@ -452,27 +460,32 @@ def main():
                     print(f"Cannot read file duration, re-downloading...")
                     os.remove(outpath)
                     already_downloaded = False
-            
+
             if not already_downloaded or not valid:
                 max_retries = 3
                 for attempt in range(max_retries):
                     result = download(audio_url, outpath)
                     if not result["success"]:
-                        print(f"Attempt {attempt + 1}/{max_retries} failed:", audio_url)
+                        print(
+                            f"Attempt {attempt + 1}/{max_retries} failed:",
+                            audio_url,
+                        )
                         if attempt < max_retries - 1:
                             time.sleep(2)
                         continue
-                    
+
                     # Validate downloaded size against Content-Length
                     if result["expected_size"] > 0:
                         actual_size = os.path.getsize(outpath)
                         if actual_size < result["expected_size"] * 0.9:
-                            print(f"Attempt {attempt + 1}/{max_retries}: size mismatch {actual_size} < {result['expected_size']}, re-downloading...")
+                            print(
+                                f"Attempt {attempt + 1}/{max_retries}: size mismatch {actual_size} < {result['expected_size']}, re-downloading..."
+                            )
                             os.remove(outpath)
                             if attempt < max_retries - 1:
                                 time.sleep(2)
                             continue
-                    
+
                     # Success
                     break
                 else:
@@ -491,7 +504,7 @@ def main():
                 embed_metadata(
                     outpath,
                     artist=feed_title,
-                    title=entry['title'],
+                    title=entry["title"],
                     album=v["album_name"],
                     genre="pods",
                     track=track_idx,
@@ -519,9 +532,8 @@ def main():
         try:
             subprocess.run(
                 [
-                    "rsync",
-                    "-avu",  # archive, verbose, update only
-                    "--info=progress2",
+                    "/root/.local/bin/rsyncy",
+                    "-au",  # archive, verbose, update only
                     source_music_dir + "/",  # Always /Music on computer
                     os.path.abspath(local_music_folder) + "/",
                 ],
