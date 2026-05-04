@@ -4,7 +4,9 @@ let g:instruct_model = "gpt-5.4-mini"
 let g:vim_ai_role = ''
 let g:vim_ai_chat_markdown = 0
 let g:vim_ai_async_chat = 1
-let g:vim_ai_roles_config_file = ".roles.ini"
+if filereadable(".roles.ini")
+  let g:vim_ai_roles_config_file = ".roles.ini"
+endif
 
 
 
