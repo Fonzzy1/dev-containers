@@ -292,33 +292,23 @@ local bookmarks = {
     },
 }
 
+
 local function flatten_bookmarks(grouped)
     local flat = {}
 
-    for group_key, group_items in pairs(grouped) do
-        local group_name = group_items.name or group_key
-
+    for group_name, group_items in pairs(grouped) do
         for item_name, url in pairs(group_items) do
             if item_name ~= "name" then
-                table.insert(flat, {
-                    name = string.format("%s / %s", group_key, item_name),
-                    group = group_key,
-                    group_name = group_name,
-                    item = item_name,
-                    url = url,
-                })
+                flat[group_name .. " " .. item_name] = url
             end
         end
     end
-
-    table.sort(flat, function(a, b)
-        return a.name < b.name
-    end)
 
     return flat
 end
 
 local flat_bookmarks = flatten_bookmarks(bookmarks)
+
 
 
 require('browse').setup({
