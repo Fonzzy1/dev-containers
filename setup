@@ -265,6 +265,7 @@ curl https://raw.githubusercontent.com/catppuccin/kitty/refs/heads/main/themes/m
 echo "enable_audio_bell no" >> ~/.config/kitty/kitty.conf
 echo "hide_window_decorations no" >> ~/.config/kitty/kitty.conf
 echo "font_family JetBrainsMono Nerd Font" >> ~/.config/kitty/kitty.conf
+echo "disable_ligatures always" >> ~/.config/kitty/kitty.conf
 
 
 # Zathura Theme
