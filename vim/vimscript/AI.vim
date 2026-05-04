@@ -79,3 +79,147 @@ let chat_engine_config = {
 let g:vim_ai_complete = chat_engine_config
 let g:vim_ai_edit = chat_engine_config
 
+
+
+
+lua << EOF
+local function get_roles_file()
+    local configured = vim.g.vim_ai_roles_config_file
+    if configured and configured ~= "" then
+        return vim.fn.expand(configured)
+    end
+    return vim.fn.expand(".roles.ini")
+end
+
+local function parse_roles_ini(path)
+    if vim.fn.filereadable(path) == 0 then
+        vim.notify("roles file not found: " .. path, vim.log.levels.ERROR)
+        return {}
+    end
+
+    local lines = vim.fn.readfile(path)
+    local roles = {}
+    local current = nil
+    local collecting_prompt = false
+
+    for _, line in ipairs(lines) do
+        local section = line:match("^%[([^%]]+)%]$")
+        if section then
+            current = {
+                name = section,
+                prompt_lines = {},
+                temperature = nil,
+            }
+            table.insert(roles, current)
+            collecting_prompt = false
+        elseif current then
+            if line:match("^prompt%s*=%s*$") then
+                collecting_prompt = true
+            elseif collecting_prompt then
+                if line:match("^%[([^%]]+)%]$") or line:match("^%S.-%s*=") then
+                    collecting_prompt = false
+
+                    local temp = line:match("^options%.temperature%s*=%s*(.+)$")
+                    if temp then
+                        current.temperature = temp
+                    end
+                else
+                    local content = line:gsub("^%s%s", "", 1)
+                    table.insert(current.prompt_lines, content)
+                end
+            else
+                local temp = line:match("^options%.temperature%s*=%s*(.+)$")
+                if temp then
+                    current.temperature = temp
+                end
+            end
+        end
+    end
+
+    for _, role in ipairs(roles) do
+        role.prompt = table.concat(role.prompt_lines, "\n")
+        if role.prompt == "" then
+            role.prompt = "(no prompt found)"
+        end
+    end
+
+    return roles
+end
+
+local function ai_roles_picker()
+    local roles = parse_roles_ini(get_roles_file())
+
+    if not roles or vim.tbl_isempty(roles) then
+        vim.notify("No roles found", vim.log.levels.WARN)
+        return
+    end
+
+    pickers.new({
+        prompt_title = "AI Roles",
+        layout_strategy = "horizontal",
+        sorting_strategy = "ascending",
+        layout_config = {
+            width = 0.9,
+            height = 0.85,
+            preview_width = 0.7,
+            prompt_position = "top",
+        },
+    }, {
+        finder = finders.new_table({
+            results = roles,
+            entry_maker = function(role)
+                return {
+                    value = role,
+                    display = role.name,
+                    ordinal = role.name .. " " .. (role.prompt or ""),
+                }
+            end,
+        }),
+
+        sorter = conf.generic_sorter({}),
+
+        previewer = previewers.new_buffer_previewer({
+            title = "Role Prompt",
+            define_preview = function(self, entry, _)
+                local role = entry.value
+                local lines = {
+                    "[" .. role.name .. "]",
+                    "prompt =",
+                }
+
+                for _, l in ipairs(role.prompt_lines or {}) do
+                    table.insert(lines, "  " .. l)
+                end
+
+                if role.temperature then
+                    table.insert(lines, "")
+                    table.insert(lines, "options.temperature = " .. role.temperature)
+                end
+
+                vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, lines)
+                vim.bo[self.state.bufnr].filetype = "dosini"
+                vim.bo[self.state.bufnr].modifiable = false
+            end,
+        }),
+
+        attach_mappings = function(prompt_bufnr, map)
+            local function run_role()
+                local selection = action_state.get_selected_entry()
+                if not selection then
+                    return
+                end
+                actions.close(prompt_bufnr)
+                vim.cmd("AIC /" .. selection.value.name)
+            end
+
+            map("i", "<CR>", run_role)
+            map("n", "<CR>", run_role)
+
+            return true
+        end,
+    }):find()
+end
+
+vim.api.nvim_create_user_command("AIRoles", ai_roles_picker, {})
+
+EOF
