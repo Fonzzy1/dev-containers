@@ -71,7 +71,13 @@ sudo apt-get -y install --no-install-recommends \
     wireplumber \
     pipewire-pulse \
     pmount \
-    1password
+    1password \
+    1password-cli
+
+# pip installs
+#
+pip install --break-system-packages Pillow
+
 
 #Audio    
 systemctl --user daemon-reload
