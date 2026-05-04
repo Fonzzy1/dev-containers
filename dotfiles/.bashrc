@@ -125,20 +125,10 @@ docker_image_cmds
 
 
 opl() {
-  local copy_cmd open_cmd preview_cmd
+  local copy_cmd open_cmd
 
   copy_cmd="xclip -selection clipboard"
-
   open_cmd="xdg-open"
-
-  preview_cmd='
-  op item get {1} --format json | jq -r "
-    \"Title: \" + (.title // \"\") + \"\n\" +
-    \"Tags: \" + ((.tags // []) | join(\", \")) + \"\n\" +
-    \"URLs:\n\" + (((.urls // []) | map(\"- \" + .href) | join(\"\n\")) // \"\") + \"\n\n\" +
-    \"Fields:\n\" + (((.fields // []) | map(\"- \" + (.label // .id // \"field\") + \" [\" + .type + \"]\") | join(\"\n\")) // \"\")
-  "
-  '
 
   op item list --format json | jq -r '
     .[] |
@@ -154,7 +144,6 @@ opl() {
     --prompt="1Password> " \
     --height=80% \
     --layout=reverse \
-    --preview "$preview_cmd" \
     --header $'Enter: open | Ctrl-Y: password | Ctrl-U: user | Ctrl-O: open URL | Ctrl-R: yank refs | Ctrl-I: yank id' \
     --bind "enter:execute-silent(sh -c 'url=\$(op item get {1} --format json | jq -r '\''.urls[0].href // empty'\''); test -n \"\$url\" && nohup ${open_cmd} \"\$url\" >/dev/null 2>&1 < /dev/null &')" \
     --bind "ctrl-y:execute-silent(op item get {1} --fields label=password --reveal 2>/dev/null | ${copy_cmd})" \
@@ -165,6 +154,6 @@ opl() {
       .id as \$item |
       .fields[]? |
       \"op://\(\$vault)/\(\$item)/\(.id)\"
-    ' | ${copy_cmd})" \
-    --bind "ctrl-i:execute-silent(printf '%s' {1} | ${copy_cmd})"
-}
+      ' | ${copy_cmd})" \
+          --bind "ctrl-i:execute-silent(printf '%s' {1} | ${copy_cmd})"
+      }

@@ -216,7 +216,7 @@ local function ai_roles_picker()
             map("n", "<CR>", run_role)
 
             return true
-        end,
+    $   end,
     }):find()
 end
 

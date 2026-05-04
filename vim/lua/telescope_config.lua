@@ -288,7 +288,8 @@ local bookmarks = {
         ["name"] = "Hockey Vic Fixtures",
         ["PEN A"] = "https://www.hockeyvictoria.org.au/pointscore/25879/42236",
         ["Monday"] = "https://www.hockeyvictoria.org.au/games/team/26185/416568",
-        ["Result Entry"] = "https://portal.revolutionise.com.au/vichockey/login"
+        ["Result Entry"] = "https://portal.revolutionise.com.au/vichockey/login",
+        ["Sheet Links"] = "https://drive.google.com/drive/folders/1ynD8o07ax4qdhBOabm3MoFnlpmpzLiez"
     },
 }
 
