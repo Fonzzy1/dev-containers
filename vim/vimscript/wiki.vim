@@ -8,35 +8,18 @@ autocmd BufRead *.qmd if getfsize(expand('%'))==0|call NoteDefault()|endif
 
 """ Convert to bibtex
 lua << EOF
-function _G.GetBibTex()
-  local word = vim.fn.expand("<cWORD>")
-  local bibtex = {}
+function _g.getbibtex()
+  local word = vim.fn.expand("<cword>")
+  local script = vim.fn.expand("/scripts/bibtex.py")
 
-  if word:match("^https://doi%.org/") then
-    local doi = word:gsub("^https://doi%.org/", "")
-    bibtex = vim.fn.systemlist({
-      "curl", "-sL", "-H", "Accept: application/x-bibtex",
-      "https://doi.org/" .. doi
-    })
-
-  elseif word:match("^https://arxiv%.org/abs/") or word:match("^%d%d%d%d%.%d%d%d%d%d$") then
-    local arxiv_id = word:match("(%d%d%d%d%.%d%d%d%d%d)")
-    bibtex = vim.fn.systemlist({
-      "curl", "-sL",
-      "https://arxiv.org/bibtex/" .. arxiv_id
-    })
-
-  else
-    vim.api.nvim_err_writeln("Not a recognized DOI or arXiv link/ID: " .. word)
-    return
-  end
+  local bibtex = vim.fn.systemlist({ "python3", script, word })
 
   if vim.v.shell_error ~= 0 or #bibtex == 0 then
-    vim.api.nvim_err_writeln("Failed to fetch BibTeX for: " .. word)
+    vim.api.nvim_err_writeln("failed to fetch bibtex for: " .. word)
     return
   end
 
-  vim.api.nvim_put(bibtex, 'l', true, true)
+  vim.api.nvim_put(bibtex, "l", true, true)
 end
 EOF
 

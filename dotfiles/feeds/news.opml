@@ -1,13 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8" standalon="no"?>
 <opml version="1.0">
     <head>
         <title>News Feeds - Australia</title>
-        <description>Australian news sources including The Guardian, ABC, The Conversation, and Crikey</description>
+        <description>Australian news sources including The Guardian, ABC, The Conversation</description>
     </head>
     <body>
-        <outline text="The Conversation">
-            <outline xmlUrl="https://theconversation.com/au/articles.atom" type="rss" text="The Conversation" description="Australian news and analysis from academics"/>
-        </outline>
         <outline text="The Conversation - Environment">
             <outline xmlUrl="https://theconversation.com/au/environment/articles.atom" type="rss" text="The Conversation - Environment" description="Environmental news and research"/>
         </outline>
@@ -20,9 +17,6 @@
         <outline text="The Conversation - Politics">
             <outline xmlUrl="https://theconversation.com/au/politics/articles.atom" type="rss" text="The Conversation - Politics" description="Australian political news and analysis"/>
         </outline>
-        <outline text="The Guardian AU">
-            <outline xmlUrl="https://www.theguardian.com/au/rss" type="rss" text="The Guardian AU" description="Guardian Australia news feed"/>
-        </outline>
         <outline text="The Guardian AU - Environment">
             <outline xmlUrl="https://www.theguardian.com/au/environment/rss" type="rss" text="The Guardian AU - Environment" description="Environmental news from Guardian Australia"/>
         </outline>
@@ -32,14 +26,24 @@
         <outline text="The Guardian AU - Opinion">
             <outline xmlUrl="https://www.theguardian.com/au/opinion/rss" type="rss" text="The Guardian AU - Opinion" description="Opinion pieces from Guardian Australia"/>
         </outline>
-        <outline text="ABC News">
-            <outline xmlUrl="https://www.abc.net.au/news/feed/10719986/rss.xml" type="rss" text="ABC News" description="ABC News Australia feed"/>
+        <outline text="ABC Politics">
+            <outline xmlUrl="https://www.abc.net.au/news/feed/104217372/rss.xml" type="rss" text="ABC Politics"/>
         </outline>
-        <outline text="ABC News - Environment">
-            <outline xmlUrl="https://www.abc.net.au/news/feed/1450/rss.xml" type="rss" text="ABC News - Environment" description="ABC News environment feed"/>
+
+        <outline text="ABC AI">
+            <outline xmlUrl="https://www.abc.net.au/news/feed/13876586/rss.xml" type="rss" text="ABC AI"/>
         </outline>
-        <outline text="Crikey">
-            <outline xmlUrl="https://www.crikey.com.au/environment/feed/" type="rss" text="Crikey" description="Independent Australian news and opinion"/>
+
+        <outline text="The Guardian AU - Technology">
+            <outline xmlUrl="https://www.theguardian.com/au/technology/rss" type="rss" text="Tech Guardian"/>
+        </outline>
+
+        <outline text="The Conversation - Artificial Intelligence">
+            <outline xmlUrl="https://theconversation.com/topics/artificial-intelligence-ai-90/articles.atom" type="rss" text="The Conversation - Artificial Intelligence"/>
+        </outline>
+
+        <outline text="The Conversation - Australian Politics">
+            <outline xmlUrl="https://theconversation.com/topics/australian-politics-32/articles.atom" type="rss" text="The Conversation - Australian Politics"/>
         </outline>
     </body>
 </opml>

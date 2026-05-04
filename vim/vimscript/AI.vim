@@ -83,6 +83,15 @@ let g:vim_ai_edit = chat_engine_config
 
 
 lua << EOF
+
+local actions        = require "telescope.actions"
+local action_state   = require('telescope.actions.state')
+local pickers        = require('telescope.pickers')
+local finders        = require('telescope.finders')
+local conf           = require('telescope.config').values
+local themes         = require("telescope.themes")
+local previewers     = require("telescope.previewers")
+
 local function get_roles_file()
     local configured = vim.g.vim_ai_roles_config_file
     if configured and configured ~= "" then
@@ -216,7 +225,7 @@ local function ai_roles_picker()
             map("n", "<CR>", run_role)
 
             return true
-    $   end,
+       end,
     }):find()
 end
 

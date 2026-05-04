@@ -271,10 +271,23 @@ local function pick_feed_set(callback)
         return
     end
 
-    vim.ui.select(vim.tbl_map(function(set)
-        return set.name
-    end, feed_sets), { prompt = "Select feed set:" }, function(choice)
+    local choices = { "All" }
+    for _, set in ipairs(feed_sets) do
+        table.insert(choices, set.name)
+    end
+
+    vim.ui.select(choices, { prompt = "Select feed set:" }, function(choice)
         if not choice then
+            return
+        end
+
+        if choice == "All" then
+            callback({
+                name = "All",
+                file = nil,
+                all = true,
+                sets = feed_sets,
+            })
             return
         end
 
@@ -377,8 +390,34 @@ end
 function rss_picker()
     pick_feed_set(function(selected_set)
         select_date_range(function(since_date)
-            local feeds = read_opml_urls(selected_set.file)
-            if not feeds then
+            local feeds = {}
+
+            if selected_set.all then
+                local seen = {}
+                for _, set in ipairs(selected_set.sets or {}) do
+                    local base = vim.fn.fnamemodify(set.file, ":t:r"):lower()
+
+                    if not base:match("pod") and not base:match("podcast") then
+                        local set_feeds = read_opml_urls(set.file)
+                        if set_feeds then
+                            for _, url in ipairs(set_feeds) do
+                                if not seen[url] then
+                                    seen[url] = true
+                                    table.insert(feeds, url)
+                                end
+                            end
+                        end
+                    end
+                end
+            else
+                feeds = read_opml_urls(selected_set.file)
+                if not feeds then
+                    return
+                end
+            end
+
+            if not feeds or #feeds == 0 then
+                vim.notify("No feeds found", vim.log.levels.WARN)
                 return
             end
 
