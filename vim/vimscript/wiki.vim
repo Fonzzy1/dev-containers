@@ -6,9 +6,8 @@ endfunction
 autocmd BufNewFile *.qmd :call NoteDefault()
 autocmd BufRead *.qmd if getfsize(expand('%'))==0|call NoteDefault()|endif
 
-""" Convert to bibtex
 lua << EOF
-function _g.getbibtex()
+function _G.GetBibTex()
   local word = vim.fn.expand("<cword>")
   local script = vim.fn.expand("/scripts/bibtex.py")
 
@@ -23,7 +22,7 @@ function _g.getbibtex()
 end
 EOF
 
-command! GetBib lua GetBibTex()
+command! GetBib lua _G.GetBibTex()
 
 
 function! GetVisualSelection() abort
