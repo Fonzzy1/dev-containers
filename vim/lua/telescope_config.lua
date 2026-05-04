@@ -182,6 +182,11 @@ require 'telescope'.setup {
 -- load_extension, somewhere after setup function:
 require('telescope').load_extension('fzf')
 require("telescope").load_extension("lazygit")
+
+
+
+
+
 -- default values for the setup
 local bookmarks = {
     -- Research / Academic work
@@ -269,9 +274,9 @@ local bookmarks = {
     -- Personal / Life admin
     ["Life"] = {
         ["name"] = "Life & Everyday Tools",
-        ["Money - Raiz"] = "https://app.raizinvest.com.au/?activeTab=today",
-        ["Money - Splitwise"] = "https://secure.splitwise.com/#/dashboard",
-        ["Money - Afterpay"] = "https://portal.afterpay.com/en-AU/home",
+        ["Raiz"] = "https://app.raizinvest.com.au/?activeTab=today",
+        ["Splitwise"] = "https://secure.splitwise.com/#/dashboard",
+        ["Afterpay"] = "https://portal.afterpay.com/en-AU/home",
         ["Google Maps"] = "https://www.google.com/maps/search/%s",
         ["Uber"] = "https://m.uber.com/",
         ["PTV (Myki)"] = "https://www.ptv.vic.gov.au/tickets/myki",
@@ -281,17 +286,49 @@ local bookmarks = {
     -- Hockey
     ["Hockey"] = {
         ["name"] = "Hockey Vic Fixtures",
-        ["PEN A"] = "https://www.hockeyvictoria.org.au/games/team/21935/337151",
-        ["Monday"] = "https://www.hockeyvictoria.org.au/games/team/22076/338838",
+        ["PEN A"] = "https://www.hockeyvictoria.org.au/pointscore/25879/42236",
+        ["Monday"] = "https://www.hockeyvictoria.org.au/games/team/26185/416568",
+        ["Result Entry"] = "https://portal.revolutionise.com.au/vichockey/login"
     },
 }
+
+local function flatten_bookmarks(grouped)
+    local flat = {}
+
+    for group_key, group_items in pairs(grouped) do
+        local group_name = group_items.name or group_key
+
+        for item_name, url in pairs(group_items) do
+            if item_name ~= "name" then
+                table.insert(flat, {
+                    name = string.format("%s / %s", group_key, item_name),
+                    group = group_key,
+                    group_name = group_name,
+                    item = item_name,
+                    url = url,
+                })
+            end
+        end
+    end
+
+    table.sort(flat, function(a, b)
+        return a.name < b.name
+    end)
+
+    return flat
+end
+
+local flat_bookmarks = flatten_bookmarks(bookmarks)
+
+
 require('browse').setup({
-    bookmarks = bookmarks,
+    bookmarks = flat_bookmarks,
+    provider = "google",
     -- either pass it here or just pass the table to the functions
     -- see below for more
     icons = {
         bookmark_alias = "", -- if you have nerd fonts, you can set this to ""
-        bookmarks_prompt = "📑   ", -- if you have nerd fonts, you can set this to "󰂺 "
+        bookmarks_prompt = "󰂺 ", -- if you have nerd fonts, you can set this to "󰂺 "
         grouped_bookmarks = "", -- if you have nerd fonts, you can set this to 
     },
     -- if you want to persist the query for grouped bookmarks
@@ -313,7 +350,7 @@ function browse_bookmarks()
     table.sort(keys)
 
     local theme = themes.get_dropdown({
-        prompt_title = "📚 Bookmark Groups",
+        prompt_title = "󰂺 Bookmark Groups",
         results_height = 15,
         width = 0.5,
     })
