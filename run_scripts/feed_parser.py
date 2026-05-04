@@ -127,6 +127,18 @@ async def main(urls, since_date=None):
                 filtered.append(e)
         all_entries = filtered
 
+    deduped = {}
+    for e in all_entries:
+        link = e.get("link", "").strip()
+        if not link:
+            deduped[f"__nolink__:{id(e)}"] = e
+            continue
+
+        existing = deduped.get(link)
+        if existing is None or e["sort_dt"] > existing["sort_dt"]:
+            deduped[link] = e
+
+    all_entries = list(deduped.values())
     all_entries.sort(key=lambda e: e["sort_dt"], reverse=True)
 
     for e in all_entries:
