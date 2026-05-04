@@ -161,12 +161,5 @@ def main():
         sys.exit(2)
 
 
-resolve_input_to_bibtex(
-    "https://theconversation.com/police-equipment-can-be-tracked-via-bluetooth-what-about-your-phone-watch-and-headphones-282039"
-)
-resolve_input_to_bibtex(
-    "https://www.abc.net.au/news/2026-05-05/nsw-three-dead-ballina-boating-accident/106641384"
-)
-
 if __name__ == "__main__":
     main()
