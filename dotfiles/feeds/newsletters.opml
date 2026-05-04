@@ -1,0 +1,49 @@
+// vdly8qr24noszz1a63bf@kill-the-newsletter.com
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<opml version="1.0">
+<head>
+    <title>Newsletter Feeds</title>
+</head>
+<body>
+    <outline text="feeds">
+        <outline
+            text="Kill the Newsletter"
+            title="Kill the Newsletter"
+        >
+            <outline
+                xmlUrl="https://kill-the-newsletter.com/feeds/vdly8qr24noszz1a63bf.xml"
+                type="rss"
+                text="Kill the Newsletter"
+                <!-- per capita -->
+                <!-- Centre for Policy Development (CPD) -->
+                <!-- Blueprint institute -->
+                <!-- e61 -->
+                <!-- Renew Economy -->
+                <!-- Climate Energy Finance -->
+                <!-- Ember -->
+                <!-- Climate Council -->
+            />
+            <outline
+                xmlUrl="https://heated.world/feed"
+                type="rss"
+                text="Heated"
+            />
+            <outline
+                xmlUrl="https://grist.org/feed/"
+                type="rss"
+                text="Grist"
+            />
+            <outline
+                xmlUrl="https://australiainstitute.org.au/feed/?post_type=tai_cpt_report"
+                type="rss"
+                text="Australia Institute Reports"
+            />
+            <outline
+                xmlUrl="https://australiainstitute.org.au/feed/"
+                type="rss"
+                text="Australia Institute"
+            />
+        </outline>
+    </outline>
+</body>
+</opml>
