@@ -386,13 +386,15 @@ fi
 
 
 # Delete and make the pipe
-rm -rf ~/pipe
-mkfifo ~/pipe 
+rm -f ~/pipe
+mkfifo ~/pipe
+
 nohup bash -c '
-  while true; do
-    eval "$(cat ~/pipe)" &> ~/.pipe_logs.txt
+  exec 3<> ~/pipe
+  while IFS= read -r target <&3; do
+    nohup xdg-open "$target" >/dev/null 2>&1 &
   done
-' > ~/nohup_main.log 2>&1 &
+' >/dev/null 2>&1 &
 
 xhost + local:
 

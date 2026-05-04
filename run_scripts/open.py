@@ -91,12 +91,9 @@ def is_text_file(path):
         return True
 
 
-def path_to_command(path, reader_flag):
+def path_to_command(path):
     if is_url(path):
-        if reader_flag:
-            return f'xdg-open "about:reader?url={path}"', None
-        else:
-            return f'xdg-open "{path}"', None
+        return path, None
 
     # If nvim is available and file is text, run nvr inside container
     # Use SmartVsplit to jump to existing buffer if already open, otherwise open in vertical split
@@ -107,11 +104,11 @@ def path_to_command(path, reader_flag):
     cont_dir = os.environ["CONT_DIR"]
 
     if path is None:
-        return f'xdg-open "{sys_dir}"'
+        return sys_dir
     elif path.startswith(cont_dir):
         path = path.replace(cont_dir, sys_dir)
 
-        return f'xdg-open "{path}"', None
+        return path, None
     else:
         os.system(
             f"echo 'Path {path} is not within the container directory {cont_dir}. Skipping operation.' >> /root/.xdg_log.txt"
@@ -122,14 +119,9 @@ def path_to_command(path, reader_flag):
 def main():
     parser = argparse.ArgumentParser(description="Process some inputs.")
     parser.add_argument("path", type=str, help="The path to be processed.")
-    parser.add_argument(
-        "--reader",
-        action="store_true",
-        help='Appends "about:reader?url=" to the start of the path if it is a url',
-    )
     args = parser.parse_args()
 
-    pipe_cmd, local_cmd = path_to_command(args.path, args.reader)
+    pipe_cmd, local_cmd = path_to_command(args.path)
 
     # Log both commands
     if pipe_cmd:
