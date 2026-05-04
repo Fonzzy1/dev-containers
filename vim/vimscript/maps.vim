@@ -34,8 +34,8 @@ nnoremap <silent> sv :LazyGitFilterCurrentFile<CR>
 nnoremap sG :Octo 
 nnoremap <silent> sm :lua require('browse').open_manual_bookmarks()<CR>
 nnoremap <silent> sM :lua browse_bookmarks()<CR>
-nnoremap <silent> ss :Browse input
-vnoremap <silent> ss :'<,'>Browse input
+nnoremap <silent> ss :Browse input<CR>
+vnoremap <silent> ss :'<,'>Browse input<CR>
 nnoremap <silent> sF <cmd>lua rss_picker()<CR>
 nnoremap <silent> sf <cmd> lua rss_single_feed_picker()<CR>
 nnoremap <silent> si :call BrainstormAppend(0)<CR>
