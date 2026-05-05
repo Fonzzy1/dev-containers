@@ -8,15 +8,15 @@ autocmd BufRead *.qmd if getfsize(expand('%'))==0|call NoteDefault()|endif
 
 lua << EOF
 function _G.GetBibTex()
-  local word = vim.fn.expand("<cword>")
+  local word = vim.fn.expand("<cWORD>")
   local script = vim.fn.expand("/scripts/bibtex.py")
 
   local bibtex = vim.fn.systemlist({ "python3", script, word })
 
-  if vim.v.shell_error ~= 0 or #bibtex == 0 then
-    vim.api.nvim_err_writeln("failed to fetch bibtex for: " .. word)
-    return
-  end
+    if vim.v.shell_error ~= 0 or #bibtex == 0 then
+      vim.api.nvim_err_writeln("failed to fetch bibtex for: " .. word .. " (shell error: " .. vim.v.shell_error .. ")")
+      return
+    end
 
   vim.api.nvim_put(bibtex, "l", true, true)
 end

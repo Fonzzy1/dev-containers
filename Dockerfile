@@ -121,7 +121,7 @@ RUN pip3 install --break-system-packages --no-cache-dir \
     prisma-client==0.2.1 \
     bibli-ls==0.1.7.2 \
     pyyaml \
-    newspaper4k==0.9.5
+    newspaper4k[nltk]==0.9.5
 
 # Install npm packages
 RUN npm install --save-dev --global prettier tree-sitter-cli bibtex-tidy prisma
