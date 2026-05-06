@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
@@ -27,7 +28,7 @@ from tqdm import tqdm
 from mutagen.mp3 import MP3
 
 # Configuration
-OPML_FILE = "/root/feeds/pods.opml"
+OPML_FILE = "/pods.opml"
 DEST_FOLDER = "./Podcasts"
 AUS_TZ = pytz.timezone("Australia/Sydney")
 TEMP_COVER = "_temp_cover.jpg"

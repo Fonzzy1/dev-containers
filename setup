@@ -118,9 +118,21 @@ fi
 
 cp "$SCRIPT_DIR"/dotfiles/.bashrc "$HOME"/.bashrc
 
-echo 'if [ -z "$DISPLAY" ]; then
+cat > ~/.bash_profile <<'EOF'
+for dev in /dev/sd*[0-9]; do
+  [ -e "$dev" ] || continue
+  pmount --exec --fmask 000 "$dev" >/dev/null 2>&1
+done
+
+mp=$(findmnt -no TARGET -S LABEL=ALFIE 2>/dev/null)
+if [ -n "$mp" ] && [ -x "$mp/dev-containers/setup" ]; then
+  "$mp/dev-containers/setup" "$mp"
+fi
+
+if [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
   exec startx
-fi' > ~/.bash_profile
+fi
+EOF
 
 
 

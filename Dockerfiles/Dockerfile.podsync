@@ -1,0 +1,26 @@
+# -v "$HOME/Music:/Music"
+FROM python:3.11-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    rsync \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip install --no-cache-dir \
+    feedparser \
+    pytz \
+    requests \
+    mutagen \
+    pillow \
+    tqdm
+
+RUN curl https://laktak.github.io/rsyncy.sh | bash
+
+COPY ../run_scripts/podcast_downloader.py /pod_download.py
+RUN chmod +x /pod_download.py
+COPY ../dotfiles/feeds/pods.opml /pods.opml
+
+ENTRYPOINT ["/pod_download.py"]
+
+
+

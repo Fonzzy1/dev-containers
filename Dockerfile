@@ -142,8 +142,6 @@ COPY --from=golang:1.24-bullseye /usr/local/go/ /usr/local/go/
 # Set up Go environment
 ENV PATH="/usr/local/go/bin:${PATH}"
 
-# rsyny
-RUN curl https://laktak.github.io/rsyncy.sh|bash
 
 
 

@@ -65,26 +65,6 @@ function parse_git_branch() {
 
 PS1="\[\e[0;32m\]\A \[\e[1;34m\]\u\[\e[0;37m\]@\[\e[0;34m\]\h \[\e[0;35m\]\w \[\e[0m\]|> "
 
-function gitdist() {
-    for branch in "$(git branch -a --format='%(refname:short)')"; do
-        behind=$(git rev-list --count "${branch}..origin/HEAD")
-        ahead=$(git rev-list --count "origin/HEAD..${branch}")
-
-        echo -n "${branch}: "
-        
-        # If ahead, print in green
-        if [ "$ahead" -gt 0 ]; then
-            echo -n "$(tput setaf 2)ahead by ${ahead} commits$(tput sgr0) "
-        fi
-        # If behind, print in red
-        if [ "$behind" -gt 0 ]; then
-            echo -n "$(tput setaf 1)behind by ${behind} commits$(tput sgr0)"
-        fi
-
-        echo
-    done
-}
-
 #PATH
 export PATH="$HOME/.local/bin:$PATH"
 
@@ -99,6 +79,20 @@ docker_image_cmds() {
       local/*)
         raw_name="${repo#local/}"
         func_name="$(printf '%s' "$raw_name" | tr '[:upper:]' '[:lower:]' | tr -c 'a-z0-9_' '_')"
+        dockerfile="$HOME/.local/share/dev-containers/Dockerfiles/Dockerfile.${raw_name}"
+        default_args=""
+
+        if [ -f "$dockerfile" ]; then
+          first_line="$(head -n 1 "$dockerfile")"
+          case "$first_line" in
+            '# '*)
+              default_args="${first_line#\# }"
+              ;;
+            '#'*)
+              default_args="${first_line#\#}"
+              ;;
+          esac
+        fi
 
         eval "
 ${func_name}() {
@@ -109,10 +103,11 @@ ${func_name}() {
   fi
 
   docker run -it --rm \
-      --user \"\$(id -u):\$(id -g)\" \
+    --user \"\$(id -u):\$(id -g)\" \
     \"\${env_args[@]}\" \
     -v \"\$PWD:/work\" \
     -w /work \
+    ${default_args} \
     ${repo}:${tag} \"\$@\"
 }
 "
@@ -122,7 +117,6 @@ ${func_name}() {
 }
 
 docker_image_cmds
-
 
 opl() {
   local copy_cmd open_cmd
