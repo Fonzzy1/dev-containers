@@ -7,12 +7,13 @@ local action_state = require("telescope.actions.state")
 local function iso_date_days_ago(days)
     local now = os.time()
     local ts = now - (days * 24 * 60 * 60)
-    return os.date("!%Y-%m-%d", ts)
+    return os.date("%Y-%m-%d", ts)
 end
 
 local function select_date_range(callback)
     local options = {
         { label = "Today",          since = iso_date_days_ago(0) },
+        { label = "Yesterday",      since = iso_date_days_ago(2) },
         { label = "Last 3 days",    since = iso_date_days_ago(3) },
         { label = "Last 7 days",    since = iso_date_days_ago(7) },
         { label = "Last 14 days",   since = iso_date_days_ago(14) },

@@ -9,6 +9,7 @@ import asyncio
 import aiohttp
 import feedparser
 import json
+from datetime import timezone, datetime
 import re
 import argparse
 from html.parser import HTMLParser
@@ -118,7 +119,8 @@ async def main(urls, since_date=None):
     if since_date:
         since_dt = date_parser.parse(since_date)
         if not since_dt.tzinfo:
-            since_dt = since_dt.replace(tzinfo=timezone.utc)
+            local_tz = datetime.now().astimezone().tzinfo
+            since_dt = since_dt.replace(tzinfo=local_tz)
 
         filtered = []
         for e in all_entries:
