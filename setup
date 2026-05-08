@@ -63,15 +63,15 @@ sudo apt-get -y install --no-install-recommends \
     network-manager \
     ubuntu-drivers-common \
     qutebrowser \
-    gnome-keyring \
-    libsecret-1-dev \
     alsa-utils \
     pipewire \
     wireplumber \
     pipewire-pulse \
     pmount \
     1password \
-    1password-cli
+    1password-cli \
+    picom \
+    imagemagick
 
 # pip installs
 #
@@ -117,6 +117,7 @@ fi
 
 
 cp "$SCRIPT_DIR"/dotfiles/.bashrc "$HOME"/.bashrc
+echo 'xhost + local: >/dev/null 2>&1' >> ~/.bashrc
 
 cat > ~/.bash_profile <<'EOF'
 for dev in /dev/sd*[0-9]; do
@@ -135,6 +136,10 @@ fi
 EOF
 
 
+cat > ~/.xinitrc <<'EOF'
+picom --backend glx & exec i3
+EOF
+
 
 # i3 theme
 mkdir -p "$HOME/.config/i3" && curl -L -o "$HOME/.config/i3/config" https://github.com/catppuccin/i3/raw/refs/heads/main/themes/catppuccin-macchiato
@@ -147,12 +152,13 @@ font pango:JetBrainsMono Nerd Font 11
 
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id feh --bg-scale .wallpaper
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork -u -i .wallpaper
 
 set $refresh_i3status killall -SIGUSR1 i3status
 
 bindsym $mod+Return exec kitty
 bindsym $mod+q kill
+bindsym $mod+Escape exec --no-startup-id  i3lock --nofork -u -i .wallpaper
 
 
 bindsym $mod+v split v
@@ -189,8 +195,12 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-default_border pixel 2
-default_floating_border pixel 2
+
+gaps inner 5
+gaps outer 5
+
+default_border pixel 0
+default_floating_border pixel 0
 
 client.focused           $yellow $base $text  $rosewater $yellow
 client.focused_inactive  $overlay0 $base $text  $rosewater $overlay0
@@ -278,15 +288,25 @@ echo "enable_audio_bell no" >> ~/.config/kitty/kitty.conf
 echo "hide_window_decorations no" >> ~/.config/kitty/kitty.conf
 echo "font_family JetBrainsMono Nerd Font" >> ~/.config/kitty/kitty.conf
 echo "disable_ligatures always" >> ~/.config/kitty/kitty.conf
+echo "background_opacity 0.8" >> ~/.config/kitty/kitty.conf
+
 
 
 # Zathura Theme
 mkdir -p "$HOME"/.config/zathura
 wget -O "$HOME"/.config/zathura/catppuccin-macchiato https://raw.githubusercontent.com/catppuccin/zathura/refs/heads/main/themes/catppuccin-macchiato
+# Transform the theme with oppacity
+sed -Ei '/set .*bg/ s/rgba\(([0-9]+,[0-9]+,[0-9]+),[0-9.]+\)/rgba(\1,0.8)/g' \
+  "$HOME/.config/zathura/catppuccin-macchiato"
+sed -Ei 's/^(set[[:space:]]+recolor-lightcolor[[:space:]]+rgba\([0-9]+,[0-9]+,[0-9]+),[0-9.]+(\))$/\1,0\2/' \
+  "$HOME/.config/zathura/catppuccin-macchiato"
+
 echo '
 include catppuccin-macchiato
 set selection-clipboard clipboard
 ' > "$HOME"/.config/zathura/zathurarc
+
+
 # Make zathura default for all pdf in xmim
 xdg-mime default org.pwmt.zathura-pdf-poppler.desktop application/pdf
 xdg-mime default org.pwmt.zathura-pdf-poppler.desktop application/x-pdf
@@ -408,7 +428,6 @@ nohup bash -c '
   done
 ' >/dev/null 2>&1 &
 
-xhost + local:
 
 # Build the docker image if there have been changes
 docker build \
