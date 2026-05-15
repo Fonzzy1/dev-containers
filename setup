@@ -377,6 +377,30 @@ c.statusbar.show = 'in-mode'
 
 c.colors.webpage.darkmode.enabled = True
 
+# Fonts
+c.fonts.default_family = 'JetBrainsMono Nerd Font'
+c.fonts.default_size = '11pt'
+
+c.fonts.tabs.selected = '11pt JetBrainsMono Nerd Font'
+c.fonts.tabs.unselected = '11pt JetBrainsMono Nerd Font'
+c.fonts.statusbar = '11pt JetBrainsMono Nerd Font'
+c.fonts.prompts = '11pt JetBrainsMono Nerd Font'
+c.fonts.downloads = '11pt JetBrainsMono Nerd Font'
+c.fonts.hints = 'bold 11pt JetBrainsMono Nerd Font'
+c.fonts.keyhint = '11pt JetBrainsMono Nerd Font'
+c.fonts.messages.info = '11pt JetBrainsMono Nerd Font'
+c.fonts.messages.error = '11pt JetBrainsMono Nerd Font'
+c.fonts.messages.warning = '11pt JetBrainsMono Nerd Font'
+c.fonts.completion.entry = '11pt JetBrainsMono Nerd Font'
+
+# Web page fonts
+c.fonts.web.family.standard = 'sans-serif'
+c.fonts.web.family.serif = 'serif'
+c.fonts.web.family.sans_serif = 'sans-serif'
+c.fonts.web.family.fixed = 'JetBrainsMono Nerd Font'
+c.fonts.web.size.default = 16
+c.fonts.web.size.default_fixed = 11
+
 # Default search engine: Google
 c.url.searchengines = {
     'DEFAULT': 'https://www.google.com/search?q={}',
