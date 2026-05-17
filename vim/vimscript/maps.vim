@@ -59,8 +59,8 @@ nnoremap  <silent> fa :Gitsigns blame_line<CR>
 nnoremap gb <c-o>
 nnoremap <silent> gr <cmd>lua require('telescope.builtin').lsp_references({ reuse_win = 1, jump_type = "never" })<CR>
 nnoremap <silent> gd <cmd>lua require('telescope.builtin').lsp_definitions({ reuse_win = 1, jump_type = "never" })<CR>
-nnoremap <silent> gne <cmd>lua vim.diagnostic.jump({ count = 1 })<cr>
-nnoremap <silent> gpe <cmd>lua vim.diagnostic.jump({ count = -1 })<cr>
+nnoremap <silent> gne <cmd>lua vim.diagnostic.jump({ count = 1, float = true })<cr>
+nnoremap <silent> gpe <cmd>lua vim.diagnostic.jump({ count = -1, float = true })<cr>
 nmap <silent> gnh :Gitsigns nav_hunk next<CR>
 nmap <silent> gph :Gitsigns nav_hunk prev<CR>
 
