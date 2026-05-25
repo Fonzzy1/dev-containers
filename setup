@@ -19,10 +19,14 @@ if [ "$1" = "--init" ]; then
 
 sudo timedatectl set-timezone Australia/Melbourne
 
-## Apps
+ARCH=$(dpkg --print-architecture)
+case "$ARCH" in
+    amd64|arm64) ;;
+  *) echo "Unsupported architecture: $ARCH" >&2; exit 1 ;;
+esac
 
 curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo gpg --dearmor --yes --batch --output /usr/share/keyrings/1password-archive-keyring.gpg
-echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main' | sudo tee /etc/apt/sources.list.d/1password.list
+echo "deb [arch=$ARCH signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/$ARCH stable main" | sudo tee /etc/apt/sources.list.d/1password.list
 sudo mkdir -p /etc/debsig/policies/AC2D62742012EA22/
 curl -sS https://downloads.1password.com/linux/debian/debsig/1password.pol | sudo tee /etc/debsig/policies/AC2D62742012EA22/1password.pol
 sudo mkdir -p /usr/share/debsig/keyrings/AC2D62742012EA22
@@ -68,7 +72,7 @@ sudo apt-get -y install --no-install-recommends \
     wireplumber \
     pipewire-pulse \
     pmount \
-    1password \
+#    1password \
     1password-cli \
     picom \
     imagemagick
@@ -360,8 +364,6 @@ CONFIG_FILE="$CONFIG_DIR/config.py"
 mkdir -p "$CONFIG_DIR"
 
 cat > "$CONFIG_FILE" <<'EOF'
-# QUTE BROWSER
-##
 import os
 from urllib.request import urlopen
 

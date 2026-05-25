@@ -195,11 +195,11 @@ COPY vim/lua/tree_config.lua /root/.config/nvim/lua/tree_config.lua
 RUN sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 RUN nvim -u /root/.config/nvim/vimscript/plugins.vim +PlugInstall +qall
-RUN nvim -u /root/.config/nvim/vimscript/plugins.vim --headless "+lua require('mason').setup()" "+MasonInstall prisma-language-server vim-language-server yaml-language-server yamlfmt prisma-language-server vim-language-server docker-compose-language-service dockerfile-language-server json-lsp typescript-language-server  yaml-language-server nginx-language-server  pyright air ltex-ls lua-language-server mdformat black fixjson prettier shellharden" +qall
-RUN timeout 45 nvim -u /root/.config/nvim/vimscript/plugins.vim --headless \
-    -c "TSInstall latex r python markdown markdown_inline bash yaml lua vim query vimdoc html css dot javascript mermaid typescript prisma" || true
-
-# Copy in the rest of the config
+RUN nvim -u /root/.config/nvim/vimscript/plugins.vim --headless "+lua require('mason').setup()" "+MasonInstall prisma-language-server vim-language-server yaml-language-server yamlfmt prisma-language-server vim-language-server docker-compose-language-service dockerfile-language-server json-lsp typescript-language-server  yaml-language-server nginx-language-server  pyright air ltex-ls lua-language-server mdformat black fixjson prettier shellharden marksman" +qall
+# Tree sitter
+ADD https://github.com/VonHeikemen/ts-enable.nvim/raw/refs/heads/v2.x/snapshots/nvim-treesitter-main.json /root/.config/nvim/treesitter-parsers.json
+RUN timeout 120 nvim -u /root/.config/nvim/vimscript/plugins.vim --headless \
+    -c "TSEnableEnsureInstalled" || true
 COPY vim/vimscript /root/.config/nvim/vimscript
 COPY vim/lua /root/.config/nvim/lua
 COPY vim/init.vim /root/.config/nvim/init.vim

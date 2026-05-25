@@ -533,7 +533,7 @@ def main():
         try:
             subprocess.run(
                 [
-                    "/root/.local/bin/rsyncy",
+                    "/usr/local/bin/rsyncy",
                     "-au",  # archive, verbose, update only
                     source_music_dir + "/",  # Always /Music on computer
                     os.path.abspath(local_music_folder) + "/",

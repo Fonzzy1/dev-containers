@@ -6,13 +6,16 @@ vim.lsp.config('bibli_ls', {
     root_markers = { ".bibli.toml" },
     -- Optional: visit the URL of the citation with LSP DocumentImplementation
     on_attach = function(client, bufnr)
-        vim.keymap.set({ "n" }, "<cr>", function()
-            vim.lsp.buf.implementation()
-        end)
+        vim.keymap.set("n", "<cr>", vim.lsp.buf.implementation, { buffer = bufnr })
     end,
 })
 
 vim.lsp.enable('bibli_ls')
+
+vim.lsp.config('marksman', {
+    filetypes = { 'markdown', 'markdown.mdx', 'quarto' },
+})
+vim.lsp.enable('marksman')
 
 
 vim.lsp.config('ltex', {
@@ -44,6 +47,7 @@ vim.lsp.config('ltex', {
     }
 })
 
+-- https://github.com/neovim/nvim-lspconfig
 
 vim.lsp.enable('ltex')
 vim.lsp.enable('vimls')
@@ -133,18 +137,37 @@ vim.api.nvim_create_autocmd("CursorHold", {
     end,
 })
 
+vim.api.nvim_create_autocmd({ "BufWinEnter", "BufReadPost", "BufNewFile" }, {
+    pattern = "*",
+    callback = function()
+        if vim.bo.buftype == "acwrite" then
+            attach_lsp_to_current_popup()
+        end
+    end,
+})
 
+
+function attach_lsp_to_current_popup()
+    local bufnr = vim.api.nvim_get_current_buf()
+    local ft = vim.bo[bufnr].filetype
+
+    for _, client in ipairs(vim.lsp.get_clients()) do
+        local fts = client.config.filetypes
+
+        if fts and vim.tbl_contains(fts, ft) then
+            vim.notify("Attaching " .. client.name .. " (" .. client.id .. ") to " .. ft)
+            vim.lsp.buf_attach_client(bufnr, client.id)
+        end
+    end
+end
 
 -- Always create the group first
 local augroup = vim.api.nvim_create_augroup("LspFormatting", { clear = true })
 
--- Then clear any existing autocommands for that group & buffer
-vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-
-vim.api.nvim_create_autocmd("BufWritePre", {
+vim.api.nvim_create_autocmd("BufWriteCmd", {
     group = augroup,
     buffer = bufnr,
-    callback = function()
-        vim.lsp.buf.format({ async = false })
+    callback = function(args)
+        vim.lsp.buf.format({ bufnr = args.buf, async = false })
     end,
 })

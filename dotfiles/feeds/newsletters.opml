@@ -38,12 +38,11 @@
                 type="rss"
                 text="Australia Institute Reports"
             />
-            <outline
-                xmlUrl="https://australiainstitute.org.au/feed/"
-                type="rss"
-                text="Australia Institute"
-            />
-        </outline>
+    <outline
+        xmlUrl="https://old.reddit.com/.rss?feed=c0e292589afd28a04f77f947b92dcb5e9efcf0dd&user=fonzzy64"
+        type="rss"
+        text="Reddit"
+        />
     </outline>
 </body>
 </opml>

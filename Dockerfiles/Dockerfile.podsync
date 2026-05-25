@@ -14,7 +14,8 @@ RUN pip install --no-cache-dir \
     pillow \
     tqdm
 
-RUN curl https://laktak.github.io/rsyncy.sh | bash
+RUN curl https://laktak.github.io/rsyncy.sh | bash 
+RUN mv /root/.local/bin/rsyncy /usr/local/bin/rsyncy && chmod 755 /usr/local/bin/rsyncy
 
 COPY ../run_scripts/podcast_downloader.py /pod_download.py
 RUN chmod +x /pod_download.py

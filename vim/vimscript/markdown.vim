@@ -1,8 +1,8 @@
 "" Let the rmd handler function! on files ending with .md
-au BufRead,BufNewFile *.md  set filetype=quarto
-au BufRead,BufNewFile *.rmd  set filetype=quarto
-au BufRead,BufNewFile *.qmd  set filetype=quarto
-au BufRead,BufNewFile *.brainstorm  set filetype=quarto
+augroup quarto_ft
+  autocmd!
+  autocmd BufRead,BufNewFile *.md,*.rmd,*.qmd,*.brainstorm setfiletype quarto
+augroup END
 filetype plugin on
 
 highlight link MarkviewPalette7Fg Keyword
@@ -22,13 +22,16 @@ autocmd BufRead *.qmd if getfsize(expand('%'))==0|call NoteDefault()|endif
 
 function! QuartoExtras()
     echo "Quarto Extras Set up"
-    lua require'otter'.activate()
     syntax match Cite /\%(\k\)\@<!@[A-Za-z0-9:_-]\+\%(\>\|[^A-Za-z0-9:_-]\)/
     highlight link Cite MarkviewPalette7Fg
     setlocal wrap
     setlocal linebreak
+    setlocal foldmethod=expr
+    setlocal foldexpr=QuartoChunkFoldExpr()
+    setlocal foldenable
+    setlocal foldlevel=0
     inoremap <buffer> ``` ```{}<CR><CR>```<Esc>kA
-    nnoremap <silent> <buffer> fs <cmd>lua require('md-headers').markdown_headers(true)<CR>
+    nnoremap <silent> <buffer> se zaj:EditCodeBlock<CR>
 endfunction
 
 augroup QuartoExtrasGroup
@@ -36,6 +39,23 @@ augroup QuartoExtrasGroup
     autocmd BufReadPost *.qmd,*.quarto,*.md,*.rmd,*.brainstorm call QuartoExtras()
     autocmd BufWritePost *.qmd call QuartoExtras()
 augroup END
+
+
+function! QuartoChunkFoldExpr()
+   let l:line = getline(v:lnum)
+
+  if l:line =~ '^```{\_.\+}\s*$'
+    return '>1'
+  elseif l:line =~ '^```\w\+\s*$'
+    return '>1'
+  elseif l:line =~ '^```\s*$'
+    return '<1'
+  else
+    return '='
+  endif
+endfunction
+
+lua require('ecb').setup { wincmd = 'tabnew' }
 
 
 """ Bullet Setup
@@ -47,6 +67,5 @@ let g:bullets_enabled_file_types = [
     \ 'rmd'
     \]
 
-let g:bullets_outline_levels = ['ROM', 'ABC', 'num', 'abc', 'rom', 'std-',]
-
-lua  require('md-headers').setup()
+let g:bullets_outline_levels = ['ROM', 'ABC', 'num', 'abc' , 'std-',]
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'sh', 'zsh', 'fish', 'javascript', 'js=javascript', 'typescript', 'ts=typescript', 'json', 'yaml', 'yml=yaml', 'toml', 'ini', 'conf', 'css', 'scss', 'less', 'sql', 'lua', 'vim', 'ruby', 'rb=ruby', 'perl', 'php', 'go', 'rust', 'c', 'cpp', 'java', 'kotlin', 'swift', 'dart', 'r', 'matlab', 'octave', 'make', 'dockerfile', 'markdown', 'md=markdown', 'xml', 'svg', 'latex', 'tex=latex']

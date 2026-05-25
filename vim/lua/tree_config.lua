@@ -1,17 +1,27 @@
 -- Register custom filetypes to existing parsers
 vim.treesitter.language.register("markdown", { "quarto", "rmd", "aichat" })
-vim.treesitter.language.register("html", { "ejs" })
 
--- Install parsers (async, no-op if already installed)
-
+vim.g.ts_enable = {
+    auto_init = true,
+    auto_install = true,
+    highlights = true,
+    regex_syntax = true,
+    parser_info = vim.fn.stdpath('config') .. '/treesitter-parsers.json',
+}
 
 -- nvim-treesitter-textobjects
-local select = require('nvim-treesitter-textobjects.select')
-local move   = require('nvim-treesitter-textobjects.move')
+local select    = require('nvim-treesitter-textobjects.select')
+local move      = require('nvim-treesitter-textobjects.move')
 
 require('nvim-treesitter-textobjects').setup({
-    select = { lookahead = true },
-    move   = { set_jumps = true },
+  select = {
+    enable = true,
+    lookahead = true,
+  },
+  move = {
+    enable = true,
+    set_jumps = true,
+  },
 })
 
 local function sel(query, mode)
@@ -34,8 +44,8 @@ local textobjects = {
     ig = '@parameter.inner',
     ['a='] = '@assignment.outer',
     ['i='] = '@assignment.inner',
-    ab = '@block.outer',
-    ib = '@block.inner',
+    ab = '@fenced_code_block',
+    ib = '@code_fence_content',
 }
 for key, query in pairs(textobjects) do
     vim.keymap.set({ 'x', 'o' }, key, sel(query))
@@ -52,10 +62,10 @@ local moves = {
     gpec = { 'previous_end', '@class.outer' },
     gnec = { 'next_end', '@class.outer' },
 
-    gpb  = { 'previous_start', '@block.outer' },
-    gnb  = { 'next_start', '@block.outer' },
-    gpeb = { 'previous_end', '@block.outer' },
-    gneb = { 'next_end', '@block.outer' },
+    gpb  = { 'previous_start', '@fenced_code_block' },
+    gnb  = { 'next_start', '@fenced_code_block' },
+    gpeb = { 'previous_end', '@fenced_code_block' },
+    gneb = { 'next_end', '@fenced_code_block' },
 
 }
 for key, v in pairs(moves) do

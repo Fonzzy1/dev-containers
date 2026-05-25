@@ -6,7 +6,8 @@ Plug 'madox2/vim-ai'
 Plug 'stevearc/aerial.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'kevinhwang91/rnvimr'
-Plug 'nvim-treesitter/nvim-treesitter', { 'branch': 'main' }
+"Plug 'nvim-treesitter/nvim-treesitter', { 'branch': 'main' }
+Plug 'VonHeikemen/ts-enable.nvim', { 'branch': 'v2.x' }
 
 " Visual
 Plug 'folke/snacks.nvim'
@@ -33,10 +34,9 @@ Plug 'whb/vim-gitbranch'
 " Markdown
 Plug 'OXY2DEV/markview.nvim'
 Plug 'bullets-vim/bullets.vim'
-Plug 'AntonVanAssche/md-headers.nvim'
+Plug 'dawsers/edit-code-block.nvim'
 
 " LSP
-Plug 'jmbuhr/otter.nvim'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'kdheepak/cmp-latex-symbols'
 Plug 'hrsh7th/nvim-cmp',
