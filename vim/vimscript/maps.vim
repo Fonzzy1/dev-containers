@@ -17,6 +17,8 @@ vnoremap <silent> es :AIE fix spelling and grammar using Australian English, ass
 nnoremap <silent> es <cmd>Telescope spell_suggest<cr>
 vnoremap ee :AIE 
 nnoremap <silent> eb <cmd>GetBib<cr>
+nnoremap <silent> ef :lua vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf(), async = false })<CR>
+
 
 
 " Spawn

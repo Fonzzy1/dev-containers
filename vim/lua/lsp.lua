@@ -71,6 +71,7 @@ local helpers = require("null-ls.helpers")
 local bibtex_formatter = {
     method = null_ls.methods.FORMATTING,
     filetypes = { "bib" },
+    timeout = 10000,
     generator = helpers.formatter_factory({
         command =
         "bibtex-tidy",
@@ -160,14 +161,3 @@ function attach_lsp_to_current_popup()
         end
     end
 end
-
--- Always create the group first
-local augroup = vim.api.nvim_create_augroup("LspFormatting", { clear = true })
-
-vim.api.nvim_create_autocmd("BufWriteCmd", {
-    group = augroup,
-    buffer = bufnr,
-    callback = function(args)
-        vim.lsp.buf.format({ bufnr = args.buf, async = false })
-    end,
-})
