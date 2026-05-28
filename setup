@@ -19,19 +19,6 @@ if [ "$1" = "--init" ]; then
 
 sudo timedatectl set-timezone Australia/Melbourne
 
-ARCH=$(dpkg --print-architecture)
-case "$ARCH" in
-    amd64|arm64) ;;
-  *) echo "Unsupported architecture: $ARCH" >&2; exit 1 ;;
-esac
-
-curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo gpg --dearmor --yes --batch --output /usr/share/keyrings/1password-archive-keyring.gpg
-echo "deb [arch=$ARCH signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/$ARCH stable main" | sudo tee /etc/apt/sources.list.d/1password.list
-sudo mkdir -p /etc/debsig/policies/AC2D62742012EA22/
-curl -sS https://downloads.1password.com/linux/debian/debsig/1password.pol | sudo tee /etc/debsig/policies/AC2D62742012EA22/1password.pol
-sudo mkdir -p /usr/share/debsig/keyrings/AC2D62742012EA22
-if [ ! -f /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg ]; then curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo gpg --dearmor --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg; fi
-
 
 ## Load in the apps
 sudo apt-get -y update
@@ -72,10 +59,67 @@ sudo apt-get -y install --no-install-recommends \
     wireplumber \
     pipewire-pulse \
     pmount \
-#    1password \
-    1password-cli \
     picom \
     imagemagick
+
+## OP
+ARCH=$(dpkg --print-architecture)
+case "$ARCH" in
+  amd64)
+    APP_URL="https://downloads.1password.com/linux/tar/stable/x86_64/1password-latest.tar.gz"
+    OP_ARCH="amd64"
+    ;;
+  arm64)
+    APP_URL="https://downloads.1password.com/linux/tar/stable/aarch64/1password-latest.tar.gz"
+    OP_ARCH="arm64"
+    ;;
+  *)
+    echo "Unsupported architecture: $ARCH" >&2
+    exit 1
+    ;;
+esac
+
+APP_DIR=/opt/1Password
+APP_BIN="$APP_DIR/1password"
+OP_BIN=/usr/local/bin/op
+OP_VERSION="2.33.1"
+
+TMPDIR=$(mktemp -d)
+trap 'rm -rf "$TMPDIR"' EXIT
+
+# Install/update 1Password app
+curl -fsSL "$APP_URL" -o "$TMPDIR/1password.tar.gz"
+tar -xf "$TMPDIR/1password.tar.gz" -C "$TMPDIR"
+APP_SRC=$(find "$TMPDIR" -mindepth 1 -maxdepth 1 -type d | head -n1)
+
+APP_NEW_VER=$("$APP_SRC/1password" --version 2>/dev/null | head -n1 || true)
+APP_OLD_VER=$([ -x "$APP_BIN" ] && "$APP_BIN" --version 2>/dev/null | head -n1 || true)
+
+if [ -z "$APP_OLD_VER" ] || [ "$APP_OLD_VER" != "$APP_NEW_VER" ]; then
+  sudo rm -rf "$APP_DIR"
+  sudo mkdir -p "$APP_DIR"
+  sudo cp -a "$APP_SRC"/. "$APP_DIR"/
+  # cd to app dir - still need to fix issue with stupid double intsall
+else
+  echo "1Password app already installed: $APP_OLD_VER"
+fi
+
+# Install/update 1Password CLI
+OP_URL="https://cache.agilebits.com/dist/1P/op2/pkg/v${OP_VERSION}/op_linux_${OP_ARCH}_v${OP_VERSION}.zip"
+wget -qO "$TMPDIR/op.zip" "$OP_URL"
+unzip -q -d "$TMPDIR/op" "$TMPDIR/op.zip"
+
+OP_NEW_VER=$("$TMPDIR/op/op" --version 2>/dev/null | head -n1 || true)
+OP_OLD_VER=$([ -x "$OP_BIN" ] && "$OP_BIN" --version 2>/dev/null | head -n1 || true)
+
+if [ -z "$OP_OLD_VER" ] || [ "$OP_OLD_VER" != "$OP_NEW_VER" ]; then
+  sudo install -m 0755 "$TMPDIR/op/op" "$OP_BIN"
+  sudo groupadd -f onepassword-cli
+  sudo chgrp onepassword-cli "$OP_BIN"
+  sudo chmod g+s "$OP_BIN"
+else
+  echo "1Password CLI already installed: $OP_OLD_VER"
+fi
 
 # pip installs
 #
@@ -90,7 +134,7 @@ systemctl --user enable --now wireplumber.service
 
 
 # Partition
-sudo lvextend -l +100%FREE -r /dev/ubuntu-vg/ubuntu-lv
+#sudo lvextend -l +100%FREE -r /dev/ubuntu-vg/ubuntu-lv
 
 # Drivers
 sudo ubuntu-drivers install
@@ -141,7 +185,13 @@ EOF
 
 
 cat > ~/.xinitrc <<'EOF'
-picom --backend glx & exec i3
+if [ "$(uname -m)" = "aarch64" ] || [ "$(uname -m)" = "arm64" ]; then
+  xrandr --output DSI-1 --scale 1.5x1.5
+  picom --backend xrender &
+else
+  picom --backend glx &
+fi
+exec i3
 EOF
 
 
@@ -421,7 +471,7 @@ EOF
 
 
 # Dockerfiles
-DOCKERFILES_DIR="$SCRIPT_DIR/Dockerfiles"
+#DOCKERFILES_DIR="$SCRIPT_DIR/Dockerfiles"
 
 if [ -d "$DOCKERFILES_DIR" ]; then
     for dockerfile in "$DOCKERFILES_DIR"/Dockerfile.*; do
