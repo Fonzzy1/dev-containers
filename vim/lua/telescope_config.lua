@@ -355,14 +355,23 @@ function browse_bookmarks()
 
         attach_mappings = function(prompt_bufnr)
             actions.select_default:replace(function()
-                actions.close(prompt_bufnr)
                 local selection = action_state.get_selected_entry()
-                local key = selection[1]
+                if not selection then
+                    return
+                end
+
+                local key = selection.value
                 local group = bookmarks[key]
 
+                if not group then
+                    return
+                end
+
+                local urls_to_open = {}
+
                 if type(group) == "table" then
-                    -- Check if any URLs in the group have a %s search placeholder
                     local has_search = false
+
                     for _, v in pairs(group) do
                         if type(v) == "string" and v:find("%%s") then
                             has_search = true
@@ -372,27 +381,46 @@ function browse_bookmarks()
 
                     if has_search then
                         local query = vim.fn.input("Search: ")
-                        if query == "" then return end
-                        local encoded = vim.uri_encode(query)
+                        if query == nil or query == "" then
+                            return
+                        end
+
+                        local encoded = query:gsub(" ", "%%20")
+
                         for _, v in pairs(group) do
                             if type(v) == "string" and v:find("%%s") then
-                                vim.fn.jobstart({ "xdg-open", v:gsub("%%s", encoded) }, { detach = true })
+                                table.insert(urls_to_open, string.format(v, encoded))
                             end
                         end
                     else
-                        open_urls(group)
+                        for _, v in pairs(group) do
+                            if type(v) == "string" and not v:find("%%s") then
+                                table.insert(urls_to_open, v)
+                            end
+                        end
                     end
+
                 elseif type(group) == "string" then
                     if group:find("%%s") then
                         local query = vim.fn.input("Search: ")
-                        if query == "" then return end
-                        local encoded = vim.uri_encode(query)
-                        vim.fn.jobstart({ "xdg-open", group:gsub("%%s", encoded) }, { detach = true })
+                        if query == nil or query == "" then
+                            return
+                        end
+
+                        local encoded = query:gsub(" ", "%%20")
+                        table.insert(urls_to_open, string.format(group, encoded))
                     else
-                        vim.fn.jobstart({ "xdg-open", group }, { detach = true })
+                        table.insert(urls_to_open, group)
                     end
                 end
+
+                actions.close(prompt_bufnr)
+
+                for _, url in ipairs(urls_to_open) do
+                    vim.fn.jobstart({ "xdg-open", url }, { detach = true })
+                end
             end)
+
             return true
         end,
     }):find()
