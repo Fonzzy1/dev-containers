@@ -30,7 +30,8 @@ function! QuartoExtras()
     setlocal foldexpr=QuartoChunkFoldExpr()
     setlocal foldenable
     setlocal foldlevel=0
-    inoremap <buffer> ``` ```{}<CR><CR>```<Esc>kA
+    inoremap <buffer> ``` ```{}<CR><CR>```<Esc>2k$i
+    inoremap <buffer> .<Space> .<CR>
     nnoremap <silent> <buffer> se zaj:EditCodeBlock<CR>
 endfunction
 
