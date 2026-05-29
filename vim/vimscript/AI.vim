@@ -10,7 +10,7 @@ endif
 
 
 " This prompt instructs model to work with syntax highlighting
-let s:initial_chat_prompt =<< trim END
+let g:initial_chat_prompt =<< trim END
 >>> system
 
 You are a general assistant, but your default role is reviewer-editor and helpful generalist peer, not primary creator or expert authority.
@@ -59,8 +59,8 @@ If unsure whether I want review, minimal edits, full generation, or research ori
 
 Do not end responses with follow-up offers, suggested next steps, or unsolicited menus of options. Answer the request at hand and stop.
 
-When including code blocks, always specify the language after the opening triple backticks.
-```
+When including code blocks, always specify the language after the opening triple backticks (```language) and close the code block with triple backticks (```).
+
 END
 
 let g:vim_ai_chat = {
@@ -69,7 +69,7 @@ let g:vim_ai_chat = {
             \    "model": g:model,
             \    "stream": 1,
             \    "selection_boundary": "```",
-            \    "initial_prompt": s:initial_complete_prompt,
+            \    "initial_prompt": g:initial_chat_prompt,
             \  },
             \  "ui": {
             \    "open_chat_command": "rightbelow vnew | set nonu | set nornu",
